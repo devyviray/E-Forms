@@ -1,27 +1,36 @@
 <template>
     <div>
+        <select v-model="selectedStatus" @change="fetchNcnBystatus">
+            <option value="" disabled selected>Select By</option>
+                <option value="all">ALL</option>
+                <option value="pending">PENDING</option>
+            <option value="approved">APPROVED</option>
+        </select>
         <div class="card-body table-full-width table-responsive">
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
-                    <th>Document title</th>
-                    <th>Company</th>
-                    <th>Rev.</th>
-                    <th>Reviewer</th>
-                    <th>Approver</th>
+                    <th>Requester</th>
+                    <th>Position</th>
+                    <th>Notification</th>
+                    <th>Date of Issuance</th>
+                    <th>Status</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
-                    <tr v-for="drdrsReviewedForm in drdrsReviewedForms" v-bind:key="drdrsReviewedForm.id">
-                        <td>{{ drdrsReviewedForm.id }}</td>
-                        <td>{{ drdrsReviewedForm.document_title }}</td>
-                        <td>{{ drdrsReviewedForm.company.name  }}</td>
-                        <td>{{ drdrsReviewedForm.rev_number }}</td>
-                        <td>{{ drdrsReviewedForm.reviewer.name }}</td>
-                        <td>{{ drdrsReviewedForm.approver.name }}</td>
+                    <tr v-for="ncn in filteredQueues" v-bind:key="ncn.id">
+                        <td>{{ ncn.id }}</td>
+                        <td>{{ ncn.requester.name }}</td>
+                        <td>{{ ncn.requester.position }}</td>
+                        <!-- <td>{{ ncn.attached_files }}</td>
+                        <td>{{ ncn.non_conformity_details }}</td> -->
+                        <td>{{ ncn.notification_number }}</td>
+                        <td>{{ ncn.issuance_date }}</td>
+                        <td>{{ ncn.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewReviewedDrdr(drdrsReviewedForm.id)">View</button>
+                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ncn.id}`">Edit</button>
+                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ncn.id}`">Delete</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -34,7 +43,7 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ drdrsReviewedForms.length }} Drdr form(s)</span>
+                <span>{{ ncns.length }} Ncn form(s)</span>
             </div>
         </div>
     </div>
@@ -44,7 +53,8 @@
 export default {
     data(){
         return{
-            drdrsReviewedForms: [],
+            ncns: [],
+            selectedStatus: ' ',
             keywords: '',
             errors: '',
             currentPage: 0,
@@ -52,19 +62,23 @@ export default {
         }
     },
     created(){
-        this.fetchDrdrsReviewedForms();
+        this.fetchNcns();
     },
     methods:{
-        viewReviewedDrdr(id)
+        fetchNcnBystatus()
         {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/drdr-view-approved/${id}`;
-        },
-        fetchDrdrsReviewedForms()
-        {
-            axios.get('/drdrs-reviewed-forms')
+            axios.get(`/ncns-by/${this.selectedStatus}`)
             .then(response => {
-                this.drdrsReviewedForms = response.data;
+                this.ncns = response.data;
+            })
+            .catch(error => {
+                this.errors = error.responde.data.errors;
+            })
+        },
+        fetchNcns(){
+            axios.get('/ncns')
+            .then(response => {
+                this.ncns = response.data;
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -86,20 +100,20 @@ export default {
             return this.currentPage == (this.totalPages - 1) ? false : true;
         }
     },
-    computed:{
-        filteredDrdrs(){
+    computed: {
+        filteredNcns(){
             let self = this;
-            return self.drdrsReviewedForms.filter(drdrsReviewedForm => {
-                return drdrsReviewedForm.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+            return self.ncns.filter(ncn => {
+                return ncn.requester.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
-            return Math.ceil(this.drdrsReviewedForms.length / this.itemsPerPage)
+            return Math.ceil(this.filteredNcns.length / this.itemsPerPage)
         },
 
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
-            var queues_array = this.filteredDrdrs.slice(index, index + this.itemsPerPage);
+            var queues_array = this.filteredNcns.slice(index, index + this.itemsPerPage);
 
             if(this.currentPage >= this.totalPages) {
                 this.currentPage = this.totalPages - 1
@@ -110,7 +124,7 @@ export default {
             }
 
             return queues_array;
-        }
-    },
+        },
+    }
 }
 </script>

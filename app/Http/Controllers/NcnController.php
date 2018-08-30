@@ -26,6 +26,11 @@ class NcnController extends Controller
         return $ncns;
     }
     
+    /**
+     * Display a listing of the submitted Ncn.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function submitted()
     {
         $ncns = Ncn::with('requester')->where('requester_id', Auth::user()->id)->orderBy('id','desc')->get();
@@ -33,6 +38,19 @@ class NcnController extends Controller
         return $ncns;
     }
     
+    /**
+     * Display a listing of the approved Ncn.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function approvedForms(){
+        $ncns = Ncn::with('requester')->where('approver_id', Auth::user()->id)
+            ->where('status', StatusType::APPROVED_APPROVER)
+            ->orderBy('id','desc')->get();
+
+        return $ncns;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -106,6 +124,12 @@ class NcnController extends Controller
         }
     }
 
+    /**
+     * Get approvers base on company
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function getNcnApprovers($company, $department)
     {    
         $approvers = User::whereHas('roles', function($q) {
@@ -115,6 +139,25 @@ class NcnController extends Controller
         })->where('department_id', $department)->get();
         return $approvers;
     }
+
+    /**
+     * Count all submitted ncn
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function countNcn()
+    {
+        $ncns = Ncn::count();
+        return $ncns;
+    }
+
+     /**
+     * Search ncn by category
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
     public function category($category)
     {

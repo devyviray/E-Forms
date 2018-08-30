@@ -5,23 +5,26 @@
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
-                    <th>Document title</th>
-                    <th>Company</th>
-                    <th>Rev.</th>
-                    <th>Reviewer</th>
-                    <th>Approver</th>
+                    <th>Requester</th>
+                    <th>Position</th>
+                    <th>Notification</th>
+                    <th>Date of Issuance</th>
+                    <th>Status</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
-                    <tr v-for="drdrsReviewedForm in drdrsReviewedForms" v-bind:key="drdrsReviewedForm.id">
-                        <td>{{ drdrsReviewedForm.id }}</td>
-                        <td>{{ drdrsReviewedForm.document_title }}</td>
-                        <td>{{ drdrsReviewedForm.company.name  }}</td>
-                        <td>{{ drdrsReviewedForm.rev_number }}</td>
-                        <td>{{ drdrsReviewedForm.reviewer.name }}</td>
-                        <td>{{ drdrsReviewedForm.approver.name }}</td>
+                    <tr v-for="ncnSubmitted in ncnSubmitteds" v-bind:key="ncnSubmitted.id">
+                        <td>{{ ncnSubmitted.id }}</td>
+                        <td>{{ ncnSubmitted.requester.name }}</td>
+                        <td>{{ ncnSubmitted.requester.position }}</td>
+                        <!-- <td>{{ ncn.attached_files }}</td>
+                        <td>{{ ncn.non_conformity_details }}</td> -->
+                        <td>{{ ncnSubmitted.notification_number }}</td>
+                        <td>{{ ncnSubmitted.issuance_date }}</td>
+                        <td>{{ ncnSubmitted.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewReviewedDrdr(drdrsReviewedForm.id)">View</button>
+                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ncnSubmitted.id}`">Edit</button>
+                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ncnSubmitted.id}`">Delete</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -34,7 +37,7 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ drdrsReviewedForms.length }} Drdr form(s)</span>
+                <span>{{ ncnSubmitteds.length }} Ncn form(s)</span>
             </div>
         </div>
     </div>
@@ -44,27 +47,21 @@
 export default {
     data(){
         return{
-            drdrsReviewedForms: [],
+            ncnSubmitteds: [],
             keywords: '',
-            errors: '',
             currentPage: 0,
             itemsPerPage: 10,
         }
     },
     created(){
-        this.fetchDrdrsReviewedForms();
+        this.fetchNcnSubmitteds();
     },
     methods:{
-        viewReviewedDrdr(id)
+        fetchNcnSubmitteds()
         {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/drdr-view-approved/${id}`;
-        },
-        fetchDrdrsReviewedForms()
-        {
-            axios.get('/drdrs-reviewed-forms')
+            axios.get('/ncns-submitted')
             .then(response => {
-                this.drdrsReviewedForms = response.data;
+                this.ncnSubmitteds = response.data;
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -86,20 +83,20 @@ export default {
             return this.currentPage == (this.totalPages - 1) ? false : true;
         }
     },
-    computed:{
-        filteredDrdrs(){
+    computed: {
+        filteredNcns(){
             let self = this;
-            return self.drdrsReviewedForms.filter(drdrsReviewedForm => {
-                return drdrsReviewedForm.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+            return self.ncnSubmitteds.filter(ncnSubmitted => {
+                return ncnSubmitted.requester.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
-            return Math.ceil(this.drdrsReviewedForms.length / this.itemsPerPage)
+            return Math.ceil(this.filteredNcns.length / this.itemsPerPage)
         },
 
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
-            var queues_array = this.filteredDrdrs.slice(index, index + this.itemsPerPage);
+            var queues_array = this.filteredNcns.slice(index, index + this.itemsPerPage);
 
             if(this.currentPage >= this.totalPages) {
                 this.currentPage = this.totalPages - 1
@@ -110,7 +107,8 @@ export default {
             }
 
             return queues_array;
-        }
-    },
+        },
+    }
 }
 </script>
+

@@ -57,7 +57,7 @@ export default {
     methods:{
         fetchDdrs()
         {
-            axios.get('/ddrs')
+            axios.get('/ddrs-approved-forms')
             .then(response => {
                 this.ddrs = response.data;
             })

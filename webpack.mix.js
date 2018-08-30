@@ -25,4 +25,4 @@ mix.styles([
 	'node_modules/popper.js/dist/popper.js',
 	'node_modules/bootstrap/dist/js/bootstrap.min.js'
 ], 'public/js/all.js')
-.browserSync('http://localhost/drdr-page');
+.browserSync('http://localhost/home');

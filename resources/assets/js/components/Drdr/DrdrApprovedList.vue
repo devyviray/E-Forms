@@ -19,7 +19,7 @@
                         <td>{{ drdrsApprovedForm.rev_number }}</td>
                         <td>{{ drdrsApprovedForm.reviewer.name }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="deleteDrdr(drdrsApprovedForm.id)">Delete</button>
+                            <button  class="btn btn-warning" @click="viewApprovedDrdr(drdrsApprovedForm.id)">View</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -54,7 +54,11 @@ export default {
     },
 
     methods: {
-
+        viewApprovedDrdr(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/drdr-view-approved/${id}`;
+        },
         fetchdrdrsApprovedForms()
         {
             axios.get('/drdrs-approved-forms')

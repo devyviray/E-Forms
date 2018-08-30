@@ -5,7 +5,7 @@
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
-                    <th>Requester</th>
+                    <th>Approver</th>
                     <th>Reason</th>
                     <th>date_requested</th>
                     <th>Status</th>
@@ -14,7 +14,7 @@
                 <tbody>
                     <tr v-for="ddrSubmitted in ddrSubmitteds" v-bind:key="ddrSubmitted.id">
                         <td>{{ ddrSubmitted.id }}</td>
-                        <td>{{ ddrSubmitted.requester.name }}</td>
+                        <td>{{ ddrSubmitted.approver.name }}</td>
                         <td>{{ ddrSubmitted.reason_of_distribution }}</td>
                         <td>{{ ddrSubmitted.date_requested }}</td>
                         <td>{{ ddrSubmitted.status }}</td>

@@ -8,6 +8,7 @@ use App\Ccir;
 use Carbon\Carbon;
 use App\Setting;
 use App\Notifications\RequesterSubmitNcn;
+use App\Types\StatusType;
 
 class CcirController extends Controller
 {
@@ -33,9 +34,27 @@ class CcirController extends Controller
         return view('ccir.form');
     }
 
+     /**
+     * Displaying list of submitted Ccir
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function submitted()
     {
         $ccirs = Ccir::with('requester')->where('requester_id', Auth::user()->id)->orderBy('id', 'desc')->get();
+
+        return $ccirs;
+    }
+
+    /**
+     * Displaying list of approved Ccir
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function approvedForms()
+    {
+        $ccirs = Ccir::with('requester')->where('verifier_id', Auth::user()->id)
+            ->where('status', StatusType::VERIFIED_VERIFIER)->orderBy('id', 'desc')->get();
 
         return $ccirs;
     }
@@ -116,5 +135,12 @@ class CcirController extends Controller
         if($ccir->delete()){
             return $ccir;
         }
+    }
+
+    public function countCcir()
+    {
+        $ccirs = Ccir::count();
+
+        return $ccirs;
     }
 }

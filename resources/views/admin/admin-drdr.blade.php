@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <drdr-review-form></drdr-review-form>
+    <drdr-admin></drdr-admin>
 @endsection

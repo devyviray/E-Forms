@@ -52,6 +52,11 @@ export default {
         this.fetchDrdrsPendingReviews();
     },
     methods:{
+        viewDrdr($id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+'/drdr-review/'+$id;
+        },
         fetchDrdrsPendingReviews(){
             axios.get('/drdrs-pending-reviews')
             .then(response => {

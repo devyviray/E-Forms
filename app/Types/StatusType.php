@@ -19,6 +19,9 @@ class StatusType extends Type {
 
         'DISAPPROVED_APPROVER' => 'APPROVER_DISAPPROVED',
 
+        'VERIFIED_VERIFIER'  => 'VERIFIED_VERIFIER',
+
+        'UNVERIFIED_VERIFIER' => 'UNVERIFIED_VERIFIER'
     ];
 
     const SUBMITTED = 2;
@@ -30,5 +33,10 @@ class StatusType extends Type {
     const DISAPPROVED_REVIEWER = 5;
 
     const DISAPPROVED_APPROVER = 6;
+    
+    const VERIFIED_VERIFIER = 7;
+
+    const UNVERIFIED_VERIFIER = 8;
+    
 
 } 

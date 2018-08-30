@@ -36,6 +36,7 @@ $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
+// Authenticated accessible routes
 Route::group(['middleware' => 'auth'], function (){
 
   Route::get('/home', 'HomeController@index')->name('home');
@@ -49,16 +50,34 @@ Route::group(['middleware' => 'auth'], function (){
   Route::get('/roles-page', 'HomeController@roles_index')->name('roles');
   Route::get('/user-page', 'HomeController@users_index')->name('users');
 
-
-  // DRDR routes
-
-  Route::get('/drdr-count', 'DrdrController@countDrdr');
-
 });
 
 
+// Accessible route only by admin 
+Route::group(['middleware' => ['auth', 'role:administrator']], function(){ 
+    // DRDR routes
+    // Count all submitted drdr 
+    Route::get('/admin/drdr-count', 'DrdrController@countDrdr');
+    Route::get('/admin/drdrs', 'DrdrController@drdrAdminPage');
+    Route::get('/admin/drdrs-all', 'DrdrController@getAllDrdrs');
+    Route::get('/admin/ddrs', 'DdrController@ddrAdminPage');
+    Route::get('/admin/ddrs-all', 'DdrController@getAllDdrs');
+
+
+    // DRDR routes
+    // Count all submitted ddr 
+    Route::get('/admin/ddr-count', 'DdrController@countDdr');
+    
+    // NCN routes
+    // Count all submitted ncn 
+    Route::get('/admin/ncn-count', 'NcnController@countNcn');
+
+    // CCIR routes
+    // Count all submitted ncn 
+    Route::get('/admin/ccir-count', 'CcirController@countCcir');
+});
  
-Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']], function () {  
+Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']], function () {
   
 
   // User routes
@@ -119,11 +138,16 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/drdr-approve/{id}', 'DrdrController@showApprovedForm');
   Route::post('/drdr-approved', 'DrdrController@approved');
   Route::post('/drdr-reviewed', 'DrdrController@reviewed');
+  // Get specific approver per company
+  Route::get('/drdr-approver/{company_id}', 'DrdrController@approver');
+  // Return details form of approved DRDR
+  Route::get('/drdr-view-approved/{drdr_id}', 'DrdrController@showDetailsDrdr');
 
 
    // DDR routes
    Route::get('/add-ddr', 'DdrController@create');
    Route::get('/ddrs', 'DdrController@index');
+   Route::get('/ddrs-approved-forms', 'DdrController@approvedForms');
    Route::post('/ddr', 'DdrController@store');
    Route::get('/ddr/{id}', 'DdrController@show');
    Route::patch('/ddr/{ddr}', 'DdrController@update');
@@ -140,10 +164,12 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::delete('/ccir/{id}', 'CcirController@destroy');
   Route::get('/getApprover/{id}', 'CcirController@getCompanyApprovers');
   Route::get('/ccirs-submitted', 'CcirController@submitted');
+  Route::get('/ccirs-approved-forms', 'CcirController@approvedForms');
   
   // NCN routes
   Route::get('/add-ncn', 'NcnController@create');
   Route::get('/ncns', 'NcnController@index');
+  Route::get('/ncns-approved-forms', 'NcnController@approvedForms');
   Route::post('/ncn', 'NcnController@store');
   Route::get('/ncn/{id}', 'NcnController@show');
   Route::patch('/ncn/{ncn}', 'NcnController@update');

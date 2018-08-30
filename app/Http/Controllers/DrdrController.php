@@ -196,6 +196,16 @@ class DrdrController extends Controller
     }
 
     /**
+    * Display the details of apporved drdr.
+    *
+    * @return \Illuminate\Http\Response     
+    */
+    public function showDetailsDrdr($drdr_id)
+    {
+        return view('drdr.approved-details');
+    }
+
+    /**
     * Display the edit form.
     *
     * @return \Illuminate\Http\Response
@@ -342,10 +352,39 @@ class DrdrController extends Controller
         return ['redirect' => route('drdr')];
     }
 
+    /**
+     *  Return total count of drdr
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
     public function countDrdr()
     {
-        $user = Auth::user()->roles->pluck('id');
-        dd($user);
+        $drdrs =  Drdr::count();
+        return $drdrs;
+    }
+
+   /**
+    * Display the drdr page for admin.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function drdrAdminPage()
+    {
+        return view('admin.admin-drdr');
+    }
+
+    /**
+     * Display all the listing of the submitted forms.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllDrdrs()
+    {
+        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])->get();
+
+        return $drdrs;
     }
 
     /**

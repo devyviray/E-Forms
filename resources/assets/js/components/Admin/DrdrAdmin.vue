@@ -1,5 +1,5 @@
 <template>
-    <div>
+      <div>
         <div class="card-body table-full-width table-responsive">
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
@@ -13,15 +13,16 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
-                    <tr v-for="drdrsReviewedForm in drdrsReviewedForms" v-bind:key="drdrsReviewedForm.id">
-                        <td>{{ drdrsReviewedForm.id }}</td>
-                        <td>{{ drdrsReviewedForm.document_title }}</td>
-                        <td>{{ drdrsReviewedForm.company.name  }}</td>
-                        <td>{{ drdrsReviewedForm.rev_number }}</td>
-                        <td>{{ drdrsReviewedForm.reviewer.name }}</td>
-                        <td>{{ drdrsReviewedForm.approver.name }}</td>
+                    <tr v-for="drdr in filteredQueues" v-bind:key="drdr.id">
+                        <td>{{ drdr.id }}</td>
+                        <td>{{ drdr.document_title }}</td>
+                        <td>{{ drdr.company.name  }}</td>
+                        <td>{{ drdr.rev_number }}</td>
+                        <td>{{ drdr.reviewer.name }}</td>
+                        <td v-if="drdr.approver">{{ drdr.approver.name }}</td>
+                        <td style="padding-left: 30px" v-else>{{ ' - '  }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewReviewedDrdr(drdrsReviewedForm.id)">View</button>
+                            <button  class="btn btn-warning" @click="viewApprovedDrdr(drdr.id)">View</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -34,17 +35,17 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ drdrsReviewedForms.length }} Drdr form(s)</span>
+                <span>{{ drdrs.length }} Drdr form(s)</span>
             </div>
         </div>
-    </div>
+    </div>   
 </template>
 
 <script>
 export default {
     data(){
         return{
-            drdrsReviewedForms: [],
+            drdrs: [],
             keywords: '',
             errors: '',
             currentPage: 0,
@@ -52,21 +53,16 @@ export default {
         }
     },
     created(){
-        this.fetchDrdrsReviewedForms();
+        this.fetchDrdrs();
     },
     methods:{
-        viewReviewedDrdr(id)
+        fetchDrdrs()
         {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/drdr-view-approved/${id}`;
-        },
-        fetchDrdrsReviewedForms()
-        {
-            axios.get('/drdrs-reviewed-forms')
+            axios.get('/admin/drdrs-all')
             .then(response => {
-                this.drdrsReviewedForms = response.data;
+                this.drdrs = response.data;
             })
-            .catch(error =>{
+            .catch(error => {
                 this.errors = error.response.data.errors;
             });
         },
@@ -86,15 +82,16 @@ export default {
             return this.currentPage == (this.totalPages - 1) ? false : true;
         }
     },
-    computed:{
+    computed:
+    {
         filteredDrdrs(){
             let self = this;
-            return self.drdrsReviewedForms.filter(drdrsReviewedForm => {
-                return drdrsReviewedForm.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+            return self.drdrs.filter(drdr => {
+                return drdr.document_title.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
-            return Math.ceil(this.drdrsReviewedForms.length / this.itemsPerPage)
+            return Math.ceil(this.filteredDrdrs.length / this.itemsPerPage)
         },
 
         filteredQueues() {
@@ -111,6 +108,7 @@ export default {
 
             return queues_array;
         }
-    },
+    }
 }
 </script>
+

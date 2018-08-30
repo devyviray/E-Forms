@@ -121,11 +121,6 @@ export default {
     created(){
     },
     methods: {
-        viewDrdr($id)
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+'/drdr-review/'+$id;
-        },
         approveDrdr($id)
         {
             var base_url = window.location.origin;

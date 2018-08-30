@@ -26,4 +26,12 @@ class Ddr extends Model
     public function requester(){
         return $this->belongsTo('App\User', 'requester_id');
     }
+    
+    public function approver(){
+        return $this->belongsTo('App\User', 'approver_id');
+    }
+
+    public function company(){
+        return $this->belongsTo('App\Company', 'company_id');
+    }
 }

@@ -14,21 +14,21 @@
                                     <th>ENTRIES</th>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr @click="viewDrdrs">
                                         <td>Document review & Distribution request</td>
-                                        <td>{{ drdr.length }}</td>
+                                        <td>{{ drdrs }}</td>
                                     </tr>
-                                    <tr>
+                                    <tr @click="viewDdrs">
                                         <td>Document distribution request</td>
-                                        <td>{{ ddr.length }}</td>
+                                        <td>{{ ddrs }}</td>
                                     </tr>
                                     <tr>
                                         <td>Non-conformance notification</td>
-                                        <td>{{ ncn.length }}</td>
+                                        <td>{{ ncns }}</td>
                                     </tr>
                                     <tr>
                                         <td>Customer complaint information report</td>
-                                        <td>{{ ccir.length }}</td>
+                                        <td>{{ ccirs }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -43,10 +43,11 @@
 export default {
     data(){
         return{
-            drdr: [],
-            ddr: [],
-            ccir: [],
-            ncn: []
+            drdrs: ' ',
+            ddrs:  '',
+            ccirs: '',
+            ncns: '',
+            errors: ''
          }
     },
     created(){
@@ -58,32 +59,46 @@ export default {
    
     methods: {  
         fetchDrdr(){
-            axios.get('/drdr-count')
+            axios.get('/admin/drdr-count')
                 .then(response => {
-                    this.drdr = response.data;
+                    this.drdrs = response.data;
                 })
-                .catch(error => console.log(errors));  
+                .catch(error => {
+                    this.errors = error.response.data.errors;
+                });  
         },
         fetchDdr(){
-            axios.get('/ddr')
+            axios.get('/admin/ddr-count')
                 .then(response => {
-                    this.ddr = response.data;
+                    this.ddrs = response.data;
                 })
-                .catch(error => console.log(errors));  
+                .catch(error => {
+                    this.errors = error.response.data.errors;
+                });  
         },
         fetchCcir(){
-            axios.get('/ccir')
+            axios.get('/admin/ccir-count')
                 .then(response => {
-                    this.ccir = response.data;
+                    this.ccirs = response.data;
                 })
                 .catch(error => console.log(errors));  
         },
         fetchNcn(){
-            axios.get('/ncn')
+            axios.get('/admin/ncn-count')
                 .then(response => {
-                    this.ncn = response.data;
+                    this.ncns = response.data;
                 })
                 .catch(error => console.log(errors));  
+        },
+        viewDrdrs()
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+'/admin/drdrs';
+        },
+        viewDdrs()
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+'/admin/ddrs';
         }
     }   
 }

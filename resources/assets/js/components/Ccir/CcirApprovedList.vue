@@ -5,23 +5,24 @@
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
-                    <th>Document title</th>
-                    <th>Company</th>
-                    <th>Rev.</th>
-                    <th>Reviewer</th>
-                    <th>Approver</th>
+                    <th>Requester</th>
+                    <th>Brand Name</th>
+                    <th>Nature of Complaint</th>
+                    <th>Date of Issuance</th>
+                    <th>Validity</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
-                    <tr v-for="drdrsReviewedForm in drdrsReviewedForms" v-bind:key="drdrsReviewedForm.id">
-                        <td>{{ drdrsReviewedForm.id }}</td>
-                        <td>{{ drdrsReviewedForm.document_title }}</td>
-                        <td>{{ drdrsReviewedForm.company.name  }}</td>
-                        <td>{{ drdrsReviewedForm.rev_number }}</td>
-                        <td>{{ drdrsReviewedForm.reviewer.name }}</td>
-                        <td>{{ drdrsReviewedForm.approver.name }}</td>
+                    <tr v-for="ccirApprovedForm in filteredQueues" v-bind:key="ccirApprovedForm.id">
+                        <td>{{ ccirApprovedForm.id }}</td>
+                        <td>{{ ccirApprovedForm.requester.name }}</td>
+                        <td>{{ ccirApprovedForm.brand_name }}</td>
+                        <td>{{ ccirApprovedForm.nature_of_complaint }}</td>
+                        <td>{{ ccirApprovedForm.delivery_date }}</td>
+                        <td>{{ ccirApprovedForm.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewReviewedDrdr(drdrsReviewedForm.id)">View</button>
+                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ccirApprovedForm.id}`">Edit</button>
+                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ccirApprovedForm.id}`">Delete</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -34,7 +35,7 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ drdrsReviewedForms.length }} Drdr form(s)</span>
+                <span>{{ ccirApprovedForms.length }} Ccir form(s)</span>
             </div>
         </div>
     </div>
@@ -44,7 +45,7 @@
 export default {
     data(){
         return{
-            drdrsReviewedForms: [],
+            ccirApprovedForms: [],
             keywords: '',
             errors: '',
             currentPage: 0,
@@ -52,19 +53,13 @@ export default {
         }
     },
     created(){
-        this.fetchDrdrsReviewedForms();
+        this.fetchCcirApprovedForms();
     },
     methods:{
-        viewReviewedDrdr(id)
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/drdr-view-approved/${id}`;
-        },
-        fetchDrdrsReviewedForms()
-        {
-            axios.get('/drdrs-reviewed-forms')
+        fetchCcirApprovedForms(){
+            axios.get('/ccirs-approved-forms')
             .then(response => {
-                this.drdrsReviewedForms = response.data;
+                this.ccirApprovedForms = response.data; 
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -86,20 +81,20 @@ export default {
             return this.currentPage == (this.totalPages - 1) ? false : true;
         }
     },
-    computed:{
-        filteredDrdrs(){
+    computed: {
+        filteredCcirs(){
             let self = this;
-            return self.drdrsReviewedForms.filter(drdrsReviewedForm => {
-                return drdrsReviewedForm.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+            return self.ccirApprovedForms.filter(ccirApprovedForm => {
+                return ccirApprovedForm.complainant.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
-            return Math.ceil(this.drdrsReviewedForms.length / this.itemsPerPage)
+            return Math.ceil(this.filteredCcirs.length / this.itemsPerPage)
         },
 
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
-            var queues_array = this.filteredDrdrs.slice(index, index + this.itemsPerPage);
+            var queues_array = this.filteredCcirs.slice(index, index + this.itemsPerPage);
 
             if(this.currentPage >= this.totalPages) {
                 this.currentPage = this.totalPages - 1
@@ -110,7 +105,8 @@ export default {
             }
 
             return queues_array;
-        }
-    },
+        },
+    }
 }
 </script>
+

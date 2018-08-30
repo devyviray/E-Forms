@@ -89,14 +89,17 @@
 
 
 <script>
+
+import { eventBus } from '../../app.js';
+
 export default {
     data(){
         return{
             drdrs: [],
             drdr:{
-                consider_documents: '',
-                status: '',
-                remarks: '',
+                consider_documents: ' ',
+                status: ' ',
+                remarks: ' ',   
             },
             errors: [],
             company_id: '',
@@ -110,10 +113,11 @@ export default {
         }
     },
     created(){
-        this.fetchPage();
         this.fetchDrdr(); 
+         
     },
     methods:{
+
         fetchDrdr(){
             var url = window.location.href;
             var id = url.match(/[^\/]+$/)[0];
@@ -123,17 +127,6 @@ export default {
                 this.drdrs = response.data;
                 this.company_id = this.drdrs[0].company.id;
                 this.fetchApprover(this.company_id);  
-            })
-            .catch(error => {
-                this.errors = error.response.data.errors;
-            });
-        },
-        fetchPage(){
-            var url = window.location.href;
-            var id = url.match(/[^\/]+$/)[0];
-            
-            axios.get(`/drdr-review/${id}`)
-            .then(response => {
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
@@ -175,6 +168,7 @@ export default {
         },
         reviewedDrdr(id,drdr, approver)
         {   
+            console.log(drdr);
             this.prepareFields();
             this.formData.append('id', id);
             this.formData.append('consider_documents', drdr.consider_documents);

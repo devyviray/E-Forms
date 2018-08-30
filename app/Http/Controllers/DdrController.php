@@ -27,12 +27,30 @@ class DdrController extends Controller
         return $ddrs;
     }
 
+    /**
+     * Display a listing of submitted DDR.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function submitted()
     {
-        $ddrs = Ddr::with('requester')->orderBy('id', 'desc')->where('requester_id', Auth::user()->id)->get();
+        $ddrs = Ddr::with('approver')->orderBy('id', 'desc')->where('requester_id', Auth::user()->id)->get();
         return $ddrs;
     }
-
+    
+    /**
+     * Display a listing of approved DDR.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function approvedForms()
+    {
+        $ddrs = Ddr::with('requester')
+                ->where('approver_id', Auth::user()->id)
+                ->where('status', StatusType::APPROVED_APPROVER)
+                ->orderBy('id', 'desc')->get();
+        return $ddrs;
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -104,6 +122,13 @@ class DdrController extends Controller
         }
     }
 
+    /**
+     * Get approvers base on company
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
     public function getCompanyApprovers($company_id){
         $reviewer_user = User::whereHas('roles', function($q) {
             $q->where('role_id', 2);  // approver
@@ -113,6 +138,50 @@ class DdrController extends Controller
 
         return $reviewer_user;
     }
+
+    /**
+     * Count total submitted ddr
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function countDdr()
+    {
+        $ddr = Ddr::count();
+        return $ddr;
+    }
+    
+    /**
+    * Display the ddr page for admin.
+    *
+    * @return \Illuminate\Http\Response
+    */
+
+    public function ddrAdminPage()
+    {
+        return view('admin.admin-ddr');
+    }
+
+     /**
+     * Display all the listing of the submitted forms.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllDdrs()
+    {
+        $drdrs = Ddr::with(['requester', 'approver', 'company'])->get();
+
+        return $drdrs;
+    }
+
+
+    /**
+     * Search DDR by category
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
     public function category($category)
     {
