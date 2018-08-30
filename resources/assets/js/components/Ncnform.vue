@@ -1,0 +1,189 @@
+<template>
+  <div>
+      <div class="row">
+          <div class="col-md-12">
+              <form>
+                <div class="form-group">
+                    <select v-model="company.id" class="form-control form-control-lg" @change="getCompanyId(company.id)">
+                        <option value="" disabled selected>Select Company</option>
+                        <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
+                    </select>
+                    <span v-if="errors.company">{{ errors.company }}</span>
+                </div>
+                <div class="form-group">
+                    <select v-model="department.id" class="form-control form-control-lg" @change="getDepartmentId(department.id)">
+                        <option value="" disabled selected>Select Department</option>
+                        <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
+                    </select>
+                    <span v-if="errors.department">{{ errors.department }}</span>
+                </div>
+                <div class="form-group">
+                    <select v-model="ncn.non_conformity_types" class="form-control form-control-lg">
+                        <option value="" disabled selected>Type of Non Conformity</option>
+                        <option value="1">Customer - returns</option>
+                        <option value="2">Objectibe not met</option>
+                        <option value="3">Project related</option>
+                        <option value="3">Vendor</option>
+                        <option value="3">Contracted - service</option>
+                        <option value="3">Others</option>
+                    </select>
+                    <span v-if="errors.non_conformity_types">{{ errors.non_conformity_types }}</span>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Notification number" v-model="ncn.notification_number">
+                    <span v-if="errors.notification_number">{{ errors.notification_number }}</span>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Recurrence number" v-model="ncn.recurrence_number">
+                    <span v-if="errors.recurrence_number">{{ errors.recurrence_number }}</span>
+                </div>
+                <div class="form-group">
+                    <datepicker placeholder="Select Date" v-model="ncn.issuance_date"></datepicker>
+                    <span v-if="errors.issuance_date">{{ errors.issuance_date }}</span>
+                </div>
+                <div class="form-group">
+                    <select v-model="approver.id" class="form-control form-control-lg">
+                        <option value="" disabled selected>Select Approver</option>
+                        <option v-for="(approver, a) in approvers" :value="approver.id" v-bind:key="a">{{ approver.name }}</option>
+                    </select>
+                    <span v-if="errors.approver">{{ errors.approver }}</span>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Details of Non-Conformity" v-model="ncn.non_conformity_details"></textarea>
+                    <span v-if="errors.non_conformity_details">{{ errors.non_conformity_details }}</span>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="file">
+                </div>
+                <button @click="addNcn(ncn, company, department, approver)" type="button" class="btn btn-primary">Submit</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</template>
+
+<script>
+import Datepicker from 'vuejs-datepicker';
+
+export default {
+    data(){
+        return{
+            ncns: [],
+            ncn: { 
+                id: '',
+                requester_id: '',
+                company_id: '',
+                department_id: '',
+                approver_id: '',
+                non_conformity_types: '',
+                notification_number: '',
+                recurrence_number: '',
+                issuance_date: '',
+                request_date: '',
+                approved_date: '',
+                disapproved_date: '',
+                non_confirmity_details: '',
+                attached_files: '', 
+                status: '',
+                remarks: ''
+            },
+            companies: [],
+            company:{
+                id: '',
+                name: '',
+                address: ''
+            },
+            departments: [],
+            department:{
+                id: '',
+                name: '',
+            },
+            approvers: [],
+            approver: {
+                id: '',
+                name: '',
+                email: '',
+                department_id: ''
+            },
+            selected_company: ' ',
+            selected_department: ' ',
+            keywords: '',
+            errors: '',
+        }
+    },
+    created(){
+        this.fetchCompanies();
+        this.fetchDepartments();    
+    },
+    methods: {
+        fetchDepartments(){
+            axios.get('/departments')
+            .then(response => {
+                this.departments = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
+        fetchCompanies(){
+            axios.get('/companies')
+            .then(response => {
+                this.companies = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
+        getCompanyId(company){
+            this.selected_company = company;
+            if(this.selected_company != ' ' &&  this.selected_department !=  ' '){
+                axios.get(`/getNcnApprovers/${company}/${this.selected_department}`)
+                .then(response => {
+                    this.approvers = response.data;
+                })
+                .catch(error => {
+                    this.errors = error.response.data.rrors;
+                })
+            }
+        },
+        getDepartmentId(department){
+            this.selected_department = department;
+            if(this.selected_company != ' ' &&  this.selected_department !=  ' '){
+                axios.get(`/getNcnApprovers/${this.selected_company}/${this.selected_department}`)
+                .then(response => {
+                    this.approvers = response.data;
+                })
+                .catch(error => {
+                    this.errors = error.response.data.errors;
+                })
+            }
+        },
+        addNcn(ncn , company, department, approver){
+            axios.post('/ncn',{
+                company_id: company.id,
+                department_id: department.id,
+                non_conformity_types: ncn.non_conformity_types,
+                notification_number: ncn.notification_number,
+                recurrence_number: ncn.recurrence_number,
+                approver_id: ncn.approver_id,
+                non_conformity_details: ncn.non_conformity_details,
+                issuance_date: ncn.issuance_date,
+                approver_id: approver.id
+            })
+            .then(response => {
+                window.location.href = response.data.redirect;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
+        addNcnForm(){
+            window.location.href = '/add-ncn';
+        }
+    },
+     components: {
+         Datepicker
+    }
+}
+</script>
+
