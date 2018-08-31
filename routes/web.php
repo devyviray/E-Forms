@@ -58,28 +58,55 @@ Route::group(['middleware' => ['auth', 'role:administrator']], function(){
     // DRDR routes
     // Count all submitted drdr 
     Route::get('/admin/drdr-count', 'DrdrController@countDrdr');
+    //Return page of drdr
     Route::get('/admin/drdrs', 'DrdrController@drdrAdminPage');
+    // Ajax call to return all submitted Drdr
     Route::get('/admin/drdrs-all', 'DrdrController@getAllDrdrs');
-    Route::get('/admin/ddrs', 'DdrController@ddrAdminPage');
-    Route::get('/admin/ddrs-all', 'DdrController@getAllDdrs');
+    // Return page to view details of drdr
+    Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
+    // Generate pdf file for drdr
+    Route::get('/admin/drdr-pdf/{id}', 'DrdrController@drdrPdf');
 
 
     // DRDR routes
     // Count all submitted ddr 
     Route::get('/admin/ddr-count', 'DdrController@countDdr');
+    //Return page of ddr
+    Route::get('/admin/ddrs', 'DdrController@ddrAdminPage');
+    // Ajax call to return all submitted Ddr
+    Route::get('/admin/ddrs-all', 'DdrController@getAllDdrs');
+    // Return page to view details of drdr
+    Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails');
+    // Generate pdf file for ddr
+    Route::get('/admin/ddr-pdf/{id}', 'DdrController@ddrPdf');
     
     // NCN routes
     // Count all submitted ncn 
     Route::get('/admin/ncn-count', 'NcnController@countNcn');
+    //Return page of ncn
+    Route::get('/admin/ncns', 'NcnController@ncnAdminPage');
+    // Ajax call to return all submitted ncn
+    Route::get('/admin/ncns-all', 'NcnController@getAllNcns');
+    // Return page to view details of drdr
+    Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails');
+     // Generate pdf file for ncn
+     Route::get('/admin/ncn-pdf/{id}', 'NcnController@ncnPdf');
 
     // CCIR routes
-    // Count all submitted ncn 
+    // Count all submitted ccir 
     Route::get('/admin/ccir-count', 'CcirController@countCcir');
+    //Return page of ccir
+    Route::get('/admin/ccirs', 'CcirController@ccirAdminPage');
+    // Ajax call to return all submitted Ccir
+    Route::get('/admin/ccirs-all', 'CcirController@getAllCcirs');
+    // Return page to view details of ccir
+    Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails');
+    // Generate pdf file for ccir
+    Route::get('/admin/ccir-pdf/{id}', 'CcirController@ccirPdf');
 });
  
 Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']], function () {
   
-
   // User routes
   Route::get('/add-user', 'UserController@create');
   Route::get('/users', 'UserController@index');

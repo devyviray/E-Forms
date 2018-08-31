@@ -23,7 +23,17 @@ class Ncn extends Model
         'requester', 'position', 'notification', 'date_issuance', 'approver_status', 'notified_status'
     ];
 
-    public function requester(){
+    public function requester()
+    {
         return $this->belongsTo('App\User', 'requester_id');
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo('App\User', 'approver_id');
+    }
+    public function company()
+    {
+        return $this->belongsTo('App\Company');
     }
 }

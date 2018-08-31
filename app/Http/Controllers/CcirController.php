@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Ccir;
 use Carbon\Carbon;
 use App\Setting;
+use PDF;
 use App\Notifications\RequesterSubmitNcn;
 use App\Types\StatusType;
 
@@ -137,10 +138,62 @@ class CcirController extends Controller
         }
     }
 
+    /**
+     * Count all submitted ccir
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function countCcir()
     {
         $ccirs = Ccir::count();
 
         return $ccirs;
+    }
+
+    /**
+     * Return ccir page for admin
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function ccirAdminPage()
+    {
+        return view('admin.admin-ccir');
+    }
+
+    /**
+     * Get all ccir submitted for admin
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllCcirs()
+    {
+        $ccirs = Ccir::with(['company', 'requester'])->get();
+
+        return $ccirs;
+    }
+     /**
+     * Return ccir details page for admin
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ccirDetails($id)
+    {
+        return view('admin.admin-ccir-details', ['id' => $id]);
+    }
+
+    /**
+     * Generate ccir pdf to download or print
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function ccirPdf($id)
+    {
+        $pdf = PDF::loadView('admin.admin-ccir-pdf');
+
+        return $pdf->stream('ccir.pdf');
     }
 }

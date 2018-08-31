@@ -7,6 +7,7 @@ use App\Ddr;
 use App\User;
 use App\Types\StatusType;
 use Auth;
+use PDF;
 use Carbon\Carbon;
 use App\Notifications\RequesterSubmitDdr;
 
@@ -175,6 +176,28 @@ class DdrController extends Controller
         return $drdrs;
     }
 
+     /**
+     * Return ddr details page for admin
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ddrDetails($id)
+    {
+        return view('admin.admin-ddr-details', ['id' => $id]);
+    }
+
+    /**
+     * Generate drdr pdf to download or print
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function ddrPdf($id)
+    {
+        $pdf = PDF::loadView('admin.admin-ddr-pdf');
+
+        return $pdf->stream('ddr.pdf');
+    }
 
     /**
      * Search DDR by category

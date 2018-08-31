@@ -22,11 +22,11 @@
                                         <td>Document distribution request</td>
                                         <td>{{ ddrs }}</td>
                                     </tr>
-                                    <tr>
+                                    <tr @click="viewNcn">
                                         <td>Non-conformance notification</td>
                                         <td>{{ ncns }}</td>
                                     </tr>
-                                    <tr>
+                                    <tr @click="viewCcir">
                                         <td>Customer complaint information report</td>
                                         <td>{{ ccirs }}</td>
                                     </tr>
@@ -99,6 +99,16 @@ export default {
         {
             var base_url = window.location.origin;
             window.location.href = base_url+'/admin/ddrs';
+        },
+        viewNcn()
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+'/admin/ncns';
+        },
+        viewCcir()
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+'/admin/ccirs';
         }
     }   
 }

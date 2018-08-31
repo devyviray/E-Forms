@@ -1,29 +1,27 @@
 <template>
-   <div>
+    <div>
         <div class="card-body table-full-width table-responsive">
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
                     <th>Requester</th>
-                    <th>Company</th>
-                    <th>Reason</th>
-                    <th>date_requested</th>
-                    <th>Approver</th>
-                    <th>Status</th>
+                    <th>Brand Name</th>
+                    <th>Nature of Complaint</th>
+                    <th>Date of Issuance</th>
+                    <th>Validity</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
-                    <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
-                        <td>{{ ddr.id }}</td>
-                        <td>{{ ddr.requester.name }}</td>
-                        <td>{{ ddr.company.name }}</td>
-                        <td>{{ ddr.reason_of_distribution }}</td>
-                        <td>{{ ddr.date_requested }}</td>
-                        <td>{{ ddr.approver.name }}</td>
-                        <td>{{ ddr.status }}</td>
+                    <tr v-for="ccir in filteredQueues" v-bind:key="ccir.id">
+                        <td>{{ ccir.id }}</td>
+                        <td>{{ ccir.requester.name }}</td>
+                        <td>{{ ccir.brand_name }}</td>
+                        <td>{{ ccir.nature_of_complaint }}</td>
+                        <td>{{ ccir.delivery_date }}</td>
+                        <td>{{ ccir.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewDdrDetails(ddr.id)">View</button>
+                            <button @click="viewCcirDetails(ccir.id)" class="btn btn-warning">View</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -36,41 +34,40 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ ddrs.length }} Ddr form(s)</span>
+                <span>{{ filteredQueues.length }} Ccir form(s)</span>
             </div>
         </div>
-   </div>
+    </div>
 </template>
 
 <script>
 export default {
     data(){
         return{
-            ddrs: [],
+            ccirs: [],
             keywords: '',
             errors: '',
             currentPage: 0,
-           itemsPerPage: 10,
+            itemsPerPage: 10,
         }
     },
     created(){
-        this.fetchDdrs();
+        this.fetchCcirs();
     },
     methods:{
-        fetchDdrs()
-        {
-            axios.get('/admin/ddrs-all')
+        fetchCcirs(){
+            axios.get('/admin/ccirs-all')
             .then(response => {
-                this.ddrs = response.data;
+                this.ccirs = response.data; 
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
             });
         },
-        viewDdrDetails(id)
+        viewCcirDetails(id)
         {
             var base_url = window.location.origin;
-            window.location.href = base_url+`/admin/ddr-details/${id}`;
+            window.location.href = base_url+`/admin/ccir-details/${id}`;
             
         },
         setPage(pageNumber) {
@@ -90,19 +87,19 @@ export default {
         }
     },
     computed: {
-        filteredDdrs(){
+        filteredCcirs(){
             let self = this;
-            return self.ddrs.filter(ddr => {
-                return ddr.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+            return self.ccirs.filter(ccir => {
+                return ccir.complainant.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
-            return Math.ceil(this.ddrs.length / this.itemsPerPage)
+            return Math.ceil(this.filteredCcirs.length / this.itemsPerPage)
         },
 
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
-            var queues_array = this.filteredDdrs.slice(index, index + this.itemsPerPage);
+            var queues_array = this.filteredCcirs.slice(index, index + this.itemsPerPage);
 
             if(this.currentPage >= this.totalPages) {
                 this.currentPage = this.totalPages - 1

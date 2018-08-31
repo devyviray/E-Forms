@@ -10,6 +10,7 @@ use App\Types\StatusType;
 use Auth;
 use Carbon\Carbon;
 use App\Notifications\RequesterSubmitDrdr;
+use PDF;
 
 class DrdrController extends Controller
 {
@@ -385,6 +386,29 @@ class DrdrController extends Controller
         $drdrs = Drdr::with(['reviewer', 'approver', 'company'])->get();
 
         return $drdrs;
+    }
+
+    /**
+     * Return drdr details page for admin
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function drdrDetails($id)
+    {
+        return view('admin.admin-drdr-details', ['id' => $id]);
+    }
+    
+    /**
+     * Generate drdr pdf to download or print
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function drdrPdf($id)
+    {
+        $pdf = PDF::loadView('admin.admin-drdr-pdf');
+
+        return $pdf->stream('drdr.pdf');
     }
 
     /**

@@ -8,6 +8,7 @@ use App\User;
 use App\Types\StatusType;
 use Carbon\Carbon;
 use Auth;
+use PDF;
 use App\Notifications\RequesterSubmitNcn;
 
 class NcnController extends Controller
@@ -150,6 +151,51 @@ class NcnController extends Controller
     {
         $ncns = Ncn::count();
         return $ncns;
+    }
+    
+    /**
+    * Display the ncn page for admin.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function ncnAdminPage()
+    {
+        return view('admin.admin-ncn');
+    }
+
+    /**
+     * Display all the listing of the submitted forms.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllNcns()
+    {
+        $ncns = Ncn::with(['requester', 'approver', 'company'])->get();
+
+        return $ncns;
+    }
+
+    /**
+     * Return ddr details page for admin
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ncnDetails($id)
+    {
+        return view('admin.admin-ncn-details', ['id' => $id]);
+    }
+
+    /**
+     * Generate drdr pdf to download or print
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function ncnPdf($id)
+    {
+        $pdf = PDF::loadView('admin.admin-ncn-pdf');
+
+        return $pdf->stream('ncn.pdf');
     }
 
      /**

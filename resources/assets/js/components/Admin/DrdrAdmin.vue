@@ -22,7 +22,7 @@
                         <td v-if="drdr.approver">{{ drdr.approver.name }}</td>
                         <td style="padding-left: 30px" v-else>{{ ' - '  }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewApprovedDrdr(drdr.id)">View</button>
+                            <button  class="btn btn-warning" @click="viewDrdrDetails(drdr.id)">View</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -65,6 +65,12 @@ export default {
             .catch(error => {
                 this.errors = error.response.data.errors;
             });
+        },
+        viewDrdrDetails(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/admin/drdr-details/${id}`;
+            
         },
         setPage(pageNumber) {
             this.currentPage = pageNumber;
