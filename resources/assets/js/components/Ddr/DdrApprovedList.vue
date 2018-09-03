@@ -19,8 +19,7 @@
                         <td>{{ ddr.date_requested }}</td>
                         <td>{{ ddr.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ddr.id}`">Edit</button>
-                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ddr.id}`">Delete</button>
+                            <button  class="btn btn-warning" @click="viewApprovedDdr(ddr.id)">View</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -55,6 +54,11 @@ export default {
         this.fetchDdrs();
     },
     methods:{
+        viewApprovedDdr(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/ddr-view-approved/${id}`;
+        },
         fetchDdrs()
         {
             axios.get('/ddrs-approved-forms')

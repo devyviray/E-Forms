@@ -1,0 +1,163 @@
+<template>
+      <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Department</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].department.name }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Reason of distribution</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].reason_of_distribution }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Date of request</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].date_requested }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Date Needed</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].date_needed }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Request by</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].requester.name }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Position</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].position }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Document title</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].document_title }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Control code</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].control_code }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Rev. No.</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].rev_number }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Copy No.</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].copy_number }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <span>Copy Holder</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span v-if="ddrs.length">{{ ddrs[0].copy_holder }}</span>
+                    </div>
+                </div>
+                <form>
+                    <input type="hidden" class="form-control" placeholder="Name" v-if="ddrs.length" v-model="ddrs[0].id">
+                    <div class="form-group">
+                       <select v-model="ddr.status" class="form-control form-control-lg">
+                           <option value="" disabled selected>Select Status</option>
+                           <option value="1">Approved</option>
+                           <option value="2">Disapproved</option>
+                       </select>
+                        <span v-if="errors.status">{{ errors.status }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="reason_request">Remarks</label>
+                        <textarea class="form-control" v-model="ddr.remarks" id="remarks" cols="30" rows="10"></textarea>
+                        <span v-if="errors.remarks">{{ errors.remarks }}</span>
+                    </div>
+                    <button @click="approvedDdr(ddrs[0].id, ddr)" type="button" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    data(){
+        return{
+            ddrs: [],
+            ddr:{
+                status: '',
+                remarks: ''
+            },
+            errors:''
+        }
+    },
+    created(){
+        this.fetchDdr();
+    },
+    methods:{
+        fetchDdr()
+        {
+            var url = window.location.href;
+            var id = url.match(/[^\/]+$/)[0];
+
+            axios.get(`/ddr-data/${id}`)
+            .then(response => {
+                this.ddrs = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            })
+        },
+        approvedDdr(id,ddr)
+        {
+            axios.post('/ddr-approved', {
+                id : id,
+                status: ddr.status,
+                remarks: ddr.remarks
+            })  
+            .then(response => {
+
+                var redirect = response.data.redirect;
+                window.location.href = redirect;
+
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            })
+        }
+    },
+}
+</script>

@@ -1,7 +1,12 @@
 <template>
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <a href="http://172.17.2.88/e-forms-test/storage/app/" class="btn btn-primary" download=""> Download Attachement - Reviewer</a>
+            <!-- <a href="http://172.17.2.88/e-forms-test/storage/app/" class="btn btn-primary" download=""> Download Attachement - Reviewer</a> -->
+            <select class="form-control form-control-lg">
+                <option selected disabled> Download Attachment - Reviewer </option>
+                <option v-for="(attachment, a) in reviewerAttachments" :value="attachment.id" v-bind:key="a">{{ attachment.file_name }}</option>
+            </select>
+        
             <a href="http://172.17.2.88/e-forms-test/storage/app/" class="btn btn-primary" download=""> Download Attachement - Approver</a>
             <!-- <a href="http://172.17.2.88/e-forms-test/public/drdrforms/pdf/2678" target="_blank" class="btn btn-primary">Print as PDF</a> -->
             <a :href="hrefLink" target="_blank" class="btn btn-primary">Print as PDF</a>
@@ -89,7 +94,7 @@
                         <td> <strong> Position: </strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].approver.position }}</td>
                         <td> <strong> Date: </strong> </td>
-                        <td> {{ drdrs[0].approved_date }}  </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].approved_date }}  </td>
                     </tr>	
                 </tbody>
             </table>
@@ -218,6 +223,7 @@ export default {
     data(){
         return{
             drdrs: [],
+            reviewerAttachments: [],
             errors: ''
         }
     },
@@ -230,11 +236,22 @@ export default {
             axios.get(`/drdr-data/${this.drdrId}`)
             .then(response => { 
                 this.drdrs = response.data;
+                this.fetchUploadedFilesReviewer();
             })
             .catch(error => {
-                this.errors = error.response.data.errors;
+                 this.errors = error.response.data.errors;
             })
-        }
+        },
+        fetchUploadedFilesReviewer()
+        {
+            axios.get('/drdr-reviewer-attachments/'+this.drdrs[0].id+'/'+this.drdrs[0].reviewer_id)
+            .then(response => {
+                this.reviewerAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
+        },
     },
     computed:{
         hrefLink()

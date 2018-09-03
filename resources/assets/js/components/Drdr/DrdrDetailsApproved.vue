@@ -14,14 +14,14 @@
                         <td>
                             Doc No. <strong>LFQM-F-001</strong>
                         </td>
-                        <td>
-                            Rev No. <strong>04</strong>
+                        <td v-if="drdrs.length">
+                            Rev No. <strong> {{ drdrs[0].rev_number }}</strong>
                         </td>
                         <td>
                             Effective Date
                         </td>
-                        <td>
-                            February 27, 2017
+                        <td v-if="drdrs.length">
+                            {{ drdrs[0].effective_date }}
                         </td>
                     </tr>
                     <tr>
@@ -54,14 +54,14 @@
                                 Document Title:
                             </strong>
                         </td>
-                        <td>  Product Description - Swine Feeds </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].document_title }} </td>
                         <td>
                             <strong>
                                 Rev. No:
                             </strong>
                         </td>
-                        <td colspan="3">
-                            10
+                        <td colspan="3" v-if="drdrs.length">
+                            {{ drdrs[0].rev_number }}
                         </td>
                     </tr>
                     <!-- second set -->
@@ -74,21 +74,21 @@
                     </tr>
                     <tr>
                         <td colspan="7">
-                            Update document
+                            {{ drdrs[0].reason_request }}
                         </td>
                     </tr>
                     <!-- third set -->
                     <tr>
                         <td><strong>Requested By:</strong></td>
-                        <td>
-                            Ivy Pesebre
+                        <td v-if="drdrs.length">
+                            {{ drdrs[0].requester.name }}
                         </td>
                         <td><strong>Position:</strong></td>
-                        <td>
-                            Animal Nutritionist <!-- not is database -->
+                        <td v-if="drdrs.length">
+                            {{ drdrs[0].requester.position }}
                         </td>
                         <td><strong>Date:</strong></td>
-                        <td> August 09, 2018 </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].date_request }} </td>
 
                     </tr>
                 </tbody>
@@ -106,19 +106,19 @@
                 <tbody>
                     <tr>
                         <td> <strong> Reviewed By: </strong> </td>
-                        <td> Christian Patingo </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].reviewer.name }} </td>
                         <td> <strong> Position: </strong> </td>
-                        <td> Quality Control Analyst 2 </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].reviewer.position }} </td>
                         <td> <strong> Date: </strong> </td>
-                        <td> August 09, 2018 </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].reviewed_date }} </td>
                     </tr>
                     <tr>
                         <td> <strong> Approved By: </strong> </td>
-                        <td> Caryn Rose M. Diabordo </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].approver.name }} </td>
                         <td> <strong> Position: </strong> </td>
-                        <td> Laboratory Analyst 2 </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].approver.position }} </td>
                         <td> <strong> Date: </strong> </td>
-                        <td> August 09, 2018 </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].approved_date }} </td>
                     </tr>	
 
                 </tbody>
@@ -232,3 +232,32 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data(){
+        return{
+            drdrs: [],
+            errors: ''
+        }
+    },
+    created(){
+        this.fetchDrdrs();
+    },
+    methods:{
+        fetchDrdrs()
+        {
+            var url = window.location.href;
+            var id = url.match(/[^\/]+$/)[0];
+
+            axios.get(`/drdr-data/${id}`)
+            .then(response => { 
+                this.drdrs = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            })
+        }
+    }
+}
+</script>

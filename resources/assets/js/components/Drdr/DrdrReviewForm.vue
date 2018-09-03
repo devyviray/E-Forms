@@ -117,7 +117,6 @@ export default {
          
     },
     methods:{
-
         fetchDrdr(){
             var url = window.location.href;
             var id = url.match(/[^\/]+$/)[0];
@@ -151,8 +150,6 @@ export default {
             for (var i = files.length - 1; i >= 0; i--){
                 this.attachments.push(files[i]);
             }
-
-            // document.getElementById('attachments').value = [];
         },
         resetData(){
           this.formData = new FormData();
@@ -168,7 +165,6 @@ export default {
         },
         reviewedDrdr(id,drdr, approver)
         {   
-            console.log(drdr);
             this.prepareFields();
             this.formData.append('id', id);
             this.formData.append('consider_documents', drdr.consider_documents);

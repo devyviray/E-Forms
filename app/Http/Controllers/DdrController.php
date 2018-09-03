@@ -23,6 +23,7 @@ class DdrController extends Controller
         $id = Auth::user()->id;
         $ddrs = Ddr::with('requester')
             ->where('approver_id', $id)
+            ->where('status', StatusType::SUBMITTED)
             ->orderBy('id','desc')->get();
 
         return $ddrs;
@@ -101,12 +102,68 @@ class DdrController extends Controller
         $ddr->status = StatusType::SUBMITTED;
 
         // $user = User::findOrFail($request->input('approver_id'));
-        // $user->notify(new RequesterSubmitDdr($ddr));
+        // $user->notify(new RequesterSubmitDdr($ddr));w
 
         if($ddr->save()){
             return ['redirect' => route('ddr')];
         }
     }
+
+    /**
+    * Display approve page of ddr
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function show($id)
+    {
+        return view('ddr.view');
+    }
+
+    /**
+    * Get the specified ddr by id.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function data($id)
+    {
+        $ddr = Ddr::with(['company', 'department', 'requester', 'approver'])
+                ->where('id', $id)
+                ->get();
+
+        return $ddr;
+    }
+
+    public function approved(Request $request)
+    {
+        $carbon = new Carbon();
+        $ddr = Ddr::findOrFail($request->input('id'));
+        $requester = User::findOrFail($ddr->requester_id);
+        
+        $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
+        $ddr->status = $status;
+        $ddr->remarks = $request->input('remarks');
+        // $drdr->effective_date = $carbon::parse($request->input('effective_date'))->toDateTimeString();
+        $ddr->save();
+        
+        // $requester = User::findOrFail($ddr->requester_id);
+        // $requester->notify(new RequesterSubmitDrdr($ddr));
+
+
+        return ['redirect' => route('ddr')];
+    }
+
+    /**
+    * Display the details of apporved ddr.
+    *
+    * @return \Illuminate\Http\Response     
+    */
+    public function showDetailsDdr($ddr_id)
+    {
+        return view('ddr.approved-details');
+    }
+
 
     /**
      * Remove the specified resource from storage.

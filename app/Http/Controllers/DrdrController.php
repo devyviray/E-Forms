@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Drdr;
 use App\User;
+use App\UploadedFile;
 use App\Types\RequestType;
 use App\Types\StatusType;
 use Auth;
 use Carbon\Carbon;
 use App\Notifications\RequesterSubmitDrdr;
 use PDF;
+use Response;
 
 class DrdrController extends Controller
 {
@@ -131,19 +133,12 @@ class DrdrController extends Controller
             'reason_request' => 'required',
             'attachments' => 'required',
             'effective_date' => 'required'
-            // 'approver_id' => 'required',
-            // 'company_id' => 'required',
-            // 'file' => 'required'
         ]);
 
         $drdr = new Drdr;
         $carbon = new Carbon();
         $path = '';
-        
-        $attachments = $request->file('attachments');   
-        foreach($attachments as $attachment){
-            $path = $attachment->store('drdr');
-        }   
+            
         $drdr->request_type = $request->input('type');
         $drdr->document_title = $request->input('document_title');
         $drdr->reason_request = $request->input('reason_request');
@@ -162,6 +157,15 @@ class DrdrController extends Controller
         $user->notify(new RequesterSubmitDrdr($drdr));
 
         if($drdr->save()){
+            $attachments = $request->file('attachments');   
+            foreach($attachments as $attachment){
+                $filename = $attachment->getClientOriginalName();
+                $path = $attachment->store('drdr');
+                $role = 'requester';
+
+                $uploadedFile = $this->uploadFiles(Auth::user()->id, $drdr->id, $path,$role,$filename);
+            } 
+        
             return ['redirect' => route('drdr')];
         }
     }
@@ -177,9 +181,15 @@ class DrdrController extends Controller
         return view('drdr.view');
     }
 
+    /**
+    * Get the specified drdr by id.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
     public function data($id)
     {
-        $drdr = Drdr::with(['company', 'requester'])
+        $drdr = Drdr::with(['company', 'requester', 'approver', 'reviewer'])
                 ->where('id', $id)
                 ->get();
 
@@ -313,18 +323,36 @@ class DrdrController extends Controller
 
     public function reviewed(Request $request)
     {
+        $request->validate([
+            'id' => 'required',
+            'status' => 'required',
+            'remarks' => 'required',
+            'approver_id' => 'required',
+            'attachments' => 'required'
+        ]);
+
         $drdr = Drdr::findOrFail($request->input('id'));
         
         $status = $request->input('status') == 1 ? StatusType::APPROVED_REVIEWER : StatusType::DISAPPROVED_REVIEWER;
         $drdr->status = $status;
         $drdr->remarks = $request->input('remarks');
         $drdr->approver_id = $request->input('approver_id');
-        $drdr->save();
 
-        // $approver = User::findOrFail($request->input('approver_id'));
-        // $approver->notify(new RequesterSubmitDrdr($drdr));
+        $approver = User::findOrFail($request->input('approver_id'));
+        $approver->notify(new RequesterSubmitDrdr($drdr));
 
-        return ['redirect' => route('drdr')];
+        if($drdr->save()){
+            $attachments = $request->file('attachments');   
+            foreach($attachments as $attachment){
+                $filename = $attachment->getClientOriginalName();
+                $path = $attachment->store('drdr');
+                $role = 'reviewer';
+
+                $uploadedFile = $this->uploadFiles(Auth::user()->id, $drdr->id, $path, $role,$filename);
+            } 
+        
+            return ['redirect' => route('drdr')];
+        }
     }
 
     /**
@@ -336,6 +364,13 @@ class DrdrController extends Controller
 
     public function approved(Request $request)
     {
+        $request->validate([
+            'id' => 'required',
+            'status' => 'required',
+            'remarks' => 'required',
+            'attachments' => 'required'
+        ]);
+
         $carbon = new Carbon();
         $drdr = Drdr::findOrFail($request->input('id'));
         $requester = User::findOrFail($drdr->requester_id);
@@ -344,13 +379,22 @@ class DrdrController extends Controller
         $drdr->status = $status;
         $drdr->remarks = $request->input('remarks');
         // $drdr->effective_date = $carbon::parse($request->input('effective_date'))->toDateTimeString();
-        $drdr->save();
+                
+        $requester = User::findOrFail($drdr->requester_id);
+        $requester->notify(new RequesterSubmitDrdr($drdr));
+
+        if($drdr->save()){
+            $attachments = $request->file('attachments');   
+            foreach($attachments as $attachment){
+                $filename = $attachment->getClientOriginalName();
+                $path = $attachment->store('drdr');
+                $role = 'approver';
+
+                $uploadedFile = $this->uploadFiles(Auth::user()->id, $drdr->id, $path, $role,$filename);
+            } 
         
-        // $requester = User::findOrFail($drdr->requester_id);
-        // $requester->notify(new RequesterSubmitDrdr($drdr));
-
-
-        return ['redirect' => route('drdr')];
+            return ['redirect' => route('drdr')];
+        }
     }
 
     /**
@@ -409,6 +453,38 @@ class DrdrController extends Controller
         $pdf = PDF::loadView('admin.admin-drdr-pdf');
 
         return $pdf->stream('drdr.pdf');
+    }
+
+
+    public function uploadFiles($userId,$drdrId,$path,$role,$filename)
+    {
+        $uploadedFile = new UploadedFile;
+        $uploadedFile->user_id = $userId;
+        $uploadedFile->form_id = $drdrId;
+        $uploadedFile->role = $role;
+        $uploadedFile->file_path =  $path;
+        $uploadedFile->file_name = $filename;
+        $uploadedFile->model = 'App\Drdr';
+
+        if($uploadedFile->save()){
+            return $uploadedFile;
+        }
+    }
+
+    public function getUploadeFilesReviewer($drdrId,$reviewerId)
+    {
+        $uploadedFile =  UploadedFile::where('user_id', $reviewerId)
+            ->where('form_id', $drdrId)
+            ->where('role', 'reviewer')
+            ->where('model', 'App\Drdr')
+            ->get();
+
+            return $uploadedFile;
+        // $path = storage_path().'\app\public\drdr\zcYsMIFN5qms7z3HiCk0koEJhCYq7nXU2fpACLYZ.png';
+        // return Response::download($path);
+
+        // $path = storage_path().'/'.'app'.'/public/'.'/drdr'.'zcYsMIFN5qms7z3HiCk0koEJhCYq7nXU2fpACLYZ.png';
+        // return Response::download($path);
     }
 
     /**

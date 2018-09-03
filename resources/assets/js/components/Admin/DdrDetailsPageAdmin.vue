@@ -14,9 +14,9 @@
                     </tr>
                     <tr>
                         <td> Doc No. <strong>LFQM-F-002</strong> </td>
-                        <td> Rev No. <strong>03</strong> </td>
+                        <td v-if="ddrs.length"> Rev No. <strong>{{ ddrs[0].rev_number}}</strong> </td>
                         <td> Effective Date </td>
-                        <td> February 27, 2017</td>
+                        <td v-if="ddrs.length"> {{ ddrs.effective_date }}</td>
                     </tr>
                     <tr>
                         <td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>
@@ -50,7 +50,7 @@
                     </tr>
                     <tr>
                         <td> <strong> Date Neeeded: </strong>  </td>
-                        <td colspan="2"> April 12, 2017 </td>
+                        <td colspan="2" v-if="ddrs.length"> {{ ddrs[0].date_needed }} </td>
                     </tr>
                 </tbody>
             </table>
@@ -86,11 +86,11 @@
                 </thead>
                 <tbody>
                         <tr>
-                            <td> La Fil Pasta Flour </td>
-                            <td> 00 </td>
-                            <td> 00 </td>
-                            <td> 00 </td>
-                            <td> R&amp;D </td>
+                            <td v-if="ddrs.length"> {{ ddrs[0].document_title }} </td>
+                            <td v-if="ddrs.length"> {{ ddrs[0].control_code }} </td>
+                            <td v-if="ddrs.length"> {{ ddrs[0].rev_number }} </td>
+                            <td v-if="ddrs.length"> {{ ddrs[0].copy_number }} </td>
+                            <td v-if="ddrs.length"> {{ ddrs[0].copy_holder }} </td>
                             <td></td>
                             <td> April 12, 2017 </td>
                         </tr>
@@ -106,27 +106,27 @@
                     </tr>
                     <tr>
                         <td> <strong> Requested by:  <strong> </strong></strong> </td>
-                        <td> Kim Alejo </td>
+                        <td v-if="ddrs.length"> {{ ddrs[0].requester.name }} </td>
                         <td> <strong> Approved by: </strong> </td>
-                        <td> Roc Cañares </td>
+                        <td v-if="ddrs.length"> {{ ddrs[0].approver.name }} </td>
                         <td> <strong> Distributed by: </strong> </td>
                         <td> Michelle Paje </td>
                     </tr>
 
                     <tr>
                         <td> <strong> Position:  <strong> </strong></strong></td>
-                        <td> R&amp;D Assistant </td>
+                        <td v-if="ddrs.length"> {{ ddrs[0].requester.position }} </td>
                         <td> <strong> Position: </strong> </td>
-                        <td> R&amp;D Manager </td>
+                        <td v-if="ddrs.length"> {{ ddrs[0].approver.position }} </td>
                         <td> <strong> Position: </strong></td>
                         <td> Management Representative Supervisor </td>
                     </tr>
 
                     <tr>
                         <td> <strong>Date </strong> </td>
-                        <td>April 12, 2017</td>
+                        <td v-if="ddrs.length">{{ ddrs[0].reviewed_date }}</td>
                         <td> <strong> Date </strong> </td>
-                        <td> April 12, 2017	</td>
+                        <td v-if="ddrs.length"> {{ ddrs[0].approved_date }}</td>
                         <td> <strong> Date </strong> </td>
                         <td> July 26, 2017 </td>
                     </tr>
@@ -166,7 +166,7 @@ export default {
     methods:{
         fetchDdrs()
         {
-            axios.get()
+            axios.get(`/ddr-data/${this.ddrId}`)
             .then(response => { 
                 this.ddrs = response.data;
             })

@@ -122,8 +122,6 @@ export default {
             for (var i = files.length - 1; i >= 0; i--){
                 this.attachments.push(files[i]);
             }
-
-            // document.getElementById('attachments').value = [];
         },
         resetData(){
           this.formData = new FormData();

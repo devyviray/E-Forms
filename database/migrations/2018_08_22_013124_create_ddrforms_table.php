@@ -24,7 +24,7 @@ class CreateDdrformsTable extends Migration
             $table->string('rev_number');
             $table->string('copy_number');
             $table->string('copy_holder');
-            $table->datetime('date_requested');
+            $table->datetime('date_request');
             $table->datetime('date_needed')->nullable();
             $table->datetime('effective_date')->nullable();
             $table->integer('requester_id');

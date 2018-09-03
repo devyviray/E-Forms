@@ -55,54 +55,54 @@ Route::group(['middleware' => 'auth'], function (){
 
 // Accessible route only by admin 
 Route::group(['middleware' => ['auth', 'role:administrator']], function(){ 
-    // DRDR routes
-    // Count all submitted drdr 
-    Route::get('/admin/drdr-count', 'DrdrController@countDrdr');
-    //Return page of drdr
-    Route::get('/admin/drdrs', 'DrdrController@drdrAdminPage');
-    // Ajax call to return all submitted Drdr
-    Route::get('/admin/drdrs-all', 'DrdrController@getAllDrdrs');
-    // Return page to view details of drdr
-    Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
-    // Generate pdf file for drdr
-    Route::get('/admin/drdr-pdf/{id}', 'DrdrController@drdrPdf');
+  // DRDR routes
+  // Count all submitted drdr 
+  Route::get('/admin/drdr-count', 'DrdrController@countDrdr');
+  //Return page of drdr
+  Route::get('/admin/drdrs', 'DrdrController@drdrAdminPage');
+  // Ajax call to return all submitted Drdr
+  Route::get('/admin/drdrs-all', 'DrdrController@getAllDrdrs');
+  // Return page to view details of drdr
+  Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
+  // Generate pdf file for drdr
+  Route::get('/admin/drdr-pdf/{id}', 'DrdrController@drdrPdf');
 
 
-    // DRDR routes
-    // Count all submitted ddr 
-    Route::get('/admin/ddr-count', 'DdrController@countDdr');
-    //Return page of ddr
-    Route::get('/admin/ddrs', 'DdrController@ddrAdminPage');
-    // Ajax call to return all submitted Ddr
-    Route::get('/admin/ddrs-all', 'DdrController@getAllDdrs');
-    // Return page to view details of drdr
-    Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails');
-    // Generate pdf file for ddr
-    Route::get('/admin/ddr-pdf/{id}', 'DdrController@ddrPdf');
-    
-    // NCN routes
-    // Count all submitted ncn 
-    Route::get('/admin/ncn-count', 'NcnController@countNcn');
-    //Return page of ncn
-    Route::get('/admin/ncns', 'NcnController@ncnAdminPage');
-    // Ajax call to return all submitted ncn
-    Route::get('/admin/ncns-all', 'NcnController@getAllNcns');
-    // Return page to view details of drdr
-    Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails');
-     // Generate pdf file for ncn
-     Route::get('/admin/ncn-pdf/{id}', 'NcnController@ncnPdf');
+  // DRDR routes
+  // Count all submitted ddr 
+  Route::get('/admin/ddr-count', 'DdrController@countDdr');
+  //Return page of ddr
+  Route::get('/admin/ddrs', 'DdrController@ddrAdminPage');
+  // Ajax call to return all submitted Ddr
+  Route::get('/admin/ddrs-all', 'DdrController@getAllDdrs');
+  // Return page to view details of drdr
+  Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails');
+  // Generate pdf file for ddr
+  Route::get('/admin/ddr-pdf/{id}', 'DdrController@ddrPdf');
+  
+  // NCN routes
+  // Count all submitted ncn 
+  Route::get('/admin/ncn-count', 'NcnController@countNcn');
+  //Return page of ncn
+  Route::get('/admin/ncns', 'NcnController@ncnAdminPage');
+  // Ajax call to return all submitted ncn
+  Route::get('/admin/ncns-all', 'NcnController@getAllNcns');
+  // Return page to view details of drdr
+  Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails');
+    // Generate pdf file for ncn
+    Route::get('/admin/ncn-pdf/{id}', 'NcnController@ncnPdf');
 
-    // CCIR routes
-    // Count all submitted ccir 
-    Route::get('/admin/ccir-count', 'CcirController@countCcir');
-    //Return page of ccir
-    Route::get('/admin/ccirs', 'CcirController@ccirAdminPage');
-    // Ajax call to return all submitted Ccir
-    Route::get('/admin/ccirs-all', 'CcirController@getAllCcirs');
-    // Return page to view details of ccir
-    Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails');
-    // Generate pdf file for ccir
-    Route::get('/admin/ccir-pdf/{id}', 'CcirController@ccirPdf');
+  // CCIR routes
+  // Count all submitted ccir 
+  Route::get('/admin/ccir-count', 'CcirController@countCcir');
+  //Return page of ccir
+  Route::get('/admin/ccirs', 'CcirController@ccirAdminPage');
+  // Ajax call to return all submitted Ccir
+  Route::get('/admin/ccirs-all', 'CcirController@getAllCcirs');
+  // Return page to view details of ccir
+  Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails');
+  // Generate pdf file for ccir
+  Route::get('/admin/ccir-pdf/{id}', 'CcirController@ccirPdf');
 });
  
 Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']], function () {
@@ -160,27 +160,39 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/getReviewer/{id}', 'DrdrController@getCompanyReviewers');
   Route::get('/drdr-submitted', 'DrdrController@submitted');
   Route::get('/drdrs-by/{category}', 'DrdrController@category');
+  //Show review page of drdr
   Route::get('/drdr-review/{id}', 'DrdrController@show');
+  // Get the specified drdr by id
   Route::get('/drdr-data/{id}', 'DrdrController@data');
   Route::get('/drdr-approve/{id}', 'DrdrController@showApprovedForm');
+  // Approve specific ddr
   Route::post('/drdr-approved', 'DrdrController@approved');
   Route::post('/drdr-reviewed', 'DrdrController@reviewed');
   // Get specific approver per company
   Route::get('/drdr-approver/{company_id}', 'DrdrController@approver');
   // Return details form of approved DRDR
   Route::get('/drdr-view-approved/{drdr_id}', 'DrdrController@showDetailsDrdr');
+  Route::get('/drdr-reviewer-attachments/{drdrId}/{reviewerId}', 'DrdrController@getUploadeFilesReviewer');
 
 
-   // DDR routes
-   Route::get('/add-ddr', 'DdrController@create');
-   Route::get('/ddrs', 'DdrController@index');
-   Route::get('/ddrs-approved-forms', 'DdrController@approvedForms');
-   Route::post('/ddr', 'DdrController@store');
-   Route::get('/ddr/{id}', 'DdrController@show');
-   Route::patch('/ddr/{ddr}', 'DdrController@update');
-   Route::delete('/ddr/{id}', 'DdrController@destroy');
-   Route::get('/ddrs-submitted', 'DdrController@submitted');
-   Route::get('/ddrs-by/{category}', 'DdrController@category');
+  // DDR routes
+  Route::get('/add-ddr', 'DdrController@create');
+  Route::get('/ddrs', 'DdrController@index');
+  Route::get('/ddrs-approved-forms', 'DdrController@approvedForms');
+  Route::post('/ddr', 'DdrController@store');
+  Route::get('/ddr/{id}', 'DdrController@show');
+  Route::patch('/ddr/{ddr}', 'DdrController@update');
+  Route::delete('/ddr/{id}', 'DdrController@destroy');
+  Route::get('/ddrs-submitted', 'DdrController@submitted');
+  Route::get('/ddrs-by/{category}', 'DdrController@category');
+  //Show approve page of ddr
+  Route::get('/ddr-approve/{id}', 'DdrController@show');
+  // Get the specified drdr by id
+  Route::get('/ddr-data/{id}', 'DdrController@data');
+  // Approve specific ddr
+  Route::post('/ddr-approved', 'DdrController@approved');
+  // Return details form of approved DDR
+  Route::get('/ddr-view-approved/{ddr_id}', 'DdrController@showDetailsDdr');
 
   // CCIR routes
   Route::get('/add-ccir', 'CcirController@create');

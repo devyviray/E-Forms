@@ -34,4 +34,8 @@ class Ddr extends Model
     public function company(){
         return $this->belongsTo('App\Company', 'company_id');
     }
+    public function department()
+    {
+        return $this->belongsTo('App\Department');
+    }
 }
