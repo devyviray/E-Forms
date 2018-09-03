@@ -455,7 +455,11 @@ class DrdrController extends Controller
         return $pdf->stream('drdr.pdf');
     }
 
-
+    /**
+     * Uploading files for drdr
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function uploadFiles($userId,$drdrId,$path,$role,$filename)
     {
         $uploadedFile = new UploadedFile;
@@ -471,7 +475,29 @@ class DrdrController extends Controller
         }
     }
 
-    public function getUploadeFilesReviewer($drdrId,$reviewerId)
+    /**
+     * Get requester upload files of drdr 
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function getUploadedFilesRequester($drdrId, $requesterId)
+    {
+        $uploadedFile =  UploadedFile::where('user_id', $requesterId)
+        ->where('form_id', $drdrId)
+        ->where('role', 'requester')
+        ->where('model', 'App\Drdr')
+        ->get();
+
+        return $uploadedFile;
+    }
+
+    /**
+     * Get reviewer upload files of drdr 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUploadedFilesReviewer($drdrId,$reviewerId)
     {
         $uploadedFile =  UploadedFile::where('user_id', $reviewerId)
             ->where('form_id', $drdrId)
@@ -479,14 +505,39 @@ class DrdrController extends Controller
             ->where('model', 'App\Drdr')
             ->get();
 
-            return $uploadedFile;
-        // $path = storage_path().'\app\public\drdr\zcYsMIFN5qms7z3HiCk0koEJhCYq7nXU2fpACLYZ.png';
-        // return Response::download($path);
-
-        // $path = storage_path().'/'.'app'.'/public/'.'/drdr'.'zcYsMIFN5qms7z3HiCk0koEJhCYq7nXU2fpACLYZ.png';
-        // return Response::download($path);
+        return $uploadedFile;
     }
 
+     /**
+     * Get approver upload files of drdr 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUploadedFilesApprover($drdrId,$approverId)
+    {
+        $uploadedFile =  UploadedFile::where('user_id', $approverId)
+            ->where('form_id', $drdrId)
+            ->where('role', 'approver')
+            ->where('model', 'App\Drdr')
+            ->get();
+
+        return $uploadedFile;
+    }
+
+     /**
+     * Download upload files/attachments of drdr 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadAttachment($fileId)
+    {
+        $uploadedFile = UploadedFile::findOrfail($fileId);
+
+        ob_end_clean();
+        return response()->download(storage_path("app/public/".$uploadedFile->file_path), $uploadedFile->file_name);
+    }
+
+  
     /**
      * Search drdr by category     
      * 

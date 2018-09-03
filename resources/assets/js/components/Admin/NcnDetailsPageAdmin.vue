@@ -1,7 +1,17 @@
 <template>
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <a href="http://172.17.2.88/e-forms-test/storage/app/ncnforms/5a0672b643282b2d3cb3a47d6c6aba8d.docx" class="btn btn-primary" download="">  Download Attachement </a>
+
+             <select class="" v-model="selectedAttachment" @change="downloadAttachment">
+                <option selected disabled> Download Attachment - Requester </option>
+                <option v-for="(requesterAttachment, r) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="r">{{ requesterAttachment.file_name }}</option>
+            </select>
+
+            <select class="" v-model="selectedAttachment" @change="downloadAttachment">
+                <option selected disabled> Download Attachment - Approver </option>
+                <option v-for="(approverAttachment, a) in approverAttachments" :value="approverAttachment.id" v-bind:key="a">{{ approverAttachment.file_name }}</option>
+            </select>
+
             <a :href="hrefLink" target="_blank" class="btn btn-primary"> Print as PDF </a> 
             <hr>
                 NON CONFORMANCE NOTIFICATION
@@ -28,11 +38,11 @@
                 <tbody>
                     <tr>
                         <td> <strong> COMPANY: </strong> </td>
-                        <td colspan="2"> Mama Tina Pasta Company Inc. </td>
+                        <td colspan="2" v-if="ncns.length"> {{ ncns[0].company.name }} </td>
                     </tr>
                     <tr>
                         <td> <strong> DIVISION / DEPARTMENT: </strong> </td>
-                        <td colspan="2"> Corporate Quality Assurance- Quality Control Section </td>
+                        <td colspan="2" v-if="ncns.length"> {{ ncns[0].department.name }} </td>
                     </tr>
                     <tr>
                         <td colspan="3"> <strong> TYPE OF NON CONFORMITY: </strong> </td>
@@ -129,7 +139,10 @@ export default {
     data(){
         return{
             ncns: [],
-            errors: ''
+            requesterAttachments: [],
+            approverAttachments: [],
+            selectedAttachment: '',
+            errors: '',
         }
     },
     created(){
@@ -138,14 +151,41 @@ export default {
     methods:{
         fetchNcns()
         {
-            axios.get()
+            axios.get(`/ncn-data/${this.ncnId}`)
             .then(response => { 
                 this.ncns = response.data;
+                this.fetchUploadedFilesRequester();
+                this.fetchUploadedFilesApprover();
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
             })
-        }
+        },
+        fetchUploadedFilesRequester()
+        {
+            axios.get('/ncn-requester-attachments/'+this.ncns[0].id+'/'+this.ncns[0].requester_id)
+            .then(response => {
+                this.requesterAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })   
+        },
+        fetchUploadedFilesApprover()
+        {
+            axios.get('/ncn-approver-attachments/'+this.ncns[0].id+'/'+this.ncns[0].approver_id)
+            .then(response => {
+                this.approverAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
+        },
+        downloadAttachment()
+        {
+            var base_url = window.location.origin;
+            window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
+        },
     },
     computed:{
         hrefLink()

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Ccir;
+use App\UploadedFile;
 use Carbon\Carbon;
 use App\Setting;
 use PDF;
-use App\Notifications\RequesterSubmitNcn;
+use App\Notifications\RequesterSubmitCcir;
 use App\Types\StatusType;
 
 class CcirController extends Controller
@@ -87,25 +88,30 @@ class CcirController extends Controller
         $ccirs->company_id = 1;
         $ccirs->complainant = $request->input('complainant');
         $ccirs->commodity = $request->input('commodity');
-        $ccirs->brand_name = $request->input('commodity');
+        $ccirs->brand_name = 'Sample brand name';
         $ccirs->product_control_number = $request->input('product_control_number');
         $ccirs->request_date = $carbon::now();
-        $ccirs->delivery_date = $carbon::parse($request->input('delivery_date'))->toDateTimeString();
+        // $ccirs->delivery_date = $carbon::parse($request->input('delivery_date'))->toDateTimeString();    
         $ccirs->nature_of_complaint = $request->input('nature_of_complaint');
         $ccirs->other_details = $request->input('other_details');
         $ccirs->affected_quantity = $request->input('affected_quantity');
-        $ccirs->attached_file = 'saadadadadad';
         $ccirs->quality_of_sample = $request->input('quality_of_sample');
-        // $ccirs->attached_file = $request->input('attached_file');
-        $ccirs->returned_date = $carbon::parse($request->input('returned_date'))->toDateTimeString();
-        $ccirs->verifier_id = $request->input('verifier_id');
-        $ccirs->status = 1;
+        // $ccirs->returned_date = $carbon::parse($request->input('returned_date'))->toDateTimeString();
+        $ccirs->verifier_id = '1';
+        $ccirs->status = StatusType::SUBMITTED;
 
-        // $setting = Setting::findOrFail(1);
-        // $setting->notify(new RequesterSubmitNcn($$ccirs));
-
+        $setting = Setting::findOrFail('1');
+        $setting->notify(new RequesterSubmitCcir($ccirs));
 
         if($ccirs->save()){
+            $attachments = $request->file('attachments');   
+            foreach($attachments as $attachment){
+                $filename = $attachment->getClientOriginalName();
+                $path = $attachment->store('ccir');
+                $role = 'requester';
+
+                $uploadedFile = $this->uploadFiles(Auth::user()->id, $ccirs->id, $path, $role,$filename);
+            } 
             return ['redirect' => route('ccir')];
         }
 
@@ -121,6 +127,22 @@ class CcirController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+
+    /**
+    * Get the specified ncn by id.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function data($id)
+    {
+        $ccir = Ccir::with(['company', 'requester'])
+                ->where('id', $id)
+                ->get();
+
+        return $ccir;
     }
 
     /**
@@ -196,4 +218,71 @@ class CcirController extends Controller
 
         return $pdf->stream('ccir.pdf');
     }
+
+        /**
+     * Uploading files for ccir
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadFiles($userId,$ncnId,$path,$role,$filename)
+    {
+        $uploadedFile = new UploadedFile;
+        $uploadedFile->user_id = $userId;
+        $uploadedFile->form_id = $ncnId;
+        $uploadedFile->role = $role;
+        $uploadedFile->file_path =  $path;
+        $uploadedFile->file_name = $filename;
+        $uploadedFile->model = 'App\Ccir';
+
+        if($uploadedFile->save()){
+            return $uploadedFile;
+        }
+    }
+
+    /**
+     * Get requester upload files of ccir 
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function getUploadedFilesRequester($ccirId, $requesterId)
+    {
+        $uploadedFile =  UploadedFile::where('user_id', $requesterId)
+        ->where('form_id', $ccirId)
+        ->where('role', 'requester')
+        ->where('model', 'App\Ccir')
+        ->get();
+
+        return $uploadedFile;
+    }
+
+     /**
+     * Get approver upload files of ccir 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUploadedFilesApprover($ccirId,$verifierId)
+    {
+        $uploadedFile =  UploadedFile::where('user_id', $verifierId)
+            ->where('form_id', $ccirId)
+            ->where('role', 'verifier')
+            ->where('model', 'App\Ccir')
+            ->get();
+
+        return $uploadedFile;
+    }
+
+     /**
+     * Download upload files/attachments of ccir 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadAttachment($fileId)
+    {
+        $uploadedFile = UploadedFile::findOrfail($fileId);
+
+        ob_end_clean();
+        return response()->download(storage_path("app/public/".$uploadedFile->file_path), $uploadedFile->file_name);
+    }
+
 }

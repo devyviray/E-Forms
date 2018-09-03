@@ -48,7 +48,7 @@
                         <span v-if="errors.returned_date">{{ errors.returned_date }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="file">
+                         <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
                     </div>
                     <button @click="addCcir(ccir)" type="button" class="btn btn-primary">Submit</button>
                 </form>
@@ -64,7 +64,7 @@ export default {
     data(){
         return{
             ccirs: [],
-            ccir: { 
+            ccir: {
                 id: '',
                 issuer_id: '',
                 company_id: '',
@@ -86,25 +86,51 @@ export default {
                 remarks: ''
 
             },
+            attachments: [],
+            formData: new FormData(),
             errors: '',
         }
     },
     methods: {
+        prepareFields(){
+            if(this.attachments.length > 0){
+                for(var i = 0; i < this.attachments.length; i++){
+                    let attachment = this.attachments[i];
+                    this.formData.append('attachments[]', attachment);
+                }
+            } 
+        },
+        uploadFileChange(e){
+            var files = e.target.files || e.dataTransfer.files;
+
+            if(!files.length)
+                return;
+            
+            for (var i = files.length - 1; i >= 0; i--){
+                this.attachments.push(files[i]);
+            }
+        },
+        resetData(){
+          this.formData = new FormData();
+          this.attachments = [];  
+        },
         addCcir(ccir){
-            axios.post('/ccir',{
-                complainant: ccir.complainant,
-                commodity: ccir.commodity,
-                product_control_number: ccir.product_control_number,
-                delivery_date: ccir.delivery_date,
-                nature_of_complaint: ccir.nature_of_complaint,
-                other_details: ccir.other_details,
-                delivery_date: ccir.delivery_date,
-                affected_quantity: ccir.affected_quantity,
-                quality_of_sample: ccir.quality_of_sample,
-                request_date: ccir.request_date,
-                returned_date: ccir.returned_date
-            })
+            this.prepareFields();
+            this.formData.append('complainant', ccir.complainant);
+            this.formData.append('commodity', ccir.commodity);
+            this.formData.append('product_control_number', ccir.product_control_number);
+            this.formData.append('delivery_date', ccir.delivery_date);
+            this.formData.append('nature_of_complaint', ccir.nature_of_complaint);
+            this.formData.append('other_details', ccir.other_details);
+            this.formData.append('delivery_date', ccir.delivery_date);
+            this.formData.append('affected_quantity', ccir.affected_quantity);
+            this.formData.append('quality_of_sample', ccir.quality_of_sample);
+            this.formData.append('request_date',ccir.request_date);
+            this.formData.append('returned_date', ccir.returned_date);
+
+            axios.post('/ccir', this.formData)
             .then(response => {
+                this.resetData();
                 window.location.href = response.data.redirect;
             })
             .catch(error => {

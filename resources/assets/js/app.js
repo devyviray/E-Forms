@@ -42,18 +42,19 @@ Vue.component('drdr-details-approved', require('./components/Drdr/DrdrDetailsApp
 Vue.component('drdrapprove', require('./components/Drdrapprove.vue'));
 
 Vue.component('ddr', require('./components/Ddr/Ddr.vue'));
+Vue.component('ddrform', require('./components/Ddr/Ddrform.vue'));
 Vue.component('ddr-details-approved', require('./components/Ddr/DdrDetailsApproved.vue'));
 Vue.component('ddr-approve-form', require('./components/Ddr/DdrApproveForm.vue'));
 
 
-Vue.component('ccir', require('./components/Ccir/Ccir.vue'));
 Vue.component('ncn', require('./components/Ncn/Ncn.vue'));
+Vue.component('ncnform', require('./components/Ncn/Ncnform.vue'));
+
+Vue.component('ccir', require('./components/Ccir/Ccir.vue'));
 Vue.component('userform', require('./components/Userform.vue'));
 Vue.component('drdredit', require('./components/Drdredit.vue'));
 
-Vue.component('ddrform', require('./components/Ddrform.vue'));
 Vue.component('ccirform', require('./components/Ccirform.vue'));
-Vue.component('ncnform', require('./components/Ncnform.vue'));
 
 
 

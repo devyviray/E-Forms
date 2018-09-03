@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ncn;
 use App\User;
+use App\UploadedFile;
 use App\Types\StatusType;
 use Carbon\Carbon;
 use Auth;
@@ -80,23 +81,30 @@ class NcnController extends Controller
         $ncn->non_conformity_types = $request->input('non_conformity_types');
         $ncn->notification_number = $request->input('notification_number');
         $ncn->recurrence_number = $request->input('recurrence_number');
-        $ncn->issuance_date = $carbon::parse($request->input('issuance_date'))->toDateTimeString();
+        // $ncn->issuance_date = $carbon::parse($request->input('issuance_date'))->toDateTimeString();x`x
         $ncn->request_date = $carbon::now();
         // $ncn->approved_date = '';
         // $ncn->disapproved_date = '';
         $ncn->non_conformity_details = $request->input('non_conformity_details');
-        $ncn->attached_files = 'sasasasasassa';
         $ncn->status = StatusType::SUBMITTED;
         // $ncn->remarks = '';
 
         $user = User::findOrFail($request->input('approver_id'));
         $user->notify(new RequesterSubmitNcn($ncn));
 
+
         if($ncn->save()){
-            return ['redirect' => route('ncn')]; 
+            $attachments = $request->file('attachments');   
+            foreach($attachments as $attachment){
+                $filename = $attachment->getClientOriginalName();
+                $path = $attachment->store('ncn');
+                $role = 'requester';
+
+                $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
+            } 
+        
+            return ['redirect' => route('ncn')];
         }
-
-
     }
 
     /**
@@ -108,6 +116,21 @@ class NcnController extends Controller
     public function show($id)
     {
         //
+    }
+
+    /**
+    * Get the specified ncn by id.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function data($id)
+    {
+        $ncn = Ncn::with(['company', 'requester', 'approver', 'department'])
+                ->where('id', $id)
+                ->get();
+
+        return $ncn;
     }
 
     /**
@@ -170,7 +193,7 @@ class NcnController extends Controller
      */
     public function getAllNcns()
     {
-        $ncns = Ncn::with(['requester', 'approver', 'company'])->get();
+        $ncns = Ncn::with(['requester', 'approver', 'company'])->orderBy('id', 'desc')->get();
 
         return $ncns;
     }
@@ -197,6 +220,73 @@ class NcnController extends Controller
 
         return $pdf->stream('ncn.pdf');
     }
+
+    /**
+     * Uploading files for ncn
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadFiles($userId,$ncnId,$path,$role,$filename)
+    {
+        $uploadedFile = new UploadedFile;
+        $uploadedFile->user_id = $userId;
+        $uploadedFile->form_id = $ncnId;
+        $uploadedFile->role = $role;
+        $uploadedFile->file_path =  $path;
+        $uploadedFile->file_name = $filename;
+        $uploadedFile->model = 'App\Ncn';
+
+        if($uploadedFile->save()){
+            return $uploadedFile;
+        }
+    }
+
+    /**
+     * Get requester upload files of ncn 
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function getUploadedFilesRequester($drdrId, $requesterId)
+    {
+        $uploadedFile =  UploadedFile::where('user_id', $requesterId)
+        ->where('form_id', $drdrId)
+        ->where('role', 'requester')
+        ->where('model', 'App\Ncn')
+        ->get();
+
+        return $uploadedFile;
+    }
+
+     /**
+     * Get approver upload files of ncn 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUploadedFilesApprover($drdrId,$approverId)
+    {
+        $uploadedFile =  UploadedFile::where('user_id', $approverId)
+            ->where('form_id', $drdrId)
+            ->where('role', 'approver')
+            ->where('model', 'App\Ncn')
+            ->get();
+
+        return $uploadedFile;
+    }
+
+     /**
+     * Download upload files/attachments of ncn 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadAttachment($fileId)
+    {
+        $uploadedFile = UploadedFile::findOrfail($fileId);
+
+        ob_end_clean();
+        return response()->download(storage_path("app/public/".$uploadedFile->file_path), $uploadedFile->file_name);
+    }
+
 
      /**
      * Search ncn by category

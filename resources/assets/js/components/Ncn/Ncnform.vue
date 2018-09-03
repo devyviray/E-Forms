@@ -53,7 +53,7 @@
                     <span v-if="errors.non_conformity_details">{{ errors.non_conformity_details }}</span>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="file">
+                   <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
                 </div>
                 <button @click="addNcn(ncn, company, department, approver)" type="button" class="btn btn-primary">Submit</button>
               </form>
@@ -105,6 +105,8 @@ export default {
                 email: '',
                 department_id: ''
             },
+            attachments: [],
+            formData: new FormData(),
             selected_company: ' ',
             selected_department: ' ',
             keywords: '',
@@ -158,27 +160,47 @@ export default {
                 })
             }
         },
+              prepareFields(){
+            if(this.attachments.length > 0){
+                for(var i = 0; i < this.attachments.length; i++){
+                    let attachment = this.attachments[i];
+                    this.formData.append('attachments[]', attachment);
+                }
+            } 
+        },
+        uploadFileChange(e){
+            var files = e.target.files || e.dataTransfer.files;
+
+            if(!files.length)
+                return;
+            
+            for (var i = files.length - 1; i >= 0; i--){
+                this.attachments.push(files[i]);
+            }
+        },
+        resetData(){
+          this.formData = new FormData();
+          this.attachments = [];  
+        },
         addNcn(ncn , company, department, approver){
-            axios.post('/ncn',{
-                company_id: company.id,
-                department_id: department.id,
-                non_conformity_types: ncn.non_conformity_types,
-                notification_number: ncn.notification_number,
-                recurrence_number: ncn.recurrence_number,
-                approver_id: ncn.approver_id,
-                non_conformity_details: ncn.non_conformity_details,
-                issuance_date: ncn.issuance_date,
-                approver_id: approver.id
-            })
+            this.prepareFields();
+            this.formData.append('company_id', company.id);
+            this.formData.append('department_id', department.id);
+            this.formData.append('non_conformity_types', ncn.non_conformity_types);
+            this.formData.append('notification_number', ncn.notification_number);
+            this.formData.append('recurrence_number', ncn.recurrence_number);
+            this.formData.append('approver_id', approver.id);
+            this.formData.append('non_conformity_details', ncn.non_conformity_details);
+            this.formData.append('issuance_date', ncn.issuance_date);
+            
+            axios.post('/ncn', this.formData)
             .then(response => {
+                this.resetData();
                 window.location.href = response.data.redirect;
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
             });
-        },
-        addNcnForm(){
-            window.location.href = '/add-ncn';
         }
     },
      components: {

@@ -21,7 +21,7 @@
                        <select v-model="ddr.reason" class="form-control form-control-lg">
                            <option value="" disabled selected>Reason of distribution</option>
                            <option value="1">Relevant External Document (controlled copy)</option>
-                           <option value="2">Customer Request (uncontroll copy)</option>
+                           <option value="2">Customer Request (uncontrolled copy)</option>
                            <option value="3">Others (please specify)</option>
                        </select>
                         <span v-if="errors.type">{{ errors.type }}</span>

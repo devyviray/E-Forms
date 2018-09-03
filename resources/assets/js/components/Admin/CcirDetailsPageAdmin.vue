@@ -1,7 +1,15 @@
 <template>
     <div id="page-content-wrapper">
         <div class="container-fluid">
-        <a href="http://172.17.2.88/e-forms-test/storage/app/ccirforms/067aae25163d6145eda65286e31f309c.docx" class="btn btn-primary" download=""> Download Attachement  </a>
+             <select class="" v-model="selectedAttachment" @change="downloadAttachment">
+                <option selected disabled> Download Attachment - Requester </option>
+                <option v-for="(requesterAttachment, r) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="r">{{ requesterAttachment.file_name }}</option>
+            </select>
+
+            <select class="" v-model="selectedAttachment" @change="downloadAttachment">
+                <option selected disabled> Download Attachment - Verifier </option>
+                <option v-for="(verifierAttachment, a) in verifierAttachments" :value="verifierAttachment.id" v-bind:key="a">{{ verifierAttachment.file_name }}</option>
+            </select>
         <a :href="hrefLink" target="_blank" class="btn btn-primary"> Print as PDF </a> 
         <hr>
 
@@ -41,23 +49,23 @@
                 </tr>
                 <tr>
                     <td>Brand Name:</td>
-                    <td colspan="6"> Family All Purpose Flour </td>
+                    <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].brand_name }} </td>
                 </tr>
                 <tr>
                     <td>Affected Quantities</td>
-                    <td colspan="6"> Not Applicable </td>
+                    <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].affected_quantity }}  </td>
                 </tr>
                 <tr>
                     <td>Product Control No</td>
-                    <td colspan="2"> G2 FAPF P BB02 003785 </td>
+                    <td colspan="2" v-if="ccirs.length"> {{ ccirs[0].product_control_number }} </td>
                     <td>Delivery Date</td>
-                    <td colspan="3"> March 21 2017 </td>
+                    <td colspan="3" v-if="ccirs.length"> {{ ccirs[0].delivery_date }}  </td>
                 </tr>
                 <tr>
                     <td>Quantity of sample</td>
-                    <td colspan="2"> Not Applicable </td>
+                    <td colspan="2" v-if="ccirs.length">{{ ccirs[0].quality_of_sample }}  </td>
                     <td>Return Date</td>
-                    <td colspan="3"> April 12 2017 </td>
+                    <td colspan="3" v-if="ccirs.length"> {{ ccirs[0].returned_date }}   </td>
                 </tr>
                 <tr>
                     <td rowspan="3">Nature of Complaint</td>
@@ -82,9 +90,7 @@
                 </tr>
                 <tr>
                     <td> Other Details:<br> </td>
-                    <td colspan="6"> muffin produced using FAPF did not meet the standard of customer; customer preferred fluffy muffin (using Baron Flour); see attached photo
-                    DR#: 223163
-                    </td>
+                    <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].other_details }} </td>
                 </tr>
             </tbody>
         </table>
@@ -108,6 +114,9 @@ export default {
     data(){
         return{
             ccirs: [],
+            selectedAttachment: '',
+            verifierAttachments:[],
+            requesterAttachments: [],
             errors: ''
         }
     },
@@ -117,14 +126,41 @@ export default {
     methods:{
         fetchCcirs()
         {
-            axios.get()
+            axios.get(`/ccir-data/${this.ccirId}`)
             .then(response => { 
                 this.ccirs = response.data;
+                this.fetchUploadedFilesRequester();
+                this.fetchUploadedFilesVerifier();
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
             })
-        }
+        },
+        fetchUploadedFilesRequester()
+        {
+            axios.get('/ccir-requester-attachments/'+this.ccirs[0].id+'/'+this.ccirs[0].requester_id)
+            .then(response => {
+                this.requesterAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })  
+        },
+        fetchUploadedFilesVerifier()
+        {
+            axios.get('/ccir-verifier-attachments/'+this.ccirs[0].id+'/'+this.ccirs[0].verifier_id)
+            .then(response => {
+                this.verifierAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
+        },
+        downloadAttachment()
+        {
+            var base_url = window.location.origin;
+            window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
+        },
     },
     computed:{
         hrefLink()

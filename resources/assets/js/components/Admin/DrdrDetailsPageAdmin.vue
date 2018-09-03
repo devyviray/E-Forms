@@ -1,14 +1,21 @@
 <template>
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <!-- <a href="http://172.17.2.88/e-forms-test/storage/app/" class="btn btn-primary" download=""> Download Attachement - Reviewer</a> -->
-            <select class="form-control form-control-lg">
+            <select class="" v-model="selectedAttachment" @change="downloadAttachment">
+                <option selected disabled> Download Attachment - Requester </option>
+                <option v-for="(requesterAttachment, re) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="re">{{ requesterAttachment.file_name }}</option>
+            </select>
+
+            <select class="" v-model="selectedAttachment" @change="downloadAttachment">
                 <option selected disabled> Download Attachment - Reviewer </option>
-                <option v-for="(attachment, a) in reviewerAttachments" :value="attachment.id" v-bind:key="a">{{ attachment.file_name }}</option>
+                <option v-for="(reviewerAttachment, r) in reviewerAttachments" :value="reviewerAttachment.id" v-bind:key="r">{{ reviewerAttachment.file_name }}</option>
             </select>
         
-            <a href="http://172.17.2.88/e-forms-test/storage/app/" class="btn btn-primary" download=""> Download Attachement - Approver</a>
-            <!-- <a href="http://172.17.2.88/e-forms-test/public/drdrforms/pdf/2678" target="_blank" class="btn btn-primary">Print as PDF</a> -->
+             <select class="" v-model="selectedAttachment" @change="downloadAttachment">
+                <option selected disabled> Download Attachment - Approver </option>
+                <option v-for="(approverAttachment, a) in approverAttachments" :value="approverAttachment.id" v-bind:key="a">{{ approverAttachment.file_name }}</option>
+            </select>
+
             <a :href="hrefLink" target="_blank" class="btn btn-primary">Print as PDF</a>
 
             <hr>
@@ -61,7 +68,7 @@
                         <td> <strong> Requested By: </strong> </td>
                         <td v-if="drdrs.length"> {{ drdrs[0].requester.name }}</td>
                         <td> <strong> Position: </strong> </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].position }} </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].requester.position }} </td>
                         <td><strong>Date:</strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].date_request }}</td>
                     </tr>
@@ -223,7 +230,10 @@ export default {
     data(){
         return{
             drdrs: [],
+            requesterAttachments: [],
             reviewerAttachments: [],
+            approverAttachments: [],
+            selectedAttachment: ' ',
             errors: ''
         }
     },
@@ -236,10 +246,22 @@ export default {
             axios.get(`/drdr-data/${this.drdrId}`)
             .then(response => { 
                 this.drdrs = response.data;
+                this.fetchUploadedFilesRequester();
                 this.fetchUploadedFilesReviewer();
+                this.fetchUploadedFilesApprover();
             })
             .catch(error => {
                  this.errors = error.response.data.errors;
+            })
+        },
+        fetchUploadedFilesRequester()
+        {
+            axios.get('/drdr-requester-attachments/'+this.drdrs[0].id+'/'+this.drdrs[0].requester_id)
+            .then(response => {
+                this.requesterAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
             })
         },
         fetchUploadedFilesReviewer()
@@ -252,6 +274,22 @@ export default {
               this.errors = error.response.data.errors;
             })
         },
+        fetchUploadedFilesApprover()
+        {
+            axios.get('/drdr-approver-attachments/'+this.drdrs[0].id+'/'+this.drdrs[0].approver_id)
+            .then(response => {
+                this.approverAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
+        },
+        downloadAttachment()
+        {
+            var base_url = window.location.origin;
+            window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
+        },
+        
     },
     computed:{
         hrefLink()

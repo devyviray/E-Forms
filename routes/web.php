@@ -50,6 +50,9 @@ Route::group(['middleware' => 'auth'], function (){
   Route::get('/roles-page', 'HomeController@roles_index')->name('roles');
   Route::get('/user-page', 'HomeController@users_index')->name('users');
 
+  // Download files upload
+  Route::get('/download-attachment/{fileId}', 'DrdrController@downloadAttachment');
+
 });
 
 
@@ -66,6 +69,8 @@ Route::group(['middleware' => ['auth', 'role:administrator']], function(){
   Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
   // Generate pdf file for drdr
   Route::get('/admin/drdr-pdf/{id}', 'DrdrController@drdrPdf');
+  // Download attachment for drdr
+  // Route::get('/admin/drdr-download-attachment/{fileId}', 'DrdrController@downloadAttachment');
 
 
   // DRDR routes
@@ -106,7 +111,9 @@ Route::group(['middleware' => ['auth', 'role:administrator']], function(){
 });
  
 Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']], function () {
-  
+
+
+  Route::get('/ccir-requester-attachments/{ccirId}/{requesterId}', 'CcirController@getUploadedFilesRequester');
   // User routes
   Route::get('/add-user', 'UserController@create');
   Route::get('/users', 'UserController@index');
@@ -172,7 +179,12 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/drdr-approver/{company_id}', 'DrdrController@approver');
   // Return details form of approved DRDR
   Route::get('/drdr-view-approved/{drdr_id}', 'DrdrController@showDetailsDrdr');
-  Route::get('/drdr-reviewer-attachments/{drdrId}/{reviewerId}', 'DrdrController@getUploadeFilesReviewer');
+  // Get uploaded files of requester for drdr
+  Route::get('/drdr-requester-attachments/{drdrId}/{requesterId}', 'DrdrController@getUploadedFilesRequester');
+  // Get uploaded files of reviewer for drdr
+  Route::get('/drdr-reviewer-attachments/{drdrId}/{reviewerId}', 'DrdrController@getUploadedFilesReviewer');
+  // Get uploaded files of approver for drdr
+  Route::get('/drdr-approver-attachments/{drdrId}/{approverId}', 'DrdrController@getUploadedFilesApprover');
 
 
   // DDR routes
@@ -204,6 +216,13 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/getApprover/{id}', 'CcirController@getCompanyApprovers');
   Route::get('/ccirs-submitted', 'CcirController@submitted');
   Route::get('/ccirs-approved-forms', 'CcirController@approvedForms');
+  // Get the specified ccir by id
+  Route::get('/ccir-data/{id}', 'CcirController@data');
+  // Get uploaded files of requester for ccir
+  Route::get('/ccir-requester-attachments/{ccirId}/{requesterId}', 'CcirController@getUploadedFilesRequester');
+  // Get uploaded files of verifier for ccir
+  Route::get('/ccir-verifier-attachments/{ccirId}/{verifierId}', 'CcirController@getUploadedFilesApprover');
+
   
   // NCN routes
   Route::get('/add-ncn', 'NcnController@create');
@@ -216,6 +235,12 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/getNcnApprovers/{company}/{department}', 'NcnController@getNcnApprovers');
   Route::get('/ncns-submitted', 'NcnController@submitted');
   Route::get('/ncns-by/{category}', 'NcnController@category');
+  // Get the specified ncn by id
+  Route::get('/ncn-data/{id}', 'NcnController@data');
+  // Get uploaded files of requester for ncn
+  Route::get('/ncn-requester-attachments/{ncnId}/{requesterId}', 'NcnController@getUploadedFilesRequester');
+  // Get uploaded files of approver for ncn
+  Route::get('/ncn-approver-attachments/{ncnId}/{approverId}', 'NcnController@getUploadedFilesApprover');
 });
 
 
