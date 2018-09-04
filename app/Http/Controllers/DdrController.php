@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ddr;
 use App\User;
+use App\DdrformsList;
 use App\Types\StatusType;
 use Auth;
 use PDF;
@@ -77,10 +78,11 @@ class DdrController extends Controller
             'department_id' => 'required' ,
             'reason' => 'required',
             'date_needed' => 'required',
-            'document_title' => 'required',
-            'control_code' => 'required',
-            'rev_number' => 'required',
-            'copy_holder' => 'required',
+            "ddrlists.*.document_title"  => "required",
+            "ddrlists.*.control_code"  => "required",
+            "ddrlists.*.rev_number"  => "required",
+            "ddrlists.*.copy_number"  => "required",
+            "ddrlists.*.copy_holder"  => "required",
             'approver_id' => 'required' 
         ]);
 
@@ -91,20 +93,28 @@ class DdrController extends Controller
         $ddr->department_id = $request->input('department_id');
         $ddr->reason_of_distribution = $request->input('reason');
         $ddr->date_needed = $carbon::parse($request->input('date_needed'))->toDateTimeString();
-        $ddr->document_title = $request->input('document_title');
-        $ddr->control_code = $request->input('control_code');
-        $ddr->rev_number= $request->input('rev_number');
-        $ddr->copy_holder = $request->input('copy_holder');
-        $ddr->copy_number = $request->input('copy_number');
         $ddr->date_requested = $carbon::now();
         $ddr->requester_id  = Auth::user()->id;
         $ddr->approver_id = $request->input('approver_id');
         $ddr->status = StatusType::SUBMITTED;
 
-        // $user = User::findOrFail($request->input('approver_id'));
-        // $user->notify(new RequesterSubmitDdr($ddr));w
+        $user = User::findOrFail($request->input('approver_id'));
+        $user->notify(new RequesterSubmitDdr($ddr));
 
         if($ddr->save()){
+            $ddrFormsLists = $request->input('ddrlists');
+            foreach($ddrFormsLists as $list){
+                $ddrFormsList = new DdrformsList;
+
+                $ddrFormsList->form_id = $ddr->id;
+                $ddrFormsList->document_title = $list['document_title'];
+                $ddrFormsList->control_code = $list['control_code'];
+                $ddrFormsList->rev_number = $list['rev_number'];
+                $ddrFormsList->copy_number = $list['copy_number'];
+                $ddrFormsList->copy_holder = $list['copy_holder'];
+                $ddrFormsList->save();
+
+            }
             return ['redirect' => route('ddr')];
         }
     }
@@ -147,8 +157,8 @@ class DdrController extends Controller
         // $drdr->effective_date = $carbon::parse($request->input('effective_date'))->toDateTimeString();
         $ddr->save();
         
-        // $requester = User::findOrFail($ddr->requester_id);
-        // $requester->notify(new RequesterSubmitDrdr($ddr));
+        $requester = User::findOrFail($ddr->requester_id);
+        $requester->notify(new RequesterSubmitDrdr($ddr));
 
 
         return ['redirect' => route('ddr')];

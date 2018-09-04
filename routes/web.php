@@ -188,9 +188,11 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
 
 
   // DDR routes
+  // Show Add form ddr
   Route::get('/add-ddr', 'DdrController@create');
   Route::get('/ddrs', 'DdrController@index');
   Route::get('/ddrs-approved-forms', 'DdrController@approvedForms');
+  // Storing of ddr
   Route::post('/ddr', 'DdrController@store');
   Route::get('/ddr/{id}', 'DdrController@show');
   Route::patch('/ddr/{ddr}', 'DdrController@update');

@@ -26,29 +26,48 @@
                        </select>
                         <span v-if="errors.type">{{ errors.type }}</span>
                     </div>
+
+                    <div class="form-group">
+                        <table class="table table-hover table-striped">
+                            <button @click="addRow()" type="button" class="btn btn-primary">Add Row</button>
+                            <thead>
+                                <th>ID</th>
+                                <th>Document Title</th>
+                                <th>Control Code</th>
+                                <th>Rev No.</th>
+                                <th>Copy No.</th>
+                                <th>Copy Holder</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(ddrlist, d) in ddrlists" v-bind:key="d">
+                                    <td>{{ d + 1 }}</td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Document title" v-model="ddrlist.document_title">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Control Code" v-model="ddrlist.control_code">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Rev No." v-model="ddrlist.rev_number">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Copy No." v-model="ddrlist.copy_number">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Copy Holder" v-model="ddrlist.copy_holder">
+                                    </td>
+                                    <td>
+                                        <button @click="deleteRow(d)" type="button" class="btn btn-danger">Delete Row</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div class="form-group">
                         <datepicker placeholder="Select Date" v-model="ddr.date_needed"></datepicker>
                         <span v-if="errors.date_needed">{{ errors.date_needed }}</span>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Document title" v-model="ddr.document_title">
-                        <span v-if="errors.document_title">{{ errors.document_title }}</span>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Control code" v-model="ddr.control_code">
-                        <span v-if="errors.control_code">{{ errors.control_code }}</span>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Rev code" v-model="ddr.rev_number">
-                        <span v-if="errors.rev_number">{{ errors.rev_number }}</span>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Copy number" v-model="ddr.copy_number">
-                        <span v-if="errors.copy_number">{{ errors.copy_number }}</span>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Copy holder" v-model="ddr.copy_holder">
-                        <span v-if="errors.copy_holder">{{ errors.copy_holder }}</span>
                     </div>
                     <div class="form-group">
                         <select v-model="approver.id" class="form-control form-control-lg">
@@ -56,7 +75,7 @@
                             <option v-for="(approver, a) in approvers" v-bind:key="a" :value="approver.id">{{ approver.name }}</option>
                         </select>
                     </div>
-                    <button @click="addDdr(ddr,company.id,approver.id,department.id)" type="button" class="btn btn-primary">Submit</button>
+                    <button @click="addDdr(ddr,company.id,approver.id,department.id, ddrlists)" type="button" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
@@ -114,6 +133,13 @@ export default {
             selected_department: ' ',
             keywords: '',
             errors: '',
+            ddrlists: [{
+                document_title: '',
+                control_code: '',
+                rev_number: '',
+                copy_number: '',
+                copy_holder: ''
+            }]
         }
     },
     created(){
@@ -163,18 +189,14 @@ export default {
                 })
             }
         },
-        addDdr(ddr,company,approver,department){
+        addDdr(ddr,company,approver,department,ddrlists){
             axios.post('/ddr',{
                 company_id: company,
                 department_id: department,
                 reason: ddr.reason,
                 date_needed: ddr.date_needed,
-                document_title: ddr.document_title,
-                control_code: ddr.control_code,
-                rev_number: ddr.rev_number,
-                copy_number: ddr.copy_number,
-                copy_holder: ddr.copy_holder,
-                approver_id: approver
+                approver_id: approver,
+                ddrlists: ddrlists
             })
             .then(response => {
                 window.location.href = response.data.redirect;
@@ -182,6 +204,18 @@ export default {
             .catch(error => {
                 this.errors = error.response.data.errors;
             });
+        },
+        addRow(){
+            this.ddrlists.push({
+                document_title: '',
+                control_code: '',
+                rev_number: '',
+                copy_number: '',
+                copy_holder: ''
+            })
+        },
+         deleteRow(index) {
+            this.ddrlists.length < 2 ? alert('Unable to delete') : this.ddrlists.splice(index,1);
         }
     },
      components: {
