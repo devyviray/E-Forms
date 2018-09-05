@@ -138,7 +138,7 @@ class DrdrController extends Controller
         $drdr = new Drdr;
         $carbon = new Carbon();
         $path = '';
-            
+
         $drdr->request_type = $request->input('type');
         $drdr->document_title = $request->input('document_title');
         $drdr->reason_request = $request->input('reason_request');
@@ -146,11 +146,9 @@ class DrdrController extends Controller
         $drdr->company_id = $request->input('company_id');
         $drdr->attached_file = $path;
         $drdr->date_request =  $carbon::now();
-        $drdr->effective_date = $carbon::now();
+        $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
         $drdr->requester_id = Auth::user()->id;
         $drdr->reviewer_id = $request->input('reviewer_id');
-        $drdr->reviewed_date =  $carbon::now();
-        $drdr->remarks = 'sadadsadada';
         $drdr->status = StatusType::SUBMITTED;
 
         $user = User::findOrFail($request->input('reviewer_id'));
@@ -378,7 +376,7 @@ class DrdrController extends Controller
         $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
         $drdr->status = $status;
         $drdr->remarks = $request->input('remarks');
-        // $drdr->effective_date = $carbon::parse($request->input('effective_date'))->toDateTimeString();
+        $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
                 
         $requester = User::findOrFail($drdr->requester_id);
         $requester->notify(new RequesterSubmitDrdr($drdr));
@@ -537,7 +535,25 @@ class DrdrController extends Controller
         return response()->download(storage_path("app/public/".$uploadedFile->file_path), $uploadedFile->file_name);
     }
 
-  
+    /**
+     *  Search DRDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generate(Request $request, $startDate,$endDate)
+    {
+        $from = \DateTime::createFromFormat('D M d Y H:i:s e+', $startDate);
+        $to =  \DateTime::createFromFormat('D M d Y H:i:s e+', $endDate);
+        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])
+                ->where('date_request', '>=', $from)
+                ->where('date_request' ,'<=', $to)
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+
+
     /**
      * Search drdr by category     
      * 

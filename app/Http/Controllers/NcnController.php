@@ -81,13 +81,10 @@ class NcnController extends Controller
         $ncn->non_conformity_types = $request->input('non_conformity_types');
         $ncn->notification_number = $request->input('notification_number');
         $ncn->recurrence_number = $request->input('recurrence_number');
-        // $ncn->issuance_date = $carbon::parse($request->input('issuance_date'))->toDateTimeString();x`x
+        $ncn->issuance_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('issuance_date'));
         $ncn->request_date = $carbon::now();
-        // $ncn->approved_date = '';
-        // $ncn->disapproved_date = '';
         $ncn->non_conformity_details = $request->input('non_conformity_details');
         $ncn->status = StatusType::SUBMITTED;
-        // $ncn->remarks = '';
 
         $user = User::findOrFail($request->input('approver_id'));
         $user->notify(new RequesterSubmitNcn($ncn));
@@ -287,6 +284,23 @@ class NcnController extends Controller
         return response()->download(storage_path("app/public/".$uploadedFile->file_path), $uploadedFile->file_name);
     }
 
+    /**
+     *  Search NCN by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generate(Request $request, $startDate,$endDate)
+    {
+        $from = \DateTime::createFromFormat('D M d Y H:i:s e+', $startDate);
+        $to =  \DateTime::createFromFormat('D M d Y H:i:s e+', $endDate);
+        $ncns = Ncn::with(['requester', 'approver', 'company'])
+                ->where('date_request', '>=', $from)
+                ->where('date_request' ,'<=', $to)
+                ->orderBy('id', 'desc')->get();
+
+        return $ncns;
+    }
 
      /**
      * Search ncn by category

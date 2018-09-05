@@ -18,7 +18,7 @@
                         <span v-if="errors.rev_number">{{ errors.rev_number }}</span>
                     </div>
                     <div class="form-group">
-                        <datepicker placeholder="Select Effective Date" v-model="drdr.effective_date"></datepicker>
+                        <datepicker  placeholder="Select Effective Date" v-model="drdr.effective_date"></datepicker>
                         <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
                     </div>
                     <div class="form-group">

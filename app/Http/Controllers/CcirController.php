@@ -91,12 +91,12 @@ class CcirController extends Controller
         $ccirs->brand_name = 'Sample brand name';
         $ccirs->product_control_number = $request->input('product_control_number');
         $ccirs->request_date = $carbon::now();
-        // $ccirs->delivery_date = $carbon::parse($request->input('delivery_date'))->toDateTimeString();    
+        $ccirs->delivery_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('delivery_date'));   
         $ccirs->nature_of_complaint = $request->input('nature_of_complaint');
         $ccirs->other_details = $request->input('other_details');
         $ccirs->affected_quantity = $request->input('affected_quantity');
         $ccirs->quality_of_sample = $request->input('quality_of_sample');
-        // $ccirs->returned_date = $carbon::parse($request->input('returned_date'))->toDateTimeString();
+        $ccirs->returned_date =  \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('returned_date'));
         $ccirs->verifier_id = '1';
         $ccirs->status = StatusType::SUBMITTED;
 
@@ -192,7 +192,7 @@ class CcirController extends Controller
      */
     public function getAllCcirs()
     {
-        $ccirs = Ccir::with(['company', 'requester'])->get();
+        $ccirs = Ccir::with(['company', 'requester'])->orderBy('id', 'desc')->get();
 
         return $ccirs;
     }
@@ -283,6 +283,24 @@ class CcirController extends Controller
 
         ob_end_clean();
         return response()->download(storage_path("app/public/".$uploadedFile->file_path), $uploadedFile->file_name);
+    }
+
+    /**
+     *  Search CCIR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generate(Request $request, $startDate,$endDate)
+    {
+        $from = \DateTime::createFromFormat('D M d Y H:i:s e+', $startDate);
+        $to =  \DateTime::createFromFormat('D M d Y H:i:s e+', $endDate);
+        $ccirs = Ccir::with(['requester', 'company'])
+                ->where('date_request', '>=', $from)
+                ->where('date_request' ,'<=', $to)
+                ->orderBy('id', 'desc')->get();
+
+        return $ccirs;
     }
 
 }

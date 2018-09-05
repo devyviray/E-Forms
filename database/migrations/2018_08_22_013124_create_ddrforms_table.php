@@ -19,11 +19,6 @@ class CreateDdrformsTable extends Migration
             $table->integer('department_id');
             $table->integer('reason_of_distribution');
             $table->string('others')->nullable();
-            // $table->string('document_title');
-            // $table->string('control_code');
-            // $table->string('rev_number');
-            // $table->string('copy_number');
-            // $table->string('copy_holder');
             $table->datetime('date_request');
             $table->datetime('date_needed')->nullable();
             $table->datetime('effective_date')->nullable();

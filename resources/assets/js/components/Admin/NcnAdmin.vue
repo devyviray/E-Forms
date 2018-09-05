@@ -1,6 +1,16 @@
 <template>
     <div>
         <div class="card-body table-full-width table-responsive">
+            <div class="card-header ">
+                <h4 class="card-title">Non-conformance Notification</h4>   
+            </div>
+            <div class="row mb-3">
+                <div class="row">
+                    <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
+                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                    <button @click="generateByDate" class="btn btn-primary">Generate</button>
+                </div>
+            </div>
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
                 <thead>
@@ -45,20 +55,27 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker';
+
 export default {
+    components:{
+      Datepicker  
+    },
     data(){
         return{
             ncns: [],
+            startDate: '',
+            endDate: '',
             keywords: '',
             currentPage: 0,
             itemsPerPage: 10,
         }
     },
     created(){
-        this.fetchNcnApprovedForms();
+        this.fetchNcns();
     },
     methods:{
-        fetchNcnApprovedForms()
+        fetchNcns()
         {
             axios.get('/admin/ncns-all')
             .then(response => {
@@ -73,6 +90,15 @@ export default {
             var base_url = window.location.origin;
             window.location.href = base_url+`/admin/ncn-details/${id}`;
             
+        },
+        generateByDate(){
+            axios.get('/ncns-generate/'+ this.startDate + '/' + this.endDate)
+            .then(response => { 
+                this.ncns = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            })
         },
         setPage(pageNumber) {
             this.currentPage = pageNumber;

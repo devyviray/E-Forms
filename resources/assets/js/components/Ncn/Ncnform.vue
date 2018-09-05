@@ -38,7 +38,7 @@
                     <span v-if="errors.recurrence_number">{{ errors.recurrence_number }}</span>
                 </div>
                 <div class="form-group">
-                    <datepicker placeholder="Select Date" v-model="ncn.issuance_date"></datepicker>
+                    <datepicker placeholder="Select Issuance Date" v-model="ncn.issuance_date"></datepicker>
                     <span v-if="errors.issuance_date">{{ errors.issuance_date }}</span>
                 </div>
                 <div class="form-group">

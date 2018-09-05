@@ -45469,6 +45469,17 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -45513,15 +45524,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
     data: function data() {
         return {
             drdrs: [],
+            startDate: '',
+            endDate: '',
             keywords: '',
             errors: '',
             currentPage: 0,
             itemsPerPage: 10
         };
+    },
+
+    watch: {
+        drdrs: function drdrs(val, oldVal) {}
     },
     created: function created() {
         this.fetchDrdrs();
@@ -45541,6 +45562,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var base_url = window.location.origin;
             window.location.href = base_url + ('/admin/drdr-details/' + id);
         },
+        generateByDate: function generateByDate() {
+            var _this2 = this;
+
+            axios.get('/drdrs-generate/' + this.startDate + '/' + this.endDate).then(function (response) {
+                _this2.drdrs = response.data;
+            }).catch(function (error) {
+                _this2.errors = error.response.data.errors;
+            });
+        },
         setPage: function setPage(pageNumber) {
             this.currentPage = pageNumber;
         },
@@ -45556,11 +45586,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         filteredDrdrs: function filteredDrdrs() {
-            var _this2 = this;
+            var _this3 = this;
 
             var self = this;
             return self.drdrs.filter(function (drdr) {
-                return drdr.document_title.toLowerCase().includes(_this2.keywords.toLowerCase());
+                return drdr.document_title.toLowerCase().includes(_this3.keywords.toLowerCase());
             });
         },
         totalPages: function totalPages() {
@@ -45593,6 +45623,48 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "card-body table-full-width table-responsive" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mb-3" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select Start Date" },
+              model: {
+                value: _vm.startDate,
+                callback: function($$v) {
+                  _vm.startDate = $$v
+                },
+                expression: "startDate"
+              }
+            }),
+            _vm._v(" "),
+            _c("datepicker", {
+              attrs: { placeholder: "Select End Date" },
+              model: {
+                value: _vm.endDate,
+                callback: function($$v) {
+                  _vm.endDate = $$v
+                },
+                expression: "endDate"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: { click: _vm.generateByDate }
+              },
+              [_vm._v("Generate")]
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
       _c("input", {
         directives: [
           {
@@ -45616,7 +45688,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("table", { staticClass: "table table-hover table-striped" }, [
-        _vm._m(0),
+        _vm._m(1),
         _vm._v(" "),
         _c(
           "tbody",
@@ -45709,6 +45781,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header " }, [
+      _c("h4", { staticClass: "card-title" }, [
+        _vm._v("Document Review & Document Request")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
@@ -45788,6 +45870,17 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -45833,10 +45926,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
     data: function data() {
         return {
             ddrs: [],
+            startDate: '',
+            endDate: '',
             keywords: '',
             errors: '',
             currentPage: 0,
@@ -45861,6 +45961,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var base_url = window.location.origin;
             window.location.href = base_url + ('/admin/ddr-details/' + id);
         },
+        generateByDate: function generateByDate() {
+            var _this2 = this;
+
+            axios.get('/ddrs-generate/' + this.startDate + '/' + this.endDate).then(function (response) {
+                _this2.ddrs = response.data;
+            }).catch(function (error) {
+                _this2.errors = error.response.data.errors;
+            });
+        },
         setPage: function setPage(pageNumber) {
             this.currentPage = pageNumber;
         },
@@ -45876,15 +45985,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         filteredDdrs: function filteredDdrs() {
-            var _this2 = this;
+            var _this3 = this;
 
             var self = this;
             return self.ddrs.filter(function (ddr) {
-                return ddr.document_title.toLowerCase().includes(_this2.keywords.toLowerCase());
+                return ddr.requester.name.toLowerCase().includes(_this3.keywords.toLowerCase());
             });
         },
         totalPages: function totalPages() {
-            return Math.ceil(this.ddrs.length / this.itemsPerPage);
+            return Math.ceil(this.filteredDdrs.length / this.itemsPerPage);
         },
         filteredQueues: function filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
@@ -45913,6 +46022,48 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "card-body table-full-width table-responsive" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mb-3" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select Start Date" },
+              model: {
+                value: _vm.startDate,
+                callback: function($$v) {
+                  _vm.startDate = $$v
+                },
+                expression: "startDate"
+              }
+            }),
+            _vm._v(" "),
+            _c("datepicker", {
+              attrs: { placeholder: "Select End Date" },
+              model: {
+                value: _vm.endDate,
+                callback: function($$v) {
+                  _vm.endDate = $$v
+                },
+                expression: "endDate"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: { click: _vm.generateByDate }
+              },
+              [_vm._v("Generate")]
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
       _c("input", {
         directives: [
           {
@@ -45936,7 +46087,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("table", { staticClass: "table table-hover table-striped" }, [
-        _vm._m(0),
+        _vm._m(1),
         _vm._v(" "),
         _c(
           "tbody",
@@ -46027,6 +46178,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header " }, [
+      _c("h4", { staticClass: "card-title" }, [
+        _vm._v("Document Distribution Request")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
@@ -46108,6 +46269,17 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -46155,21 +46327,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
     data: function data() {
         return {
             ncns: [],
+            startDate: '',
+            endDate: '',
             keywords: '',
             currentPage: 0,
             itemsPerPage: 10
         };
     },
     created: function created() {
-        this.fetchNcnApprovedForms();
+        this.fetchNcns();
     },
 
     methods: {
-        fetchNcnApprovedForms: function fetchNcnApprovedForms() {
+        fetchNcns: function fetchNcns() {
             var _this = this;
 
             axios.get('/admin/ncns-all').then(function (response) {
@@ -46181,6 +46360,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         viewNcnDetails: function viewNcnDetails(id) {
             var base_url = window.location.origin;
             window.location.href = base_url + ('/admin/ncn-details/' + id);
+        },
+        generateByDate: function generateByDate() {
+            var _this2 = this;
+
+            axios.get('/ncns-generate/' + this.startDate + '/' + this.endDate).then(function (response) {
+                _this2.ncns = response.data;
+            }).catch(function (error) {
+                _this2.errors = error.response.data.errors;
+            });
         },
         setPage: function setPage(pageNumber) {
             this.currentPage = pageNumber;
@@ -46197,11 +46385,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         filteredNcns: function filteredNcns() {
-            var _this2 = this;
+            var _this3 = this;
 
             var self = this;
             return self.ncns.filter(function (ncn) {
-                return ncn.requester.name.toLowerCase().includes(_this2.keywords.toLowerCase());
+                return ncn.requester.name.toLowerCase().includes(_this3.keywords.toLowerCase());
             });
         },
         totalPages: function totalPages() {
@@ -46234,6 +46422,48 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "card-body table-full-width table-responsive" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mb-3" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select Start Date" },
+              model: {
+                value: _vm.startDate,
+                callback: function($$v) {
+                  _vm.startDate = $$v
+                },
+                expression: "startDate"
+              }
+            }),
+            _vm._v(" "),
+            _c("datepicker", {
+              attrs: { placeholder: "Select End Date" },
+              model: {
+                value: _vm.endDate,
+                callback: function($$v) {
+                  _vm.endDate = $$v
+                },
+                expression: "endDate"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: { click: _vm.generateByDate }
+              },
+              [_vm._v("Generate")]
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
       _c("input", {
         directives: [
           {
@@ -46257,7 +46487,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("table", { staticClass: "table table-hover table-striped" }, [
-        _vm._m(0),
+        _vm._m(1),
         _vm._v(" "),
         _c(
           "tbody",
@@ -46348,6 +46578,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header " }, [
+      _c("h4", { staticClass: "card-title" }, [
+        _vm._v("Non-conformance Notification")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
@@ -46429,6 +46669,17 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -46472,7 +46723,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        Datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__["a" /* default */]
+    },
     data: function data() {
         return {
             ccirs: [],
@@ -46500,6 +46755,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var base_url = window.location.origin;
             window.location.href = base_url + ('/admin/ccir-details/' + id);
         },
+        generateByDate: function generateByDate() {
+            var _this2 = this;
+
+            axios.get('/ccirs-generate/' + this.startDate + '/' + this.endDate).then(function (response) {
+                _this2.ccirs = response.data;
+            }).catch(function (error) {
+                _this2.errors = error.response.data.errors;
+            });
+        },
         setPage: function setPage(pageNumber) {
             this.currentPage = pageNumber;
         },
@@ -46515,11 +46779,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         filteredCcirs: function filteredCcirs() {
-            var _this2 = this;
+            var _this3 = this;
 
             var self = this;
             return self.ccirs.filter(function (ccir) {
-                return ccir.complainant.toLowerCase().includes(_this2.keywords.toLowerCase());
+                return ccir.complainant.toLowerCase().includes(_this3.keywords.toLowerCase());
             });
         },
         totalPages: function totalPages() {
@@ -46552,6 +46816,48 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "card-body table-full-width table-responsive" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mb-3" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select Start Date" },
+              model: {
+                value: _vm.startDate,
+                callback: function($$v) {
+                  _vm.startDate = $$v
+                },
+                expression: "startDate"
+              }
+            }),
+            _vm._v(" "),
+            _c("datepicker", {
+              attrs: { placeholder: "Select End Date" },
+              model: {
+                value: _vm.endDate,
+                callback: function($$v) {
+                  _vm.endDate = $$v
+                },
+                expression: "endDate"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                on: { click: _vm.generateByDate }
+              },
+              [_vm._v("Generate")]
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
       _c("input", {
         directives: [
           {
@@ -46575,7 +46881,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("table", { staticClass: "table table-hover table-striped" }, [
-        _vm._m(0),
+        _vm._m(1),
         _vm._v(" "),
         _c(
           "tbody",
@@ -46662,6 +46968,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header " }, [
+      _c("h4", { staticClass: "card-title" }, [
+        _vm._v("Customer Complaint Inforamtion Report")
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -64496,7 +64812,7 @@ var render = function() {
             { staticClass: "form-group" },
             [
               _c("datepicker", {
-                attrs: { placeholder: "Select Date" },
+                attrs: { placeholder: "Select Issuance Date" },
                 model: {
                   value: _vm.ncn.issuance_date,
                   callback: function($$v) {
@@ -67540,7 +67856,7 @@ var render = function() {
             { staticClass: "form-group" },
             [
               _c("datepicker", {
-                attrs: { placeholder: "Select Date" },
+                attrs: { placeholder: "Select Delivery Date" },
                 model: {
                   value: _vm.ccir.delivery_date,
                   callback: function($$v) {
@@ -67707,7 +68023,7 @@ var render = function() {
             { staticClass: "form-group" },
             [
               _c("datepicker", {
-                attrs: { placeholder: "Select Date" },
+                attrs: { placeholder: "Select returned Date" },
                 model: {
                   value: _vm.ccir.returned_date,
                   callback: function($$v) {

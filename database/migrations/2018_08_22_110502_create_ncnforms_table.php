@@ -23,7 +23,7 @@ class CreateNcnformsTable extends Migration
             $table->string('notification_number');
             $table->string('recurrence_number');
             $table->datetime('issuance_date');
-            $table->datetime('request_date');
+            $table->datetime('date_request');
             $table->datetime('approved_date')->nullable();
             $table->datetime('disapproved_date')->nullable();
             $table->string('non_conformity_details');

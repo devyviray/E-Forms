@@ -21,7 +21,7 @@ class CreateCcirformsTable extends Migration
             $table->string('commodity');
             $table->string('brand_name');
             $table->string('product_control_number');
-            $table->datetime('request_date');
+            $table->datetime('date_request');
             $table->datetime('cancel_date')->nullable();
             $table->datetime('delivery_date');
             $table->datetime('returned_date')->nullable();

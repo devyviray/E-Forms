@@ -112,8 +112,6 @@ Route::group(['middleware' => ['auth', 'role:administrator']], function(){
  
 Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']], function () {
 
-
-  Route::get('/ccir-requester-attachments/{ccirId}/{requesterId}', 'CcirController@getUploadedFilesRequester');
   // User routes
   Route::get('/add-user', 'UserController@create');
   Route::get('/users', 'UserController@index');
@@ -185,6 +183,8 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/drdr-reviewer-attachments/{drdrId}/{reviewerId}', 'DrdrController@getUploadedFilesReviewer');
   // Get uploaded files of approver for drdr
   Route::get('/drdr-approver-attachments/{drdrId}/{approverId}', 'DrdrController@getUploadedFilesApprover');
+  // Generate drdrs by date
+  Route::get('/drdrs-generate/{startDate}/{endDate}', 'DrdrController@generate');
 
 
   // DDR routes
@@ -207,6 +207,8 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::post('/ddr-approved', 'DdrController@approved');
   // Return details form of approved DDR
   Route::get('/ddr-view-approved/{ddr_id}', 'DdrController@showDetailsDdr');
+  // Generate ddrs by date
+  Route::get('/ddrs-generate/{startDate}/{endDate}', 'DdrController@generate');
 
   // CCIR routes
   Route::get('/add-ccir', 'CcirController@create');
@@ -224,6 +226,8 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/ccir-requester-attachments/{ccirId}/{requesterId}', 'CcirController@getUploadedFilesRequester');
   // Get uploaded files of verifier for ccir
   Route::get('/ccir-verifier-attachments/{ccirId}/{verifierId}', 'CcirController@getUploadedFilesApprover');
+  // Generate ccir by date
+  Route::get('/ccirs-generate/{startDate}/{endDate}', 'CcirController@generate');
 
   
   // NCN routes
@@ -243,6 +247,8 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/ncn-requester-attachments/{ncnId}/{requesterId}', 'NcnController@getUploadedFilesRequester');
   // Get uploaded files of approver for ncn
   Route::get('/ncn-approver-attachments/{ncnId}/{approverId}', 'NcnController@getUploadedFilesApprover');
+  // Generate ncns by date
+  Route::get('/ncns-generate/{startDate}/{endDate}', 'NcnController@generate');
 });
 
 

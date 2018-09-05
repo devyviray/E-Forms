@@ -16,7 +16,7 @@
                         <span v-if="errors.product_control_number">{{ errors.product_control_number }}</span>
                     </div>
                     <div class="form-group">
-                        <datepicker  placeholder="Select Date" v-model="ccir.delivery_date"></datepicker>
+                        <datepicker  placeholder="Select Delivery Date" v-model="ccir.delivery_date"></datepicker>
                         <span v-if="errors.delivery_date">{{ errors.delivery_date }}</span>
                     </div>
                     <div class="form-group">
@@ -44,7 +44,7 @@
                         <span v-if="errors.affected_quantity">{{ errors.affected_quantity }}</span>
                     </div>
                     <div class="form-group">
-                        <datepicker placeholder="Select Date" v-model="ccir.returned_date"></datepicker>
+                        <datepicker placeholder="Select returned Date" v-model="ccir.returned_date"></datepicker>
                         <span v-if="errors.returned_date">{{ errors.returned_date }}</span>
                     </div>
                     <div class="form-group">

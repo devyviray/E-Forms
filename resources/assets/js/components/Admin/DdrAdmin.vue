@@ -1,6 +1,16 @@
 <template>
    <div>
         <div class="card-body table-full-width table-responsive">
+            <div class="card-header ">
+                <h4 class="card-title">Document Distribution Request</h4>   
+            </div>
+            <div class="row mb-3">
+                <div class="row">
+                    <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
+                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                    <button @click="generateByDate" class="btn btn-primary">Generate</button>
+                </div>
+            </div>
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
                 <thead>
@@ -43,10 +53,17 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker';
+
 export default {
+    components:{
+      Datepicker  
+    },
     data(){
         return{
             ddrs: [],
+            startDate: '',
+            endDate: '',
             keywords: '',
             errors: '',
             currentPage: 0,
@@ -73,6 +90,15 @@ export default {
             window.location.href = base_url+`/admin/ddr-details/${id}`;
             
         },
+        generateByDate(){
+            axios.get('/ddrs-generate/'+ this.startDate + '/' + this.endDate)
+            .then(response => { 
+                this.ddrs = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            })
+        },
         setPage(pageNumber) {
             this.currentPage = pageNumber;
         },
@@ -93,11 +119,11 @@ export default {
         filteredDdrs(){
             let self = this;
             return self.ddrs.filter(ddr => {
-                return ddr.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+                return ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())   
             });
         },
         totalPages() {
-            return Math.ceil(this.ddrs.length / this.itemsPerPage)
+            return Math.ceil(this.filteredDdrs.length / this.itemsPerPage)
         },
 
         filteredQueues() {

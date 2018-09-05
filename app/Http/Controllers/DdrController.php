@@ -92,7 +92,7 @@ class DdrController extends Controller
         $ddr->company_id = $request->input('company_id');
         $ddr->department_id = $request->input('department_id');
         $ddr->reason_of_distribution = $request->input('reason');
-        $ddr->date_needed = $carbon::parse($request->input('date_needed'))->toDateTimeString();
+        $ddr->date_needed = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('date_needed'));
         $ddr->date_requested = $carbon::now();
         $ddr->requester_id  = Auth::user()->id;
         $ddr->approver_id = $request->input('approver_id');
@@ -154,7 +154,7 @@ class DdrController extends Controller
         $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
         $ddr->status = $status;
         $ddr->remarks = $request->input('remarks');
-        // $drdr->effective_date = $carbon::parse($request->input('effective_date'))->toDateTimeString();
+        $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
         $ddr->save();
         
         $requester = User::findOrFail($ddr->requester_id);
@@ -238,7 +238,8 @@ class DdrController extends Controller
      */
     public function getAllDdrs()
     {
-        $drdrs = Ddr::with(['requester', 'approver', 'company'])->get();
+        $drdrs = Ddr::with(['requester', 'approver', 'company', 'ddrLists'])
+            ->orderBy('id','desc')->get();
 
         return $drdrs;
     }
@@ -264,6 +265,24 @@ class DdrController extends Controller
         $pdf = PDF::loadView('admin.admin-ddr-pdf');
 
         return $pdf->stream('ddr.pdf');
+    }
+
+    /**
+     *  Search DDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generate(Request $request, $startDate,$endDate)
+    {
+        $from = \DateTime::createFromFormat('D M d Y H:i:s e+', $startDate);
+        $to =  \DateTime::createFromFormat('D M d Y H:i:s e+', $endDate);
+        $ddrs = Ddr::with(['requester', 'approver', 'company'])
+                ->where('date_request', '>=', $from)
+                ->where('date_request' ,'<=', $to)
+                ->orderBy('id', 'desc')->get();
+
+        return $ddrs;
     }
 
     /**

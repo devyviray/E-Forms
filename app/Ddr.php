@@ -38,4 +38,9 @@ class Ddr extends Model
     {
         return $this->belongsTo('App\Department');
     }
+
+    public function ddrLists()
+    {
+        return $this->hasMany('App\DdrformsList', 'form_id');
+    }
 }

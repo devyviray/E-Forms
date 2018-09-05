@@ -1,6 +1,16 @@
 <template>
       <div>
         <div class="card-body table-full-width table-responsive">
+            <div class="card-header ">
+                <h4 class="card-title">Document Review & Document Request</h4>   
+            </div>
+            <div class="row mb-3">
+                <div class="row">
+                    <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
+                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                    <button @click="generateByDate" class="btn btn-primary">Generate</button>
+                </div>
+            </div>
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
                 <thead>
@@ -42,14 +52,25 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker';
 export default {
+    components:{
+      Datepicker  
+    },
     data(){
         return{
             drdrs: [],
+            startDate: '',
+            endDate: '',
             keywords: '',
             errors: '',
             currentPage: 0,
             itemsPerPage: 10,
+        }
+    },
+    watch: {
+        drdrs: function (val, oldVal) {
+       
         }
     },
     created(){
@@ -72,10 +93,18 @@ export default {
             window.location.href = base_url+`/admin/drdr-details/${id}`;
             
         },
+        generateByDate(){
+            axios.get('/drdrs-generate/'+ this.startDate + '/' + this.endDate)
+            .then(response => { 
+                this.drdrs = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            })
+        },
         setPage(pageNumber) {
             this.currentPage = pageNumber;
         },
-
         resetStartRow() {
             this.currentPage = 0;
         },
