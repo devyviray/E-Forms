@@ -12,7 +12,7 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
-                    <tr v-for="drdrSubmitted in drdrSubmitteds" v-bind:key="drdrSubmitted.id">
+                    <tr v-for="drdrSubmitted in filteredQueues  " v-bind:key="drdrSubmitted.id">
                         <td>{{ drdrSubmitted.id }}</td>
                         <td>{{ drdrSubmitted.document_title }}</td>
                         <td>{{ drdrSubmitted.rev_number  }}</td>
@@ -20,7 +20,8 @@
                         <td v-if="drdrSubmitted.approver !== null">{{ drdrSubmitted.approver.name }}</td>
                         <td style="padding-left: 30px" v-else>{{ "-" }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="editDrdr(drdrSubmitted.id)">Edit</button>
+                            <button class="btn btn-primary" @click="viewDrdr(drdrSubmitted.id)">View</button>
+                            <button v-if="drdrSubmitted.status == 2" class="btn btn-warning" @click="editDrdr(drdrSubmitted.id)">Edit</button>
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${drdrSubmitted.id}`">Delete</button>
                         </td>
                     </tr>    
@@ -64,6 +65,9 @@ export default {
                 this.errors = error.response.data.errors;
             });
         },
+        viewDrdr(id){
+            alert(id);
+        },
         editDrdr(id){
             var base_url = window.location.origin;
             window.location.href = base_url+`/edit-drdr/${id}`;
@@ -84,7 +88,7 @@ export default {
             return this.currentPage == (this.totalPages - 1) ? false : true;
         }
     },
-        computed:
+    computed:
     {
     filteredDrdrs(){
             let self = this;
@@ -93,7 +97,7 @@ export default {
             });
         },
         totalPages() {
-            return Math.ceil(this.drdrSubmitteds.length / this.itemsPerPage)
+            return Math.ceil(this.filteredDrdrs.length / this.itemsPerPage)
         },
 
         filteredQueues() {

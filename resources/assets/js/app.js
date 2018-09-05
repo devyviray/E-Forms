@@ -36,6 +36,7 @@ Vue.component('permissions', require('./components/Permissions.vue'));
 
 Vue.component('drdr', require('./components/Drdr/Drdr.vue'));
 Vue.component('drdrform', require('./components/Drdr/Drdrform.vue'));
+Vue.component('drdr-edit', require('./components/Drdr/DrdrEdit.vue'));
 Vue.component('drdr-review-form', require('./components/Drdr/DrdrReviewForm.vue'));
 Vue.component('drdr-details-approved', require('./components/Drdr/DrdrDetailsApproved.vue'));
 
@@ -43,6 +44,7 @@ Vue.component('drdrapprove', require('./components/Drdrapprove.vue'));
 
 Vue.component('ddr', require('./components/Ddr/Ddr.vue'));
 Vue.component('ddrform', require('./components/Ddr/Ddrform.vue'));
+Vue.component('ddr-edit', require('./components/Ddr/DdrEdit.vue'));
 Vue.component('ddr-details-approved', require('./components/Ddr/DdrDetailsApproved.vue'));
 Vue.component('ddr-approve-form', require('./components/Ddr/DdrApproveForm.vue'));
 
@@ -52,7 +54,6 @@ Vue.component('ncnform', require('./components/Ncn/Ncnform.vue'));
 
 Vue.component('ccir', require('./components/Ccir/Ccir.vue'));
 Vue.component('userform', require('./components/Userform.vue'));
-Vue.component('drdredit', require('./components/Drdredit.vue'));
 
 Vue.component('ccirform', require('./components/Ccirform.vue'));
 

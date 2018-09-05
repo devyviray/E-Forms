@@ -19,7 +19,8 @@
                         <td>{{ ddrSubmitted.date_requested }}</td>
                         <td>{{ ddrSubmitted.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ddrSubmitted.id}`">Edit</button>
+                            <button class="btn btn-primary" @click="viewDdr(ddrSubmitted.id)">View</button>
+                            <button v-if="ddrSubmitted.status == 2" class="btn btn-warning" @click="editDdr(ddrSubmitted.id)">Edit</button>
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ddrSubmitted.id}`">Delete</button>
                         </td>
                     </tr>    
@@ -63,6 +64,13 @@ export default {
             .catch(error =>{
                 this.errors = error.response.data.errors;
             });
+        },
+        viewDrdr(id){
+            alert(id);
+        },
+        editDdr(id){
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/edit-ddr/${id}`;
         },
         setPage(pageNumber) {
             this.currentPage = pageNumber;

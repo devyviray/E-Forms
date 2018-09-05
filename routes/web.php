@@ -53,6 +53,38 @@ Route::group(['middleware' => 'auth'], function (){
   // Download files upload
   Route::get('/download-attachment/{fileId}', 'DrdrController@downloadAttachment');
 
+
+    // DRDR routes
+  // Show add form of DRDR 
+  Route::get('/add-drdr', 'DrdrController@create');
+  // Add new DRDR by requester
+  Route::post('/drdr', 'DrdrController@store');
+  //Show edit form of DRDR
+  Route::get('/edit-drdr/{id}', 'DrdrController@edit');
+  // Update  specific DRDR By requester
+  Route::post('/drdr/{drdr}', 'DrdrController@update');
+  // Delete DRDR by requester
+  Route::delete('/drdr/{id}', 'DrdrController@destroy');
+  // Show specific DRDR by requester
+  Route::get('/drdr/{id}', 'DrdrController@show');
+
+
+  // DDR routes
+  // Show Add form ddr
+  Route::get('/add-ddr', 'DdrController@create');
+  // Storing of ddr
+  Route::post('/ddr', 'DdrController@store');
+  // Show specific DRDR by requester
+  Route::get('/ddr/{id}', 'DdrController@show');
+  // Update specific DDR
+  Route::patch('/ddr/{ddr}', 'DdrController@update');
+  // Delete DDR by requester
+  Route::delete('/ddr/{id}', 'DdrController@destroy');
+  // Delete DDRFORMSLISTS by requester
+  Route::delete('/ddrformslists/{id}', 'DdrController@deleteDdrList');
+  //Show edit form of DRDR
+  Route::get('/edit-ddr/{id}', 'DdrController@edit');
+
 });
 
 
@@ -69,8 +101,6 @@ Route::group(['middleware' => ['auth', 'role:administrator']], function(){
   Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
   // Generate pdf file for drdr
   Route::get('/admin/drdr-pdf/{id}', 'DrdrController@drdrPdf');
-  // Download attachment for drdr
-  // Route::get('/admin/drdr-download-attachment/{fileId}', 'DrdrController@downloadAttachment');
 
 
   // DRDR routes
@@ -151,17 +181,14 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::patch('/permission/{permission}', 'PermissionController@update');
   Route::delete('/permission/{id}', 'PermissionController@destroy');
 
-  // DRDR routes
-  Route::get('/add-drdr', 'DrdrController@create');
-  Route::get('/edit-drdr/{id}', 'DrdrController@edit');
+
+
+  // DRDR ROUTES
+
   Route::get('/drdrs-pending-reviews', 'DrdrController@pendingReviews');
   Route::get('/drdrs-reviewed-forms', 'DrdrController@reviewedForms');
   Route::get('/drdrs-pending-approvals', 'DrdrController@pendingApprovals');
   Route::get('/drdrs-approved-forms', 'DrdrController@approvedForms');
-  Route::post('/drdr', 'DrdrController@store');
-  Route::get('/drdr/{id}', 'DrdrController@show');
-  Route::post('/drdr/{drdr}', 'DrdrController@update');
-  Route::delete('/drdr/{id}', 'DrdrController@destroy');
   Route::get('/getReviewer/{id}', 'DrdrController@getCompanyReviewers');
   Route::get('/drdr-submitted', 'DrdrController@submitted');
   Route::get('/drdrs-by/{category}', 'DrdrController@category');
@@ -188,15 +215,8 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
 
 
   // DDR routes
-  // Show Add form ddr
-  Route::get('/add-ddr', 'DdrController@create');
   Route::get('/ddrs', 'DdrController@index');
   Route::get('/ddrs-approved-forms', 'DdrController@approvedForms');
-  // Storing of ddr
-  Route::post('/ddr', 'DdrController@store');
-  Route::get('/ddr/{id}', 'DdrController@show');
-  Route::patch('/ddr/{ddr}', 'DdrController@update');
-  Route::delete('/ddr/{id}', 'DdrController@destroy');
   Route::get('/ddrs-submitted', 'DdrController@submitted');
   Route::get('/ddrs-by/{category}', 'DdrController@category');
   //Show approve page of ddr

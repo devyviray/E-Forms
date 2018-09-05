@@ -219,9 +219,13 @@ class DrdrController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function edit()
+    public function edit($id)
     {
-        return view('drdr.edit');
+        $drdr = Drdr::findOrfail($id);
+     
+        if($drdr->status == StatusType::SUBMITTED){
+            return view('drdr.edit');
+        } return redirect()->back();
     }
 
     /**
