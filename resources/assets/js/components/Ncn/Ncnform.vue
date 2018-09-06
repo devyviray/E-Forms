@@ -160,7 +160,7 @@ export default {
                 })
             }
         },
-              prepareFields(){
+        prepareFields(){
             if(this.attachments.length > 0){
                 for(var i = 0; i < this.attachments.length; i++){
                     let attachment = this.attachments[i];

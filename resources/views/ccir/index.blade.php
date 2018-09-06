@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <ccir></ccir>
+    <ccir :role-id={{ Auth::user()->roles->pluck('id') }}></ccir>
 @endsection

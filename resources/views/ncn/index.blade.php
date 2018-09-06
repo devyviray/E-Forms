@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <ncn></ncn>
+    <ncn :role-id={{ Auth::user()->roles->pluck('id') }}></ncn>
 @endsection

@@ -21,7 +21,8 @@
                         <td>{{ ccirSubmitted.delivery_date }}</td>
                         <td>{{ ccirSubmitted.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ccirSubmitted.id}`">Edit</button>
+                            <button  class="btn btn-primary">View</button>
+                            <!-- <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ccirSubmitted.id}`">Edit</button> -->
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ccirSubmitted.id}`">Delete</button>
                         </td>
                     </tr>    

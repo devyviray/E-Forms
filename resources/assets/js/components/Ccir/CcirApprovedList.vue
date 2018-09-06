@@ -21,7 +21,7 @@
                         <td>{{ ccirApprovedForm.delivery_date }}</td>
                         <td>{{ ccirApprovedForm.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ccirApprovedForm.id}`">Edit</button>
+                           <button  class="btn btn-warning" @click="viewApprovedCcir(ccirApprovedForm.id)">View</button>
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ccirApprovedForm.id}`">Delete</button>
                         </td>
                     </tr>    
@@ -56,6 +56,11 @@ export default {
         this.fetchCcirApprovedForms();
     },
     methods:{
+        viewApprovedCcir(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/ccir-view-approved/${id}`;
+        },
         fetchCcirApprovedForms(){
             axios.get('/ccirs-approved-forms')
             .then(response => {

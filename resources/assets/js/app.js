@@ -53,9 +53,10 @@ Vue.component('ncn', require('./components/Ncn/Ncn.vue'));
 Vue.component('ncnform', require('./components/Ncn/Ncnform.vue'));
 
 Vue.component('ccir', require('./components/Ccir/Ccir.vue'));
-Vue.component('userform', require('./components/Userform.vue'));
+Vue.component('ccir-form', require('./components/Ccir/CcirForm.vue'));
 
-Vue.component('ccirform', require('./components/Ccirform.vue'));
+
+Vue.component('userform', require('./components/Userform.vue'));
 
 
 

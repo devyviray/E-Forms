@@ -10,13 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
- Route::get('/', function () {
-   return view('welcome');
- });
-
 //  Route::get('/', function () {
-//    return redirect('/login');
+//    return view('welcome');
 //  });
+
+ Route::get('/', function () {
+   return redirect('/login');
+ });
 // Auth::routes();
 
 
@@ -53,8 +53,7 @@ Route::group(['middleware' => 'auth'], function (){
   // Download files upload
   Route::get('/download-attachment/{fileId}', 'DrdrController@downloadAttachment');
 
-
-    // DRDR routes
+  // DRDR routes
   // Show add form of DRDR 
   Route::get('/add-drdr', 'DrdrController@create');
   // Add new DRDR by requester
@@ -67,6 +66,10 @@ Route::group(['middleware' => 'auth'], function (){
   Route::delete('/drdr/{id}', 'DrdrController@destroy');
   // Show specific DRDR by requester
   Route::get('/drdr/{id}', 'DrdrController@show');
+  // Fetch Submitted DRDR by user
+  Route::get('/drdr-submitted', 'DrdrController@submitted');
+  // Viewing of DRDR
+  Route::get('/drdr-view-approved/{drdr_id}', 'DrdrController@showDetailsDrdr');
 
 
   // DDR routes
@@ -84,7 +87,38 @@ Route::group(['middleware' => 'auth'], function (){
   Route::delete('/ddrformslists/{id}', 'DdrController@deleteDdrList');
   //Show edit form of DRDR
   Route::get('/edit-ddr/{id}', 'DdrController@edit');
+  // Fetch Submitted DDR by user
+  Route::get('/ddrs-submitted', 'DdrController@submitted');
+  // Viewing of DDR
+  Route::get('/ddr-view-approved/{ddr_id}', 'DdrController@showDetailsDdr');
 
+  // CCIR ROUTES
+  // Fetch Submitted CCIR by user
+  Route::get('/ccirs-submitted', 'CcirController@submitted');
+  // Show Add form CCIR
+  Route::get('/add-ccir', 'CcirController@create');
+  // Storing of ccir
+  Route::post('/ccir', 'CcirController@store');
+  // Delete CCIR by requester
+  Route::delete('/ccir/{id}', 'CcirController@destroy');
+  // Viewing of CCIR
+  Route::get('/ccir-view-approved/{ccir_id}', 'CcirController@showDetailsDdr');
+
+  // NCN ROUTES
+  // Fetch Submitted NCN by user
+  Route::get('/ncns-submitted', 'NcnController@submitted');
+  // Show Add form CCIR
+  Route::get('/add-ncn', 'NcnController@create');
+  // Storing of ncn
+  Route::post('/ncn', 'NcnController@store');
+  // Delete NCN by requester
+  Route::delete('/ncn/{id}', 'NcnController@destroy');
+
+  // COMPANY ROUTES 
+  Route::get('/companies', 'CompanyController@index');
+
+  // DEPARTMENT ROUTES
+  Route::get('/departments', 'DepartmentController@index');
 });
 
 
@@ -124,8 +158,8 @@ Route::group(['middleware' => ['auth', 'role:administrator']], function(){
   Route::get('/admin/ncns-all', 'NcnController@getAllNcns');
   // Return page to view details of drdr
   Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails');
-    // Generate pdf file for ncn
-    Route::get('/admin/ncn-pdf/{id}', 'NcnController@ncnPdf');
+  // Generate pdf file for ncn
+  Route::get('/admin/ncn-pdf/{id}', 'NcnController@ncnPdf');
 
   // CCIR routes
   // Count all submitted ccir 
@@ -140,7 +174,7 @@ Route::group(['middleware' => ['auth', 'role:administrator']], function(){
   Route::get('/admin/ccir-pdf/{id}', 'CcirController@ccirPdf');
 });
  
-Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']], function () {
+Route::group(['middleware' => ['auth', 'role:administrator|reviewer|approver']], function () {
 
   // User routes
   Route::get('/add-user', 'UserController@create');
@@ -153,14 +187,12 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/auth-user','UserController@authUser');
 
   // Company routes
-  Route::get('/companies', 'CompanyController@index');
   Route::get('/company/{id}', 'CompanyController@show');
   Route::post('/company', 'CompanyController@store');
   Route::patch('/company/{company}', 'CompanyController@update');
   Route::delete('/company/{id}', 'CompanyController@destroy');
 
   // Department routes
-  Route::get('/departments', 'DepartmentController@index');
   Route::get('/department/{id}', 'DepartmentController@show');
   Route::post('/department', 'DepartmentController@store');
   Route::patch('/department/{department}', 'DepartmentController@update');
@@ -190,7 +222,6 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/drdrs-pending-approvals', 'DrdrController@pendingApprovals');
   Route::get('/drdrs-approved-forms', 'DrdrController@approvedForms');
   Route::get('/getReviewer/{id}', 'DrdrController@getCompanyReviewers');
-  Route::get('/drdr-submitted', 'DrdrController@submitted');
   Route::get('/drdrs-by/{category}', 'DrdrController@category');
   //Show review page of drdr
   Route::get('/drdr-review/{id}', 'DrdrController@show');
@@ -202,8 +233,6 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::post('/drdr-reviewed', 'DrdrController@reviewed');
   // Get specific approver per company
   Route::get('/drdr-approver/{company_id}', 'DrdrController@approver');
-  // Return details form of approved DRDR
-  Route::get('/drdr-view-approved/{drdr_id}', 'DrdrController@showDetailsDrdr');
   // Get uploaded files of requester for drdr
   Route::get('/drdr-requester-attachments/{drdrId}/{requesterId}', 'DrdrController@getUploadedFilesRequester');
   // Get uploaded files of reviewer for drdr
@@ -217,7 +246,6 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   // DDR routes
   Route::get('/ddrs', 'DdrController@index');
   Route::get('/ddrs-approved-forms', 'DdrController@approvedForms');
-  Route::get('/ddrs-submitted', 'DdrController@submitted');
   Route::get('/ddrs-by/{category}', 'DdrController@category');
   //Show approve page of ddr
   Route::get('/ddr-approve/{id}', 'DdrController@show');
@@ -225,20 +253,14 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
   Route::get('/ddr-data/{id}', 'DdrController@data');
   // Approve specific ddr
   Route::post('/ddr-approved', 'DdrController@approved');
-  // Return details form of approved DDR
-  Route::get('/ddr-view-approved/{ddr_id}', 'DdrController@showDetailsDdr');
   // Generate ddrs by date
   Route::get('/ddrs-generate/{startDate}/{endDate}', 'DdrController@generate');
 
   // CCIR routes
-  Route::get('/add-ccir', 'CcirController@create');
   Route::get('/ccirs', 'CcirController@index');
-  Route::post('/ccir', 'CcirController@store');
   Route::get('/ccir/{id}', 'CcirController@show');
   Route::patch('/ccir/{ccir}', 'CcirController@update');
-  Route::delete('/ccir/{id}', 'CcirController@destroy');
   Route::get('/getApprover/{id}', 'CcirController@getCompanyApprovers');
-  Route::get('/ccirs-submitted', 'CcirController@submitted');
   Route::get('/ccirs-approved-forms', 'CcirController@approvedForms');
   // Get the specified ccir by id
   Route::get('/ccir-data/{id}', 'CcirController@data');
@@ -251,15 +273,11 @@ Route::group(['middleware' => ['auth', 'role:administrator,reviewer,approver']],
 
   
   // NCN routes
-  Route::get('/add-ncn', 'NcnController@create');
   Route::get('/ncns', 'NcnController@index');
   Route::get('/ncns-approved-forms', 'NcnController@approvedForms');
-  Route::post('/ncn', 'NcnController@store');
   Route::get('/ncn/{id}', 'NcnController@show');
   Route::patch('/ncn/{ncn}', 'NcnController@update');
-  Route::delete('/ncn/{id}', 'NcnController@destroy');
   Route::get('/getNcnApprovers/{company}/{department}', 'NcnController@getNcnApprovers');
-  Route::get('/ncns-submitted', 'NcnController@submitted');
   Route::get('/ncns-by/{category}', 'NcnController@category');
   // Get the specified ncn by id
   Route::get('/ncn-data/{id}', 'NcnController@data');

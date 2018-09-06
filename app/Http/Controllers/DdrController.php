@@ -213,7 +213,7 @@ class DdrController extends Controller
         $ddr->company_id = $request->input('company');
         $ddr->department_id = $request->input('department');
         $ddr->reason_of_distribution = $request->input('reason');
-        // $ddr->date_needed = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('date_needed'));
+        $ddr->date_needed = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('date_needed'));
         $ddr->approver_id = $request->input('approver');
         $ddr->status = StatusType::SUBMITTED;
 

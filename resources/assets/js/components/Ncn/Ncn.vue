@@ -9,29 +9,29 @@
                     </div>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="pending-tab" data-toggle="tab" @click="selected=1" href="#pending" role="tab" aria-controls="pending" aria-selected="true">Pending Forms</a>
+                            <a class="nav-link active" id="submitted-tab" data-toggle="tab" @click="selected=1" href="#submitted" role="tab" aria-controls="submitted" aria-selected="true">Submitted Forms</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="approve-tab" data-toggle="tab" @click="selected=2" href="#approve" role="tab" aria-controls="approve" aria-selected="false">Approved Forms</a>
+                        <li class="nav-item"  v-if="roleId.includes(1) || roleId.includes(2)">
+                            <a class="nav-link" id="pending-tab" data-toggle="tab" @click="selected=2" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pending Forms</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="submitted-tab" data-toggle="tab" @click="selected=3" href="#submitted" role="tab" aria-controls="submitted" aria-selected="false">Submitted Forms</a>
+                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2)">
+                            <a class="nav-link" id="approved-tab" data-toggle="tab" @click="selected=3" href="#approved" role="tab" aria-controls="approved" aria-selected="false">Approved Forms</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                        <div class="tab-pane fade show active" id="submitted" role="tabpanel" aria-labelledby="submitted-tab">
 
-                            <ncn-pending-approval-list v-if="selected==1"></ncn-pending-approval-list>
-
-                        </div>
-                        <div class="tab-pane fade" id="approve" role="tabpanel" aria-labelledby="approve-tab">
-
-                            <ncn-approved-list v-if="selected==2"></ncn-approved-list>
+                             <ncn-submitted v-if="selected==1"></ncn-submitted>
 
                         </div>
-                        <div class="tab-pane fade" id="submitted" role="tabpanel" aria-labelledby="submitted-tab">
+                        <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+
+                            <ncn-pending-approval-list v-if="selected==2"></ncn-pending-approval-list>
+
+                        </div>
+                        <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
                             
-                            <ncn-submitted v-if="selected==3"></ncn-submitted>
+                              <ncn-approved-list v-if="selected==3"></ncn-approved-list>
 
                         </div>
                     </div>
@@ -76,6 +76,7 @@ export default {
         NcnApprovedList,
         NcnSubmitted
     },
+    props: ['roleId'], 
     data(){
         return{
             selected: 1,
@@ -102,54 +103,12 @@ export default {
         }
     },
     created(){
-        this.fetchCompanies();
-        this.fetchDepartments();  
+      
     },
     methods: {
-        fetchDepartments(){
-            axios.get('/departments')
-            .then(response => {
-                this.departments = response.data;
-            })
-            .catch(error => {
-                this.errors = error.response.data.errors;
-            });
-        },
-        fetchCompanies(){
-            axios.get('/companies')
-            .then(response => {
-                this.companies = response.data;
-            })
-            .catch(error => {
-                this.errors = error.response.data.errors;
-            });
-        },
-        getCompanyId(company){
-            this.selected_company = company;
-            if(this.selected_company != ' ' &&  this.selected_department !=  ' '){
-                axios.get(`/getNcnApprovers/${company}/${this.selected_department}`)
-                .then(response => {
-                    this.approvers = response.data;
-                })
-                .catch(error => {
-                    this.errors = error.response.data.rrors;
-                })
-            }
-        },
-        getDepartmentId(department){
-            this.selected_department = department;
-            if(this.selected_company != ' ' &&  this.selected_department !=  ' '){
-                axios.get(`/getNcnApprovers/${this.selected_company}/${this.selected_department}`)
-                .then(response => {
-                    this.approvers = response.data;
-                })
-                .catch(error => {
-                    this.errors = error.response.data.errors;
-                })
-            }
-        },
         addNcnForm(){
-            window.location.href = '/add-ncn';
+            var base_url = window.location.origin;
+            window.location.href = base_url+'/add-ncn';
         },
         editNcn(ncn){
             axios.post(`/ncn/${ncn.id}`,{

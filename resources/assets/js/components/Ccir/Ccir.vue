@@ -9,29 +9,29 @@
                     </div>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="pending-tab" data-toggle="tab" @click="selected=1" href="#pending" role="tab" aria-controls="pending" aria-selected="true">Pending Forms</a>
+                            <a class="nav-link active" id="submitted-tab" data-toggle="tab" @click="selected=1" href="#submitted" role="tab" aria-controls="submitted" aria-selected="true">Submitted Forms</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="approve-tab" data-toggle="tab" @click="selected=2"  href="#approve" role="tab" aria-controls="approve" aria-selected="false">Approved Forms</a>
+                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2)">
+                            <a class="nav-link" id="pending-tab" data-toggle="tab" @click="selected=2" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pending Forms</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="submitted-tab" data-toggle="tab" @click="selected=3" href="#submitted" role="tab" aria-controls="submitted" aria-selected="false">Submitted Forms</a>
+                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2)">
+                            <a class="nav-link" id="approve-tab" data-toggle="tab" @click="selected=3"  href="#approve" role="tab" aria-controls="approve" aria-selected="false">Approved Forms</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
-                           
-                            <ccir-pending-list v-if="selected==1"></ccir-pending-list>
+                        <div class="tab-pane fade show active" id="submitted" role="tabpanel" aria-labelledby="submitted-tab">
+
+                            <ccir-submitted v-if="selected==1"></ccir-submitted>
+
+                        </div>
+                        <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+
+                            <ccir-pending-list v-if="selected==2"></ccir-pending-list>
 
                         </div>
                         <div class="tab-pane fade" id="approve" role="tabpanel" aria-labelledby="approve-tab">
-                            
-                            <ccir-approved-list v-if="selected==2"></ccir-approved-list>
 
-                        </div>
-                        <div class="tab-pane fade" id="submitted" role="tabpanel" aria-labelledby="submitted-tab">
-                           
-                            <ccir-submitted v-if="selected==3"></ccir-submitted>
+                            <ccir-approved-list v-if="selected==3"></ccir-approved-list>
 
                         </div>
                     </div>
@@ -147,6 +147,7 @@ export default {
          CcirApprovedList,
          CcirSubmitted
     },
+    props: ['roleId'],
     data(){
         return{
             selected: 1,
@@ -157,7 +158,8 @@ export default {
     },
     methods: {
         addCcirForm(){
-            window.location.href = '/add-ccir';
+            var base_url = window.location.origin;
+            window.location.href = base_url+'/add-ccir';
         },
         editCcir(ccir){
             axios.post(`/ccir/${ccir.id}`,{
@@ -173,7 +175,7 @@ export default {
         deleteCcir(id){
             axios.delete(`/ccir/${id}`)
             .then(response => {
-                this.fetchCcirs();
+                this.   fetchCcirs();
             })
             .catch(error => {
                this.errors = error.response.data.errors; 

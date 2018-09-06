@@ -90,7 +90,7 @@ class CcirController extends Controller
         $ccirs->commodity = $request->input('commodity');
         $ccirs->brand_name = 'Sample brand name';
         $ccirs->product_control_number = $request->input('product_control_number');
-        $ccirs->request_date = $carbon::now();
+        $ccirs->date_request = $carbon::now();
         $ccirs->delivery_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('delivery_date'));   
         $ccirs->nature_of_complaint = $request->input('nature_of_complaint');
         $ccirs->other_details = $request->input('other_details');

@@ -21,8 +21,7 @@
                         <td>{{ ccir.delivery_date }}</td>
                         <td>{{ ccir.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ccir.id}`">Edit</button>
-                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ccir.id}`">Delete</button>
+                           <button  class="btn btn-warning" @click="approveCcir(ccir.id)">Approve</button>
                         </td>
                     </tr>    
                 </tbody>

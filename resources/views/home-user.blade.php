@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <ccir-form></ccir-form>
+    <h1>dasboard user</h1>
 @endsection
