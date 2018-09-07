@@ -146,7 +146,6 @@ class DrdrController extends Controller
         $drdr->reason_request = $request->input('reason_request');
         $drdr->rev_number = $request->input('rev_number');
         $drdr->company_id = $request->input('company_id');
-        $drdr->attached_file = $path;
         $drdr->date_request =  $carbon::now();
         $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
         $drdr->requester_id = Auth::user()->id;

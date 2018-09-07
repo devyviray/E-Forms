@@ -16,7 +16,7 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
+// Vue admin
 Vue.component('dashboard', require('./components/Admin/Dashboard.vue'));
 Vue.component('drdr-admin', require('./components/Admin/DrdrAdmin.vue'));
 Vue.component('ddr-admin', require('./components/Admin/DdrAdmin.vue'));
@@ -27,21 +27,26 @@ Vue.component('ddr-details-page-admin', require('./components/Admin/DdrDetailsPa
 Vue.component('ncn-details-page-admin', require('./components/Admin/NcnDetailsPageAdmin.vue'));
 Vue.component('ccir-details-page-admin', require('./components/Admin/CcirDetailsPageAdmin.vue'));
 
-Vue.component('users', require('./components/Users.vue'));
+// Vue users
+Vue.component('users', require('./components/User/Users.vue'));
+Vue.component('user-form', require('./components/User/UserForm.vue'));
+Vue.component('user-edit', require('./components/User/UserEdit.vue'));
+
+
 Vue.component('companies', require('./components/Companies.vue'));
 Vue.component('departments', require('./components/Departments.vue'));
 Vue.component('roles', require('./components/Roles.vue'));
 Vue.component('permissions', require('./components/Permissions.vue'));
 
-
+// Vue drdr
 Vue.component('drdr', require('./components/Drdr/Drdr.vue'));
 Vue.component('drdrform', require('./components/Drdr/Drdrform.vue'));
 Vue.component('drdr-edit', require('./components/Drdr/DrdrEdit.vue'));
 Vue.component('drdr-review-form', require('./components/Drdr/DrdrReviewForm.vue'));
 Vue.component('drdr-view', require('./components/Drdr/DrdrView.vue'));
+Vue.component('drdr-approve', require('./components/Drdr/DrdrApprove.vue'));
 
-Vue.component('drdrapprove', require('./components/Drdrapprove.vue'));
-
+// Vue drdr
 Vue.component('ddr', require('./components/Ddr/Ddr.vue'));
 Vue.component('ddrform', require('./components/Ddr/Ddrform.vue'));
 Vue.component('ddr-edit', require('./components/Ddr/DdrEdit.vue'));
@@ -57,12 +62,6 @@ Vue.component('ncn-view', require('./components/Ncn/NcnView.vue'));
 Vue.component('ccir', require('./components/Ccir/Ccir.vue'));
 Vue.component('ccir-form', require('./components/Ccir/CcirForm.vue'));
 Vue.component('ccir-view', require('./components/Ccir/CcirView.vue'));
-
-
-Vue.component('userform', require('./components/Userform.vue'));
-
-
-
 
 const app = new Vue({
     el: '#app'

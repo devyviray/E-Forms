@@ -15,7 +15,7 @@
                                 <th>Role name</th>
                                 <th>Role description</th>
                                 <th>Role level</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </thead>
                             <tbody>
                                 <tr v-for="role in filteredQueues" v-bind:key="role.id">
@@ -23,10 +23,10 @@
                                     <td>{{ role.name }}</td>
                                     <td>{{ role.description }}</td>
                                     <td>{{ role.level }}</td>
-                                    <td>
+                                    <!-- <td>
                                         <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${role.id}`">Edit</button>
                                         <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${role.id}`">Delete</button>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             </tbody>
                         </table>
@@ -77,7 +77,7 @@
         </div>
 
         <!-- Update Modal -->
-        <div v-for="(role,r) in filteredQueues" :key="'list-' +  r" class="modal fade" :id="`editModal-${role.id}`" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+        <!-- <div v-for="(role,r) in filteredQueues" :key="'list-' +  r" class="modal fade" :id="`editModal-${role.id}`" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,10 +107,10 @@
                 </div>
             </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Delete Modal -->
-        <div  v-for="(role, r) in filteredQueues" :key="r" class="modal fade" :id="`deleteModal-${role.id}`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- <div  v-for="(role, r) in filteredQueues" :key="r" class="modal fade" :id="`deleteModal-${role.id}`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -129,7 +129,7 @@
                 </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -150,7 +150,7 @@ export default {
             keywords: '',
             errors: [],
             currentPage: 0,
-            itemsPerPage: 5,
+            itemsPerPage: 10,
         }
     },
     created(){
@@ -176,6 +176,7 @@ export default {
                 this.role.level = '';
                 this.errors = [],
                 this.fetchRoles();
+                $('#addModal').modal('hide');
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
@@ -185,26 +186,28 @@ export default {
             axios.delete(`/role/${id}`)
             .then(response => {
                 this.fetchRoles();
+                $('#deleteModal-'+id).modal('hide');
             });
         },
-        editRole(role){
-            axios.patch(`/role/${role.id}`,{
-                name: role.name,
-                description: role.description,
-                level: role.level 
-            })
-            .then(response => {
-                this.role.name = '';
-                this.role.slug = '';
-                this.role.description = '';
-                this.role.level = '';
-                this.errors = [],
-                this.fetchRoles();
-            })  
-            .catch(error => {
-                this.errors= error.response.data.errors;
-            })
-        },
+        // editRole(role){
+        //     axios.patch(`/role/${role.id}`,{
+        //         name: role.name,
+        //         description: role.description,
+        //         level: role.level 
+        //     })
+        //     .then(response => {
+        //         this.role.name = '';
+        //         this.role.slug = '';
+        //         this.role.description = '';
+        //         this.role.level = '';
+        //         this.errors = [],
+        //         this.fetchRoles();
+        //         $('#editModal-'+role.id).modal('hide');
+        //     })  
+        //     .catch(error => {
+        //         this.errors= error.response.data.errors;
+        //     })
+        // },
         setPage(pageNumber) {
             this.currentPage = pageNumber;
         },

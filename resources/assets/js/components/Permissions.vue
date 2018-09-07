@@ -175,6 +175,7 @@ export default {
                 this.permission.description = '';
                 this.errors = [],
                 this.fetchPermissions();
+                $('#addModal').modal('hide');
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
@@ -184,6 +185,10 @@ export default {
             axios.delete(`/permission/${id}`)
             .then(response => {
                 this.fetchPermissions();
+                $('#deleteModal-'+id).modal('hide');
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
             });
         },
         editPermission(permission){
@@ -199,6 +204,7 @@ export default {
                 this.permission.description = '';
                 this.errors = [],
                 this.fetchPermissions();
+                $('#editModal-'+permission.id).modal('hide');
             })
             .catch(error => {
                 this.errors = error.response.data.errors;

@@ -139,7 +139,7 @@ export default {
             keywords: '',
             errors: [],
             currentPage: 0,
-            itemsPerPage: 5,
+            itemsPerPage: 10,
         }
 
     },
@@ -158,6 +158,7 @@ export default {
             axios.delete(`/company/${id}`)
             .then(response => {
                 this.fetchCompanies();
+                $('#deleteModal-'+id).modal('hide')
             })
             .catch(error => console.log(error))
         },
@@ -172,8 +173,7 @@ export default {
                 this.company.address = '',
                 this.errors = [],
                 this.fetchCompanies();
-                // this.company.unshift(reponse.data);
-                // $('#editCompany-' + response.data.id).modal('hide')
+                $('#editModal-'+company.id).modal('hide');
             })
             .catch(error => {
                 if(error.response.data) {
@@ -191,7 +191,8 @@ export default {
                 this.company.name = '',
                 this.company.address = '',
                 this.errors = [],
-                this.fetchCompanies();
+                this.fetchCompanies;
+                $('#addModal').modal('hide');
             })
             .catch(error => {
                 if(error.response.data){

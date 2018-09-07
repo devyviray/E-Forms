@@ -29,7 +29,6 @@ class CreateCcirformsTable extends Migration
             $table->string('other_details');
             $table->integer('affected_quantity');
             $table->string('quality_of_sample');
-            $table->string('attached_file');
             $table->integer('verifier_id')->nullable();
             $table->string('status');
             $table->string('remarks')->nullable();

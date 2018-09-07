@@ -27,7 +27,6 @@ class CreateNcnformsTable extends Migration
             $table->datetime('approved_date')->nullable();
             $table->datetime('disapproved_date')->nullable();
             $table->string('non_conformity_details');
-            $table->string('attached_files')->nullable();
             $table->string('status');
             $table->string('remarks')->nullable();
             $table->timestamps();

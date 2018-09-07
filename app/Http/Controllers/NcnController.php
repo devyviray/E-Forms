@@ -7,6 +7,7 @@ use App\Ncn;
 use App\User;
 use App\UploadedFile;
 use App\Types\StatusType;
+use App\Types\RolesType;
 use Carbon\Carbon;
 use Auth;
 use PDF;
@@ -71,6 +72,19 @@ class NcnController extends Controller
      */
     public function store(Request $request)
     {   
+        $request->validate([
+            'company_id' => 'required',
+            'department_id' => 'required',
+            'approver_id' => 'required',
+            'non_conformity_types' => 'required',
+            'notification_number' => 'required',
+            'recurrence_number' => 'required',
+            'issuance_date' => 'required',
+            'non_conformity_details' => 'required',
+            'approver_id' => 'required',
+            'attachments' => 'required',
+        ]);
+
         $ncn = new Ncn;
         $carbon = new Carbon();
 
@@ -82,7 +96,7 @@ class NcnController extends Controller
         $ncn->notification_number = $request->input('notification_number');
         $ncn->recurrence_number = $request->input('recurrence_number');
         $ncn->issuance_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('issuance_date'));
-        $ncn->request_date = $carbon::now();
+        $ncn->date_request = $carbon::now();
         $ncn->non_conformity_details = $request->input('non_conformity_details');
         $ncn->status = StatusType::SUBMITTED;
 
@@ -162,9 +176,9 @@ class NcnController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getNcnApprovers($company, $department)
-    {    
+    {       
         $approvers = User::whereHas('roles', function($q) {
-            $q->where('role_id', 2);  // approver
+            $q->where('role_id', RolesType::APPROVER);
         })->whereHas('companies', function($q) use ($company){
                 $q->where('company_id',$company);
         })->where('department_id', $department)->get();

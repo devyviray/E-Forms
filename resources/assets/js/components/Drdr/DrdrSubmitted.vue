@@ -90,7 +90,7 @@ export default {
     },
     computed:
     {
-    filteredDrdrs(){
+        filteredDrdrs(){
             let self = this;
             return self.drdrSubmitteds.filter(drdrSubmitted => {
                 return drdrSubmitted.document_title.toLowerCase().includes(this.keywords.toLowerCase())

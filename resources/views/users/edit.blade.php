@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-     <user-form></user-form>
+     <user-edit></user-edit>
 @endsection 

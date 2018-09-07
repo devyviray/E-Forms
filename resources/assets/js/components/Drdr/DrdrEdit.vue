@@ -2,9 +2,9 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-                <form>
+                <form v-if="drdrs.length">
                     <div class="form-group">
-                       <select v-model="drdrs.type" class="form-control form-control-lg" @change="selectedType()">
+                       <select v-model="drdrs[0].request_type" class="form-control form-control-lg" @change="selectedType()">
                            <option value="" disabled selected>Select Type</option>
                            <option value="1">Proposal (For proposed)</option>
                            <option value="2">Revision (For existing document)</option>
@@ -22,7 +22,7 @@
                         <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
                     </div>
                     <div class="form-group">
-                       <select v-model="company.id" class="form-control form-control-lg" @change="fetchReviewers(company.id)">
+                       <select v-model="drdrs[0].company.id" class="form-control form-control-lg" @change="fetchReviewers(drdrs[0].company.id)">
                            <option value="" disabled selected>Select Company</option>
                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
                        </select>
@@ -42,12 +42,12 @@
                         <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
                     </div>
                     <div class="form-group">
-                        <select v-model="reviewer.id" class="form-control form-control-lg">
+                        <select v-model="drdrs[0].reviewer.id" class="form-control form-control-lg">
                             <option value="" disabled selected>Select Reviewer</option>
                             <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
                         </select>
                     </div>
-                    <button @click="updateDrdr(drdrs[0],company,reviewer)" type="button" class="btn btn-primary">Submit</button>
+                    <button @click="updateDrdr(drdrs[0])" type="button" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
@@ -81,6 +81,7 @@ export default {
                 name: '',
                 address: ''
             },
+            company_id: ' ',
             reviewers: [],
             reviewer: {
                 id: '',
@@ -124,8 +125,6 @@ export default {
             for (var i = files.length - 1; i >= 0; i--){
                 this.attachments.push(files[i]);
             }
-
-            // document.getElementById('attachments').value = [];
         },
         resetData(){
           this.formData = new FormData();
@@ -134,12 +133,13 @@ export default {
         fetchDrdrs(){
             var url = window.location.href;
             var id = url.match(/[^\/]+$/)[0];
-            
             this.drdr_id = id;
             
             axios.get(`/drdr-data/${id}`)
             .then(response => {
                 this.drdrs = response.data;
+                this.company_id = this.drdrs[0].company.id;
+                this.fetchReviewers(this.company_id);
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -163,14 +163,14 @@ export default {
                 this.errors = error.response.data.errors;
             })
         },
-        updateDrdr(drdrs,company,reviewer){
+        updateDrdr(drdrs){
             this.prepareFields();
-            this.formData.append('type', drdrs.type);
+            this.formData.append('type', drdrs.request_type);
             this.formData.append('document_title', drdrs.document_title);
             this.formData.append('rev_number', drdrs.rev_number);
             this.formData.append('reason_request', drdrs.reason_request);
-            this.formData.append('company_id', company.id);
-            this.formData.append('reviewer_id', reviewer.id);
+            this.formData.append('company_id', drdrs.company.id);
+            this.formData.append('reviewer_id', drdrs.reviewer.id);
             this.formData.append('effective_date', drdrs.effective_date);
             axios.post(`/drdr/${this.drdr_id}`,this.formData)
             .then(response => {

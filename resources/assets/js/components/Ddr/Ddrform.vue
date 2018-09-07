@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="form-group">
-                        <datepicker placeholder="Select Date" v-model="ddr.date_needed"></datepicker>
+                        <datepicker placeholder="Select Date needed" v-model="ddr.date_needed"></datepicker>
                         <span v-if="errors.date_needed">{{ errors.date_needed }}</span>
                     </div>
                     <div class="form-group">

@@ -127,7 +127,7 @@ export default {
             keywords: '',
             errors: [],
             currentPage: 0,
-            itemsPerPage: 5,
+            itemsPerPage: 10,
         }
     },
     created(){
@@ -148,6 +148,7 @@ export default {
                 this.department.name = '';
                 this.errors = [];
                 this.fetchDepartments();
+                $('#addModal').modal('hide');
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
@@ -157,23 +158,26 @@ export default {
             axios.delete(`/department/${id}`)
             .then(response => {
                 this.fetchDepartments();
+                $('#deleteModal-'+id).modal('hide');
+            })
+            .catch(error => {
+                this.errors = error.response.data.error;
             });
         },
         editDepartment(deparment){
             axios.patch(`/department/${deparment.id}`,{
                 id: deparment.id,
-                name : deparment.name,
+                name: deparment.name,
             })
             .then(response => {
-                this.department.name = '';
+                this.department.name = ' ';
                 this.errors = [];
                 this.fetchDepartments();
-                // this.company.unshift(reponse.data);
-                // $('#editDepartment-' + response.data.id).modal('hide')
+                $('#editModal-'+deparment.id).modal('hide');
             })
             .catch(error => {
-              this.errors = error.response.data.errors;
-            })
+                this.errors = error.response.data.errors;
+            });
 
         },
         setPage(pageNumber) {

@@ -2,23 +2,23 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-                <form>
+                <form v-if="ddrs.length">
                     <div class="form-group">
-                       <select v-model="company.id" class="form-control form-control-lg" @change="getCompanyId(company.id)">
+                       <select v-model="ddrs[0].company.id" class="form-control form-control-lg" @change="getCompanyId(ddrs[0].company.id)">
                            <option value="" disabled selected>Select Company</option>
                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
                        </select>
                         <span v-if="errors.company">{{ errors.company }}</span>
                     </div>
                     <div class="form-group">
-                        <select v-model="department.id" class="form-control form-control-lg"  @change="getDepartmentId(department.id)">
+                        <select v-model="ddrs[0].department.id" class="form-control form-control-lg"  @change="getDepartmentId(ddrs[0].department.id)">
                             <option value="" disabled selected>Select Department</option>
                             <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
                         </select>
                             <span v-if="errors.department">{{ errors.department }}</span>
                     </div>
                     <div class="form-group">
-                       <select v-if="ddrs.length" v-model="ddrs[0].reason" class="form-control form-control-lg">
+                       <select v-model="ddrs[0].reason_of_distribution" class="form-control form-control-lg">
                            <option value="" disabled selected>Reason of distribution</option>
                            <option value="1">Relevant External Document (controlled copy)</option>
                            <option value="2">Customer Request (uncontrolled copy)</option>
@@ -64,18 +64,17 @@
                             </tbody>
                         </table>
                     </div>
-
                     <div class="form-group">
-                        <datepicker placeholder="Select Date Needed" v-if="ddrs.length" v-model="ddrs[0].date_needed"></datepicker>
+                        <datepicker placeholder="Select Date Needed" v-model="ddrs[0].date_needed"></datepicker>
                         <span v-if="errors.date_needed">{{ errors.date_needed }}</span>
                     </div>
                     <div class="form-group">
-                        <select v-model="approver.id" class="form-control form-control-lg">
+                        <select v-model="ddrs[0].approver.id" class="form-control form-control-lg">
                             <option value="" disabled selected>Select Approver</option>
                             <option v-for="(approver, a) in approvers" v-bind:key="a" :value="approver.id">{{ approver.name }}</option>
                         </select>
                     </div>
-                    <button @click="updateDdr(ddrs[0].reason,ddrs[0].date_needed,company.id,approver.id,department.id, ddrlists)" type="button" class="btn btn-primary">Submit</button>
+                    <button @click="updateDdr(ddrs[0], ddrlists)" type="button" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
@@ -137,6 +136,8 @@ export default {
             .then(response => {
                 this.ddrs = response.data;
                 this.ddrlists = this.ddrs[0].ddr_lists;
+                this.getCompanyId(this.ddrs[0].company.id);
+                this.getDepartmentId(this.ddrs[0].department.id);
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -207,15 +208,14 @@ export default {
             }else{
                 alert('Unable to delete');
             }
-            // this.ddrlists.length < 2 ? alert('Unable to delete') : this.ddrlists.splice(index,1);
         },
-        updateDdr(reason,date_needed,company,approver,department,ddrlists){
+        updateDdr(ddr, ddrlists){
             axios.patch(`/ddr/${this.ddrId}`,{
-                reason: reason,
-                date_needed: date_needed,
-                company: company,
-                approver: approver,
-                department: department,
+                reason: ddr.reason_of_distribution,
+                date_needed: ddr.date_needed,
+                company: ddr.company.id,
+                approver: ddr.approver.id,
+                department: ddr.department.id,
                 ddrlists: ddrlists
             })
             .then(response => {

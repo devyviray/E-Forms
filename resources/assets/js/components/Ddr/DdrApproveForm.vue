@@ -46,49 +46,33 @@
                     <div class="col-md-6">
                         <span>Position</span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-">
                         <span v-if="ddrs.length">{{ ddrs[0].position }}</span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Document title</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].document_title }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Control code</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].control_code }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Rev. No.</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].rev_number }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Copy No.</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].copy_number }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Copy Holder</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].copy_holder }}</span>
-                    </div>
+                <div  class="row">
+                     <div class="col-md-12">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <th>ID</th>
+                                <th>Document Title</th>
+                                <th>Control Code</th>
+                                <th>Rev No.</th>
+                                <th>Copy No.</th>
+                                <th>Copy Holder</th>
+                            </thead>
+                            <tbody>
+                                <tr v-if="ddrs.length" v-for="(ddrlist, d) in ddrlists" v-bind:key="d">
+                                    <td> {{ d + 1 }} </td>
+                                    <td> {{ ddrlist.document_title }} </td> 
+                                    <td> {{ ddrlist.control_code }} </td>
+                                    <td> {{ ddrlist.rev_number }} </td>
+                                    <td> {{ ddrlist.copy_number }} </td>
+                                    <td> {{ddrlist.copy_holder }} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     </div>
                 </div>
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-if="ddrs.length" v-model="ddrs[0].id">
@@ -121,6 +105,7 @@ export default {
                 status: '',
                 remarks: ''
             },
+            ddrlists: [],
             errors:''
         }
     },
@@ -128,18 +113,20 @@ export default {
         this.fetchDdr();
     },
     methods:{
-        fetchDdr()
-        {
+       fetchDdr(){
             var url = window.location.href;
             var id = url.match(/[^\/]+$/)[0];
-
+            
+            this.ddrId = id;
+            
             axios.get(`/ddr-data/${id}`)
             .then(response => {
                 this.ddrs = response.data;
+                this.ddrlists = this.ddrs[0].ddr_lists;
             })
-            .catch(error => {
+            .catch(error =>{
                 this.errors = error.response.data.errors;
-            })
+            });
         },
         approvedDdr(id,ddr)
         {

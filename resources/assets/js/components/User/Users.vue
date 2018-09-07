@@ -36,7 +36,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${user.id}`">Edit</button>
+                                        <button  class="btn btn-warning" @click="editUser(user.id)">Edit</button>
                                         <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${user.id}`">Delete</button>
                                     </td>
                                 </tr>
@@ -57,66 +57,6 @@
             </div>
         </div>
 
-        <!-- Update Modal -->
-        <div v-for="(user,u) in filteredQueues" :key="'list-' +  u" class="modal fade" :id="`editModal-${user.id}`" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="editUserLabel">Edit user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" class="form-control" placeholder="Name" v-model="user.id">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Name" v-model="user.name">
-                        <span v-if="errors.users">{{ errors.users }}</span>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Email" v-model="user.email">
-                        <span v-if="errors.email">{{ errors.email }}</span>
-                    </div>
-                    <div class="form-group">
-                       <multiselect
-                            v-model="selected_company"
-                            :options="companies"
-                            :multiple="true"
-                            track-by="id"
-                            :custom-label="customLabelCompany"
-                            >
-                        </multiselect>
-                    </div>
-                      <span v-if="errors.company">{{ errors.company }}</span>
-                    <div class="form-group">
-                       <select v-model="selected_department" class="form-control form-control-lg">
-                           <option value="" disabled selected>Select department</option>
-                           <option v-for="department in departments" v-bind:key="department.id" :value="department.id">
-                               {{ department.name }}
-                           </option>
-                       </select>
-                        <span v-if="errors.department">{{ errors.department }}</span>
-                    </div>
-                    <div class="form-group">
-                       <multiselect
-                            v-model="selected_role"
-                            :options="roles"
-                            :multiple="true"
-                            track-by="id"
-                            :custom-label="customLabelRole"
-                            >
-                        </multiselect>
-                        <span v-if="errors.role">{{ errors.role }}</span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button @click="editUser(user,selected_company,selected_department,selected_role)" type="button" class="btn btn-primary">Update</button>
-                </div>
-            </div>
-            </div>
-        </div>
-        
         <!-- Delete Modal -->
         <div  v-for="(user,u) in filteredQueues" :key="u" class="modal fade" :id="`deleteModal-${user.id}`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -129,7 +69,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete the user?
+                    Are you sure you want to delete this user?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -191,52 +131,19 @@ export default {
             axios.delete(`/user/${id}`)
             .then(response => {
                 this.fetchUsers();
+                $('#deleteModal-'+id).modal('hide');
             })
             .catch(error => console.log(error));
         },
-
-        editUser(user,selected_company,selected_department,selected_role){
-            let comapanyids = [];
-            let roleids = [];
-            selected_company.forEach((selected_company) => {
-                    comapanyids.push(selected_company.id);
-            });
-            selected_role.forEach((selected_role) => {
-                roleids.push(selected_role.id);
-             });
-            axios.patch(`/user/${user.id}`,{
-                id: user.id, 
-                name: user.name,
-                email: user.email,
-                company: comapanyids,
-                department: selected_department,
-                role: roleids
-            })
-            .then(response => {
-                $('#editModal-' + user.id).hide();
-                $('.modal-backdrop').remove();
-                this.user.name = "",
-                this.user.email = "",
-                this.user.errors = []
-                this.fetchUsers();
-            })
-            .catch(error => {
-                if(error.response.data) {
-                    this.errors = error.response.data.errors;
-                }
-            })
-
+        addUserForm()
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+'/add-user';
         },
-        addUserForm(){
-            window.location.href = '/add-user';
-        },
-        editUserData(user){
-            this.edit = true;
-            this.user.id = user.id;
-            this.user_id = user.id;
-            this.user.name = user.name;
-            this.user.email = user.email;
-
+        editUser(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/edit-user/${id}`;
         },
         setPage(pageNumber) {
             this.currentPage = pageNumber;

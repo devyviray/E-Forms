@@ -19,7 +19,6 @@ class CreateDrdrformsTable extends Migration
             $table->string('document_title');
             $table->string('reason_request');
             $table->string('rev_number')->nullable();
-            $table->string('attached_file');
             $table->dateTime('date_request');
             $table->dateTime('effective_date')->nullable();
             $table->integer('company_id');

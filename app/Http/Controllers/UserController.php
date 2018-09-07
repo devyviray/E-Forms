@@ -25,7 +25,6 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::with('roles:name', 'companies:name', 'department:id,name')->orderBy('id', 'desc')->get();
-        // $users = User::orderBy('id', 'desc')->get();
         return $users;
 
     }
@@ -40,6 +39,15 @@ class UserController extends Controller
         return view('users.form');
     }
 
+    /**
+     * Show the edit form
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit()
+    {
+        return view('users.edit');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -66,18 +74,19 @@ class UserController extends Controller
         $user->password = bcrypt($request->input('email'));
         $user->department_id = $request->input('department');
         $user->position = $request->input('position');
-        $user->save();
-        // Assigning of role
-        $user->syncRoles($request->input('role')); 
-        // Assigning of companies
-        $user->companies()->sync( (array) $request->input('company'));
-        
-        return ['redirect' => route('users')];
+
+        if($user->save()){
+            // Assigning of role
+            $user->syncRoles($request->input('role')); 
+            // Assigning of companies
+            $user->companies()->sync( (array) $request->input('company'));
+            
+            return ['redirect' => route('users')];
+        }
     }
 
     public function update(Request $request, User $user)
     {
-        
         $validator = $request->validate([
             'id' => 'required',
             'name' => 'required',
@@ -87,17 +96,16 @@ class UserController extends Controller
             'role' => 'required'
         ]);
 
-        // 'email' => 'unique:users,email_address,'.$user->id
-
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->department_id = $request->input('department');
-        $user->save();
-        
-        $user->roles()->sync( (array) $request->input('role'));
-        $user->companies()->sync( (array) $request->input('company'));
-        
-        return $user;
+
+        if($user->save()){
+            $user->roles()->sync( (array) $request->input('role'));
+            $user->companies()->sync( (array) $request->input('company'));
+
+            return ['redirect' => route('users')];
+        }
 
     }
 
@@ -109,7 +117,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrfail($id);
+        $user = User::with('roles', 'companies', 'department')->where('id', $id)->get();
 
         return $user;
     }

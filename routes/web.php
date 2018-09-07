@@ -141,7 +141,9 @@ Route::group(['middleware' => 'auth'], function (){
 Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){ 
 
   // User routes
+  // Show add user form
   Route::get('/add-user', 'UserController@create');
+  // Get all users
   Route::get('/users', 'UserController@index');
   Route::get('/user/{id}', 'UserController@show');
   Route::post('/user', 'UserController@store');
@@ -149,6 +151,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   Route::delete('/user/{id}', 'UserController@destroy');
   Route::get('/getApprover/{id}', 'UserController@getCompanyReviewers');
   Route::get('/auth-user','UserController@authUser');
+  Route::get('/edit-user/{id}','UserController@edit');
 
   // Company routes
   Route::get('/company/{id}', 'CompanyController@show');
@@ -167,7 +170,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   Route::get('/roles', 'RoleController@index');
   Route::get('/role/{id}', 'RoleController@show');
   Route::post('/role', 'RoleController@store');
-  Route::post('/role/{role}', 'RoleController@update');
+  Route::patch('/role/{role}', 'RoleController@update');
   Route::delete('/role/{id}', 'RoleController@destroy');
 
   // Permission routes

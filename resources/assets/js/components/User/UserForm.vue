@@ -33,13 +33,6 @@
                             >
                         </multiselect>
                         <span v-if="errors.company">{{ errors.company }}</span>
-                       <!-- <select v-model="selected_company" class="form-control form-control-lg">
-                           <option value="" disabled selected> :value="company.id">
-                               {{ company.name }}Select company</option>
-                           <option v-for="company in companies" v-bind:key="company.id"
-                           </option>
-                       </select>
-                      <span v-if="errors.company">{{ errors.company }}</span> -->
                     </div>
                     <div class="form-group">
                        <select v-model="selected_department" class="form-control form-control-lg">
@@ -125,35 +118,6 @@ export default {
         },
         customLabelRole (role) {
             return `${role.name}`
-        },
-        editUser(user,selected_company,selected_department,selected_role){
-            let comapanyids = [];
-            let roleids = [];
-            selected_company.forEach((selected_company) => {
-                    comapanyids.push(selected_company.id);
-            });
-            selected_role.forEach((selected_role) => {
-                roleids.push(selected_role.id);
-             });
-            axios.patch(`/user/${user.id}`,{
-                id: user.id, 
-                name: user.name,
-                email: user.email,
-                company: comapanyids,
-                department: selected_department,
-                role: roleids
-            })
-            .then(response => {
-                this.user.name = "",
-                this.user.email = "",
-                this.user.errors = []
-            })
-            .catch(error => {
-                if(error.response.data) {
-                    this.errors = error.response.data.errors;
-                }
-            })
-
         },
         addUser(user,selected_company,selected_department,selected_role){
             let comapanyids = [];
