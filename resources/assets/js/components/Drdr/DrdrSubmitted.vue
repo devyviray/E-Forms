@@ -16,15 +16,25 @@
                         <td>{{ drdrSubmitted.id }}</td>
                         <td>{{ drdrSubmitted.document_title }}</td>
                         <td>{{ drdrSubmitted.rev_number  }}</td>
-                        <td>{{ drdrSubmitted.reviewer.name }}</td>
-                        <td v-if="drdrSubmitted.approver !== null">{{ drdrSubmitted.approver.name }}</td>
+                        <td>
+                            {{ drdrSubmitted.reviewer.name }}<br>
+                            <span style="color: red" v-if="drdrSubmitted.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdrSubmitted.status == 5"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
+                        <td v-if="drdrSubmitted.approver !== null">
+                            {{ drdrSubmitted.approver.name }}<br>
+                            <span style="color: red" v-if="drdrSubmitted.status == 3"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdrSubmitted.status == 5"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td style="padding-left: 30px" v-else>{{ "-" }}</td>
                         <td>
                             <button class="btn btn-primary" @click="viewDrdr(drdrSubmitted.id)">View</button>
                             <button v-if="drdrSubmitted.status == 2" class="btn btn-warning" @click="editDrdr(drdrSubmitted.id)">Edit</button>
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${drdrSubmitted.id}`">Delete</button>
                         </td>
-                    </tr>    
+                    </tr>  
                 </tbody>
             </table>
         </div>

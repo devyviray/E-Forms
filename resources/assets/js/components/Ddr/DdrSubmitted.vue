@@ -17,7 +17,11 @@
                         <td>{{ ddrSubmitted.approver.name }}</td>
                         <td>{{ ddrSubmitted.reason_of_distribution }}</td>
                         <td>{{ ddrSubmitted.date_requested }}</td>
-                        <td>{{ ddrSubmitted.status }}</td>
+                        <td>
+                            <span style="color: red" v-if="ddrSubmitted.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="ddrSubmitted.status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td>
                             <button class="btn btn-primary" @click="viewDdr(ddrSubmitted.id)">View</button>
                             <button v-if="ddrSubmitted.status == 2" class="btn btn-warning" @click="editDdr(ddrSubmitted.id)">Edit</button>

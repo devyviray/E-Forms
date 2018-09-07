@@ -56567,6 +56567,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -56686,10 +56696,46 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(drdrSubmitted.rev_number))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(drdrSubmitted.reviewer.name))]),
+              _c("td", [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(drdrSubmitted.reviewer.name)
+                ),
+                _c("br"),
+                _vm._v(" "),
+                drdrSubmitted.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : drdrSubmitted.status == 5
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               drdrSubmitted.approver !== null
-                ? _c("td", [_vm._v(_vm._s(drdrSubmitted.approver.name))])
+                ? _c("td", [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(drdrSubmitted.approver.name)
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    drdrSubmitted.status == 3
+                      ? _c("span", { staticStyle: { color: "red" } }, [
+                          _vm._v(" NOT YET APPROVED ")
+                        ])
+                      : drdrSubmitted.status == 5
+                        ? _c("span", { staticStyle: { color: "red" } }, [
+                            _vm._v(" DISAPPROVED ")
+                          ])
+                        : _c("span", { staticStyle: { color: "green" } }, [
+                            _vm._v(" APPROVED ")
+                          ])
+                  ])
                 : _c("td", { staticStyle: { "padding-left": "30px" } }, [
                     _vm._v(_vm._s("-"))
                   ]),
@@ -61309,6 +61355,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -61430,7 +61480,19 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(ddrSubmitted.date_requested))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(ddrSubmitted.status))]),
+              _c("td", [
+                ddrSubmitted.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : ddrSubmitted.status == 6
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               _c("td", [
                 _c(
