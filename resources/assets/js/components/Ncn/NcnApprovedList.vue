@@ -23,7 +23,7 @@
                         <td>{{ ncnApprovedForm.issuance_date }}</td>
                         <td>{{ ncnApprovedForm.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ncnApprovedForm.id}`">Edit</button>
+                            <button  class="btn btn-warning" @click="viewApprovedNcn(ncnApprovedForm.id)" >View</button>
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ncnApprovedForm.id}`">Delete</button>
                         </td>
                     </tr>    
@@ -57,6 +57,11 @@ export default {
         this.fetchNcnApprovedForms();
     },
     methods:{
+        viewApprovedNcn(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/ncn-view/${id}`;
+        },
         fetchNcnApprovedForms()
         {
             axios.get('/ncns-approved-forms')

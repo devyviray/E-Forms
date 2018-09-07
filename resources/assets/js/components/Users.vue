@@ -166,32 +166,11 @@ export default {
             errors: [],
             currentPage: 0,
             itemsPerPage: 10,
-            companies: [],
-            company: {
-                id: '',
-                company_name: ''
-            },
-            selected_company: '',
-            departments: [],
-            department: {
-                id: '',
-                department_name: '',
-            },
-            selected_department: '',
-            roles: [],
-            role: {
-                id: '',
-                name: '',
-            },
-            selected_role: '',
 
          }
     },
     created(){  
         this.fetchUsers();
-        this.fetchCompanies();
-        this.fetchDepartments();
-        this.fetchRoles();
     },
    
     methods: {
@@ -207,25 +186,6 @@ export default {
                     this.users = response.data;
                 })
                 .catch(error => console.log(errors));  
-        },
-        fetchCompanies(){
-            axios.get('/companies')
-                .then(response => {
-                    this.companies = response.data;
-                })
-                .catch(err => console.log(err));  
-        },
-        fetchDepartments(){
-            axios.get('/departments')    
-            .then(response => {
-                this.departments = response.data;
-            });
-        },
-        fetchRoles(){
-            axios.get('/roles')    
-            .then(response => {
-                this.roles = response.data;
-            });
         },
         deleteUser(id){
             axios.delete(`/user/${id}`)

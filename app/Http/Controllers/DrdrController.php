@@ -8,9 +8,11 @@ use App\User;
 use App\UploadedFile;
 use App\Types\RequestType;
 use App\Types\StatusType;
+use App\Types\RolesType;
 use Auth;
 use Carbon\Carbon;
 use App\Notifications\RequesterSubmitDrdr;
+use App\Notifications\ApproverNotifyMrDrdr;
 use PDF;
 use Response;
 
@@ -176,7 +178,7 @@ class DrdrController extends Controller
     */
     public function show($id)
     {
-        return view('drdr.view');
+        return view('drdr.review');
     }
 
     /**
@@ -211,7 +213,7 @@ class DrdrController extends Controller
     */
     public function showDetailsDrdr($drdr_id)
     {
-        return view('drdr.approved-details');
+        return view('drdr.view');
     }
 
     /**
@@ -291,7 +293,7 @@ class DrdrController extends Controller
 
     public function getCompanyReviewers($company_id){
         $reviewer = User::whereHas('roles', function($q) {
-            $q->where('role_id', 3);  // reviewer
+            $q->where('role_id', RolesType::REVIEWER);
         })->whereHas('companies', function($q) use ($company_id) {
             $q->where('company_id',$company_id);
         })->get();
@@ -308,7 +310,7 @@ class DrdrController extends Controller
     public function approver($company_id)
     {
         $approver = User::whereHas('roles', function($q) {
-            $q->where('role_id', 2);  // reviewer
+            $q->where('role_id', RolesType::APPROVER);
         })->whereHas('companies', function($q) use ($company_id) {
             $q->where('company_id',$company_id);
         })->get();
@@ -337,6 +339,8 @@ class DrdrController extends Controller
         
         $status = $request->input('status') == 1 ? StatusType::APPROVED_REVIEWER : StatusType::DISAPPROVED_REVIEWER;
         $drdr->status = $status;
+        $status == StatusType::APPROVED_REVIEWER ? $drdr->reviewed_date = $carbon::now() : $drdr->disapproved_date =  $carbon::now();
+        $drdr->reviewed_date = 
         $drdr->remarks = $request->input('remarks');
         $drdr->approver_id = $request->input('approver_id');
 
@@ -375,15 +379,21 @@ class DrdrController extends Controller
 
         $carbon = new Carbon();
         $drdr = Drdr::findOrFail($request->input('id'));
-        $requester = User::findOrFail($drdr->requester_id);
         
         $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
         $drdr->status = $status;
+        $status == StatusType::APPROVED_APPROVER ? $drdr->approved_date = $carbon::now() : $drdr->disapproved_date =  $carbon::now();
         $drdr->remarks = $request->input('remarks');
         $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
-                
-        $requester = User::findOrFail($drdr->requester_id);
-        $requester->notify(new RequesterSubmitDrdr($drdr));
+    
+        $company_id = $drdr->company_id;
+        $mr = User::whereHas('roles', function($q) {
+            $q->where('role_id', RolesType::MR);
+        })->whereHas('companies', function($q) use ($company_id) {
+            $q->where('company_id',$company_id);
+        })->get();
+
+        \Notification::send($mr, new ApproverNotifyMrDrdr($drdr));
 
         if($drdr->save()){
             $attachments = $request->file('attachments');   

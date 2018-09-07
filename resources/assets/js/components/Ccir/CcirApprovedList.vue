@@ -59,7 +59,7 @@ export default {
         viewApprovedCcir(id)
         {
             var base_url = window.location.origin;
-            window.location.href = base_url+`/ccir-view-approved/${id}`;
+            window.location.href = base_url+`/ccir-view/${id}`;
         },
         fetchCcirApprovedForms(){
             axios.get('/ccirs-approved-forms')

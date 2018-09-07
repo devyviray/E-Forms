@@ -7,10 +7,12 @@ use App\Ddr;
 use App\User;
 use App\DdrformsList;
 use App\Types\StatusType;
+use App\Types\RolesType;
 use Auth;
 use PDF;
 use Carbon\Carbon;
 use App\Notifications\RequesterSubmitDdr;
+use App\Notifications\ApproverNotifyMrDdr;
 
 class DdrController extends Controller
 {
@@ -127,7 +129,7 @@ class DdrController extends Controller
     */
     public function show($id)
     {
-        return view('ddr.view');
+        return view('ddr.approved');
     }
 
     /**
@@ -149,29 +151,34 @@ class DdrController extends Controller
     {
         $carbon = new Carbon();
         $ddr = Ddr::findOrFail($request->input('id'));
-        $requester = User::findOrFail($ddr->requester_id);
         
         $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
         $ddr->status = $status;
         $ddr->remarks = $request->input('remarks');
-        $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
+        // $ddr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
         $ddr->save();
         
-        $requester = User::findOrFail($ddr->requester_id);
-        $requester->notify(new RequesterSubmitDrdr($ddr));
+        $company_id = $ddr->company_id;
+        $mr = User::whereHas('roles', function($q) {
+            $q->where('role_id', RolesType::MR);
+        })->whereHas('companies', function($q) use ($company_id) {
+            $q->where('company_id',$company_id);
+        })->get();
+
+        \Notification::send($mr, new ApproverNotifyMrDdr($ddr));
 
 
         return ['redirect' => route('ddr')];
     }
 
     /**
-    * Display the details of apporved ddr.
+    * View the details of ddr.
     *
     * @return \Illuminate\Http\Response     
     */
     public function showDetailsDdr($ddr_id)
     {
-        return view('ddr.approved-details');
+        return view('ddr.view');
     }
 
     /**
@@ -276,7 +283,7 @@ class DdrController extends Controller
 
     public function getCompanyApprovers($company_id){
         $reviewer_user = User::whereHas('roles', function($q) {
-            $q->where('role_id', 2);  // approver
+            $q->where('role_id', RolesType::APPROVER);
         })->whereHas('companies', function($q) use ($company_id) {
             $q->where('company_id',$company_id);
         })->get();

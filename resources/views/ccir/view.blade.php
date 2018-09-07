@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <ccir-details-approved></ccir-details-approved>
+    <ccir-view></ccir-view>
 @endsection

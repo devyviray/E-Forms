@@ -58,7 +58,7 @@ export default {
         viewReviewedDrdr(id)
         {
             var base_url = window.location.origin;
-            window.location.href = base_url+`/drdr-view-approved/${id}`;
+            window.location.href = base_url+`/drdr-view/${id}`;
         },
         fetchDrdrsReviewedForms()
         {

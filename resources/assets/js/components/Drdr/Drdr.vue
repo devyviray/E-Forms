@@ -11,16 +11,16 @@
                          <li class="nav-item">
                             <a class="nav-link active" id="submitted-tab" data-toggle="tab" @click="selected=1" href="#submitted" role="tab" aria-controls="submitted" aria-selected="true">Submitted Forms</a>
                         </li>
-                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(3)">
+                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2) || roleId.includes(4)">
                             <a class="nav-link" id="pending-reviews-tab" data-toggle="tab" @click="selected=2" href="#pending-reviews" role="tab" aria-controls="pending-reviews" aria-selected="false">Pending Reviews</a>
                         </li>
-                        <li  class="nav-item" v-if="roleId.includes(1) || roleId.includes(3)">
+                        <li  class="nav-item" v-if="roleId.includes(1) || roleId.includes(2) || roleId.includes(4)">
                             <a class="nav-link" id="reviewed-forms-tab" data-toggle="tab" @click="selected=3" href="#reviewed-forms" role="tab" aria-controls="reviewed-forms" aria-selected="false">Reviewed Forms</a>
                         </li>
-                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2)">
+                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2) || roleId.includes(3)">
                             <a class="nav-link" id="pending-approvals-tab" data-toggle="tab" @click="selected=4"  href="#pending-approvals" role="tab" aria-controls="pending-approvals" aria-selected="false">Pending Approvals</a>
                         </li>
-                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2)">
+                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2) || roleId.includes(3)">
                             <a class="nav-link" id="approved-forms-tab" data-toggle="tab"   @click="selected=5"  href="#approved-forms" role="tab" aria-controls="approved-forms" aria-selected="false">Approved Forms</a>
                         </li>
                     </ul>

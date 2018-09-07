@@ -155,9 +155,6 @@ export default {
             })
 
         },
-        addUserForm(){
-            window.location.href = '/add-user';
-        },
         addUser(user,selected_company,selected_department,selected_role){
             let comapanyids = [];
             let roleids = [];

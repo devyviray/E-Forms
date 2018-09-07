@@ -23,7 +23,7 @@
                         <td>{{ ncnSubmitted.issuance_date }}</td>
                         <td>{{ ncnSubmitted.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ncnSubmitted.id}`">Edit</button>
+                            <button  class="btn btn-primary" @click="viewSubmittedNcn(ncnSubmitted.id)">View</button>
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ncnSubmitted.id}`">Delete</button>
                         </td>
                     </tr>    
@@ -57,6 +57,11 @@ export default {
         this.fetchNcnSubmitteds();
     },
     methods:{
+        viewSubmittedNcn(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/ncn-view/${id}`;
+        },
         fetchNcnSubmitteds()
         {
             axios.get('/ncns-submitted')

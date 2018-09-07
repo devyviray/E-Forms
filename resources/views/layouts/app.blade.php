@@ -65,7 +65,7 @@
                             </ul>
                         </li>
                         <li>
-                            @role('administrator') 
+                            @role('administrator,mr') 
                             <div class="nav-link" href="./table.html">
                                 <i class="nc-icon nc-circle-09"></i>
                                 <p>Users</p>
@@ -125,6 +125,9 @@
                             <h5> administrator logged in</h5>
                         @endrole
 
+                        @role('mr') 
+                        <h5> MR logged in</h5>
+                         @endrole
                         @role('approver') 
                         <h5> approver logged in</h5>
                         @endrole

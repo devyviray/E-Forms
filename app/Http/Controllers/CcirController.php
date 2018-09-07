@@ -11,6 +11,8 @@ use App\Setting;
 use PDF;
 use App\Notifications\RequesterSubmitCcir;
 use App\Types\StatusType;
+use App\Types\RolesType;
+
 
 class CcirController extends Controller
 {
@@ -100,10 +102,20 @@ class CcirController extends Controller
         $ccirs->verifier_id = '1';
         $ccirs->status = StatusType::SUBMITTED;
 
-        $setting = Setting::findOrFail('1');
-        $setting->notify(new RequesterSubmitCcir($ccirs));
+        // $setting = Setting::findOrFail('1');
+        // $setting->notify(new RequesterSubmitCcir($ccirs));
 
         if($ccirs->save()){
+            
+            $company_id = $ccirs->company_id;
+            $mr = User::whereHas('roles', function($q) {
+                $q->where('role_id', RolesType::MR);
+            })->whereHas('companies', function($q) use ($company_id) {
+                $q->where('company_id',$company_id);
+            })->get();
+    
+            \Notification::send($mr, new ApproverNotifyMrDdr($ddr));
+
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){
                 $filename = $attachment->getClientOriginalName();
@@ -143,6 +155,16 @@ class CcirController extends Controller
                 ->get();
 
         return $ccir;
+    }
+
+    /**
+    * View the details of ccir.
+    *
+    * @return \Illuminate\Http\Response     
+    */
+    public function showDetailsCcir($ccir_id)
+    {
+        return view('ccir.view');
     }
 
     /**

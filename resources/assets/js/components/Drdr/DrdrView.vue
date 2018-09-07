@@ -11,23 +11,13 @@
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
                     <tr>
-                        <td>
-                            Doc No. <strong>LFQM-F-001</strong>
-                        </td>
-                        <td v-if="drdrs.length">
-                            Rev No. <strong> {{ drdrs[0].rev_number }}</strong>
-                        </td>
-                        <td>
-                            Effective Date
-                        </td>
-                        <td v-if="drdrs.length">
-                            {{ drdrs[0].effective_date }}
-                        </td>
+                        <td> Doc No. <strong>LFQM-F-001</strong> </td>
+                        <td v-if="drdrs.length"> Rev No. <strong> {{ drdrs[0].rev_number }}</strong> </td>
+                        <td> Effective Date </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].effective_date }} </td>
                     </tr>
                     <tr>
-                        <td colspan="5">
-                            DOCUMENT REVIEW and DISTRIBUTION REQUEST
-                        </td>
+                        <td colspan="5"> DOCUMENT REVIEW and DISTRIBUTION REQUEST </td>
                     </tr>
                 </tbody>
             </table>
@@ -44,22 +34,10 @@
                 <!-- first set -->
                 <tbody>
                     <tr>
-                        <td>
-                            <strong>
-                            Existing Document
-                            </strong>
-                        </td>
-                        <td>
-                            <strong>
-                                Document Title:
-                            </strong>
-                        </td>
+                        <td> <strong> Existing Document </strong> </td>
+                        <td> <strong> Document Title: </strong> </td>
                         <td v-if="drdrs.length"> {{ drdrs[0].document_title }} </td>
-                        <td>
-                            <strong>
-                                Rev. No:
-                            </strong>
-                        </td>
+                        <td> <strong> Rev. No: </strong> </td>
                         <td colspan="3" v-if="drdrs.length">
                             {{ drdrs[0].rev_number }}
                         </td>
@@ -67,29 +45,20 @@
                     <!-- second set -->
                     <tr>
                         <td colspan="6">
-                            <strong>
-                                Reason for proposal / change / cancellation:
-                            </strong>
+                            <strong> Reason for proposal / change / cancellation: </strong>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="7">
-                            {{ drdrs[0].reason_request }}
-                        </td>
+                        <td colspan="7"> {{ drdrs[0].reason_request }} </td>
                     </tr>
                     <!-- third set -->
                     <tr>
                         <td><strong>Requested By:</strong></td>
-                        <td v-if="drdrs.length">
-                            {{ drdrs[0].requester.name }}
-                        </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].requester.name }} </td>
                         <td><strong>Position:</strong></td>
-                        <td v-if="drdrs.length">
-                            {{ drdrs[0].requester.position }}
-                        </td>
+                        <td v-if="drdrs.length"> {{ drdrs[0].requester.position }} </td>
                         <td><strong>Date:</strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].date_request }} </td>
-
                     </tr>
                 </tbody>
             </table>
@@ -120,7 +89,6 @@
                         <td> <strong> Date: </strong> </td>
                         <td v-if="drdrs.length"> {{ drdrs[0].approved_date }} </td>
                     </tr>	
-
                 </tbody>
             </table>
 

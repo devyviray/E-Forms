@@ -21,7 +21,7 @@
                         <td>{{ ccir.delivery_date }}</td>
                         <td>{{ ccir.status }}</td>
                         <td>
-                           <button  class="btn btn-warning" @click="approveCcir(ccir.id)">Approve</button>
+                           <button  class="btn btn-warning" @click="approveCcir(ccir.id)">Click for approval</button>
                         </td>
                     </tr>    
                 </tbody>

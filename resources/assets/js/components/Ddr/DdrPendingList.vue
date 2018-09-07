@@ -25,7 +25,7 @@
                         <td>{{ ddr.date_requested }}</td>
                         <td>{{ ddr.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewDdr(ddr.id)" >View</button>
+                            <button  class="btn btn-warning" @click="approveDdr(ddr.id)" >Click for approval</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -60,7 +60,7 @@ export default {
         this.fetchDdrs();
     },
     methods:{
-         viewDdr(id)
+         approveDdr(id)
         {
             var base_url = window.location.origin;
             window.location.href = base_url+ `/ddr-approve/${id}`;
@@ -105,7 +105,7 @@ export default {
         filteredDdrs(){
             let self = this;
             return self.ddrs.filter(ddr => {
-                return ddr.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+                return ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {

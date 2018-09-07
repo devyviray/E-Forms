@@ -19,6 +19,7 @@ class CreateUploadedFilesTable extends Migration
             $table->integer('form_id');
             $table->string('role');
             $table->string('file_path');
+            $table->string('file_name');
             $table->string('model');
             $table->timestamps();
         });

@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
     {
 
 		$adminRole 			= Role::where('name', '=', 'Administrator')->first();
+		$MRRole 			= Role::where('name', '=', 'MR')->first();
 		$approverRole 		= Role::where('name', '=', 'Approver')->first();
 		$reviewerRole 		= Role::where('name', '=', 'Reviewer')->first();
 		$requesterRole 		= Role::where('name', '=', 'Requester')->first();
@@ -34,10 +35,28 @@ class UsersTableSeeder extends Seeder
 	            'name' => 'Administrator',
 	            'email' => 'demetrio.viray@lafilgroup.com',
 				'password' => bcrypt('password'),
-				'department_id' => 1
+				'position' => 'CIO',
+				'department_id' => 1,
 	        ]);
 
 	        $newUser->attachRole($adminRole);
+			foreach ($permissions as $permission) {
+				$newUser->attachPermission($permission);
+			}
+
+		}
+		
+		if (User::where('email', '=', 'mr@lafilgroup.com')->first() === null) {
+
+	        $newUser = User::create([
+	            'name' => 'MR',
+	            'email' => 'tqmmnl-ilogroup@lafilgroup.com',
+				'password' => bcrypt('password'),
+				'department_id' => 1,
+				'position' => 'Team '
+	        ]);
+
+	        $newUser->attachRole($MRRole);
 			foreach ($permissions as $permission) {
 				$newUser->attachPermission($permission);
 			}
@@ -50,7 +69,8 @@ class UsersTableSeeder extends Seeder
 	            'name' => 'Approver',
 	            'email' => 'approver@yahoo.com',
 				'password' => bcrypt('password'),
-				'department_id' => 1
+				'department_id' => 1,
+				'position' => 'Web Developer'
 	        ]);
 
 	        $newUser;
@@ -64,7 +84,8 @@ class UsersTableSeeder extends Seeder
 	            'name' => 'Reviewer',
 	            'email' => 'reviewer@yahoo.com',
 				'password' => bcrypt('password'),
-				'department_id' => 2
+				'department_id' => 2,
+				'position' => 'HR'
 	        ]);
 
 	        $newUser;
@@ -79,7 +100,8 @@ class UsersTableSeeder extends Seeder
 	            'name' => 'Requester',
 	            'email' => 'requester@yahoo.com',
 				'password' => bcrypt('password'),
-				'department_id' => 3
+				'department_id' => 3,
+				'position' => 'QA'
 	        ]);
 
 	        $newUser;
@@ -93,7 +115,8 @@ class UsersTableSeeder extends Seeder
 	            'name' => 'Notified',
 	            'email' => 'notified@yahoo.com',
 				'password' => bcrypt('password'),	
-				'department_id' => 4
+				'department_id' => 4,
+				'position' => 'Maintenance'
 	        ]);
 
 	        $newUser;
@@ -107,7 +130,8 @@ class UsersTableSeeder extends Seeder
 	            'name' => 'Moderator',
 	            'email' => 'moderator@yahoo.com',
 				'password' => bcrypt('password'),
-				'department_id' => 5
+				'department_id' => 5,
+				'position' => 'Tech writer'
 	        ]);
 
 	        $newUser;

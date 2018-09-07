@@ -21,7 +21,7 @@
                         <td>{{ ccirSubmitted.delivery_date }}</td>
                         <td>{{ ccirSubmitted.status }}</td>
                         <td>
-                            <button  class="btn btn-primary">View</button>
+                            <button  class="btn btn-primary" @click="viewSubmittedCcir(ccirSubmitted.id)">View</button>
                             <!-- <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ccirSubmitted.id}`">Edit</button> -->
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ccirSubmitted.id}`">Delete</button>
                         </td>
@@ -58,6 +58,11 @@ export default {
         this.fetchCcirSubmitted();
     },
     methods:{
+        viewSubmittedCcir(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/ccir-view/${id}`;
+        },
         fetchCcirSubmitted(){
             axios.get('/ccirs-submitted')
             .then(response => {

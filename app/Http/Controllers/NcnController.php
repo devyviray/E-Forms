@@ -131,6 +131,16 @@ class NcnController extends Controller
     }
 
     /**
+    * View the details of ccir.
+    *
+    * @return \Illuminate\Http\Response     
+    */
+    public function showDetailsNcn($ccir_id)
+    {
+        return view('ncn.view');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

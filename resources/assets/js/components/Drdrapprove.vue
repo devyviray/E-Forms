@@ -109,7 +109,6 @@ export default {
         }
     },
     created(){
-        this.fetchPage();
         this.fetchDrdr(); 
     },
     methods:{
@@ -120,17 +119,6 @@ export default {
             axios.get(`/drdr-data/${id}`)
             .then(response => {
                 this.drdrs = response.data;
-            })
-            .catch(error => {
-                this.errors = error.response.data.errors;
-            });
-        },
-        fetchPage(){
-            var url = window.location.href;
-            var id = url.match(/[^\/]+$/)[0];
-            
-            axios.get(`/drdr-approve/${id}`)
-            .then(response => {
             })
             .catch(error => {
                 this.errors = error.response.data.errors;

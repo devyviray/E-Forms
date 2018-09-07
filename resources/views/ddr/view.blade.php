@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <ddr-approve-form></ddr-approve-form>
+    <ddr-view></ddr-view>
 @endsection

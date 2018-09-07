@@ -57,7 +57,7 @@ export default {
         viewApprovedDdr(id)
         {
             var base_url = window.location.origin;
-            window.location.href = base_url+`/ddr-view-approved/${id}`;
+            window.location.href = base_url+`/ddr-view/${id}`;
         },
         fetchDdrs()
         {
@@ -89,7 +89,7 @@ export default {
         filteredDdrs(){
             let self = this;
             return self.ddrs.filter(ddr => {
-                return ddr.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+                return ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
