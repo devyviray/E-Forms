@@ -18,7 +18,7 @@
                             <span v-if="errors.department">{{ errors.department }}</span>
                     </div>
                     <div class="form-group">
-                       <select v-model="ddrs[0].reason_of_distribution" class="form-control form-control-lg">
+                       <select v-model="ddrs[0].reason_of_distribution" class="form-control form-control-lg" @change="selectedReason(ddrs[0].reason_of_distribution)">
                            <option value="" disabled selected>Reason of distribution</option>
                            <option value="1">Relevant External Document (controlled copy)</option>
                            <option value="2">Customer Request (uncontrolled copy)</option>
@@ -26,7 +26,10 @@
                        </select>
                         <span v-if="errors.type">{{ errors.type }}</span>
                     </div>
-
+                    <div class="form-group" v-if="ddrs[0].reason_of_distribution == 3 || others == 1">
+                        <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ddrs[0].others">
+                        <span v-if="errors.type">{{ errors.type }}</span>
+                    </div>
                     <div class="form-group">
                         <table class="table table-hover table-striped">
                             <button @click="addRow()" type="button" class="btn btn-primary">Add Row</button>
@@ -117,7 +120,8 @@ export default {
                 copy_number: '',
                 copy_holder: ''
             }],
-            ddrId: ''
+            ddrId: '',
+            others: ''
         }
     },
     created(){
@@ -216,6 +220,7 @@ export default {
                 company: ddr.company.id,
                 approver: ddr.approver.id,
                 department: ddr.department.id,
+                others: ddr.others,
                 ddrlists: ddrlists
             })
             .then(response => {
@@ -224,6 +229,9 @@ export default {
             .catch(error => {
                 this.errors = error.response.data.errors;
             })
+        },
+        selectedReason(id){
+           id == 3 ? this.others = 1 : this.others = 2; 
         }
     },
      components: {

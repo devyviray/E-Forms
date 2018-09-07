@@ -6,12 +6,12 @@
                 <option v-for="(requesterAttachment, re) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="re">{{ requesterAttachment.file_name }}</option>
             </select>
 
-            <select class="" v-model="selectedAttachment" @change="downloadAttachment">
+            <select class="" v-if="reviewerAttachments.length" v-model="selectedAttachment" @change="downloadAttachment">
                 <option selected disabled> Download Attachment - Reviewer </option>
                 <option v-for="(reviewerAttachment, r) in reviewerAttachments" :value="reviewerAttachment.id" v-bind:key="r">{{ reviewerAttachment.file_name }}</option>
             </select>
         
-             <select class="" v-model="selectedAttachment" @change="downloadAttachment">
+             <select class="" v-if="approverAttachments.length" v-model="selectedAttachment" @change="downloadAttachment">
                 <option selected disabled> Download Attachment - Approver </option>
                 <option v-for="(approverAttachment, a) in approverAttachments" :value="approverAttachment.id" v-bind:key="a">{{ approverAttachment.file_name }}</option>
             </select>
@@ -95,7 +95,7 @@
                         <td v-if="drdrs.length" > {{ drdrs[0].reviewed_date }}  </td>
                     </tr>
 
-                    <tr>
+                    <tr v-if="drdrs.length && drdrs[0].approver">
                         <td> <strong> Approved By: </strong> </td>
                         <td v-if="drdrs.length" >{{ drdrs[0].approver.name }} </td>
                         <td> <strong> Position: </strong></td>

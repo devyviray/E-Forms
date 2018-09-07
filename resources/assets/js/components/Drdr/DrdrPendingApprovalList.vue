@@ -9,6 +9,7 @@
                     <th>Company</th>
                     <th>Rev.</th>
                     <th>Reviewer</th>
+                    <th>Effective date</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
@@ -18,6 +19,7 @@
                         <td>{{ drdrsPendingApprovalForm.company.name  }}</td>
                         <td>{{ drdrsPendingApprovalForm.rev_number }}</td>
                         <td>{{ drdrsPendingApprovalForm.reviewer.name }}</td>
+                        <td>{{ drdrsPendingApprovalForm.effective_date }}</td>
                         <td>
                             <button  class="btn btn-warning" @click="approveDrdr(drdrsPendingApprovalForm.id)">Approve</button>
                         </td>

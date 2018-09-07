@@ -256,10 +256,7 @@ class NcnController extends Controller
         $uploadedFile->file_path =  $path;
         $uploadedFile->file_name = $filename;
         $uploadedFile->model = 'App\Ncn';
-
-        if($uploadedFile->save()){
-            return $uploadedFile;
-        }
+        $uploadedFile->save();
     }
 
     /**

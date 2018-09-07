@@ -48,7 +48,7 @@ Vue.component('drdr-approve', require('./components/Drdr/DrdrApprove.vue'));
 
 // Vue drdr
 Vue.component('ddr', require('./components/Ddr/Ddr.vue'));
-Vue.component('ddrform', require('./components/Ddr/Ddrform.vue'));
+Vue.component('ddr-form', require('./components/Ddr/DdrForm.vue'));
 Vue.component('ddr-edit', require('./components/Ddr/DdrEdit.vue'));
 Vue.component('ddr-view', require('./components/Ddr/DdrView.vue'));
 Vue.component('ddr-approve-form', require('./components/Ddr/DdrApproveForm.vue'));

@@ -66,7 +66,7 @@
                         <span v-if="errors.remarks">{{ errors.remarks }}</span>
                     </div>
                     <div class="form-group">
-                        <datepicker placeholder="Select Effective Date" v-model="drdr.effective_date"></datepicker>
+                        <datepicker placeholder="Select Effective Date" v-model="drdrs[0].effective_date"></datepicker>
                         <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
                     </div>
                     <div class="form-group">
@@ -155,7 +155,7 @@ export default {
             this.formData.append('status', drdr.status);
             this.formData.append('remarks', drdr.remarks);
             this.formData.append('effective_date', drdr.effective_date);
-            // this.formData.append('attachments', drdr.attachments);
+            this.formData.append('attachments', drdr.attachments);
             // this.formData.append('copy_number', drdr.copy_number);
             // this.formData.append('copy_holder', drdr.copy_holder);
             axios.post('/drdr-approved',this.formData)

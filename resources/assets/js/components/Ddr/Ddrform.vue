@@ -18,7 +18,7 @@
                             <span v-if="errors.department">{{ errors.department }}</span>
                     </div>
                     <div class="form-group">
-                       <select v-model="ddr.reason" class="form-control form-control-lg">
+                       <select v-model="ddr.reason" class="form-control form-control-lg" @change="selectedReason(ddr.reason)">
                            <option value="" disabled selected>Reason of distribution</option>
                            <option value="1">Relevant External Document (controlled copy)</option>
                            <option value="2">Customer Request (uncontrolled copy)</option>
@@ -26,7 +26,10 @@
                        </select>
                         <span v-if="errors.type">{{ errors.type }}</span>
                     </div>
-
+                    <div class="form-group" v-if="others == 1">
+                        <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ddr.others">
+                        <span v-if="errors.type">{{ errors.type }}</span>
+                    </div>
                     <div class="form-group">
                         <table class="table table-hover table-striped">
                             <button @click="addRow()" type="button" class="btn btn-primary">Add Row</button>
@@ -111,6 +114,7 @@ export default {
                 remarks: ''
 
             },
+            others: '',
             companies: [],
             company:{
                 id: '',
@@ -196,6 +200,7 @@ export default {
                 reason: ddr.reason,
                 date_needed: ddr.date_needed,
                 approver_id: approver,
+                others: ddr.others,
                 ddrlists: ddrlists
             })
             .then(response => {
@@ -216,6 +221,9 @@ export default {
         },
          deleteRow(index) {
             this.ddrlists.length < 2 ? alert('Unable to delete') : this.ddrlists.splice(index,1);
+        },
+        selectedReason(id){
+           id == 3 ? this.others = 1 : this.others = 2; 
         }
     },
      components: {

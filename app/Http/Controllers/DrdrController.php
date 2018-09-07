@@ -136,7 +136,7 @@ class DrdrController extends Controller
             'attachments' => 'required',
             'effective_date' => 'required'
         ]);
-
+        
         $drdr = new Drdr;
         $carbon = new Carbon();
         $path = '';
@@ -335,11 +335,11 @@ class DrdrController extends Controller
         ]);
 
         $drdr = Drdr::findOrFail($request->input('id'));
-        
+        $carbon = new Carbon();
+
         $status = $request->input('status') == 1 ? StatusType::APPROVED_REVIEWER : StatusType::DISAPPROVED_REVIEWER;
         $drdr->status = $status;
         $status == StatusType::APPROVED_REVIEWER ? $drdr->reviewed_date = $carbon::now() : $drdr->disapproved_date =  $carbon::now();
-        $drdr->reviewed_date = 
         $drdr->remarks = $request->input('remarks');
         $drdr->approver_id = $request->input('approver_id');
 
@@ -438,7 +438,7 @@ class DrdrController extends Controller
      */
     public function getAllDrdrs()
     {
-        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])->get();
+        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])->orderBy('id', 'desc')->get();
 
         return $drdrs;
     }
@@ -480,10 +480,7 @@ class DrdrController extends Controller
         $uploadedFile->file_path =  $path;
         $uploadedFile->file_name = $filename;
         $uploadedFile->model = 'App\Drdr';
-
-        if($uploadedFile->save()){
-            return $uploadedFile;
-        }
+        $uploadedFile->save();
     }
 
     /**

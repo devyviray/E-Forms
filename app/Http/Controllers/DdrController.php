@@ -87,6 +87,7 @@ class DdrController extends Controller
             "ddrlists.*.copy_holder"  => "required",
             'approver_id' => 'required' 
         ]);
+        $request->input('reason') == 3 ? $request->validate(['others' => 'required']) : '' ;
 
         $ddr = new Ddr;
         $carbon = new Carbon();
@@ -98,6 +99,7 @@ class DdrController extends Controller
         $ddr->date_request = $carbon::now();
         $ddr->requester_id  = Auth::user()->id;
         $ddr->approver_id = $request->input('approver_id');
+        $ddr->others = $request->input('reason') == 3 ? $request->input('others') : '';
         $ddr->status = StatusType::SUBMITTED;
 
         $user = User::findOrFail($request->input('approver_id'));
@@ -155,7 +157,7 @@ class DdrController extends Controller
         $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
         $ddr->status = $status;
         $ddr->remarks = $request->input('remarks');
-        // $ddr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
+        $ddr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
         $ddr->save();
         
         $company_id = $ddr->company_id;
@@ -216,10 +218,13 @@ class DdrController extends Controller
             "ddrlists.*.copy_number"  => "required",
             "ddrlists.*.copy_holder"  => "required",
         ]);
-            
+        
+        $request->input('reason') == 3 ? $request->validate(['others' => 'required']) : '' ;
+
         $ddr->company_id = $request->input('company');
         $ddr->department_id = $request->input('department');
         $ddr->reason_of_distribution = $request->input('reason');
+        $ddr->others = $request->input('reason') == 3 ? $request->input('others') : '';
         $ddr->date_needed = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('date_needed'));
         $ddr->approver_id = $request->input('approver');
         $ddr->status = StatusType::SUBMITTED;

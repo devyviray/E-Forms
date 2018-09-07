@@ -61,6 +61,8 @@ export default {
             ccirs: [],
             keywords: '',
             errors: '',
+            startDate: '',
+            endDate: '',    
             currentPage: 0,
             itemsPerPage: 10,
         }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Ccir;
 use App\UploadedFile;
+use App\User;
 use Carbon\Carbon;
 use App\Setting;
 use PDF;
@@ -114,7 +115,7 @@ class CcirController extends Controller
                 $q->where('company_id',$company_id);
             })->get();
     
-            \Notification::send($mr, new ApproverNotifyMrDdr($ddr));
+            \Notification::send($mr, new RequesterSubmitCcir($ccirs));
 
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){
@@ -255,10 +256,7 @@ class CcirController extends Controller
         $uploadedFile->file_path =  $path;
         $uploadedFile->file_name = $filename;
         $uploadedFile->model = 'App\Ccir';
-
-        if($uploadedFile->save()){
-            return $uploadedFile;
-        }
+        $uploadedFile->save();
     }
 
     /**
