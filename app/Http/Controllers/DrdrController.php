@@ -373,7 +373,9 @@ class DrdrController extends Controller
             'id' => 'required',
             'status' => 'required',
             'remarks' => 'required',
-            'attachments' => 'required'
+            'attachments' => 'required',
+            'copy_number' => 'required',
+            'copy_holder' => 'required'
         ]);
 
         $carbon = new Carbon();
@@ -382,6 +384,8 @@ class DrdrController extends Controller
         $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
         $drdr->status = $status;
         $status == StatusType::APPROVED_APPROVER ? $drdr->approved_date = $carbon::now() : $drdr->disapproved_date =  $carbon::now();
+        $drdr->remarks = $request->input('copy_number');
+        $drdr->remarks = $request->input('copy_holder');
         $drdr->remarks = $request->input('remarks');
         $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
     

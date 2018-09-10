@@ -18,8 +18,19 @@
                         <td>{{ drdrsReviewedForm.document_title }}</td>
                         <td>{{ drdrsReviewedForm.company.name  }}</td>
                         <td>{{ drdrsReviewedForm.rev_number }}</td>
-                        <td>{{ drdrsReviewedForm.reviewer.name }}</td>
-                        <td>{{ drdrsReviewedForm.approver.name }}</td>
+                        <td>
+                            {{ drdrsReviewedForm.reviewer.name }} <br>
+                            <span style="color: red" v-if="drdrsReviewedForm.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdrsReviewedForm.status == 5"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+
+                        </td>
+                        <td>
+                            {{ drdrsReviewedForm.approver.name }} <br>
+                            <span style="color: red" v-if="drdrsReviewedForm.status == 3"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdrsReviewedForm.status == 5"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td>
                             <button  class="btn btn-warning" @click="viewReviewedDrdr(drdrsReviewedForm.id)">View</button>
                         </td>

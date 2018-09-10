@@ -1,99 +1,124 @@
 <!DOCTYPE html>
 <html>
-    <head> <title>PDF Download</title> </head>
-    <body> 
-        <hr>
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td rowspan="3" width="10%">
-                        <img class="img-responsive" src="http://172.17.2.88/e-forms-test/public/image/lfug-logo.png" style="padding: 10px; width: 100px; height: auto;">
-                    </td>
-                    <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
-                </tr>
-                <tr>
-                    <td>  Doc No. <strong>LFQM-F-029b</strong> </td>
-                    <td> Rev No. <strong>00</strong> </td>
-                    <td> Effective Date </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="5"> CUSTOMER COMPLAINT REPORT</td>
-                </tr>
-            </tbody>
-        </table>
+<head>
+	<title>PDF Download</title>
+        <style>
+            body {
+            font-family: 'Miriam Libre', sans-serif;
+            font-size: 70%;
+            }
+            h1,h2,h3,h4,h5,h6{
+                font-family: 'Miriam Libre', sans-serif;
+            }
+            table, th, td {
+            border: 0.50px solid black ! important;
+            }
+        </style>
 
-        <!-- step 2 -->
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td colspan="7"> <h4> <strong> Step: 1 </strong> </h4> </td>
-                </tr>
-                <tr>
-                    <td>Issuer:</td>
-                    <td colspan="6"></td>
-                </tr>
-                <tr>
-                    <td>Date of Issuance:</td>
-                    <td colspan="6"> April 12 2017 </td>
-                </tr>
-                <tr>
-                    <td>Brand Name:</td>
-                    <td colspan="6"> Family All Purpose Flour </td>
-                </tr>
-                <tr>
-                    <td>Affected Quantities</td>
-                    <td colspan="6"> Not Applicable </td>
-                </tr>
-                <tr>
-                    <td>Product Control No</td>
-                    <td colspan="2"> G2 FAPF P BB02 003785 </td>
-                    <td>Delivery Date</td>
-                    <td colspan="3"> March 21 2017 </td>
-                </tr>
-                <tr>
-                    <td>Quantity of sample</td>
-                    <td colspan="2"> Not Applicable </td>
-                    <td>Return Date</td>
-                    <td colspan="3"> April 12 2017 </td>
-                </tr>
-                <tr>
-                    <td rowspan="3">Nature of Complaint</td>
-                    <td>Wet/Lumpy</td>
-                    <td></td>
-                    <td>Busted Bag</td>
-                    <td></td>
-                    <td>Under / Over Weight</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Infested</td>
-                    <td> </td>
-                    <td>Dirty Packaging</td>
-                    <td></td>
-                    <td>Others</td>
-                    <td> <i class="ion-checkmark-round" style="color: green;"></i> </td>
-                </tr>
-                <tr>
-                    <td>For Other please specify:</td>
-                    <td colspan="5"> quality problem </td>
-                </tr>
-                <tr>
-                    <td> Other Details:<br> </td>
-                    <td colspan="6"> muffin produced using FAPF did not meet the standard of customer; customer preferred fluffy muffin (using Baron Flour); see attached photo
-                    DR#: 223163
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td width="50%">Prepared By:</td>
-                    <td>Cheryl Calipes </td>
-                </tr>
-            </tbody>
-        </table>
-    </body>
+</head>
+<body>
+    <table class="table table-bordered" width="100%">
+            <tr>
+                <td rowspan="3">
+                    <img class="logo-logo" src="{{asset('image/lfug-logo.png')}}" 
+                    style="display:block;  width: 60px; height: auto; padding: 0; margin: 10px 10px 0 30px;">
+                </td>
+                <td colspan="5" >La Filipina Uy Gongco Group of Companies</td>
+            </tr>
+            <tr>
+                <td>  Doc No. <strong>LFQM-F-029b</strong> </td>
+                <td> Rev No. <strong>00</strong> </td>
+                <td> Effective Date </td>
+                <td colspan="2"> Feb. 25, 2017 </td>
+            </tr>
+            <tr>
+                <td colspan="5"> CUSTOMER COMPLAINT REPORT </td>
+            </tr>
+    </table>
+    <!-- step 2 -->
+    <table class="table table-bordered" width="100%">
+        <tr>
+            <td class="info"> <strong> Company: </strong> </td>
+            <td colspan="6"> </td>
+        </tr>
+        <tr>
+            <td class="info"> <strong> Date of Issuance: </strong> </td>
+            <td colspan="6"> </td>
+        </tr>
+        <tr>
+            <td class="info"> <strong> Complainant's Name: </strong> </td>
+            <td colspan="6"> </td>
+        </tr>
+        <tr>
+            <td class="info"> <strong> Brand Name: </strong> </td>
+            <td colspan="6"> </td>
+        </tr>
+        <tr>
+            <td class="info"> <strong> Affected Quantities </strong> </td>
+            <td colspan="6"> </td>
+        </tr>
+        <tr>
+            <td class="info"> <strong> Product Control No </strong> </td>
+            <td colspan="2"> </td>
+            <td class="info"> <strong> Delivery Date </strong> </td>
+            <td colspan="3"> </td>
+        </tr>
+        <tr>
+            <td class="info"> <strong> Quantity of sample </strong> </td>
+            <td colspan="2"> </td>
+            <td class="info"> <strong> Return Date </strong> </td>
+            <td colspan="3"> </td>
+        </tr>
+        <tr>
+            <td rowspan="3" class="info"> <strong> Nature of Complaint: </strong> </td>
+            <td class="info"> <strong> Wet/Lumpy </strong> </td>
+            <td>
+                <img src="{{asset('image/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;">
+            </td>
+            <td class="info"> <strong> Busted Bag </strong> </td>
+            <td>
+                <img src="{{asset('image/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;">
+            </td>
+            <td class="info"> <strong> Under / Over Weight </strong> </td>
+            <td>
+                <img src="{{asset('image/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td class="info"> <strong> Infested </strong>
+            </td>
+            <td>
+                <img src="{{asset('image/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;">
+            </td>
+            <td class="info"> <strong> Dirty Packaging </strong>
+            </td>
+            <td>
+                <img src="{{asset('image/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;">
+            </td>
+            <td class="info"> <strong> Others </strong> </td>
+            <td>
+                <img src="{{asset('image/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;">
+            </td>
+        </tr>
+        <tr>
+            <td class="info"> <strong> For others, please specify </strong> </td>
+            <td colspan="5"> </td>
+        </tr>
+            <tr> <td class="info"> <strong>Other Details: </strong> </td>
+            <td colspan="6"> </td>
+        </tr>
+    </table>
+    <table class="table table-bordered" width="100%">
+        <tr>
+            <td width="23%" class="info"> <strong> Prepared By: </strong> </td>
+            <td colspan="3">	 </td>
+        </tr>
+        <tr>
+            <td class="info"> <strong> Position: </strong> </td>
+            <td> </td>
+            <td class="info"> <strong> Date: </strong> </td>
+            <td> </td>
+        </tr>
+    </table>
+</body>
 </html>

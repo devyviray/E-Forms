@@ -1,6 +1,6 @@
 <template>
     <div id="page-content-wrapper">
-        <div class="container-fluid">
+        <div class="container-fluid" v-if="drdrs.length">
             <select class="" v-model="selectedAttachment" @change="downloadAttachment">
                 <option selected disabled> Download Attachment - Requester </option>
                 <option v-for="(requesterAttachment, re) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="re">{{ requesterAttachment.file_name }}</option>
@@ -88,7 +88,12 @@
                 <tbody>
                     <tr>
                         <td> <strong> Reviewed By: </strong> </td>
-                        <td  v-if="drdrs.length"> {{ drdrs[0].reviewer.name }} </td>
+                        <td  v-if="drdrs.length"> 
+                            {{ drdrs[0].reviewer.name }} <br>
+                            <span style="color: red" v-if="drdrs[0].status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdrs[0].status == 5"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td> <strong> Position:</strong> </td>
                         <td  v-if="drdrs.length"> {{ drdrs[0].reviewer.position }}  </td>
                         <td> <strong> Date: </strong> </td>
@@ -97,7 +102,12 @@
 
                     <tr v-if="drdrs.length && drdrs[0].approver">
                         <td> <strong> Approved By: </strong> </td>
-                        <td v-if="drdrs.length" >{{ drdrs[0].approver.name }} </td>
+                        <td v-if="drdrs.length" >
+                            {{ drdrs[0].approver.name }} <br>
+                            <span style="color: red" v-if="drdrs[0].status == 3"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="[0].status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td> <strong> Position: </strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].approver.position }}</td>
                         <td> <strong> Date: </strong> </td>
@@ -112,7 +122,7 @@
                         <td>Considered Docments in reviewing:</td>
                     </tr>
                     <tr>
-                        <td> ok </td>
+                        <td>{{ drdrs[0].consider_documents }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -143,29 +153,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td> 1</td>
-                                <td> QM </td>
-                            </tr>
-                            <tr>
-                                <td> 2 </td>
-                                <td> FOOD SAFETY TEAM </td>
-                            </tr>
-                            <tr>
-                                <td> 3 </td>
-                                <td> FEEDMILL</td>
-                            </tr>
-                            <tr>
-                                <td> 4</td>
-                                <td> SPC </td>
-                            </tr>
-                            <tr>
-                                <td> 5 </td>
-                                <td> ADMIN </td>
-                            </tr>
-                            <tr>
-                                <td> 6 </td>
-                                <td> QC </td>
+                            <tr v-if="drdrs[0].copy_number" >
+                                <td> {{ drdrs[0].copy_number }} </td>
+                                <td> {{ drdrs[0].copy_holder }} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -175,24 +165,21 @@
                     <table class="table table-bordered" style="border-left: 0 ! important;">
                         <thead>
                             <tr>
-                                <td style="border-left: 0 ! important;">Effective Date: </td>
+                                <td style="border-left: 0 ! important;">Effective Date: {{ drdrs[0].effective_date }}</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="border-left: 0 ! important;"> August 03, 2018 </td>
-                            </tr>
-                            <tr>
                                 <td style="border-left: 0 ! important;"> DRDR NO: PFMC-I-08-2018-2678 </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Document Title: Master Sanitation Plan - Feed Mill </td>
+                                <td style="border-left: 0 ! important;"> Document Title: {{ drdrs[0].document_title }} </td>
                             </tr>
                             <tr>
                                 <td style="border-left: 0 ! important;"> Document Code: PRP-003-002c.1FD </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Revision No: 11 </td>
+                                <td style="border-left: 0 ! important;"> Revision No: {{ drdrs[0].rev_number }} </td>
                             </tr>
                         </tbody>
                     </table>

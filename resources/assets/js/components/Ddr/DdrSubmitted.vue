@@ -16,7 +16,7 @@
                         <td>{{ ddrSubmitted.id }}</td>
                         <td>{{ ddrSubmitted.approver.name }}</td>
                         <td>{{ ddrSubmitted.reason_of_distribution }}</td>
-                        <td>{{ ddrSubmitted.date_requested }}</td>
+                        <td>{{ ddrSubmitted.date_request }}</td>
                         <td>
                             <span style="color: red" v-if="ddrSubmitted.status == 2"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="ddrSubmitted.status == 6"> DISAPPROVED </span>

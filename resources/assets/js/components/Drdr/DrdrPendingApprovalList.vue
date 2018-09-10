@@ -17,8 +17,13 @@
                         <td>{{ drdrsPendingApprovalForm.id }}</td>
                         <td>{{ drdrsPendingApprovalForm.document_title }}</td>
                         <td>{{ drdrsPendingApprovalForm.company.name  }}</td>
-                        <td>{{ drdrsPendingApprovalForm.rev_number }}</td>
-                        <td>{{ drdrsPendingApprovalForm.reviewer.name }}</td>
+                        <td>{{ drdrsPendingApprovalForm.rev_number }}</td>  
+                        <td>
+                            {{ drdrsPendingApprovalForm.reviewer.name }}<br>
+                            <span style="color: red" v-if="drdrsPendingApprovalForm.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdrsPendingApprovalForm.status == 5"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td>{{ drdrsPendingApprovalForm.effective_date }}</td>
                         <td>
                             <button  class="btn btn-warning" @click="approveDrdr(drdrsPendingApprovalForm.id)">Approve</button>

@@ -33,7 +33,11 @@
                         <td>{{ ncn.notification_number }}</td>
                         <td>{{ ncn.issuance_date }}</td>
                         <td>{{ ncn.approver.name }}</td>
-                        <td>{{ ncn.status }}</td>
+                        <td>
+                            <span style="color: red" v-if="ncn.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="ncn.status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td>
                             <button @click="viewNcnDetails(ncn.id)" class="btn btn-warning">View</button>
                         </td>

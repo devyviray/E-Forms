@@ -16,7 +16,7 @@
                         <td> Doc No. <strong>LFQM-F-002</strong> </td>
                         <td v-if="ddrs.length"> Rev No. <strong>{{ ddrs[0].rev_number}}</strong> </td>
                         <td> Effective Date </td>
-                        <td v-if="ddrs.length"> {{ ddrs.effective_date }}</td>
+                        <td v-if="ddrs.length"> {{ ddrs[0].effective_date }}</td>
                     </tr>
                     <tr>
                         <td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>
@@ -84,13 +84,13 @@
                         <th>Date</th>
                     </tr>
                 </thead>
-                <tbody>
-                        <tr>
-                            <td v-if="ddrs.length"> {{ ddrs[0].document_title }} </td>
-                            <td v-if="ddrs.length"> {{ ddrs[0].control_code }} </td>
-                            <td v-if="ddrs.length"> {{ ddrs[0].rev_number }} </td>
-                            <td v-if="ddrs.length"> {{ ddrs[0].copy_number }} </td>
-                            <td v-if="ddrs.length"> {{ ddrs[0].copy_holder }} </td>
+                <tbody v-if="ddrs.length">
+                        <tr v-for="(ddr, d) in ddrs[0].ddr_lists" v-bind:key="d">
+                            <td> {{ ddr.document_title }} </td>
+                            <td> {{ ddr.control_code }} </td>
+                            <td> {{ ddr.rev_number }} </td>
+                            <td> {{ ddr.copy_number }} </td>
+                            <td> {{ ddr.copy_holder }} </td>
                             <td></td>
                             <td> April 12, 2017 </td>
                         </tr>
@@ -108,7 +108,12 @@
                         <td> <strong> Requested by:  <strong> </strong></strong> </td>
                         <td v-if="ddrs.length"> {{ ddrs[0].requester.name }} </td>
                         <td> <strong> Approved by: </strong> </td>
-                        <td v-if="ddrs.length"> {{ ddrs[0].approver.name }} </td>
+                        <td v-if="ddrs.length"> 
+                            {{ ddrs[0].approver.name }}<br>
+                            <span style="color: red" v-if="ddrs[0].status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="ddrs[0].status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                         </td>
                         <td> <strong> Distributed by: </strong> </td>
                         <td> Michelle Paje </td>
                     </tr>

@@ -18,7 +18,12 @@
                         <td>{{ drdrsApprovedForm.document_title }}</td>
                         <td>{{ drdrsApprovedForm.company.name  }}</td>
                         <td>{{ drdrsApprovedForm.rev_number }}</td>
-                        <td>{{ drdrsApprovedForm.reviewer.name }}</td>
+                        <td>
+                            {{ drdrsApprovedForm.reviewer.name }}<br>
+                            <span style="color: red" v-if="drdrsApprovedForm.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdrsApprovedForm.status == 5"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td>{{ drdrsApprovedForm.effective_date }}</td>
                         <td>
                             <button  class="btn btn-warning" @click="viewApprovedDrdr(drdrsApprovedForm.id)">View</button>

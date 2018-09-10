@@ -65,7 +65,7 @@
                         <textarea class="form-control" v-model="drdr.remarks" id="remarks" cols="30" rows="10"></textarea>
                         <span v-if="errors.remarks">{{ errors.remarks }}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" v-if="drdrs.length">
                         <datepicker placeholder="Select Effective Date" v-model="drdrs[0].effective_date"></datepicker>
                         <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
                     </div>
@@ -82,7 +82,7 @@
                         <input type="text" class="form-control" placeholder="Copy holder" v-model="drdr.copy_holder" id="copy_holder">
                         <span v-if="errors.copy_holder">{{ errors.copy_holder }}</span>
                     </div>
-                    <button @click="approvedDrdr(drdrs[0].id, drdr)" type="button" class="btn btn-primary">Submit</button>
+                    <button @click="approvedDrdr(drdrs[0].id, drdr,drdrs[0])" type="button" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
@@ -133,8 +133,6 @@ export default {
             for (var i = files.length - 1; i >= 0; i--){
                 this.attachments.push(files[i]);
             }
-
-            // document.getElementById('attachments').value = [];
         },
         resetData(){
           this.formData = new FormData();
@@ -148,16 +146,15 @@ export default {
                 }
             } 
         },
-        approvedDrdr(id,drdr)
+        approvedDrdr(id,drdr,drdrs)
         {   
             this.prepareFields();
             this.formData.append('id', id);
             this.formData.append('status', drdr.status);
             this.formData.append('remarks', drdr.remarks);
-            this.formData.append('effective_date', drdr.effective_date);
-            this.formData.append('attachments', drdr.attachments);
-            // this.formData.append('copy_number', drdr.copy_number);
-            // this.formData.append('copy_holder', drdr.copy_holder);
+            this.formData.append('effective_date', drdrs.effective_date);
+            this.formData.append('copy_number', drdr.copy_number);
+            this.formData.append('copy_holder', drdr.copy_holder);
             axios.post('/drdr-approved',this.formData)
             .then(response => {
                 this.resetData();

@@ -21,7 +21,11 @@
                         <td>{{ ncn.non_conformity_details }}</td> -->
                         <td>{{ ncnSubmitted.notification_number }}</td>
                         <td>{{ ncnSubmitted.issuance_date }}</td>
-                        <td>{{ ncnSubmitted.status }}</td>
+                        <td>
+                            <span style="color: red" v-if="ncnSubmitted.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="ncnSubmitted.status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td>
                             <button  class="btn btn-primary" @click="viewSubmittedNcn(ncnSubmitted.id)">View</button>
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ncnSubmitted.id}`">Delete</button>

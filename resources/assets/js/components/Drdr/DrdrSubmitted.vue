@@ -25,7 +25,7 @@
                         <td v-if="drdrSubmitted.approver !== null">
                             {{ drdrSubmitted.approver.name }}<br>
                             <span style="color: red" v-if="drdrSubmitted.status == 3"> NOT YET APPROVED </span>
-                            <span style="color: red" v-else-if="drdrSubmitted.status == 5"> DISAPPROVED </span>
+                            <span style="color: red" v-else-if="drdrSubmitted.status == 6"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td style="padding-left: 30px" v-else>{{ "-" }}</td>

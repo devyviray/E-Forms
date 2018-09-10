@@ -1,122 +1,114 @@
 <!DOCTYPE html>
 <html>
-    <head> <title>PDF Download</title> </head>
-    <body>
-              
-            NON CONFORMANCE NOTIFICATION
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td rowspan="3" width="10%">
-                        <img class="img-responsive" src="http://172.17.2.88/e-forms-test/public/image/lfug-logo.png" style="padding: 10px; width: 100px; height: auto;">
-                    </td>
-                    <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
-                </tr>
-                <tr>
-                    <td> Doc No. <strong>LFQM-F-019</strong> </td>
-                    <td> Rev No. <strong>02</strong> </td>
-                    <td> Effective Date </td>
-                    <td> June 22, 2016 </td>
-                </tr>
-                <tr></tr>
-            </tbody>
-        </table>
+<head>
+	<title>PDF Download</title>
+        <style>
+			body {
+			font-family: 'Miriam Libre', sans-serif;
+			font-size: 70%;
+			}
 
-        <!-- step 1 -->
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td> <strong> COMPANY: </strong> </td>
-                    <td colspan="2"> Mama Tina Pasta Company Inc. </td>
-                </tr>
-                <tr>
-                    <td> <strong> DIVISION / DEPARTMENT: </strong> </td>
-                    <td colspan="2"> Corporate Quality Assurance- Quality Control Section </td>
-                </tr>
-                <tr>
-                    <td colspan="3"> <strong> TYPE OF NON CONFORMITY: </strong> </td>
-                </tr>
+			h1,h2,h3,h4,h5,h6{
+				font-family: 'Miriam Libre', sans-serif;
+			}
+			table, th, td {
+			border: 0.50px solid black ! important;
+			}
 
-                <tr>
-                    <td>
-                        <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Customer-returns 				
-                    </td>
-                    <td>		
-                        <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Process-related 				
-                    </td>
-                    <td>
-                        <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Contracted-service 					
-                    </td>
-                </tr>
-                <tr>
-                    <td>		
-                        <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Objectives not met 					
-                    </td>
-                    <td>
-                        <i class="ion-android-checkbox-outline" style="font-weight: bold; font-size: 20px;"></i>  Vendor					
-                    </td>
-                    <td>
-                        <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i> Others:					
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+			.borderless, .borderless th, .borderless td {
+				border: 0 ! important;
+				font-size: 12px;
+			}
+    	</style>
+</head>
+<body>
+	<table class="table table-bordered" width="100%">
+		<tr>
+			<td rowspan="3">
+				<img class="logo-logo" src="{{asset('image/lfug-logo.png')}}" 
+				style="display:block;  width: 60px; height: auto; padding: 0; margin: 10px 10px 0 30px;">
+			</td>
+			<td colspan="4">La Filipina Uy Gongco Group of Companies</td>
+		</tr>
+		<tr>
+			<td> Doc No. <strong>LFQM-F-019</strong> </td>
+			<td> Rev No. <strong>02</strong> </td>
+			<td> Effective Date </td>
+			<td> June 22, 2016 </td>
+		</tr>
+		<tr>
+			<td colspan="4"> NON CONFORMANCE NOTIFICATION </td>
+		</tr>
+	</table>
 
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>Notification No:</td>
-                    <td>
-                        <strong></strong>
-                    </td>
-                    <td>Issued by:</td>
-                    <td>
-                        <strong>
-                            Geraldine Urriza
-                        </strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Recurrence No:</td>
-                    <td> <strong> </strong> </td>
-                    <td>Position:</td>
-                    <td> <strong>  QA </strong> </td>
-                </tr>
-                <tr>
-                    <td>Date of Issuance:</td>
-                    <td> <strong> May 22, 2017 </strong></td>
-                    <td>Notified Person:</td>
-                    <td><strong> Geraldine Urriza</strong></td>
-                </tr>
-            </tbody>
-        </table>
+	<table class="table"  width="100%">
+		<tr>
+			<td width="30%" class="info"> <strong> COMPANY: </strong> </td>
+			<td colspan="2"> Company name </td>
+		</tr>
+		<tr>
+			<td class="info"> <strong> DIVISION / DEPARTMENT: </strong> </td>
+			<td colspan="2"> </td>
+		</tr>
+	</table>
+	
+	<!-- step 1 -->
+	<table class="table borderless"  width="100%">
+		<tr>
+			<td colspan="3"> <strong> TYPE OF NON CONFORMITY: </strong> </td>
+		</tr>
+		<tr>
+			<td>
+				<img src="{{asset('image/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> item name
+			</td>
+		</tr>
+	</table>
 
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td colspan="4">
-                        <strong> Step 1: Provide details of non-conformity: </strong>
-                    </td>	
-                </tr>
-                <tr>
-                    <td colspan="4">
-                        Upon cleaning of blowthrough sieve last April 19 2017 we haved retrieve  pieces of silicon, brown paper and black foreign material.
-                        please see deliveries attached.
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4"> <strong> Step 2: Immediate Action Taken: </strong> </td>	
-                </tr>
-                <tr>
-                    <td colspan="4"> Forwarded to QM dated 26 April 2017 for CAR completion </td>
-                </tr>
-                <tr>
-                    <td>Responsible:</td>
-                    <td> Cheryl Calipes </td>
-                    <td>Execution Date:</td>
-                    <td> April 26, 2017	</td>
-                </tr>
-            </tbody>
-        </table>
-    </body>
+	<table class="table table-bordered" width="100%">
+		<tr>
+			<td  class="info"> <strong> Notification No: </strong> </td>
+			<td> </td>
+			<td  class="info"> <strong> Issued by: </strong> </td>
+			<td> </td>
+		</tr>
+		<tr>
+			<td  class="info"> <strong> Recurrence No: </strong> </td>
+			<td> </td>
+			<td  class="info"> <strong> Position: </strong> </td>
+			<td> </td>
+		</tr>
+		<tr>
+			<td  class="info"> <strong> Date of Issuance: </strong> </td>
+			<td> </td>
+			<td  class="info"> <strong> Notified Person: </strong> </td>
+			<td> </td>
+		</tr>
+	</table>
+
+	<table class="table table-bordered" width="100%">
+			<tr> 
+				<td colspan="4" class="info"> <strong> Details of Non-conformity: </strong> </td>	
+			</tr>
+			<tr>
+				<td colspan="4" style="height:100px; "> </td>
+			</tr>
+			<tr>
+				<td colspan="4" class="info"> <strong> Immediate Action Taken: </strong> </td>	
+			</tr>
+			<tr>
+				<td colspan="4" style="height:100px; "> action taken </td>
+			</tr>
+			<tr>
+				<td class="info"> <strong> Responsible: </strong> </td>
+				<td colspan="3"> notified name </td>
+			</tr>
+			<tr>
+				<td class="info"> <strong> Position: </strong> </td>
+				<td> </td>
+				<td class="info"> <strong> Execution Date: </strong> </td>
+				<td> execution date </td>
+			</tr>
+	</table>
+
+</body>
 </html>

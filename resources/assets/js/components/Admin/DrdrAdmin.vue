@@ -28,8 +28,18 @@
                         <td>{{ drdr.document_title }}</td>
                         <td>{{ drdr.company.name  }}</td>
                         <td>{{ drdr.rev_number }}</td>
-                        <td>{{ drdr.reviewer.name }}</td>
-                        <td v-if="drdr.approver">{{ drdr.approver.name }}</td>
+                        <td>
+                            {{ drdr.reviewer.name }}<br>
+                            <span style="color: red" v-if="drdr.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdr.status == 5"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
+                        <td v-if="drdr.approver">
+                            {{ drdr.approver.name }}<br>
+                            <span style="color: red" v-if="drdr.status == 3"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdr.status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td style="padding-left: 30px" v-else>{{ ' - '  }}</td>
                         <td>
                             <button  class="btn btn-warning" @click="viewDrdrDetails(drdr.id)">View</button>

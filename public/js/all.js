@@ -45530,6 +45530,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -45709,10 +45719,44 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(drdr.rev_number))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(drdr.reviewer.name))]),
+              _c("td", [
+                _vm._v(
+                  "\n                        " + _vm._s(drdr.reviewer.name)
+                ),
+                _c("br"),
+                _vm._v(" "),
+                drdr.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : drdr.status == 5
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               drdr.approver
-                ? _c("td", [_vm._v(_vm._s(drdr.approver.name))])
+                ? _c("td", [
+                    _vm._v(
+                      "\n                        " + _vm._s(drdr.approver.name)
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    drdr.status == 3
+                      ? _c("span", { staticStyle: { color: "red" } }, [
+                          _vm._v(" NOT YET APPROVED ")
+                        ])
+                      : drdr.status == 6
+                        ? _c("span", { staticStyle: { color: "red" } }, [
+                            _vm._v(" DISAPPROVED ")
+                          ])
+                        : _c("span", { staticStyle: { color: "green" } }, [
+                            _vm._v(" APPROVED ")
+                          ])
+                  ])
                 : _c("td", { staticStyle: { "padding-left": "30px" } }, [
                     _vm._v(_vm._s(" - "))
                   ]),
@@ -45878,6 +45922,10 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(1);
+//
+//
+//
+//
 //
 //
 //
@@ -46112,7 +46160,19 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(ddr.approver.name))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(ddr.status))]),
+              _c("td", [
+                ddr.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : ddr.status == 6
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               _c("td", [
                 _c(
@@ -46277,6 +46337,10 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(1);
+//
+//
+//
+//
 //
 //
 //
@@ -46512,7 +46576,19 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(ncn.approver.name))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(ncn.status))]),
+              _c("td", [
+                ncn.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : ncn.status == 6
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               _c("td", [
                 _c(
@@ -47283,19 +47359,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['drdrId'],
@@ -47377,55 +47440,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "page-content-wrapper" } }, [
-    _c("div", { staticClass: "container-fluid" }, [
-      _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.selectedAttachment,
-              expression: "selectedAttachment"
-            }
-          ],
-          on: {
-            change: [
-              function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.selectedAttachment = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              _vm.downloadAttachment
-            ]
-          }
-        },
-        [
-          _c("option", { attrs: { selected: "", disabled: "" } }, [
-            _vm._v(" Download Attachment - Requester ")
-          ]),
-          _vm._v(" "),
-          _vm._l(_vm.requesterAttachments, function(requesterAttachment, re) {
-            return _c(
-              "option",
-              { key: re, domProps: { value: requesterAttachment.id } },
-              [_vm._v(_vm._s(requesterAttachment.file_name))]
-            )
-          })
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _vm.reviewerAttachments.length
-        ? _c(
+    _vm.drdrs.length
+      ? _c("div", { staticClass: "container-fluid" }, [
+          _c(
             "select",
             {
               directives: [
@@ -47457,242 +47474,452 @@ var render = function() {
             },
             [
               _c("option", { attrs: { selected: "", disabled: "" } }, [
-                _vm._v(" Download Attachment - Reviewer ")
+                _vm._v(" Download Attachment - Requester ")
               ]),
               _vm._v(" "),
-              _vm._l(_vm.reviewerAttachments, function(reviewerAttachment, r) {
+              _vm._l(_vm.requesterAttachments, function(
+                requesterAttachment,
+                re
+              ) {
                 return _c(
                   "option",
-                  { key: r, domProps: { value: reviewerAttachment.id } },
-                  [_vm._v(_vm._s(reviewerAttachment.file_name))]
+                  { key: re, domProps: { value: requesterAttachment.id } },
+                  [_vm._v(_vm._s(requesterAttachment.file_name))]
                 )
               })
             ],
             2
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.approverAttachments.length
-        ? _c(
-            "select",
-            {
-              directives: [
+          ),
+          _vm._v(" "),
+          _vm.reviewerAttachments.length
+            ? _c(
+                "select",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.selectedAttachment,
-                  expression: "selectedAttachment"
-                }
-              ],
-              on: {
-                change: [
-                  function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.selectedAttachment = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  },
-                  _vm.downloadAttachment
-                ]
-              }
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedAttachment,
+                      expression: "selectedAttachment"
+                    }
+                  ],
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedAttachment = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      _vm.downloadAttachment
+                    ]
+                  }
+                },
+                [
+                  _c("option", { attrs: { selected: "", disabled: "" } }, [
+                    _vm._v(" Download Attachment - Reviewer ")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.reviewerAttachments, function(
+                    reviewerAttachment,
+                    r
+                  ) {
+                    return _c(
+                      "option",
+                      { key: r, domProps: { value: reviewerAttachment.id } },
+                      [_vm._v(_vm._s(reviewerAttachment.file_name))]
+                    )
+                  })
+                ],
+                2
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.approverAttachments.length
+            ? _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedAttachment,
+                      expression: "selectedAttachment"
+                    }
+                  ],
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedAttachment = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      _vm.downloadAttachment
+                    ]
+                  }
+                },
+                [
+                  _c("option", { attrs: { selected: "", disabled: "" } }, [
+                    _vm._v(" Download Attachment - Approver ")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.approverAttachments, function(
+                    approverAttachment,
+                    a
+                  ) {
+                    return _c(
+                      "option",
+                      { key: a, domProps: { value: approverAttachment.id } },
+                      [_vm._v(_vm._s(approverAttachment.file_name))]
+                    )
+                  })
+                ],
+                2
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { href: _vm.hrefLink, target: "_blank" }
             },
-            [
-              _c("option", { attrs: { selected: "", disabled: "" } }, [
-                _vm._v(" Download Attachment - Approver ")
-              ]),
+            [_vm._v("Print as PDF")]
+          ),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("table", { staticClass: "table table-bordered" }, [
+            _c("tbody", [
+              _vm._m(0),
               _vm._v(" "),
-              _vm._l(_vm.approverAttachments, function(approverAttachment, a) {
-                return _c(
-                  "option",
-                  { key: a, domProps: { value: approverAttachment.id } },
-                  [_vm._v(_vm._s(approverAttachment.file_name))]
-                )
-              })
-            ],
-            2
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-primary",
-          attrs: { href: _vm.hrefLink, target: "_blank" }
-        },
-        [_vm._v("Print as PDF")]
-      ),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("table", { staticClass: "table table-bordered" }, [
-        _c("tbody", [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(1),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [
-                  _vm._v(" Rev No. "),
-                  _c("strong", [
-                    _vm._v(" " + _vm._s(_vm.drdrs[0].rev_number) + " ")
-                  ])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("td", [_vm._v(" Effective Date ")]),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [
-                  _vm._v(" Effective Date: "),
-                  _c("strong", [
-                    _vm._v(" " + _vm._s(_vm.drdrs[0].effective_date) + " ")
-                  ])
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._m(2)
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(3),
-      _vm._v(" "),
-      _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
-        _c("tbody", [
-          _c("tr", [
-            _vm._m(4),
-            _vm._v(" "),
-            _vm._m(5),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [_vm._v(_vm._s(_vm.drdrs[0].document_title))])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._m(6),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", { attrs: { colspan: "3" } }, [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].rev_number) + " ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._m(7),
-          _vm._v(" "),
-          _c("tr", [
-            _vm.drdrs.length
-              ? _c("td", { attrs: { colspan: "7" } }, [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].reason_request) + " ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(8),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.drdrs[0].requester.name))])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._m(9),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].requester.position) + " ")
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._m(10),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.drdrs[0].date_request))])
-              : _vm._e()
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(11),
-      _vm._v(" "),
-      _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
-        _c("tbody", [
-          _c("tr", [
-            _vm._m(12),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].reviewer.name) + " ")
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._m(13),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].reviewer.position) + "  ")
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._m(14),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].reviewed_date) + "  ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm.drdrs.length && _vm.drdrs[0].approver
-            ? _c("tr", [
-                _vm._m(15),
-                _vm._v(" "),
-                _vm.drdrs.length
-                  ? _c("td", [_vm._v(_vm._s(_vm.drdrs[0].approver.name) + " ")])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm._m(16),
+              _c("tr", [
+                _vm._m(1),
                 _vm._v(" "),
                 _vm.drdrs.length
                   ? _c("td", [
-                      _vm._v(" " + _vm._s(_vm.drdrs[0].approver.position))
+                      _vm._v(" Rev No. "),
+                      _c("strong", [
+                        _vm._v(" " + _vm._s(_vm.drdrs[0].rev_number) + " ")
+                      ])
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(17),
+                _c("td", [_vm._v(" Effective Date ")]),
                 _vm._v(" "),
                 _vm.drdrs.length
                   ? _c("td", [
-                      _vm._v(" " + _vm._s(_vm.drdrs[0].approved_date) + "  ")
+                      _vm._v(" Effective Date: "),
+                      _c("strong", [
+                        _vm._v(" " + _vm._s(_vm.drdrs[0].effective_date) + " ")
+                      ])
                     ])
                   : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm._m(2)
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(3),
+          _vm._v(" "),
+          _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
+            _c("tbody", [
+              _c("tr", [
+                _vm._m(4),
+                _vm._v(" "),
+                _vm._m(5),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", [_vm._v(_vm._s(_vm.drdrs[0].document_title))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(6),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", { attrs: { colspan: "3" } }, [
+                      _vm._v(" " + _vm._s(_vm.drdrs[0].rev_number) + " ")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm._m(7),
+              _vm._v(" "),
+              _c("tr", [
+                _vm.drdrs.length
+                  ? _c("td", { attrs: { colspan: "7" } }, [
+                      _vm._v(" " + _vm._s(_vm.drdrs[0].reason_request) + " ")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(8),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", [
+                      _vm._v(" " + _vm._s(_vm.drdrs[0].requester.name))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(9),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", [
+                      _vm._v(
+                        " " + _vm._s(_vm.drdrs[0].requester.position) + " "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(10),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", [_vm._v(" " + _vm._s(_vm.drdrs[0].date_request))])
+                  : _vm._e()
               ])
-            : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(11),
+          _vm._v(" "),
+          _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
+            _c("tbody", [
+              _c("tr", [
+                _vm._m(12),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", [
+                      _vm._v(
+                        " \n                        " +
+                          _vm._s(_vm.drdrs[0].reviewer.name) +
+                          " "
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.drdrs[0].status == 2
+                        ? _c("span", { staticStyle: { color: "red" } }, [
+                            _vm._v(" NOT YET APPROVED ")
+                          ])
+                        : _vm.drdrs[0].status == 5
+                          ? _c("span", { staticStyle: { color: "red" } }, [
+                              _vm._v(" DISAPPROVED ")
+                            ])
+                          : _c("span", { staticStyle: { color: "green" } }, [
+                              _vm._v(" APPROVED ")
+                            ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(13),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", [
+                      _vm._v(
+                        " " + _vm._s(_vm.drdrs[0].reviewer.position) + "  "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(14),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", [
+                      _vm._v(" " + _vm._s(_vm.drdrs[0].reviewed_date) + "  ")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm.drdrs.length && _vm.drdrs[0].approver
+                ? _c("tr", [
+                    _vm._m(15),
+                    _vm._v(" "),
+                    _vm.drdrs.length
+                      ? _c("td", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.drdrs[0].approver.name) +
+                              " "
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _vm.drdrs[0].status == 3
+                            ? _c("span", { staticStyle: { color: "red" } }, [
+                                _vm._v(" NOT YET APPROVED ")
+                              ])
+                            : [0].status == 6
+                              ? _c("span", { staticStyle: { color: "red" } }, [
+                                  _vm._v(" DISAPPROVED ")
+                                ])
+                              : _c(
+                                  "span",
+                                  { staticStyle: { color: "green" } },
+                                  [_vm._v(" APPROVED ")]
+                                )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._m(16),
+                    _vm._v(" "),
+                    _vm.drdrs.length
+                      ? _c("td", [
+                          _vm._v(" " + _vm._s(_vm.drdrs[0].approver.position))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._m(17),
+                    _vm._v(" "),
+                    _vm.drdrs.length
+                      ? _c("td", [
+                          _vm._v(
+                            " " + _vm._s(_vm.drdrs[0].approved_date) + "  "
+                          )
+                        ])
+                      : _vm._e()
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
+            _c("tbody", [
+              _vm._m(18),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", [_vm._v(_vm._s(_vm.drdrs[0].consider_documents))])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(19),
+          _vm._v(" "),
+          _vm._m(20),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "div",
+              {
+                staticClass: "col-md-8",
+                staticStyle: {
+                  "padding-right": "0 ! important",
+                  "margin-right": "0 ! important"
+                }
+              },
+              [
+                _c("table", { staticClass: "table table-bordered" }, [
+                  _vm._m(21),
+                  _vm._v(" "),
+                  _c("tbody", [
+                    _vm.drdrs[0].copy_number
+                      ? _c("tr", [
+                          _c("td", [
+                            _vm._v(" " + _vm._s(_vm.drdrs[0].copy_number) + " ")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(" " + _vm._s(_vm.drdrs[0].copy_holder) + " ")
+                          ])
+                        ])
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "col-md-4",
+                staticStyle: { "padding-left": "0 ! important" }
+              },
+              [
+                _c(
+                  "table",
+                  {
+                    staticClass: "table table-bordered",
+                    staticStyle: { "border-left": "0 ! important" }
+                  },
+                  [
+                    _c("thead", [
+                      _c("tr", [
+                        _c(
+                          "td",
+                          { staticStyle: { "border-left": "0 ! important" } },
+                          [
+                            _vm._v(
+                              "Effective Date: " +
+                                _vm._s(_vm.drdrs[0].effective_date)
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tbody", [
+                      _vm._m(22),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c(
+                          "td",
+                          { staticStyle: { "border-left": "0 ! important" } },
+                          [
+                            _vm._v(
+                              " Document Title: " +
+                                _vm._s(_vm.drdrs[0].document_title) +
+                                " "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(23),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c(
+                          "td",
+                          { staticStyle: { "border-left": "0 ! important" } },
+                          [
+                            _vm._v(
+                              " Revision No: " +
+                                _vm._s(_vm.drdrs[0].rev_number) +
+                                " "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(24),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(' Yellow stamp with "Obsolete" and use as reference ')
+          ]),
+          _vm._v(" "),
+          _c("table"),
+          _vm._v(" "),
+          _vm._m(25)
         ])
-      ]),
-      _vm._v(" "),
-      _vm._m(18),
-      _vm._v(" "),
-      _vm._m(19),
-      _vm._v(" "),
-      _vm._m(20),
-      _vm._v(" "),
-      _vm._m(21),
-      _vm._v(" "),
-      _vm._m(22),
-      _vm._v(" "),
-      _c("p", [_vm._v(' Yellow stamp with "Obsolete" and use as reference ')]),
-      _vm._v(" "),
-      _c("table"),
-      _vm._v(" "),
-      _vm._m(23)
-    ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -47845,13 +48072,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
-      _c("tbody", [
-        _c("tr", [_c("td", [_vm._v("Considered Docments in reviewing:")])]),
-        _vm._v(" "),
-        _c("tr", [_c("td", [_vm._v(" ok ")])])
-      ])
-    ])
+    return _c("tr", [_c("td", [_vm._v("Considered Docments in reviewing:")])])
   },
   function() {
     var _vm = this
@@ -47888,140 +48109,32 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        {
-          staticClass: "col-md-8",
-          staticStyle: {
-            "padding-right": "0 ! important",
-            "margin-right": "0 ! important"
-          }
-        },
-        [
-          _c("table", { staticClass: "table table-bordered" }, [
-            _c("thead", [
-              _c("tr", [
-                _c("td", [_vm._v("Copy No.")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Copyholder (Department)")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tbody", [
-              _c("tr", [
-                _c("td", [_vm._v(" 1")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" QM ")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v(" 2 ")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" FOOD SAFETY TEAM ")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v(" 3 ")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" FEEDMILL")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v(" 4")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" SPC ")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v(" 5 ")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" ADMIN ")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v(" 6 ")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" QC ")])
-              ])
-            ])
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "col-md-4",
-          staticStyle: { "padding-left": "0 ! important" }
-        },
-        [
-          _c(
-            "table",
-            {
-              staticClass: "table table-bordered",
-              staticStyle: { "border-left": "0 ! important" }
-            },
-            [
-              _c("thead", [
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v("Effective Date: ")]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v(" August 03, 2018 ")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v(" DRDR NO: PFMC-I-08-2018-2678 ")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [
-                      _vm._v(
-                        " Document Title: Master Sanitation Plan - Feed Mill "
-                      )
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v(" Document Code: PRP-003-002c.1FD ")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v(" Revision No: 11 ")]
-                  )
-                ])
-              ])
-            ]
-          )
-        ]
-      )
+    return _c("thead", [
+      _c("tr", [
+        _c("td", [_vm._v("Copy No.")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Copyholder (Department)")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticStyle: { "border-left": "0 ! important" } }, [
+        _vm._v(" DRDR NO: PFMC-I-08-2018-2678 ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticStyle: { "border-left": "0 ! important" } }, [
+        _vm._v(" Document Code: PRP-003-002c.1FD ")
+      ])
     ])
   },
   function() {
@@ -48275,6 +48388,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['ddrId'],
@@ -48347,7 +48465,7 @@ var render = function() {
             _c("td", [_vm._v(" Effective Date ")]),
             _vm._v(" "),
             _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs.effective_date))])
+              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].effective_date))])
               : _vm._e()
           ]),
           _vm._v(" "),
@@ -48386,35 +48504,28 @@ var render = function() {
       _c("table", { staticClass: "table table-bordered" }, [
         _vm._m(11),
         _vm._v(" "),
-        _c("tbody", [
-          _c("tr", [
-            _vm.ddrs.length
-              ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.ddrs[0].document_title) + " ")
+        _vm.ddrs.length
+          ? _c(
+              "tbody",
+              _vm._l(_vm.ddrs[0].ddr_lists, function(ddr, d) {
+                return _c("tr", { key: d }, [
+                  _c("td", [_vm._v(" " + _vm._s(ddr.document_title) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" " + _vm._s(ddr.control_code) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" " + _vm._s(ddr.rev_number) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" " + _vm._s(ddr.copy_number) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" " + _vm._s(ddr.copy_holder) + " ")]),
+                  _vm._v(" "),
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" April 12, 2017 ")])
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].control_code) + " ")])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].rev_number) + " ")])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].copy_number) + " ")])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].copy_holder) + " ")])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td", [_vm._v(" April 12, 2017 ")])
-          ])
-        ])
+              })
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
@@ -48434,7 +48545,23 @@ var render = function() {
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.ddrs[0].approver.name) + " ")
+                  _vm._v(
+                    " \n                        " +
+                      _vm._s(_vm.ddrs[0].approver.name)
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _vm.ddrs[0].status == 2
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" NOT YET APPROVED ")
+                      ])
+                    : _vm.ddrs[0].status == 6
+                      ? _c("span", { staticStyle: { color: "red" } }, [
+                          _vm._v(" DISAPPROVED ")
+                        ])
+                      : _c("span", { staticStyle: { color: "green" } }, [
+                          _vm._v(" APPROVED ")
+                        ])
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -55610,6 +55737,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -55728,9 +55866,47 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(drdrsReviewedForm.rev_number))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(drdrsReviewedForm.reviewer.name))]),
+              _c("td", [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(drdrsReviewedForm.reviewer.name) +
+                    " "
+                ),
+                _c("br"),
+                _vm._v(" "),
+                drdrsReviewedForm.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : drdrsReviewedForm.status == 5
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(drdrsReviewedForm.approver.name))]),
+              _c("td", [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(drdrsReviewedForm.approver.name) +
+                    " "
+                ),
+                _c("br"),
+                _vm._v(" "),
+                drdrsReviewedForm.status == 3
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : drdrsReviewedForm.status == 5
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               _c("td", [
                 _c(
@@ -55925,6 +56101,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -56049,7 +56230,23 @@ var render = function() {
               _c("td", [_vm._v(_vm._s(drdrsPendingApprovalForm.rev_number))]),
               _vm._v(" "),
               _c("td", [
-                _vm._v(_vm._s(drdrsPendingApprovalForm.reviewer.name))
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(drdrsPendingApprovalForm.reviewer.name)
+                ),
+                _c("br"),
+                _vm._v(" "),
+                drdrsPendingApprovalForm.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : drdrsPendingApprovalForm.status == 5
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
               ]),
               _vm._v(" "),
               _c("td", [
@@ -56249,6 +56446,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -56368,7 +56570,25 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(drdrsApprovedForm.rev_number))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(drdrsApprovedForm.reviewer.name))]),
+              _c("td", [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(drdrsApprovedForm.reviewer.name)
+                ),
+                _c("br"),
+                _vm._v(" "),
+                drdrsApprovedForm.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : drdrsApprovedForm.status == 5
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(drdrsApprovedForm.effective_date))]),
               _vm._v(" "),
@@ -56728,7 +56948,7 @@ var render = function() {
                       ? _c("span", { staticStyle: { color: "red" } }, [
                           _vm._v(" NOT YET APPROVED ")
                         ])
-                      : drdrSubmitted.status == 5
+                      : drdrSubmitted.status == 6
                         ? _c("span", { staticStyle: { color: "red" } }, [
                             _vm._v(" DISAPPROVED ")
                           ])
@@ -59991,8 +60211,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             for (var i = files.length - 1; i >= 0; i--) {
                 this.attachments.push(files[i]);
             }
-
-            // document.getElementById('attachments').value = [];
         },
         resetData: function resetData() {
             this.formData = new FormData();
@@ -60006,17 +60224,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }
         },
-        approvedDrdr: function approvedDrdr(id, drdr) {
+        approvedDrdr: function approvedDrdr(id, drdr, drdrs) {
             var _this2 = this;
 
             this.prepareFields();
             this.formData.append('id', id);
             this.formData.append('status', drdr.status);
             this.formData.append('remarks', drdr.remarks);
-            this.formData.append('effective_date', drdr.effective_date);
-            this.formData.append('attachments', drdr.attachments);
-            // this.formData.append('copy_number', drdr.copy_number);
-            // this.formData.append('copy_holder', drdr.copy_holder);
+            this.formData.append('effective_date', drdrs.effective_date);
+            this.formData.append('copy_number', drdr.copy_number);
+            this.formData.append('copy_holder', drdr.copy_holder);
             axios.post('/drdr-approved', this.formData).then(function (response) {
                 _this2.resetData();
                 window.location.href = response.data.redirect;
@@ -60199,27 +60416,29 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("datepicker", {
-                attrs: { placeholder: "Select Effective Date" },
-                model: {
-                  value: _vm.drdrs[0].effective_date,
-                  callback: function($$v) {
-                    _vm.$set(_vm.drdrs[0], "effective_date", $$v)
-                  },
-                  expression: "drdrs[0].effective_date"
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.effective_date
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.effective_date))])
-                : _vm._e()
-            ],
-            1
-          ),
+          _vm.drdrs.length
+            ? _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("datepicker", {
+                    attrs: { placeholder: "Select Effective Date" },
+                    model: {
+                      value: _vm.drdrs[0].effective_date,
+                      callback: function($$v) {
+                        _vm.$set(_vm.drdrs[0], "effective_date", $$v)
+                      },
+                      expression: "drdrs[0].effective_date"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.effective_date
+                    ? _c("span", [_vm._v(_vm._s(_vm.errors.effective_date))])
+                    : _vm._e()
+                ],
+                1
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c("input", {
@@ -60312,7 +60531,7 @@ var render = function() {
               attrs: { type: "button" },
               on: {
                 click: function($event) {
-                  _vm.approvedDrdr(_vm.drdrs[0].id, _vm.drdr)
+                  _vm.approvedDrdr(_vm.drdrs[0].id, _vm.drdr, _vm.drdrs[0])
                 }
               }
             },
@@ -60683,6 +60902,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -60852,9 +61075,21 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(ddr.reason_of_distribution))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(ddr.date_requested))]),
+              _c("td", [_vm._v(_vm._s(ddr.date_request))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(ddr.status))]),
+              _c("td", [
+                ddr.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : ddr.status == 6
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               _c("td", [
                 _c(
@@ -61044,6 +61279,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -61163,7 +61402,19 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(ddr.date_requested))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(ddr.status))]),
+              _c("td", [
+                ddr.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : ddr.status == 6
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               _c("td", [
                 _c(
@@ -61478,7 +61729,7 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(ddrSubmitted.reason_of_distribution))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(ddrSubmitted.date_requested))]),
+              _c("td", [_vm._v(_vm._s(ddrSubmitted.date_request))]),
               _vm._v(" "),
               _c("td", [
                 ddrSubmitted.status == 2
@@ -65650,6 +65901,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -65769,7 +66024,19 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(ncnSubmitted.issuance_date))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(ncnSubmitted.status))]),
+              _c("td", [
+                ncnSubmitted.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : ncnSubmitted.status == 6
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
               _vm._v(" "),
               _c("td", [
                 _c(
