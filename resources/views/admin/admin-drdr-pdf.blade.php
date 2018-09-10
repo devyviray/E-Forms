@@ -32,7 +32,7 @@
                 <td>  Doc No. <strong>LFQM-F-001</strong> </td>
                 <td> Rev No. <strong>04</strong> </td>
                     <td> Effective Date </td>
-                <td colspan="2"> February 27, 2017 </td>
+                <td colspan="2"> {{ $drdr[0]->effective_date }}</td>
             </tr>
             <tr>
                 <td colspan="5"> DOCUMENT REVIEW AND DISTRIBUTION REQUEST </td>
@@ -43,42 +43,42 @@
             <tr>
                 <td> <strong> </strong> </td>
                 <td> <strong> Document Title: </strong> </td>
-                <td> </td>
+                <td>  </td>
                 <td> <strong> Rev. No: </strong> </td>
-                <td colspan="3"> </td>
+                <td colspan="3">{{ $drdr[0]->rev_number }}</td>
             </tr>
             <tr>
-                <td colspan="7"> <strong> Reason for proposal / change / cancellation: </strong> </td>
+                <td colspan="7"> <strong> Reason for proposal / change / cancellation: </strong> {{ $drdr[0]->reason_request }} </td>
             </tr>
             <tr>
                 <td colspan="7"> </td>
             </tr>
             <tr>
                 <td><strong>Requested by:</strong></td>
-                <td> </td>
+                <td> {{ $drdr[0]->requester->name }} </td>
                 <td><strong>Position:</strong></td>
-                <td> </td>
+                <td>  {{ $drdr[0]->requester->position }} </td>
                 <td><strong>Date:</strong></td>
-                <td colspan="2"> </td>
+                <td colspan="2"> {{ $drdr[0]->date_request }} </td>
             </tr>
         </table>
         
         <table class="table borderless" width="100%">
             <tr>
                 <td width="15%"> <strong> Reviewed by: </strong> </td>
-                <td>  </td>
+                <td> {{ $drdr[0]->reviewer->name }} </td>
                 <td width="10%"> <strong> Position: </strong> </td>
-                <td> </td>
+                <td>  {{ $drdr[0]->reviewer->position }} </td>
                 <td width="10%"> <strong> Date: </strong> </td>
-                <td> </td>
+                <td> {{ $drdr[0]->reviewed_date }} </td>
             </tr>
             <tr>
                 <td> <strong> Approved by: </strong> </td>
-                <td> </td>
+                <td> {{ $drdr[0]->approver->name }} </td>
                 <td> <strong> Position: </strong> </td>
-                <td>  </td>
+                <td> {{ $drdr[0]->approver->position }} </td>
                 <td>,<strong> Date: </strong> </td>
-                <td> </td>
+                <td> {{ $drdr[0]->approved_date }} </td>
             </tr>
         </table>
 
@@ -87,21 +87,21 @@
                 <td class="info"> <strong> Considered Documents in reviewing: </strong> </td>
             </tr>
             <tr> 
-                <td style="height: 50px;">  </td>
+                <td style="height: 50px;"> {{ $drdr[0]->consider_documents }}  </td>
             </tr>
         </table>
 
         <table class="table table-bordered" width="100%">
             <thead>
                 <tr>
-                    <td class="info">Copy No.</td>
-                    <td class="info">Copyholder (Department)</td>
+                    <td class="info">Copy No.  {{ $drdr[0]->copy_number  }} </td>
+                    <td class="info">Copyholder  {{ $drdr[0]->copy_holder  }}  </td>
                     <td rowspan=""> 
                         <strong>Effective date: </strong> <br/>
                         <strong style="margin-top: 10px;">DRDR NO:</strong> <br/>
-                        <strong style="margin-top: 10px;">Document Title:</strong> <br/>
+                        <strong style="margin-top: 10px;">Document Title: {{ $drdr[0]->document_title  }}</strong> <br/>
                         <strong style="margin-top: 10px;">Document Code:</strong> <br/>
-                        <strong style="margin-top: 10px;">Revision No:</strong>
+                        <strong style="margin-top: 10px;">Revision No: {{ $drdr[0]->rev_number  }}</strong>
                     </td>
                 </tr>
             </thead>

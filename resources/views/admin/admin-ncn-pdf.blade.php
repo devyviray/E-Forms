@@ -44,11 +44,11 @@
 	<table class="table"  width="100%">
 		<tr>
 			<td width="30%" class="info"> <strong> COMPANY: </strong> </td>
-			<td colspan="2"> Company name </td>
+			<td colspan="2"> {{ $ncn[0]->company->name }} </td>
 		</tr>
 		<tr>
 			<td class="info"> <strong> DIVISION / DEPARTMENT: </strong> </td>
-			<td colspan="2"> </td>
+			<td colspan="2"> {{ $ncn[0]->department->name }}</td>
 		</tr>
 	</table>
 	
@@ -67,19 +67,19 @@
 	<table class="table table-bordered" width="100%">
 		<tr>
 			<td  class="info"> <strong> Notification No: </strong> </td>
-			<td> </td>
+			<td>  {{ $ncn[0]->notification_number }} </td>
 			<td  class="info"> <strong> Issued by: </strong> </td>
-			<td> </td>
+			<td> {{ $ncn[0]->requester->name }} </td>
 		</tr>
 		<tr>
 			<td  class="info"> <strong> Recurrence No: </strong> </td>
-			<td> </td>
+			<td> {{ $ncn[0]->recurrence_number }}</td>
 			<td  class="info"> <strong> Position: </strong> </td>
-			<td> </td>
+			<td> {{ $ncn[0]->requester->position }} </td>
 		</tr>
 		<tr>
 			<td  class="info"> <strong> Date of Issuance: </strong> </td>
-			<td> </td>
+			<td> {{ $ncn[0]->issuance_date }} </td>
 			<td  class="info"> <strong> Notified Person: </strong> </td>
 			<td> </td>
 		</tr>
@@ -90,7 +90,7 @@
 				<td colspan="4" class="info"> <strong> Details of Non-conformity: </strong> </td>	
 			</tr>
 			<tr>
-				<td colspan="4" style="height:100px; "> </td>
+				<td colspan="4" style="height:100px; "> {{ $ncn[0]->non_conformity_details }} </td>
 			</tr>
 			<tr>
 				<td colspan="4" class="info"> <strong> Immediate Action Taken: </strong> </td>	

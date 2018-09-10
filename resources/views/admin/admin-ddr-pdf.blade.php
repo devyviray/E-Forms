@@ -34,7 +34,7 @@
 			<td>  Doc No. <strong>LFQM-F-002</strong> </td>
 			<td> Rev No. <strong>03</strong> </td>
 			<td> Effective Date </td>
-			<td colspan="2"> February 27, 2017 </td>
+			<td colspan="2"> {{ $ddr[0]->effective_date }} </td>
 		</tr>
 		<tr>
 			<td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>
@@ -44,13 +44,12 @@
 <table class="table borderless">
 	<tr>
 		<td rowspan="3"> <strong> Reason for distribution: </strong> </td>
-        <td colspan="2"> distribution </td>
+        <td colspan="2"> {{ $ddr[0]->reason_of_distribution }} </td>
     </tr>
     <tr>
 		<td colspan="3">
 			<img src="" style="width: auto; height: 20px; margin-left: 8px;">
 			Customer request (uncontrolled copy)
-		
 		</td>
 	</tr>
 	<tr>
@@ -61,7 +60,7 @@
 		<td colspan="2"> Others </td>
 	</tr>
 	<tr>
-		<td> <strong> Date Neeeded: </strong>  </td> 
+		<td> <strong> Date Neeeded: {{ $ddr[0]->date_needed }} </strong>  </td> 
         <td colspan="3"> </td>
 	</tr>
 </table>
@@ -78,31 +77,33 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td> document title </td>
-			<td> control code </td>
-			<td>  rev number </td>
-			<td> copy number </td>
-			<td> copy holder </td>
-			<td> </td>
-			<td> </td>
-		</tr>
+		@foreach($ddr[0]->ddrLists as $ddrlist )
+			<tr>
+				<td> {{ $ddrlist->document_title }} </td>
+				<td> {{ $ddrlist->control_code }} </td>
+				<td> {{ $ddrlist->rev_number }}</td>
+				<td> {{ $ddrlist->copy_number }} </td>
+				<td> {{ $ddrlist->copy_holder }} </td>
+				<td> Sample receiver </td>
+				<td> sample date</td>
+			</tr>
+		@endforeach
 	</tbody>
 </table>
 
 <table class="table" style="border: 0 ! important;">
 	<tr>
 	    <td class="info" colspan="6" style="border: 0 ! important;">
-	        <em> <strong> Total number of obsolete copy retrieved:  </strong> </em>
+	        <em> <strong> Total number of obsolete copy retrieved: {{ count($ddr[0]->ddrLists) }} </strong> </em>
 	    </td>
 	</tr>
 	<tr>
-		<td style="border: 0 ! important;"> <strong> Requested by:  <strong> </td>
-		<td style="border: 0 ! important;">  </td>
+	<td style="border: 0 ! important;"> <strong> Requested by:  <strong></td>
+		<td style="border: 0 ! important;"> {{ $ddr[0]->requester->name }} </td>
 		<td style="border: 0 ! important;">
 		    <strong> Approved by: </strong>
 		</td>
-		<td style="border: 0 ! important;"> approver </td>
+		<td style="border: 0 ! important;"> {{ $ddr[0]->approver->name }} </td>
 		<td style="border: 0 ! important;">
 		    <strong> Distributed by: </strong>
 		</td>
@@ -110,17 +111,17 @@
 	</tr>
 	<tr>
 		<td style="border: 0 ! important;"> <strong> Position:  <strong> </td>
-		<td style="border: 0 ! important;"> </td>
+		<td style="border: 0 ! important;">  {{ $ddr[0]->requester->position }} </td>
 		<td style="border: 0 ! important;"> <strong> Position: </strong> </td>
-        <td style="border: 0 ! important;"> approver </td>
+        <td style="border: 0 ! important;">  {{ $ddr[0]->approver->position }} </td>
 		<td style="border: 0 ! important;"> <strong> Position: </strong> </td>
         <td style="border: 0 ! important;"> ddrms </td>
 	</tr>
 	<tr>
 		<td style="border: 0 ! important;"> <strong> Date </strong> </td>
-		<td style="border: 0 ! important;"> Date requested</td>
+		<td style="border: 0 ! important;"> {{ $ddr[0]->date_request }} </td>
 		<td style="border: 0 ! important;"> <strong> Date </strong> </td>
-        <td style="border: 0 ! important;"> approvers </td>
+        <td style="border: 0 ! important;"> {{ $ddr[0]->approved }}  </td>
 		<td style="border: 0 ! important;"> <strong> Date </strong> </td>
         <td style="border: 0 ! important;"> ddrms </td>
 	</tr>
@@ -130,12 +131,12 @@
 
 <p> 
     <small>
-     <ul>
-		<li>Documents are issued as requested and shall not be used for any other purpose</li>
-		<li>
-		No Part of the document may be reproduced or utilized in any form, electronic or mechanical, including photocopying without written permission to the QM Document Controller.
-		</li>
-	</ul>
+		<ul>
+			<li>Documents are issued as requested and shall not be used for any other purpose</li>
+			<li>
+			No Part of the document may be reproduced or utilized in any form, electronic or mechanical, including photocopying without written permission to the QM Document Controller.
+			</li>
+		</ul>
 	</small>
 </p>
 </body>

@@ -237,11 +237,11 @@ class NcnController extends Controller
 
     public function ncnPdf($id)
     {
-        $pdf = PDF::loadView('admin.admin-ncn-pdf');
+        $ncn = $this->data($id);
+        $pdf = PDF::loadView('admin.admin-ncn-pdf', ['ncn' => $ncn]);
 
         return $pdf->stream('ncn.pdf');
     }
-
     /**
      * Uploading files for ncn
      *

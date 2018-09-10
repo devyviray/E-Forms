@@ -351,7 +351,8 @@ class DdrController extends Controller
 
     public function ddrPdf($id)
     {
-        $pdf = PDF::loadView('admin.admin-ddr-pdf');
+        $ddr = $this->data($id);
+        $pdf = PDF::loadView('admin.admin-ddr-pdf', ['ddr' => $ddr]);
 
         return $pdf->stream('ddr.pdf');
     }

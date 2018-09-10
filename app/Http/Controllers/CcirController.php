@@ -237,7 +237,8 @@ class CcirController extends Controller
 
     public function ccirPdf($id)
     {
-        $pdf = PDF::loadView('admin.admin-ccir-pdf');
+        $ccir = $this->data($id);
+        $pdf = PDF::loadView('admin.admin-ccir-pdf', ['ccir' => $ccir]);
 
         return $pdf->stream('ccir.pdf');
     }

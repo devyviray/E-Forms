@@ -465,7 +465,8 @@ class DrdrController extends Controller
 
     public function drdrPdf($id)
     {
-        $pdf = PDF::loadView('admin.admin-drdr-pdf');
+        $drdr = $this->data($id);
+        $pdf = PDF::loadView('admin.admin-drdr-pdf', ['drdr' => $drdr]);
 
         return $pdf->stream('drdr.pdf');
     }
