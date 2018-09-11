@@ -30,6 +30,8 @@ class CreateDrdrformsTable extends Migration
             $table->dateTime('disapproved_date')->nullable();
             $table->string('copy_number')->nullable();
             $table->string('copy_holder')->nullable();
+            $table->integer('distributed_id')->nullable();
+            $table->datetime('distributed_date')->nullable();
             $table->integer('status');
             $table->string('consider_documents')->nullable();
             $table->string('remarks')->nullable();

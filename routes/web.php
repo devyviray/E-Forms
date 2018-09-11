@@ -184,13 +184,16 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   // Count all submitted drdr 
   Route::get('/admin/drdr-count', 'DrdrController@countDrdr');
   //Return page of drdr
-  Route::get('/admin/drdrs', 'DrdrController@drdrAdminPage');
+  Route::get('/admin/drdrs', 'DrdrController@drdrAdminPage')->name('admin.ddrs');
   // Ajax call to return all submitted Drdr
   Route::get('/admin/drdrs-all', 'DrdrController@getAllDrdrs');
   // Return page to view details of drdr
   Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
   // Generate pdf file for drdr
   Route::get('/admin/drdr-pdf/{id}', 'DrdrController@drdrPdf');
+  // Mark DRDR as distributed
+  Route::post('/admin/drdr-distributed', 'DrdrController@distributed');
+
 
   // DDR routes
   // Count all submitted ddr 

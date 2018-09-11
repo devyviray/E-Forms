@@ -13,6 +13,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Notifications\RequesterSubmitDrdr;
 use App\Notifications\ApproverNotifyMrDrdr;
+use App\Notifications\MrMarkAsDistributedDrdr;
 use PDF;
 use Response;
 
@@ -415,7 +416,11 @@ class DrdrController extends Controller
 
     public function countDrdr()
     {
-        $drdrs =  Drdr::count();
+        if(Auth::user()->hasRole('administrator')){
+            $drdrs =  Drdr::count();
+        }else{
+            $drdrs =  Drdr::whereIn('company_id', Auth::user()->companies->pluck('id'))->get()->count();
+        }
         return $drdrs;
     }
 
@@ -436,7 +441,12 @@ class DrdrController extends Controller
      */
     public function getAllDrdrs()
     {
-        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])->orderBy('id', 'desc')->get();
+        if(Auth::user()->hasRole('administrator')){
+            $drdrs = Drdr::with(['reviewer', 'approver', 'company'])->orderBy('id', 'desc')->get();
+        }else{
+            $drdrs = Drdr::with(['reviewer', 'approver', 'company'])
+            ->whereIn('company_id', Auth::user()->companies->pluck('id'))->orderBy('id', 'desc')->get();
+        }
 
         return $drdrs;
     }
@@ -560,5 +570,28 @@ class DrdrController extends Controller
                 ->orderBy('id', 'desc')->get();
 
         return $drdrs;
+    }
+
+    public function distributed(Request $request)
+    {
+        $request->validate([
+            'id' => 'required'
+        ]);
+        $carbon = new Carbon();
+        $drdr = Drdr::findOrFail($request->id);
+        $approver = User::findOrFail($drdr->approver_id);
+        $reviewer = User::findOrFail($drdr->reviewer_id);
+        $requester = User::findOrFail($drdr->requester_id);
+
+        $emails = [$approver, $reviewer, $requester];
+
+        $drdr->distributed_id = Auth::user()->id;
+        $drdr->status = StatusType::MARK_AS_DISTRIBUTED;
+        $drdr->distributed_date = $carbon::now();
+        if($drdr->save()){
+
+            \Notification::send($emails , new MrMarkAsDistributedDrdr($drdr));
+            return ['redirect' => route('admin.ddrs')];
+        }
     }
 }

@@ -47,7 +47,7 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#validateCcirModal" href="javascript:void(0)">Validate</a>
+                                    <a v-if="ccir.status != 9 && ccir.status != 10" @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#validateCcirModal" href="javascript:void(0)">Validate</a>
                                     <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#trashCcirModal" href="javascript:void(0)">Move to trash</a>
                                     <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#archieveCcirModal" href="javascript:void(0)">Mark as archive</a>
                                     <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#cancelCcirModal" href="javascript:void(0)">Cancel document</a>

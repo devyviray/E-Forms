@@ -47,13 +47,12 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Mark as distributed</a>
+                                    <a v-if="drdr.status != 14" @click="getDrdrId(drdr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDrdrModal" href="javascript:void(0)">Mark as distributed</a>
                                     <a class="dropdown-item" href="#">Move to trash</a>
                                     <a class="dropdown-item" href="#">Mark as archive</a>
                                     <a class="dropdown-item" href="#">Cancel document</a>
                                 </div>
                             </div>
-                            <!-- <button  class="btn btn-warning" @click="viewDrdrDetails(drdr.id)">View</button> -->
                         </td>
                     </tr>    
                 </tbody>
@@ -69,6 +68,31 @@
                 <span>{{ drdrs.length }} Drdr form(s)</span>
             </div>
         </div>
+
+        <!-- Mark as distributed Modal -->
+        <div  class="modal fade" id="distributedDrdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="editCompanyLabel">Mark as distributed</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                    <div class="form-group">
+                        <span> Are you sure to mark this document as distributed?</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button @click="distributeDrdr(selected_id)" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
     </div>   
 </template>
 
@@ -83,6 +107,7 @@ export default {
             drdrs: [],
             startDate: '',
             endDate: '',
+            selected_id: '',
             keywords: '',
             errors: '',
             currentPage: 0,
@@ -121,6 +146,23 @@ export default {
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
+            })
+        },
+        getDrdrId(id)
+        {
+            this.selected_id = id;
+        },
+        distributeDrdr(id){
+            axios.post('/admin/drdr-distributed', { 
+                'id': id
+            })
+            .then(response=> {
+                $('#distributedDrdrModal').modal('hide');
+                this.selected_id = '';
+                window.location.href = response.data.redirect;
+            })
+            .catch(error => { 
+                this.errors = response.data.errors;
             })
         },
         setPage(pageNumber) {

@@ -190,7 +190,11 @@ class CcirController extends Controller
      */
     public function countCcir()
     {
-        $ccirs = Ccir::count();
+        if(Auth::user()->hasRole('administrator')){
+            $ccirs = Ccir::count();
+        }else{
+            $ccirs = Ccir::whereIn('company_id', Auth::user()->companies->pluck('id'))->get()->count();
+        }
 
         return $ccirs;
     }

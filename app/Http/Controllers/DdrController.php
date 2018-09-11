@@ -305,7 +305,11 @@ class DdrController extends Controller
 
     public function countDdr()
     {
-        $ddr = Ddr::count();
+        if(Auth::user()->hasRole('administrator')){
+            $ddr = Ddr::count();
+        }else{
+            $ddr = Ddr::whereIn('company_id', Auth::user()->companies->pluck('id'))->get()->count();
+        }
         return $ddr;
     }
     

@@ -193,7 +193,11 @@ class NcnController extends Controller
      */
     public function countNcn()
     {
-        $ncns = Ncn::count();
+        if(Auth::user()->hasRole('administrator')){
+            $ncns = Ncn::count();
+        }else{
+            $ncns = Ncn::whereIn('company_id', Auth::user()->companies->pluck('id'))->get()->count();
+        }
         return $ncns;
     }
     
