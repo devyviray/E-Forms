@@ -100,7 +100,6 @@ class CcirController extends Controller
         $ccirs->affected_quantity = $request->input('affected_quantity');
         $ccirs->quality_of_sample = $request->input('quality_of_sample');
         $ccirs->returned_date =  \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('returned_date'));
-        $ccirs->verifier_id = '1';
         $ccirs->status = StatusType::SUBMITTED;
 
         // $setting = Setting::findOrFail('1');
@@ -324,6 +323,11 @@ class CcirController extends Controller
         return $ccirs;
     }
 
+    /**
+     *  Validate submitted CCIR
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function validateCCir(Request $request)
     {
         $request->validate([
@@ -332,15 +336,24 @@ class CcirController extends Controller
         ]);
 
         $ccir = Ccir::findOrFail($request->id);
-        
-        if($request->status == 1){
-            $request->validate(['car_number'=> 'required']);
-            $ccir->car_number = $request->car_number;
-            $ccir->status = StatusType::CCIR_VALID;
-            $ccir->verifier_id = Auth::user()->id;
-        }else{  $ccir->status = StatusType::CCIR_INVALID; }
-
-        return $ccir;
+        $carbon = new Carbon();
+        if($ccir->status != StatusType::CCIR_VALID && $ccir->status != StatusType::CCIR_INVALID){
+            if($request->status == 1){
+                $request->validate(['car_number'=> 'required']);
+                $ccir->car_number = $request->car_number;
+                $ccir->status = StatusType::CCIR_VALID;
+                $ccir->verifier_id = Auth::user()->id;
+                $ccir->verified_date = $carbon::now();
+            }else{ 
+                $ccir->status = StatusType::CCIR_INVALID;
+                $ccir->cancel_date = $carbon::now();
+            }
+            if($ccir->save()){
+                return ['redirect' => route('admin.ccirs')];   
+            }
+        }
+        return redirect()->back();
+    
     }
 
 }

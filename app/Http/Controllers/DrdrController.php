@@ -245,22 +245,16 @@ class DrdrController extends Controller
             'company_id' => 'required',
             'reviewer_id' => 'required',
             'reason_request' => 'required',
-            // 'attachments' => 'required',
             'company_id' => 'required',
         ]);
 
         $carbon = new Carbon();
-        $path = '';
         
-        // $attachments = $request->file('attachments');   
-        // foreach($attachments as $attachment){
-        //     $path = $attachment->store('drdr');
         $drdr->request_type = $request->input('type');
         $drdr->document_title = $request->input('document_title');
         $drdr->reason_request = $request->input('reason_request');
         $drdr->rev_number = $request->input('rev_number');
         $drdr->company_id = $request->input('company_id');
-        // $drdr->attached_file = $path;
         $drdr->requester_id = Auth::user()->id;
         $drdr->reviewer_id = $request->input('reviewer_id');
         $drdr->status = StatusType::SUBMITTED;
@@ -566,53 +560,5 @@ class DrdrController extends Controller
                 ->orderBy('id', 'desc')->get();
 
         return $drdrs;
-    }
-
-
-    /**
-     * Search drdr by category     
-     * 
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function category($category)
-    {
-        $id = Auth::user()->id;
-        switch ($category)
-        {   
-            case "all":
-                $drdrs = Drdr::with('reviewer', 'approver')
-                    ->where('reviewer_id',$id)
-                    ->orWhere('approver_id', $id)
-                    ->orderBy('id', 'desc')->get();
-
-                return $drdrs;
-                
-                break;
-            case "pending":
-                $drdrs = Drdr::with('reviewer', 'approver')
-                    ->where('status', StatusType::SUBMITTED)
-                    ->where(function ($query) use ($id){
-                        $query->where('reviewer_id', $id)
-                              ->orWhere('approver_id', $id);
-                    })
-                    ->orderBy('id', 'desc')->get();
-                    
-                return $drdrs;
-
-                break;
-            case "approved":
-                $drdrs = Drdr::with('reviewer', 'approver')
-                    ->whereIn('status', [StatusType::APPROVED_REVIEWER, StatusType::APPROVED_APPROVER])
-                    ->where(function ($query) use ($id){
-                            $query->where('reviewer_id', $id)
-                                ->orWhere('approver_id', $id);
-                    })
-                    ->orderBy('id', 'desc')->get();
-                    
-                return $drdrs;
-
-                break;
-        }
     }
 }

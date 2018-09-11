@@ -323,47 +323,4 @@ class NcnController extends Controller
         return $ncns;
     }
 
-     /**
-     * Search ncn by category
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    public function category($category)
-    {
-        $id = User::findOrFail(Auth::user()->id);
-
-        switch  ($category)
-        {
-            case "all":
-                $ncns = Ncn::with('requester')
-                ->where('approver_id', Auth::user()->id)
-                ->orderBy('id', 'desc')->get();
-        
-                return $ncns;
-
-                break;
-            
-            case "pending":
-                $ncns = Ncn::with('requester')
-                ->where('approver_id', Auth::user()->id)
-                ->where('status', StatusType::SUBMITTED)
-                ->orderBy('id', 'desc')->get();
-        
-                return $ncns;
-
-                break;
-
-            case "approved":
-                $ncns = Ncn::with('requester')
-                ->where('approver_id', Auth::user()->id)
-                ->where('status', StatusType::APPROVED_APPROVER)
-                ->orderBy('id', 'desc')->get();
-        
-                return $ncns;
-
-                break;
-        }
-    }
 }

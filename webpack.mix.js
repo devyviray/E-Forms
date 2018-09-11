@@ -16,13 +16,12 @@ let mix = require('laravel-mix');
 mix.styles([
 	'resources/assets/css/bootstrap.min.css',
 	'resources/assets/css/light-bootstrap-dashboard.css',
-	'resources/assets/css/app.css'
 	
 ], 'public/css/all.css')
 .js([
 	'resources/assets/js/app.js',
-	'resources/assets/js/light-bootstrap-dashboard.js',
 	'node_modules/popper.js/dist/popper.js',
-	'node_modules/bootstrap/dist/js/bootstrap.min.js'
+	'node_modules/bootstrap/dist/js/bootstrap.min.js',
+	'resources/assets/js/light-bootstrap-dashboard.js'
 ], 'public/js/all.js')
 .browserSync('http://localhost/home');

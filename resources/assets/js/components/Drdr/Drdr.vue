@@ -26,12 +26,6 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="submitted" role="tabpanel" aria-labelledby="submitted-tab">
-                            <select v-model="selectedStatus" @change="fetchDrdrBystatus">
-                                <option value="" disabled selected>Select By</option>
-                                <option value="all">ALL</option>
-                                <option value="pending">PENDING</option>
-                                <option value="approved">APPROVED</option>
-                            </select>
 
                             <drdr-submitted v-if="selected==1"></drdr-submitted>
                             
@@ -147,16 +141,6 @@ export default {
         resetData(){
           this.formData = new FormData();
           this.attachments = [];  
-        },
-        fetchDrdrBystatus()
-        {
-            axios.get(`/drdrs-by/${this.selectedStatus}`)
-            .then(response => {
-                this.drdrsPendingReviews = response.data;
-            })
-            .catch(error => {
-                this.errors = error.responde.data.errors;
-            })
         },
         addDrdrForm(){
             var base_url = window.location.origin;

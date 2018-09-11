@@ -1,11 +1,5 @@
 <template>
    <div>
-        <select v-model="selectedStatus" @change="fetchDdrBystatus">
-            <option value="" disabled selected>Select By</option>
-            <option value="all">ALL</option>
-            <option value="pending">PENDING</option>
-            <option value="approved">APPROVED</option>
-        </select>
         <div class="card-body table-full-width table-responsive">
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
@@ -78,16 +72,6 @@ export default {
             .catch(error =>{
                 this.errors = error.response.data.errors;
             });
-        },
-        fetchDdrBystatus()
-        {
-            axios.get(`/ddrs-by/${this.selectedStatus}`)
-            .then(response => {
-                this.ddrs = response.data;
-            })
-            .catch(error => {
-                this.errors = error.responde.data.errors;
-            })
         },
         setPage(pageNumber) {
             this.currentPage = pageNumber;

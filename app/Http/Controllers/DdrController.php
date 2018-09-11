@@ -374,45 +374,4 @@ class DdrController extends Controller
 
         return $ddrs;
     }
-
-    /**
-     * Search DDR by category
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    public function category($category)
-    {
-        $id = Auth::user()->id;
-        switch ($category)
-        {
-            case "all":
-                $ddrs = Ddr::with('requester')
-                ->where('approver_id', $id)
-                ->orderBy('id','desc')->get();
-
-                return $ddrs;
-
-                break;
-            case "pending":
-                $ddrs = Ddr::with('requester')
-                ->where('approver_id', $id)
-                ->where('status', StatusType::SUBMITTED)
-                ->orderBy('id','desc')->get();
-
-                return $ddrs;
-
-                break;
-            case "approved":
-                $ddrs = Ddr::with('requester')
-                ->where('approver_id', $id)
-                ->where('status', StatusType::APPROVED_APPROVER)
-                ->orderBy('id','desc')->get();
-
-                return $ddrs;
-                
-                break;
-        }
-    }
 }

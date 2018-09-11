@@ -31,6 +31,7 @@ class CreateCcirformsTable extends Migration
             $table->string('quality_of_sample');
             $table->string('car_number')->nullable();
             $table->integer('verifier_id')->nullable();
+            $table->datetime('verified_date')->nullable();
             $table->string('status');
             $table->string('remarks')->nullable();
             $table->timestamps();

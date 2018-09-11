@@ -220,7 +220,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   // Count all submitted ccir 
   Route::get('/admin/ccir-count', 'CcirController@countCcir');
   //Return page of ccir
-  Route::get('/admin/ccirs', 'CcirController@ccirAdminPage');
+  Route::get('/admin/ccirs', 'CcirController@ccirAdminPage')->name('admin.ccirs');
   // Ajax call to return all submitted Ccir
   Route::get('/admin/ccirs-all', 'CcirController@getAllCcirs');
   // Return page to view details of ccir
@@ -238,7 +238,6 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   Route::get('/drdrs-reviewed-forms', 'DrdrController@reviewedForms');
   Route::get('/drdrs-pending-approvals', 'DrdrController@pendingApprovals');
   Route::get('/drdrs-approved-forms', 'DrdrController@approvedForms');
-  Route::get('/drdrs-by/{category}', 'DrdrController@category');
   //Show review page of drdr
   Route::get('/drdr-review/{id}', 'DrdrController@show');
   Route::get('/drdr-approve/{id}', 'DrdrController@showApprovedForm');
@@ -260,7 +259,6 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   // DDR routes
   Route::get('/ddrs', 'DdrController@index');
   Route::get('/ddrs-approved-forms', 'DdrController@approvedForms');
-  Route::get('/ddrs-by/{category}', 'DdrController@category');
   //Show approve page of ddr
   Route::get('/ddr-approve/{id}', 'DdrController@show');
   // Approve specific ddr
@@ -287,7 +285,6 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   Route::get('/ncns-approved-forms', 'NcnController@approvedForms');
   Route::get('/ncn/{id}', 'NcnController@show');
   Route::patch('/ncn/{ncn}', 'NcnController@update');
-  Route::get('/ncns-by/{category}', 'NcnController@category');
   // Get uploaded files of requester for ncn
   Route::get('/ncn-requester-attachments/{ncnId}/{requesterId}', 'NcnController@getUploadedFilesRequester');
   // Get uploaded files of approver for ncn

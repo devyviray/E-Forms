@@ -1,11 +1,5 @@
 <template>
     <div>
-        <select v-model="selectedStatus" @change="fetchNcnBystatus">
-            <option value="" disabled selected>Select By</option>
-                <option value="all">ALL</option>
-                <option value="pending">PENDING</option>
-            <option value="approved">APPROVED</option>
-        </select>
         <div class="card-body table-full-width table-responsive">
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
@@ -65,16 +59,6 @@ export default {
         this.fetchNcns();
     },
     methods:{
-        fetchNcnBystatus()
-        {
-            axios.get(`/ncns-by/${this.selectedStatus}`)
-            .then(response => {
-                this.ncns = response.data;
-            })
-            .catch(error => {
-                this.errors = error.responde.data.errors;
-            })
-        },
         fetchNcns(){
             axios.get('/ncns')
             .then(response => {
