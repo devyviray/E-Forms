@@ -21,7 +21,12 @@ class StatusType extends Type {
 
         'VERIFIED_VERIFIER'  => 'VERIFIED_VERIFIER',
 
-        'UNVERIFIED_VERIFIER' => 'UNVERIFIED_VERIFIER'
+        'UNVERIFIED_VERIFIER' => 'UNVERIFIED_VERIFIER',
+
+        'CCIR_VALID' => 'CCIR_VALID' , 
+
+        'CCIR_INVALID' => 'CCIR_INVALID' , 
+
     ];
 
     const SUBMITTED = 2;
@@ -38,5 +43,16 @@ class StatusType extends Type {
 
     const UNVERIFIED_VERIFIER = 8;
     
+    const CCIR_VALID = 9;
+
+    const CCIR_INVALID = 10;
+
+    const TRASH_DOCUMENTS = 11;
+
+    const ARCHIVE_DOCUMENTS = 12;
+
+    const CANCEL_DOCUMENTS = 13; 
+
+    const MARK_AS_DISTRIBUTED = 14;
 
 } 

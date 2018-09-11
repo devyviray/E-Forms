@@ -24,7 +24,7 @@
                 </thead>    
                 <tbody>
                     <tr v-for="drdr in filteredQueues" v-bind:key="drdr.id">
-                        <td>{{ drdr.id }}</td>
+                        <td @click="viewDrdrDetails(drdr.id)">{{ drdr.id }}</td>
                         <td>{{ drdr.document_title }}</td>
                         <td>{{ drdr.company.name  }}</td>
                         <td>{{ drdr.rev_number }}</td>
@@ -42,7 +42,18 @@
                         </td>
                         <td style="padding-left: 30px" v-else>{{ ' - '  }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewDrdrDetails(drdr.id)">View</button>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Option
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Mark as distributed</a>
+                                    <a class="dropdown-item" href="#">Move to trash</a>
+                                    <a class="dropdown-item" href="#">Mark as archive</a>
+                                    <a class="dropdown-item" href="#">Cancel document</a>
+                                </div>
+                            </div>
+                            <!-- <button  class="btn btn-warning" @click="viewDrdrDetails(drdr.id)">View</button> -->
                         </td>
                     </tr>    
                 </tbody>

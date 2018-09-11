@@ -192,8 +192,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   // Generate pdf file for drdr
   Route::get('/admin/drdr-pdf/{id}', 'DrdrController@drdrPdf');
 
-
-  // DRDR routes
+  // DDR routes
   // Count all submitted ddr 
   Route::get('/admin/ddr-count', 'DdrController@countDdr');
   //Return page of ddr
@@ -228,6 +227,8 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails');
   // Generate pdf file for ccir
   Route::get('/admin/ccir-pdf/{id}', 'CcirController@ccirPdf');
+  // Validate ccir
+  Route::post('/admin/ccir-validate', 'CcirController@validateCCir');
 });
  
 Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver']], function () {

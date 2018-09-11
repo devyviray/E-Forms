@@ -31,7 +31,7 @@
                         <!-- <td>{{ ncn.attached_files }}</td>
                         <td>{{ ncn.non_conformity_details }}</td> -->
                         <td>{{ ncn.notification_number }}</td>
-                        <td>{{ ncn.issuance_date }}</td>
+                        <td>{{ moment(ncn.issuance_date).format('LL') }}</td>   
                         <td>{{ ncn.approver.name }}</td>
                         <td>
                             <span style="color: red" v-if="ncn.status == 2"> NOT YET APPROVED </span>
@@ -60,6 +60,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+import moment from 'moment';
 
 export default {
     components:{
@@ -79,6 +80,7 @@ export default {
         this.fetchNcns();
     },
     methods:{
+        moment,
         fetchNcns()
         {
             axios.get('/admin/ncns-all')

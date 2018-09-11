@@ -105,8 +105,8 @@
                         <td v-if="drdrs.length" >
                             {{ drdrs[0].approver.name }} <br>
                             <span style="color: red" v-if="drdrs[0].status == 3"> NOT YET APPROVED </span>
-                            <span style="color: red" v-else-if="[0].status == 6"> DISAPPROVED </span>
-                            <span style="color: green" v-else> APPROVED </span>
+                            <span style="color: red" v-else-if="drdrs[0].status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span> 
                         </td>
                         <td> <strong> Position: </strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].approver.position }}</td>

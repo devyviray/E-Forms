@@ -324,4 +324,23 @@ class CcirController extends Controller
         return $ccirs;
     }
 
+    public function validateCCir(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'status' => 'required'
+        ]);
+
+        $ccir = Ccir::findOrFail($request->id);
+        
+        if($request->status == 1){
+            $request->validate(['car_number'=> 'required']);
+            $ccir->car_number = $request->car_number;
+            $ccir->status = StatusType::CCIR_VALID;
+            $ccir->verifier_id = Auth::user()->id;
+        }else{  $ccir->status = StatusType::CCIR_INVALID; }
+
+        return $ccir;
+    }
+
 }

@@ -18,18 +18,18 @@
                     <th>Requester</th>
                     <th>Company</th>
                     <th>Reason</th>
-                    <th>date_requested</th>
+                    <th>Date request</th>
                     <th>Approver</th>
                     <th>Status</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
                     <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
-                        <td>{{ ddr.id }}</td>
+                        <td @click="viewDdrDetails(ddr.id)">{{ ddr.id }}</td>
                         <td>{{ ddr.requester.name }}</td>
                         <td>{{ ddr.company.name }}</td>
                         <td>{{ ddr.reason_of_distribution }}</td>
-                        <td>{{ ddr.date_requested }}</td>
+                        <td>{{ moment(ddr.date_request).format('LL') }}</td>
                         <td>{{ ddr.approver.name }}</td>
                         <td>
                             <span style="color: red" v-if="ddr.status == 2"> NOT YET APPROVED </span>
@@ -37,7 +37,18 @@
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewDdrDetails(ddr.id)">View</button>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Option
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Mark as distributed</a>
+                                    <a class="dropdown-item" href="#">Move to trash</a>
+                                    <a class="dropdown-item" href="#">Mark as archive</a>
+                                    <a class="dropdown-item" href="#">Cancel document</a>
+                                </div>
+                            </div>
+                            <!-- <button  class="btn btn-warning" @click="viewDdrDetails(ddr.id)">View</button> -->
                         </td>
                     </tr>    
                 </tbody>
@@ -58,10 +69,11 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+import moment from 'moment';
 
 export default {
     components:{
-      Datepicker  
+      Datepicker,
     },
     data(){
         return{
@@ -78,6 +90,7 @@ export default {
         this.fetchDdrs();
     },
     methods:{
+        moment,
         fetchDdrs()
         {
             axios.get('/admin/ddrs-all')

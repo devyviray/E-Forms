@@ -25,9 +25,9 @@
                            <option value="1">Wet/Lumpy</option>
                            <option value="2">Busted bag</option>
                            <option value="3">Under/Over weight</option>
-                           <option value="3">Interested</option>
-                           <option value="3">Dirty packaging</option>
-                           <option value="3">Others</option>
+                           <option value="4">Interested</option>
+                           <option value="5">Dirty packaging</option>
+                           <option value="6">Others</option>
                        </select>
                         <span v-if="errors.type">{{ errors.type }}</span>
                     </div>

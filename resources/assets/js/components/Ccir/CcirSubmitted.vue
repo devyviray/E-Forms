@@ -17,9 +17,20 @@
                         <td>{{ ccirSubmitted.id }}</td>
                         <td>{{ ccirSubmitted.requester.name }}</td>
                         <td>{{ ccirSubmitted.brand_name }}</td>
-                        <td>{{ ccirSubmitted.nature_of_complaint }}</td>
+                        <td>
+                            <span  v-if="ccirSubmitted.nature_of_complaint == 1"> Wet/Lumpy </span>
+                            <span  v-else-if="ccirSubmitted.nature_of_complaint == 2"> Busted bag </span>
+                            <span  v-else-if="ccirSubmitted.nature_of_complaint == 3"> Under/Over weight </span>
+                            <span  v-else-if="ccirSubmitted.nature_of_complaint == 4"> Interested </span>
+                            <span  v-else-if="ccirSubmitted.nature_of_complaint == 5"> Dirty packaging </span>
+                            <span  v-else> Others </span>
+                        </td>
                         <td>{{ ccirSubmitted.delivery_date }}</td>
-                        <td>{{ ccirSubmitted.status }}</td>
+                        <td>
+                            <span  v-if="ccirSubmitted.status == 2"> PENDING </span>
+                            <span  v-else-if="ccirSubmitted.status == 9"> {{ ccirSubmitted.car_number }}</span>
+                            <span  v-else> INVALID </span>
+                        </td>
                         <td>
                             <button  class="btn btn-primary" @click="viewSubmittedCcir(ccirSubmitted.id)">View</button>
                             <!-- <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ccirSubmitted.id}`">Edit</button> -->

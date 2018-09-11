@@ -24,14 +24,36 @@
                 </thead>    
                 <tbody>
                     <tr v-for="ccir in filteredQueues" v-bind:key="ccir.id">
-                        <td>{{ ccir.id }}</td>
+                        <td @click="viewCcirDetails(ccir.id)">{{ ccir.id }}</td>
                         <td>{{ ccir.requester.name }}</td>
                         <td>{{ ccir.brand_name }}</td>
-                        <td>{{ ccir.nature_of_complaint }}</td>
-                        <td>{{ ccir.delivery_date }}</td>
-                        <td>{{ ccir.status }}</td>
                         <td>
-                            <button @click="viewCcirDetails(ccir.id)" class="btn btn-warning">View</button>
+                            <span  v-if="ccir.nature_of_complaint == 1"> Wet/Lumpy </span>
+                            <span  v-else-if="ccir.nature_of_complaint == 2"> Busted bag </span>
+                            <span  v-else-if="ccir.nature_of_complaint == 3"> Under/Over weight </span>
+                            <span  v-else-if="ccir.nature_of_complaint == 4"> Interested </span>
+                            <span  v-else-if="ccir.nature_of_complaint == 5"> Dirty packaging </span>
+                            <span  v-else> Others </span>
+                        </td>
+                        <td>{{ moment(ccir.delivery_date).format('LL') }} </td>
+                        <td>
+                            <span  v-if="ccir.status == 2"> PENDING </span>
+                            <span  v-else-if="ccir.status == 9"> {{ ccir.car_number }}</span>
+                            <span  v-else> INVALID </span>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Option
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#validateCcirModal" href="javascript:void(0)">Validate</a>
+                                    <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#trashCcirModal" href="javascript:void(0)">Move to trash</a>
+                                    <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#archieveCcirModal" href="javascript:void(0)">Mark as archive</a>
+                                    <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#cancelCcirModal" href="javascript:void(0)">Cancel document</a>
+                                </div>
+                            </div>
+                            <!-- <button @click="viewCcirDetails(ccir.id)" class="btn btn-warning">View</button> -->
                         </td>
                     </tr>    
                 </tbody>
@@ -47,11 +69,118 @@
                 <span>{{ filteredQueues.length }} Ccir form(s)</span>
             </div>
         </div>
+
+         <!-- Validate Modal -->
+        <div  class="modal fade" id="validateCcirModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="editCompanyLabel">Validate CCIR</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                      <select v-model="selected_status" class="form-control form-control-lg" @change="selectedStatus">
+                        <option value="" disabled selected>Option</option>
+                        <option value="1">Approved</option>
+                        <option value="2">Disapproved</option>
+                    </select>
+                    </div>
+                    <div class="form-group" v-if="show">
+                        <input type="text" class="form-control" placeholder="Car No." v-model="car_number">
+                        <span v-if="errors.name">{{ errors.car_number }}</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button @click="validateCcir(selected_id, selected_status , car_number)" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Move to trash Modal -->
+        <div  class="modal fade" id="trashCcirModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="editCompanyLabel">Move to trash</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                    <div class="form-group" v-if="show">
+                        <span> Are you sure to move this document to trash?</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button @click="submitStatus(selected_status , car_number)" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Move to trash Modal -->
+        <div  class="modal fade" id="archieveCcirModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="editCompanyLabel">Move to archive</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                    <div class="form-group" v-if="show">
+                        <span> Are you sure to move this document to archive?</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button @click="submitStatus(selected_status , car_number)" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Move to trash Modal -->
+        <div  class="modal fade" id="cancelCcirModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="editCompanyLabel">Cancel Document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                    <div class="form-group" v-if="show">
+                        <span> Are you sure to cancel this document?</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button @click="submitStatus(selected_status , car_number)" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        
     </div>
 </template>
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+import moment from 'moment';
+
 export default {
     components:{
       Datepicker  
@@ -62,7 +191,12 @@ export default {
             keywords: '',
             errors: '',
             startDate: '',
-            endDate: '',    
+            endDate: '',
+            selected_id: '',
+            selected_option: '', 
+            selected_status: '',
+            car_number: '',
+            show: false,
             currentPage: 0,
             itemsPerPage: 10,
         }
@@ -71,6 +205,7 @@ export default {
         this.fetchCcirs();
     },
     methods:{
+        moment,
         fetchCcirs(){
             axios.get('/admin/ccirs-all')
             .then(response => {
@@ -79,6 +214,29 @@ export default {
             .catch(error =>{
                 this.errors = error.response.data.errors;
             });
+        },
+        selectedStatus()
+        {
+            this.selected_status == 1 ? this.show = true : this.show = false;
+        },
+        getCcirId(id)
+        {
+            this.selected_id = id;
+        },
+        validateCcir(id, status,car_number)
+        {
+            axios.post('/admin/ccir-validate', {
+                'id': id,
+                'status': status,
+                'car_number': car_number  
+            })
+            .then(response => {
+                $('#validateCcir').modal('hide');
+                this.selected_id = '';
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            })
         },
         viewCcirDetails(id)
         {

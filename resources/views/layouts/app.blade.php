@@ -7,7 +7,6 @@
     
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- <script>window.laravel = { csrfToken: {{ csrf_token() }} }</script> --}}
     
     <title>{{ config('app.name', 'Laravel') }}</title>
     
@@ -17,7 +16,7 @@
 <body>
     <div id="app">
         <div class="wrapper">
-            <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
+            <div class="sidebar">
                 <!--
                     Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
                     
@@ -121,32 +120,6 @@
                 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                     <div class=" container-fluid  ">
                         <a class="navbar-brand" href="#pablo"> Dashboard </a>
-                        @role('administrator') 
-                            <h5> administrator logged in</h5>
-                        @endrole
-
-                        @role('mr') 
-                        <h5> MR logged in</h5>
-                         @endrole
-                        @role('approver') 
-                        <h5> approver logged in</h5>
-                        @endrole
-
-                        @role('reviewer') 
-                        <h5> reviewer logged in</h5>
-                        @endrole
-
-                        @role('requester') 
-                        <h5> requester logged in</h5>
-                        @endrole
-
-                        @role('notified') 
-                        <h5> notified logged in</h5>
-                        @endrole
-                        
-                        @role('moderator') 
-                        <h5> moderator logged in</h5>
-                        @endrole
                         <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-bar burger-lines"></span>
                             <span class="navbar-toggler-bar burger-lines"></span>
