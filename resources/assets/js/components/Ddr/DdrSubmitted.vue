@@ -16,7 +16,7 @@
                         <td>{{ ddrSubmitted.id }}</td>
                         <td>{{ ddrSubmitted.approver.name }}</td>
                         <td>{{ ddrSubmitted.reason_of_distribution }}</td>
-                        <td>{{ ddrSubmitted.date_request }}</td>
+                        <td>{{ moment(ddrSubmitted.date_request).format('LL') }}</td>
                         <td>
                             <span style="color: red" v-if="ddrSubmitted.status == 2"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="ddrSubmitted.status == 6"> DISAPPROVED </span>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -59,6 +60,7 @@ export default {
         this.fetchDdrSubmitted();
     },
     methods:{
+        moment,
         fetchDdrSubmitted()
         {
             axios.get('/ddrs-submitted')

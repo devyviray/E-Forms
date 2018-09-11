@@ -20,11 +20,10 @@
                         <!-- <td>{{ ncn.attached_files }}</td>
                         <td>{{ ncn.non_conformity_details }}</td> -->
                         <td>{{ ncn.notification_number }}</td>
-                        <td>{{ ncn.issuance_date }}</td>
+                        <td>{{ moment(ncn.issuance_date).format('LL') }}</td>
                         <td>{{ ncn.status }}</td>
                         <td>
-                            <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ncn.id}`">Edit</button>
-                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ncn.id}`">Delete</button>
+                            <button  class="btn btn-warning" @click="approveNcn(ncn.id)" >Click for approval</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -44,6 +43,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -59,6 +59,7 @@ export default {
         this.fetchNcns();
     },
     methods:{
+        moment,
         fetchNcns(){
             axios.get('/ncns')
             .then(response => {
@@ -67,6 +68,11 @@ export default {
             .catch(error =>{
                 this.errors = error.response.data.errors;
             });
+        },
+        approveNcn(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+ `/ncn-approve/${id}`;
         },
         setPage(pageNumber) {
             this.currentPage = pageNumber;

@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -56,6 +57,7 @@ export default {
         this.fetchCcirApprovedForms();
     },
     methods:{
+        moment,
         viewApprovedCcir(id)
         {
             var base_url = window.location.origin;

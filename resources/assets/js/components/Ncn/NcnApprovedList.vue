@@ -20,8 +20,12 @@
                         <!-- <td>{{ ncn.attached_files }}</td>
                         <td>{{ ncn.non_conformity_details }}</td> -->
                         <td>{{ ncnApprovedForm.notification_number }}</td>
-                        <td>{{ ncnApprovedForm.issuance_date }}</td>
-                        <td>{{ ncnApprovedForm.status }}</td>
+                        <td>{{ moment(ncnApprovedForm.issuance_date).format('LL') }}</td>
+                        <td>
+                            <span style="color: red" v-if="ncnApprovedForm.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="ncnApprovedForm.status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td>
                             <button  class="btn btn-warning" @click="viewApprovedNcn(ncnApprovedForm.id)" >View</button>
                             <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ncnApprovedForm.id}`">Delete</button>
@@ -44,6 +48,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -57,6 +62,7 @@ export default {
         this.fetchNcnApprovedForms();
     },
     methods:{
+        moment,
         viewApprovedNcn(id)
         {
             var base_url = window.location.origin;

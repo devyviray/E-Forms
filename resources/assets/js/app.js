@@ -53,10 +53,11 @@ Vue.component('ddr-edit', require('./components/Ddr/DdrEdit.vue'));
 Vue.component('ddr-view', require('./components/Ddr/DdrView.vue'));
 Vue.component('ddr-approve-form', require('./components/Ddr/DdrApproveForm.vue'));
 
-
+// Vue Ncn
 Vue.component('ncn', require('./components/Ncn/Ncn.vue'));
 Vue.component('ncnform', require('./components/Ncn/Ncnform.vue'));
 Vue.component('ncn-view', require('./components/Ncn/NcnView.vue'));
+Vue.component('ncn-approve-form', require('./components/Ncn/NcnApproveForm.vue'));
 
 
 Vue.component('ccir', require('./components/Ccir/Ccir.vue'));

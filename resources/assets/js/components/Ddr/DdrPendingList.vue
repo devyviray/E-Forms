@@ -16,7 +16,7 @@
                         <td>{{ ddr.id }}</td>
                         <td>{{ ddr.requester.name }}</td>
                         <td>{{ ddr.reason_of_distribution }}</td>
-                        <td>{{ ddr.date_request }}</td>
+                        <td>{{ moment(ddr.date_request).format('LL') }}</td>
                         <td>
                             <span style="color: red" v-if="ddr.status == 2"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="ddr.status == 6"> DISAPPROVED </span>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -58,6 +59,7 @@ export default {
         this.fetchDdrs();
     },
     methods:{
+        moment,
          approveDdr(id)
         {
             var base_url = window.location.origin;

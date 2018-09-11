@@ -24,7 +24,7 @@
                             <span style="color: red" v-else-if="drdrsApprovedForm.status == 5"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
-                        <td>{{ drdrsApprovedForm.effective_date }}</td>
+                        <td>{{ moment(drdrsApprovedForm.effective_date).format('LL') }}</td>
                         <td>
                             <button  class="btn btn-warning" @click="viewApprovedDrdr(drdrsApprovedForm.id)">View</button>
                         </td>
@@ -45,6 +45,7 @@
     </div>   
 </template>
 <script>
+import moment from 'moment';
 export default {
     data() {
         return {
@@ -61,6 +62,7 @@ export default {
     },
 
     methods: {
+        moment,
         viewApprovedDrdr(id)
         {
             var base_url = window.location.origin;

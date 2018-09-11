@@ -25,7 +25,7 @@
                             <span  v-else-if="ccirSubmitted.nature_of_complaint == 5"> Dirty packaging </span>
                             <span  v-else> Others </span>
                         </td>
-                        <td>{{ ccirSubmitted.delivery_date }}</td>
+                        <td>{{ moment(ccirSubmitted.delivery_date).format('LL') }}</td>
                         <td>
                             <span  v-if="ccirSubmitted.status == 2"> PENDING </span>
                             <span  v-else-if="ccirSubmitted.status == 9"> {{ ccirSubmitted.car_number }}</span>
@@ -55,6 +55,7 @@
 
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -69,6 +70,7 @@ export default {
         this.fetchCcirSubmitted();
     },
     methods:{
+        moment,
         viewSubmittedCcir(id)
         {
             var base_url = window.location.origin;

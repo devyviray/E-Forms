@@ -286,7 +286,10 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   // NCN routes
   Route::get('/ncns', 'NcnController@index');
   Route::get('/ncns-approved-forms', 'NcnController@approvedForms');
-  Route::get('/ncn/{id}', 'NcnController@show');
+  //Show approve page of ddr
+  Route::get('/ncn-approve/{id}', 'NcnController@show');
+  // Approve specific ncn
+  Route::post('/ncn-approved', 'NcnController@approved');
   Route::patch('/ncn/{ncn}', 'NcnController@update');
   // Get uploaded files of requester for ncn
   Route::get('/ncn-requester-attachments/{ncnId}/{requesterId}', 'NcnController@getUploadedFilesRequester');

@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Auth;
 use PDF;
 use App\Notifications\RequesterSubmitNcn;
+use App\Notifications\ApproverNotifyPersonNcn;
 
 class NcnController extends Controller
 {
@@ -126,7 +127,7 @@ class NcnController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('ncn.approved');
     }
 
     /**
@@ -143,6 +144,32 @@ class NcnController extends Controller
 
         return $ncn;
     }
+
+    /**
+    * Approve specific NCN
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function approved(Request $request)
+    {
+        $carbon = new Carbon();
+        $ncn = NCN::findOrFail($request->input('id'));
+        
+        $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
+        $ncn->status = $status;
+        $ncn->remarks = $request->input('remarks');
+        $ncn->approved_date = $carbon::now();
+        $ncn->save();
+        
+        // $notified = User::findOrFail($request->input('selected_notified'));
+        // \Notification::send($notified, new ApproverNotifyPersonNcn($ncn));
+
+
+        return ['redirect' => route('ncn')];
+    }
+
+
 
     /**
     * View the details of ccir.

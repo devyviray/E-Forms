@@ -149,6 +149,13 @@ class DdrController extends Controller
         return $ddr;
     }
 
+    
+    /**
+    * Approve specific DDR
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
     public function approved(Request $request)
     {
         $carbon = new Carbon();
@@ -158,6 +165,7 @@ class DdrController extends Controller
         $ddr->status = $status;
         $ddr->remarks = $request->input('remarks');
         $ddr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
+        $ddr->approved_date = $carbon::now();
         $ddr->save();
         
         $company_id = $ddr->company_id;

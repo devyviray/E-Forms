@@ -18,7 +18,7 @@
                         <td>{{ ccir.requester.name }}</td>
                         <td>{{ ccir.brand_name }}</td>
                         <td>{{ ccir.nature_of_complaint }}</td>
-                        <td>{{ ccir.delivery_date }}</td>
+                        <td>{{ moment(ccir.delivery_date ).format('LL') }}</td>
                         <td>{{ ccir.status }}</td>
                         <td>
                            <button  class="btn btn-warning" @click="approveCcir(ccir.id)">Click for approval</button>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -51,6 +52,7 @@ export default {
             itemsPerPage: 10,
         }
     },
+    moment,
     created(){
         this.fetchCcirs();
     },

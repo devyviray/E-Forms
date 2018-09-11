@@ -24,7 +24,7 @@
                             <span style="color: red" v-else-if="drdrsPendingApprovalForm.status == 5"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
-                        <td>{{ drdrsPendingApprovalForm.effective_date }}</td>
+                        <td>{{ moment(drdrsPendingApprovalForm.effective_date ).format('LL') }}</td>
                         <td>
                             <button  class="btn btn-warning" @click="approveDrdr(drdrsPendingApprovalForm.id)">Approve</button>
                         </td>
@@ -45,6 +45,7 @@
     </div>      
 </template>
 <script>
+import moment from 'moment';
 export default {
     data() {
         return {
@@ -61,7 +62,7 @@ export default {
     },
 
     methods: {
-
+        moment,
         fetchdrdrsPendingApprovalForms()
         {
             axios.get('/drdrs-pending-approvals')
