@@ -53,7 +53,7 @@
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-if="drdrs.length" v-model="drdrs[0].id">
                     <div class="form-group">
-                       <select v-model="drdr.status" class="form-control form-control-lg">
+                       <select v-model="drdr.status" class="form-control form-control-lg"  @change="selectedStatus">
                            <option value="" disabled selected>Select Status</option>
                            <option value="1">Approved</option>
                            <option value="2">Disapproved</option>
@@ -65,22 +65,24 @@
                         <textarea class="form-control" v-model="drdr.remarks" id="remarks" cols="30" rows="10"></textarea>
                         <span v-if="errors.remarks">{{ errors.remarks }}</span>
                     </div>
-                    <div class="form-group" v-if="drdrs.length">
-                        <datepicker placeholder="Select Effective Date" v-model="drdrs[0].effective_date"></datepicker>
-                        <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
-                    </div>
-                    <div class="form-group">
-                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
-                    </div>
-                    <div class="form-group">
-                        <label for="copy_number">Copy number</label>
-                        <input type="text" class="form-control" placeholder="Copy number" v-model="drdr.copy_number" id="copy_number">
-                        <span v-if="errors.copy_number">{{ errors.copy_number }}</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="copy_holder">Copy holder</label>
-                        <input type="text" class="form-control" placeholder="Copy holder" v-model="drdr.copy_holder" id="copy_holder">
-                        <span v-if="errors.copy_holder">{{ errors.copy_holder }}</span>
+                    <div v-if="show">
+                        <div class="form-group" v-if="drdrs.length">
+                            <datepicker placeholder="Select Effective Date" v-model="drdrs[0].effective_date"></datepicker>
+                            <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
+                        </div>
+                        <div class="form-group">
+                            <label for="copy_number">Copy number</label>
+                            <input type="text" class="form-control" placeholder="Copy number" v-model="drdr.copy_number" id="copy_number">
+                            <span v-if="errors.copy_number">{{ errors.copy_number }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="copy_holder">Copy holder</label>
+                            <input type="text" class="form-control" placeholder="Copy holder" v-model="drdr.copy_holder" id="copy_holder">
+                            <span v-if="errors.copy_holder">{{ errors.copy_holder }}</span>
+                        </div>
                     </div>
                     <button @click="approvedDrdr(drdrs[0].id, drdr,drdrs[0])" type="button" class="btn btn-primary">Submit</button>
                 </form>
@@ -106,6 +108,7 @@ export default {
             company_id: '',
             attachments: [],
             formData: new FormData(),
+            show: false
         }
     },
     created(){
@@ -163,6 +166,10 @@ export default {
             .catch(error => {
                 this.errors = error.response.data.errors;
             });
+        },
+        selectedStatus()
+        {
+            this.drdr.status == 1 ? this.show = true : this.show = false;
         }
     },
     components: {

@@ -2,7 +2,7 @@
     <div id="page-content-wrapper">
         <div class="container-fluid">       
 	        <hr>
-            <table class="table table-bordered">
+            <table class="table table-bordered" v-if="drdrs.length">
                 <tbody>
                     <tr>
                         <td rowspan="3" width="10%">
@@ -11,9 +11,9 @@
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
                     <tr>
-                        <td> Doc No. <strong>LFQM-F-001</strong> </td>
-                        <td v-if="drdrs.length"> Rev No. <strong> {{ drdrs[0].rev_number }}</strong> </td>
-                        <td> Effective Date </td>
+                        <td> <strong>  Doc No. </strong> LFQM-F-001 </td>
+                        <td v-if="drdrs.length"> <strong> Rev No. </strong> {{ drdrs[0].rev_number }}</td>
+                        <td> <strong>  Effective Date </strong> </td>
                         <td v-if="drdrs.length"> {{ moment(drdrs[0].effective_date).format('LL') }} </td>
                     </tr>
                     <tr>
@@ -49,7 +49,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="7"> {{ drdrs[0].reason_request }} </td>
+                        <td colspan="7" v-if="drdrs.length"> {{ drdrs[0].reason_request }} </td>
                     </tr>
                     <!-- third set -->
                     <tr>
@@ -84,20 +84,22 @@
                         <td> <strong> Position: </strong> </td>
                         <td v-if="drdrs.length"> {{ drdrs[0].reviewer.position }} </td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs[0].reviewed_date"> {{ moment(drdrs[0].reviewed_date).format('LL') }} </td>
+                        <td v-if="drdrs.length && drdrs[0].reviewed_date && drdrs[0].status != 2"> {{ moment(drdrs[0].reviewed_date).format('LL') }} </td>
+                        <td v-if="drdrs.length && drdrs[0].disapproved_date && drdrs[0].status == 5"> {{ moment(drdrs[0].disapproved_date).format('LL') }} </td>
                     </tr>
                     <tr>
                         <td> <strong> Approved By: </strong> </td>
-                        <td v-if="drdrs[0].approver"> 
+                        <td v-if="drdrs.length && drdrs[0].approver"> 
                             {{ drdrs[0].approver.name }}<br>
                             <span style="color: red" v-if="drdrs[0].status == 3"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="drdrs[0].status == 6"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td> <strong> Position: </strong> </td>
-                        <td v-if="drdrs[0].approver"> {{ drdrs[0].approver.position }} </td>
+                        <td v-if="drdrs.length && drdrs[0].approver"> {{ drdrs[0].approver.position }} </td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs.length"> {{ moment(drdrs[0].approved_date).format('LL') }} </td>
+                        <td v-if="drdrs.length && drdrs[0].approved_date && drdrs[0].status != 3"> {{ moment(drdrs[0].approved_date).format('LL') }} </td>
+                        <td v-if="drdrs.length && drdrs[0].disapproved_date && drdrs[0].status == 6"> {{ moment(drdrs[0].disapproved_date).format('LL') }} </td>
                     </tr>	
                 </tbody>
             </table>
@@ -107,8 +109,8 @@
                     <tr>
                         <td>Considered Docments in reviewing:</td>
                     </tr>
-                    <tr>
-                        <td> na </td>
+                    <tr v-if="drdrs.length && drdrs[0].consider_documents">
+                        <td> {{ drdrs[0].consider_documents }} </td>
                     </tr>
                 </tbody>
             </table>
@@ -137,7 +139,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="drdrs[0].copy_number" >
+                            <tr v-if="drdrs.length && drdrs[0].copy_number" >
                                 <td> {{ drdrs[0].copy_number }} </td>
                                 <td> {{ drdrs[0].copy_holder }} </td>
                             </tr>
@@ -149,7 +151,7 @@
                     <table class="table table-bordered" style="border-left: 0 ! important;">
                         <thead>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Effective Date: {{ moment(drdrs[0].effective_date).format('LL') }} </td>
+                                <td style="border-left: 0 ! important;" v-if="drdrs.length && drdrs[0].effective_date"> Effective Date: {{ moment(drdrs[0].effective_date).format('LL') }} </td>
                             </tr>
                         </thead>
                         <tbody>
@@ -157,13 +159,13 @@
                                 <td style="border-left: 0 ! important;"> DRDR NO: PFMC-I-07-2018-2734 </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Document Title:  {{ drdrs[0].document_title }}  </td>
+                                <td style="border-left: 0 ! important;" v-if="drdrs.length && drdrs[0].document_title"> Document Title:  {{ drdrs[0].document_title }}  </td>
                             </tr>
                             <tr>
                                 <td style="border-left: 0 ! important;"> Document Code: HACFD-002-004a </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Revision No: {{ drdrs[0].rev_number }} </td>
+                                <td style="border-left: 0 ! important;" v-if="drdrs.length && drdrs[0].rev_number"> Revision No: {{ drdrs[0].rev_number }} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -185,9 +187,9 @@
                 <tbody>
                     <tr>
                         <td> <strong> Verified by: </strong> </td>
-                        <td >v-if="drdrs[0].distributed" {{ drdrs[0].distributed.name }}</td>
+                        <td v-if=" drdrs.length && drdrs[0].distributed"> {{ drdrs[0].distributed.name }}</td>
                         <td> <strong> Date: </strong></td>
-                        <td v-if="drdrs[0].distributed"> {{ moment(drdrs[0].distributed_date).format('LL') }}</td>
+                        <td v-if="drdrs.length && drdrs[0].distributed"> {{ moment(drdrs[0].distributed_date).format('LL') }}</td>
                     </tr>
                 </tbody>
             </table>

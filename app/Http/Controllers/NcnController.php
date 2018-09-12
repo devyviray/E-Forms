@@ -49,7 +49,7 @@ class NcnController extends Controller
      */
     public function approvedForms(){
         $ncns = Ncn::with('requester')->where('approver_id', Auth::user()->id)
-            ->where('status', StatusType::APPROVED_APPROVER)
+            ->where('status','!=' , StatusType::APPROVED_REVIEWER)
             ->orderBy('id','desc')->get();
 
         return $ncns;

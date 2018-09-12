@@ -53,32 +53,34 @@
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-if="drdrs.length" v-model="drdrs[0].id">
                     <div class="form-group">
-                        <label for="consider_documents">Consider documents in reviewing</label>
-                        <textarea class="form-control" v-model="drdr.consider_documents" id="consider_documents" cols="30" rows="10"></textarea>
-                        <span v-if="errors.consider_documents">{{ errors.consider_documents }}</span>
-                    </div>
-                    <div class="form-group">
-                       <select v-model="drdr.status" class="form-control form-control-lg">
+                       <select v-model="drdr.status" class="form-control form-control-lg" @change="selectedStatus">
                            <option value="" disabled selected>Select Status</option>
                            <option value="1">Approved</option>
                            <option value="2">Disapproved</option>
                        </select>
                         <span v-if="errors.status">{{ errors.status }}</span>
                     </div>
+                    <div v-if="show">
+                        <div class="form-group">
+                            <label for="consider_documents">Consider documents in reviewing</label>
+                            <textarea class="form-control" v-model="drdr.consider_documents" id="consider_documents" cols="30" rows="10"></textarea>
+                            <span v-if="errors.consider_documents">{{ errors.consider_documents }}</span>
+                        </div>
+                        <div class="form-group">
+                        <select v-model="approver.id" class="form-control form-control-lg">
+                            <option value="" disabled selected>Select Approver</option>
+                            <option v-for="(approver, a) in approvers" :value="approver.id" v-bind:key="a">{{ approver.name }}</option>
+                        </select>
+                            <span v-if="errors.approver">{{ errors.approver }}</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
+                        </div>
+                    </div> 
                     <div class="form-group">
                         <label for="reason_request">Remarks</label>
                         <textarea class="form-control" v-model="drdr.remarks" id="remarks" cols="30" rows="10"></textarea>
                         <span v-if="errors.remarks">{{ errors.remarks }}</span>
-                    </div>
-                    <div class="form-group">
-                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
-                    </div>
-                    <div class="form-group">
-                       <select v-model="approver.id" class="form-control form-control-lg">
-                           <option value="" disabled selected>Select Approver</option>
-                           <option v-for="(approver, a) in approvers" :value="approver.id" v-bind:key="a">{{ approver.name }}</option>
-                       </select>
-                        <span v-if="errors.approver">{{ errors.approver }}</span>
                     </div>
                     <button @click="reviewedDrdr(drdrs[0].id, drdr, approver)" type="button" class="btn btn-primary">Submit</button>
                 </form>
@@ -110,6 +112,7 @@ export default {
             },
             attachments: [],
             formData: new FormData(),
+            show: false,
         }
     },
     created(){
@@ -179,6 +182,10 @@ export default {
             .catch(error => {
                 this.errors = error.response.data.errors;
             });
+        },
+        selectedStatus()
+        {
+            this.drdr.status == 1 ? this.show = true : this.show = false;
         }
     }
 }

@@ -53,7 +53,7 @@ class DdrController extends Controller
     {
         $ddrs = Ddr::with('requester')
                 ->where('approver_id', Auth::user()->id)
-                ->where('status', StatusType::APPROVED_APPROVER)
+                ->where('status', '!=' , StatusType::APPROVED_REVIEWER)
                 ->orderBy('id', 'desc')->get();
         return $ddrs;
     }

@@ -65640,6 +65640,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -66037,14 +66039,32 @@ var render = function() {
                 _vm._v(" "),
                 _vm._m(14),
                 _vm._v(" "),
-                _vm.drdrs.length
+                _vm.drdrs.length &&
+                _vm.drdrs[0].reviewed_date &&
+                _vm.drdrs[0].status != 2
                   ? _c("td", [
                       _vm._v(
                         " " +
                           _vm._s(
                             _vm.moment(_vm.drdrs[0].reviewed_date).format("LL")
                           ) +
-                          "  "
+                          " "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.drdrs.length &&
+                _vm.drdrs[0].disapproved_date &&
+                _vm.drdrs[0].status == 5
+                  ? _c("td", [
+                      _vm._v(
+                        " " +
+                          _vm._s(
+                            _vm
+                              .moment(_vm.drdrs[0].disapproved_date)
+                              .format("LL")
+                          ) +
+                          " "
                       )
                     ])
                   : _vm._e()
@@ -66089,7 +66109,9 @@ var render = function() {
                     _vm._v(" "),
                     _vm._m(17),
                     _vm._v(" "),
-                    _vm.drdrs.length
+                    _vm.drdrs.length &&
+                    _vm.drdrs[0].approved_date &&
+                    _vm.drdrs[0].status != 3
                       ? _c("td", [
                           _vm._v(
                             " " +
@@ -66098,7 +66120,23 @@ var render = function() {
                                   .moment(_vm.drdrs[0].approved_date)
                                   .format("LL")
                               ) +
-                              "  "
+                              " "
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.drdrs.length &&
+                    _vm.drdrs[0].disapproved_date &&
+                    _vm.drdrs[0].status == 6
+                      ? _c("td", [
+                          _vm._v(
+                            " " +
+                              _vm._s(
+                                _vm
+                                  .moment(_vm.drdrs[0].disapproved_date)
+                                  .format("LL")
+                              ) +
+                              " "
                           )
                         ])
                       : _vm._e()
@@ -77068,6 +77106,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -77089,7 +77129,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: ''
             },
             attachments: [],
-            formData: new FormData()
+            formData: new FormData(),
+            show: false
         };
     },
     created: function created() {
@@ -77156,6 +77197,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 _this3.errors = error.response.data.errors;
             });
+        },
+        selectedStatus: function selectedStatus() {
+            this.drdr.status == 1 ? this.show = true : this.show = false;
         }
     }
 });
@@ -77249,38 +77293,6 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "consider_documents" } }, [
-              _vm._v("Consider documents in reviewing")
-            ]),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.drdr.consider_documents,
-                  expression: "drdr.consider_documents"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { id: "consider_documents", cols: "30", rows: "10" },
-              domProps: { value: _vm.drdr.consider_documents },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.drdr, "consider_documents", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.errors.consider_documents
-              ? _c("span", [_vm._v(_vm._s(_vm.errors.consider_documents))])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
             _c(
               "select",
               {
@@ -77294,21 +77306,26 @@ var render = function() {
                 ],
                 staticClass: "form-control form-control-lg",
                 on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.drdr,
-                      "status",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.drdr,
+                        "status",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                    _vm.selectedStatus
+                  ]
                 }
               },
               [
@@ -77328,6 +77345,116 @@ var render = function() {
               ? _c("span", [_vm._v(_vm._s(_vm.errors.status))])
               : _vm._e()
           ]),
+          _vm._v(" "),
+          _vm.show
+            ? _c("div", [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "consider_documents" } }, [
+                    _vm._v("Consider documents in reviewing")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.drdr.consider_documents,
+                        expression: "drdr.consider_documents"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "consider_documents", cols: "30", rows: "10" },
+                    domProps: { value: _vm.drdr.consider_documents },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.drdr,
+                          "consider_documents",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.consider_documents
+                    ? _c("span", [
+                        _vm._v(_vm._s(_vm.errors.consider_documents))
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.approver.id,
+                          expression: "approver.id"
+                        }
+                      ],
+                      staticClass: "form-control form-control-lg",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.approver,
+                            "id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        { attrs: { value: "", disabled: "", selected: "" } },
+                        [_vm._v("Select Approver")]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.approvers, function(approver, a) {
+                        return _c(
+                          "option",
+                          { key: a, domProps: { value: approver.id } },
+                          [_vm._v(_vm._s(approver.name))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _vm.errors.approver
+                    ? _c("span", [_vm._v(_vm._s(_vm.errors.approver))])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    attrs: {
+                      type: "file",
+                      multiple: "multiple",
+                      id: "attachments",
+                      placeholder: "Attach file"
+                    },
+                    on: { change: _vm.uploadFileChange }
+                  })
+                ])
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "reason_request" } }, [
@@ -77358,72 +77485,6 @@ var render = function() {
             _vm._v(" "),
             _vm.errors.remarks
               ? _c("span", [_vm._v(_vm._s(_vm.errors.remarks))])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("input", {
-              attrs: {
-                type: "file",
-                multiple: "multiple",
-                id: "attachments",
-                placeholder: "Attach file"
-              },
-              on: { change: _vm.uploadFileChange }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.approver.id,
-                    expression: "approver.id"
-                  }
-                ],
-                staticClass: "form-control form-control-lg",
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.approver,
-                      "id",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              },
-              [
-                _c(
-                  "option",
-                  { attrs: { value: "", disabled: "", selected: "" } },
-                  [_vm._v("Select Approver")]
-                ),
-                _vm._v(" "),
-                _vm._l(_vm.approvers, function(approver, a) {
-                  return _c(
-                    "option",
-                    { key: a, domProps: { value: approver.id } },
-                    [_vm._v(_vm._s(approver.name))]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _vm.errors.approver
-              ? _c("span", [_vm._v(_vm._s(_vm.errors.approver))])
               : _vm._e()
           ]),
           _vm._v(" "),
@@ -77763,6 +77824,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -77805,47 +77868,49 @@ var render = function() {
     _c("div", { staticClass: "container-fluid" }, [
       _c("hr"),
       _vm._v(" "),
-      _c("table", { staticClass: "table table-bordered" }, [
-        _c("tbody", [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(1),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [
-                  _vm._v(" Rev No. "),
-                  _c("strong", [_vm._v(" " + _vm._s(_vm.drdrs[0].rev_number))])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("td", [_vm._v(" Effective Date ")]),
-            _vm._v(" "),
-            _vm.drdrs.length
-              ? _c("td", [
-                  _vm._v(
-                    " " +
-                      _vm._s(
-                        _vm.moment(_vm.drdrs[0].effective_date).format("LL")
-                      ) +
-                      " "
-                  )
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._m(2)
-        ])
-      ]),
+      _vm.drdrs.length
+        ? _c("table", { staticClass: "table table-bordered" }, [
+            _c("tbody", [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(1),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", [
+                      _c("strong", [_vm._v(" Rev No. ")]),
+                      _vm._v(" " + _vm._s(_vm.drdrs[0].rev_number))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(2),
+                _vm._v(" "),
+                _vm.drdrs.length
+                  ? _c("td", [
+                      _vm._v(
+                        " " +
+                          _vm._s(
+                            _vm.moment(_vm.drdrs[0].effective_date).format("LL")
+                          ) +
+                          " "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm._m(3)
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _vm._m(3),
+      _vm._m(4),
       _vm._v(" "),
       _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
         _c("tbody", [
           _c("tr", [
-            _vm._m(4),
-            _vm._v(" "),
             _vm._m(5),
+            _vm._v(" "),
+            _vm._m(6),
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
@@ -77853,7 +77918,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(6),
+            _vm._m(7),
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", { attrs: { colspan: "3" } }, [
@@ -77866,16 +77931,18 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _vm._m(7),
+          _vm._m(8),
           _vm._v(" "),
           _c("tr", [
-            _c("td", { attrs: { colspan: "7" } }, [
-              _vm._v(" " + _vm._s(_vm.drdrs[0].reason_request) + " ")
-            ])
+            _vm.drdrs.length
+              ? _c("td", { attrs: { colspan: "7" } }, [
+                  _vm._v(" " + _vm._s(_vm.drdrs[0].reason_request) + " ")
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("tr", [
-            _vm._m(8),
+            _vm._m(9),
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
@@ -77883,7 +77950,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(9),
+            _vm._m(10),
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
@@ -77891,7 +77958,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(10),
+            _vm._m(11),
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
@@ -77908,12 +77975,12 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(11),
+      _vm._m(12),
       _vm._v(" "),
       _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
         _c("tbody", [
           _c("tr", [
-            _vm._m(12),
+            _vm._m(13),
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
@@ -77937,7 +78004,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(13),
+            _vm._m(14),
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
@@ -77945,9 +78012,11 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(14),
+            _vm._m(15),
             _vm._v(" "),
-            _vm.drdrs[0].reviewed_date
+            _vm.drdrs.length &&
+            _vm.drdrs[0].reviewed_date &&
+            _vm.drdrs[0].status != 2
               ? _c("td", [
                   _vm._v(
                     " " +
@@ -77957,13 +78026,27 @@ var render = function() {
                       " "
                   )
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.drdrs.length &&
+            _vm.drdrs[0].disapproved_date &&
+            _vm.drdrs[0].status == 5
+              ? _c("td", [
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.drdrs[0].disapproved_date).format("LL")
+                      ) +
+                      " "
+                  )
+                ])
               : _vm._e()
           ]),
           _vm._v(" "),
           _c("tr", [
-            _vm._m(15),
+            _vm._m(16),
             _vm._v(" "),
-            _vm.drdrs[0].approver
+            _vm.drdrs.length && _vm.drdrs[0].approver
               ? _c("td", [
                   _vm._v(
                     " \n                            " +
@@ -77985,17 +78068,19 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(16),
+            _vm._m(17),
             _vm._v(" "),
-            _vm.drdrs[0].approver
+            _vm.drdrs.length && _vm.drdrs[0].approver
               ? _c("td", [
                   _vm._v(" " + _vm._s(_vm.drdrs[0].approver.position) + " ")
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(17),
+            _vm._m(18),
             _vm._v(" "),
-            _vm.drdrs.length
+            _vm.drdrs.length &&
+            _vm.drdrs[0].approved_date &&
+            _vm.drdrs[0].status != 3
               ? _c("td", [
                   _vm._v(
                     " " +
@@ -78005,16 +78090,42 @@ var render = function() {
                       " "
                   )
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.drdrs.length &&
+            _vm.drdrs[0].disapproved_date &&
+            _vm.drdrs[0].status == 6
+              ? _c("td", [
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.drdrs[0].disapproved_date).format("LL")
+                      ) +
+                      " "
+                  )
+                ])
               : _vm._e()
           ])
         ])
       ]),
       _vm._v(" "),
-      _vm._m(18),
-      _vm._v(" "),
-      _vm._m(19),
+      _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
+        _c("tbody", [
+          _vm._m(19),
+          _vm._v(" "),
+          _vm.drdrs.length && _vm.drdrs[0].consider_documents
+            ? _c("tr", [
+                _c("td", [
+                  _vm._v(" " + _vm._s(_vm.drdrs[0].consider_documents) + " ")
+                ])
+              ])
+            : _vm._e()
+        ])
+      ]),
       _vm._v(" "),
       _vm._m(20),
+      _vm._v(" "),
+      _vm._m(21),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c(
@@ -78028,10 +78139,10 @@ var render = function() {
           },
           [
             _c("table", { staticClass: "table table-bordered" }, [
-              _vm._m(21),
+              _vm._m(22),
               _vm._v(" "),
               _c("tbody", [
-                _vm.drdrs[0].copy_number
+                _vm.drdrs.length && _vm.drdrs[0].copy_number
                   ? _c("tr", [
                       _c("td", [
                         _vm._v(" " + _vm._s(_vm.drdrs[0].copy_number) + " ")
@@ -78063,55 +78174,61 @@ var render = function() {
               [
                 _c("thead", [
                   _c("tr", [
-                    _c(
-                      "td",
-                      { staticStyle: { "border-left": "0 ! important" } },
-                      [
-                        _vm._v(
-                          " Effective Date: " +
-                            _vm._s(
-                              _vm
-                                .moment(_vm.drdrs[0].effective_date)
-                                .format("LL")
-                            ) +
-                            " "
+                    _vm.drdrs.length && _vm.drdrs[0].effective_date
+                      ? _c(
+                          "td",
+                          { staticStyle: { "border-left": "0 ! important" } },
+                          [
+                            _vm._v(
+                              " Effective Date: " +
+                                _vm._s(
+                                  _vm
+                                    .moment(_vm.drdrs[0].effective_date)
+                                    .format("LL")
+                                ) +
+                                " "
+                            )
+                          ]
                         )
-                      ]
-                    )
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
                 _c("tbody", [
-                  _vm._m(22),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c(
-                      "td",
-                      { staticStyle: { "border-left": "0 ! important" } },
-                      [
-                        _vm._v(
-                          " Document Title:  " +
-                            _vm._s(_vm.drdrs[0].document_title) +
-                            "  "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
                   _vm._m(23),
                   _vm._v(" "),
                   _c("tr", [
-                    _c(
-                      "td",
-                      { staticStyle: { "border-left": "0 ! important" } },
-                      [
-                        _vm._v(
-                          " Revision No: " +
-                            _vm._s(_vm.drdrs[0].rev_number) +
-                            " "
+                    _vm.drdrs.length && _vm.drdrs[0].document_title
+                      ? _c(
+                          "td",
+                          { staticStyle: { "border-left": "0 ! important" } },
+                          [
+                            _vm._v(
+                              " Document Title:  " +
+                                _vm._s(_vm.drdrs[0].document_title) +
+                                "  "
+                            )
+                          ]
                         )
-                      ]
-                    )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(24),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _vm.drdrs.length && _vm.drdrs[0].rev_number
+                      ? _c(
+                          "td",
+                          { staticStyle: { "border-left": "0 ! important" } },
+                          [
+                            _vm._v(
+                              " Revision No: " +
+                                _vm._s(_vm.drdrs[0].rev_number) +
+                                " "
+                            )
+                          ]
+                        )
+                      : _vm._e()
                   ])
                 ])
               ]
@@ -78120,7 +78237,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm._m(24),
+      _vm._m(25),
       _vm._v(" "),
       _c("p", [_vm._v('Yellow stamp with "Obsolete" and use as reference ')]),
       _vm._v(" "),
@@ -78132,18 +78249,17 @@ var render = function() {
         [
           _c("tbody", [
             _c("tr", [
-              _vm._m(25),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  'v-if="drdrs[0].distributed" ' +
-                    _vm._s(_vm.drdrs[0].distributed.name)
-                )
-              ]),
-              _vm._v(" "),
               _vm._m(26),
               _vm._v(" "),
-              _vm.drdrs[0].distributed
+              _vm.drdrs.length && _vm.drdrs[0].distributed
+                ? _c("td", [
+                    _vm._v(" " + _vm._s(_vm.drdrs[0].distributed.name))
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._m(27),
+              _vm._v(" "),
+              _vm.drdrs.length && _vm.drdrs[0].distributed
                 ? _c("td", [
                     _vm._v(
                       " " +
@@ -78185,7 +78301,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_vm._v(" Doc No. "), _c("strong", [_vm._v("LFQM-F-001")])])
+    return _c("td", [
+      _c("strong", [_vm._v("  Doc No. ")]),
+      _vm._v(" LFQM-F-001 ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("  Effective Date ")])])
   },
   function() {
     var _vm = this
@@ -78307,13 +78432,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table", attrs: { width: "100%" } }, [
-      _c("tbody", [
-        _c("tr", [_c("td", [_vm._v("Considered Docments in reviewing:")])]),
-        _vm._v(" "),
-        _c("tr", [_c("td", [_vm._v(" na ")])])
-      ])
-    ])
+    return _c("tr", [_c("td", [_vm._v("Considered Docments in reviewing:")])])
   },
   function() {
     var _vm = this
@@ -78559,6 +78678,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -78574,7 +78695,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             errors: [],
             company_id: '',
             attachments: [],
-            formData: new FormData()
+            formData: new FormData(),
+            show: false
         };
     },
     created: function created() {
@@ -78631,6 +78753,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 _this2.errors = error.response.data.errors;
             });
+        },
+        selectedStatus: function selectedStatus() {
+            this.drdr.status == 1 ? this.show = true : this.show = false;
         }
     },
     components: {
@@ -78740,21 +78865,26 @@ var render = function() {
                 ],
                 staticClass: "form-control form-control-lg",
                 on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.drdr,
-                      "status",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.drdr,
+                        "status",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                    _vm.selectedStatus
+                  ]
                 }
               },
               [
@@ -78807,113 +78937,119 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _vm.drdrs.length
-            ? _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  _c("datepicker", {
-                    attrs: { placeholder: "Select Effective Date" },
-                    model: {
-                      value: _vm.drdrs[0].effective_date,
-                      callback: function($$v) {
-                        _vm.$set(_vm.drdrs[0], "effective_date", $$v)
-                      },
-                      expression: "drdrs[0].effective_date"
+          _vm.show
+            ? _c("div", [
+                _vm.drdrs.length
+                  ? _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("datepicker", {
+                          attrs: { placeholder: "Select Effective Date" },
+                          model: {
+                            value: _vm.drdrs[0].effective_date,
+                            callback: function($$v) {
+                              _vm.$set(_vm.drdrs[0], "effective_date", $$v)
+                            },
+                            expression: "drdrs[0].effective_date"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.effective_date
+                          ? _c("span", [
+                              _vm._v(_vm._s(_vm.errors.effective_date))
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    attrs: {
+                      type: "file",
+                      multiple: "multiple",
+                      id: "attachments",
+                      placeholder: "Attach file"
+                    },
+                    on: { change: _vm.uploadFileChange }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "copy_number" } }, [
+                    _vm._v("Copy number")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.drdr.copy_number,
+                        expression: "drdr.copy_number"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Copy number",
+                      id: "copy_number"
+                    },
+                    domProps: { value: _vm.drdr.copy_number },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.drdr, "copy_number", $event.target.value)
+                      }
                     }
                   }),
                   _vm._v(" "),
-                  _vm.errors.effective_date
-                    ? _c("span", [_vm._v(_vm._s(_vm.errors.effective_date))])
+                  _vm.errors.copy_number
+                    ? _c("span", [_vm._v(_vm._s(_vm.errors.copy_number))])
                     : _vm._e()
-                ],
-                1
-              )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "copy_holder" } }, [
+                    _vm._v("Copy holder")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.drdr.copy_holder,
+                        expression: "drdr.copy_holder"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      placeholder: "Copy holder",
+                      id: "copy_holder"
+                    },
+                    domProps: { value: _vm.drdr.copy_holder },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.drdr, "copy_holder", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.copy_holder
+                    ? _c("span", [_vm._v(_vm._s(_vm.errors.copy_holder))])
+                    : _vm._e()
+                ])
+              ])
             : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("input", {
-              attrs: {
-                type: "file",
-                multiple: "multiple",
-                id: "attachments",
-                placeholder: "Attach file"
-              },
-              on: { change: _vm.uploadFileChange }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "copy_number" } }, [
-              _vm._v("Copy number")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.drdr.copy_number,
-                  expression: "drdr.copy_number"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                type: "text",
-                placeholder: "Copy number",
-                id: "copy_number"
-              },
-              domProps: { value: _vm.drdr.copy_number },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.drdr, "copy_number", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.errors.copy_number
-              ? _c("span", [_vm._v(_vm._s(_vm.errors.copy_number))])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "copy_holder" } }, [
-              _vm._v("Copy holder")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.drdr.copy_holder,
-                  expression: "drdr.copy_holder"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                type: "text",
-                placeholder: "Copy holder",
-                id: "copy_holder"
-              },
-              domProps: { value: _vm.drdr.copy_holder },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.drdr, "copy_holder", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm.errors.copy_holder
-              ? _c("span", [_vm._v(_vm._s(_vm.errors.copy_holder))])
-              : _vm._e()
-          ]),
           _vm._v(" "),
           _c(
             "button",

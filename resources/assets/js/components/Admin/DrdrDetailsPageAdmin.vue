@@ -97,7 +97,8 @@
                         <td> <strong> Position:</strong> </td>
                         <td  v-if="drdrs.length"> {{ drdrs[0].reviewer.position }}  </td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs.length" > {{ moment(drdrs[0].reviewed_date).format('LL') }}  </td>
+                        <td v-if="drdrs.length && drdrs[0].reviewed_date && drdrs[0].status != 2"> {{ moment(drdrs[0].reviewed_date).format('LL') }} </td>
+                        <td v-if="drdrs.length && drdrs[0].disapproved_date && drdrs[0].status == 5"> {{ moment(drdrs[0].disapproved_date).format('LL') }} </td>
                     </tr>
 
                     <tr v-if="drdrs.length && drdrs[0].approver">
@@ -111,7 +112,8 @@
                         <td> <strong> Position: </strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].approver.position }}</td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs.length"> {{ moment(drdrs[0].approved_date).format('LL') }}  </td>
+                        <td v-if="drdrs.length && drdrs[0].approved_date && drdrs[0].status != 3"> {{ moment(drdrs[0].approved_date).format('LL') }} </td>
+                        <td v-if="drdrs.length && drdrs[0].disapproved_date && drdrs[0].status == 6"> {{ moment(drdrs[0].disapproved_date).format('LL') }} </td>
                     </tr>	
                 </tbody>
             </table>
