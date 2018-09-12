@@ -198,7 +198,7 @@ export default {
                 copy_holder: ''
             })
         },
-         deleteRow(index,id) {
+        deleteRow(index,id) {
             if(id !== undefined && this.ddrlists.length >= 2){
                 axios.delete(`/ddrformslists/${id}`)
                 .then(response => {

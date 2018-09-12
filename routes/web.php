@@ -208,6 +208,8 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   Route::get('/admin/ddr-pdf/{id}', 'DdrController@ddrPdf');
   // Mark DDR as distributed
   Route::post('/admin/ddr-distributed', 'DdrController@distributed');
+  // Update DDR by mr or admin
+  Route::patch('/admin/ddr/{ddr}', 'DdrController@adminUpdate');
   
   // NCN routes
   // Count all submitted ncn 

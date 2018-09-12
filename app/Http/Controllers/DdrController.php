@@ -257,6 +257,43 @@ class DdrController extends Controller
         }
     }
 
+     /**
+     * Admin Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function adminUpdate(Request $request, Ddr $ddr)
+    {
+        $validator = $request->validate([
+            "ddrlists.*.document_title"  => "required",
+            "ddrlists.*.control_code"  => "required",
+            "ddrlists.*.rev_number"  => "required",
+            "ddrlists.*.copy_number"  => "required",
+            "ddrlists.*.copy_holder"  => "required",
+        ]);
+
+
+        $ddrFormsLists = $request->input('ddrlists');
+        foreach($ddrFormsLists as $list){
+
+            $ddrFormsList = DdrformsList::findOrFail($list['id']);
+
+            $ddrFormsList->form_id = $ddr->id;
+            $ddrFormsList->document_title = $list['document_title'];
+            $ddrFormsList->control_code = $list['control_code'];
+            $ddrFormsList->rev_number = $list['rev_number'];
+            $ddrFormsList->copy_number = $list['copy_number'];
+            $ddrFormsList->copy_holder = $list['copy_holder'];
+            $ddrFormsList->save();
+
+        }
+        return ['redirect' => route('admin.ddrs')];
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *

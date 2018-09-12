@@ -42,6 +42,7 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a v-if="ddr.status == 4" @click="getDdr(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#editDdrModal" href="javascript:void(0)">Edit Document</a>
                                     <a v-if="ddr.status == 4" @click="getDdrId(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDdrModal" href="javascript:void(0)">Mark as distributed</a>
                                     <a class="dropdown-item" href="#">Move to trash</a>
                                     <a class="dropdown-item" href="#">Mark as archive</a>
@@ -61,6 +62,61 @@
             </div>
             <div class="col-6 text-right">
                 <span>{{ ddrs.length }} Ddr form(s)</span>
+            </div>
+        </div>
+
+
+        <!-- Edit document Modal -->
+        <div  class="modal fade bd-example-modal-lg" id="editDdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="editCompanyLabel">Edit document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                    <div class="form-group">
+                         <table class="table table-hover table-striped">
+                            <thead>
+                                <th>ID</th>
+                                <th>Document Title</th>
+                                <th>Control Code</th>
+                                <th>Rev No.</th>
+                                <th>Copy No.</th>
+                                <th>Copy Holder</th>
+                            </thead>
+                            <tbody>
+                                <tr v-if="ddrs.length" v-for="(ddrlist, d) in ddrlists" v-bind:key="d">
+                                    <td>{{ d + 1 }}</td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Document title" v-model="ddrlist.document_title">
+                                         <span v-if="errors.ddrlists">{{ 'sample error' }}</span>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Control Code" v-model="ddrlist.control_code">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Rev No." v-model="ddrlist.rev_number">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Copy No." v-model="ddrlist.copy_number">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Copy Holder" v-model="ddrlist.copy_holder">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button @click="updateDdr(selected_id,ddrlists)" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
             </div>
         </div>
 
@@ -106,6 +162,7 @@ export default {
             keywords: '',
             errors: '',
             selected_id: '',
+            ddrlists: [],
             currentPage: 0,
            itemsPerPage: 10,
         }
@@ -143,6 +200,30 @@ export default {
         getDdrId(id)
         {
             this.selected_id = id;
+        },
+        getDdr(id){
+            this.selected_id = id;
+
+            axios.get(`/ddr-data/${ this.selected_id}`)
+            .then(response => {
+                this.ddrlists = response.data[0].ddr_lists;
+            })
+            .catch(error =>{
+                this.errors = error.response.data.errors;
+            });
+
+        },
+        updateDdr(id,ddrlists)
+        {
+            axios.patch(`/admin/ddr/${id}`,{
+                ddrlists: ddrlists
+            })
+            .then(response => {
+                window.location.href = response.data.redirect;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            })
         },
         distributeDdr(id){
             axios.post('/admin/ddr-distributed', { 

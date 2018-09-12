@@ -122,12 +122,18 @@ export default {
         addUser(user,selected_company,selected_department,selected_role){
             let comapanyids = [];
             let roleids = [];
-            selected_company.forEach((selected_company) => {
+            if(selected_company)
+            {
+                selected_company.forEach((selected_company) => {
                 comapanyids.push(selected_company.id);
-            });
-            selected_role.forEach((selected_role) => {
-                    roleids.push(selected_role.id);
-            });
+                });
+            }
+            if(selected_role)
+            {
+                selected_role.forEach((selected_role) => {
+                roleids.push(selected_role.id);
+                });
+            }
             axios.post('/user',{
                 name: user.name,
                 email: user.email,

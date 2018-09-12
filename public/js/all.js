@@ -62604,6 +62604,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -62620,6 +62676,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             keywords: '',
             errors: '',
             selected_id: '',
+            ddrlists: [],
             currentPage: 0,
             itemsPerPage: 10
         };
@@ -62655,17 +62712,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getDdrId: function getDdrId(id) {
             this.selected_id = id;
         },
-        distributeDdr: function distributeDdr(id) {
+        getDdr: function getDdr(id) {
             var _this3 = this;
+
+            this.selected_id = id;
+
+            axios.get('/ddr-data/' + this.selected_id).then(function (response) {
+                _this3.ddrlists = response.data[0].ddr_lists;
+            }).catch(function (error) {
+                _this3.errors = error.response.data.errors;
+            });
+        },
+        updateDdr: function updateDdr(id, ddrlists) {
+            var _this4 = this;
+
+            axios.patch('/admin/ddr/' + id, {
+                ddrlists: ddrlists
+            }).then(function (response) {
+                window.location.href = response.data.redirect;
+            }).catch(function (error) {
+                _this4.errors = error.response.data.errors;
+            });
+        },
+        distributeDdr: function distributeDdr(id) {
+            var _this5 = this;
 
             axios.post('/admin/ddr-distributed', {
                 'id': id
             }).then(function (response) {
                 $('#distributedDdrModal').modal('hide');
-                _this3.selected_id = '';
+                _this5.selected_id = '';
                 window.location.href = response.data.redirect;
             }).catch(function (error) {
-                _this3.errors = response.data.errors;
+                _this5.errors = response.data.errors;
             });
         },
         setPage: function setPage(pageNumber) {
@@ -62683,11 +62762,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         filteredDdrs: function filteredDdrs() {
-            var _this4 = this;
+            var _this6 = this;
 
             var self = this;
             return self.ddrs.filter(function (ddr) {
-                return ddr.requester.name.toLowerCase().includes(_this4.keywords.toLowerCase());
+                return ddr.requester.name.toLowerCase().includes(_this6.keywords.toLowerCase());
             });
         },
         totalPages: function totalPages() {
@@ -63132,6 +63211,26 @@ var render = function() {
                               staticClass: "dropdown-item",
                               attrs: {
                                 "data-toggle": "modal",
+                                "data-target": "#editDdrModal",
+                                href: "javascript:void(0)"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.getDdr(ddr.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Edit Document")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      ddr.status == 4
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "dropdown-item",
+                              attrs: {
+                                "data-toggle": "modal",
                                 "data-target": "#distributedDdrModal",
                                 href: "javascript:void(0)"
                               },
@@ -63220,9 +63319,9 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "modal fade",
+        staticClass: "modal fade bd-example-modal-lg",
         attrs: {
-          id: "distributedDdrModal",
+          id: "editDdrModal",
           tabindex: "-1",
           role: "dialog",
           "aria-labelledby": "editCompanyLabel",
@@ -63232,7 +63331,7 @@ var render = function() {
       [
         _c(
           "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
               _vm._m(2),
@@ -63260,7 +63359,263 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm._m(3)
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "table",
+                    { staticClass: "table table-hover table-striped" },
+                    [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.ddrlists, function(ddrlist, d) {
+                          return _vm.ddrs.length
+                            ? _c("tr", { key: d }, [
+                                _c("td", [_vm._v(_vm._s(d + 1))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: ddrlist.document_title,
+                                        expression: "ddrlist.document_title"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Document title"
+                                    },
+                                    domProps: { value: ddrlist.document_title },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          ddrlist,
+                                          "document_title",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _vm.errors.ddrlists
+                                    ? _c("span", [
+                                        _vm._v(_vm._s("sample error"))
+                                      ])
+                                    : _vm._e()
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: ddrlist.control_code,
+                                        expression: "ddrlist.control_code"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Control Code"
+                                    },
+                                    domProps: { value: ddrlist.control_code },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          ddrlist,
+                                          "control_code",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: ddrlist.rev_number,
+                                        expression: "ddrlist.rev_number"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Rev No."
+                                    },
+                                    domProps: { value: ddrlist.rev_number },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          ddrlist,
+                                          "rev_number",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: ddrlist.copy_number,
+                                        expression: "ddrlist.copy_number"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Copy No."
+                                    },
+                                    domProps: { value: ddrlist.copy_number },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          ddrlist,
+                                          "copy_number",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: ddrlist.copy_holder,
+                                        expression: "ddrlist.copy_holder"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Copy Holder"
+                                    },
+                                    domProps: { value: ddrlist.copy_holder },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          ddrlist,
+                                          "copy_holder",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ])
+                            : _vm._e()
+                        })
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.updateDdr(_vm.selected_id, _vm.ddrlists)
+                      }
+                    }
+                  },
+                  [_vm._v("Save")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "distributedDdrModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "editCompanyLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(4),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selected_id,
+                      expression: "selected_id"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Id" },
+                  domProps: { value: _vm.selected_id },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.selected_id = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm._m(5)
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
@@ -63325,6 +63680,49 @@ var staticRenderFns = [
       _c("th", [_vm._v("Status")]),
       _vm._v(" "),
       _c("th", [_vm._v("Option")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "editCompanyLabel" } },
+        [_vm._v("Edit document")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", [_vm._v("ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Document Title")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Control Code")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Rev No.")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Copy No.")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Copy Holder")])
     ])
   },
   function() {
@@ -68852,12 +69250,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var comapanyids = [];
             var roleids = [];
-            selected_company.forEach(function (selected_company) {
-                comapanyids.push(selected_company.id);
-            });
-            selected_role.forEach(function (selected_role) {
-                roleids.push(selected_role.id);
-            });
+            if (selected_company) {
+                selected_company.forEach(function (selected_company) {
+                    comapanyids.push(selected_company.id);
+                });
+            }
+            if (selected_role) {
+                selected_role.forEach(function (selected_role) {
+                    roleids.push(selected_role.id);
+                });
+            }
             axios.post('/user', {
                 name: user.name,
                 email: user.email,
