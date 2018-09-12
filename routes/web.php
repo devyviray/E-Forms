@@ -184,7 +184,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   // Count all submitted drdr 
   Route::get('/admin/drdr-count', 'DrdrController@countDrdr');
   //Return page of drdr
-  Route::get('/admin/drdrs', 'DrdrController@drdrAdminPage')->name('admin.ddrs');
+  Route::get('/admin/drdrs', 'DrdrController@drdrAdminPage')->name('admin.drdrs');
   // Ajax call to return all submitted Drdr
   Route::get('/admin/drdrs-all', 'DrdrController@getAllDrdrs');
   // Return page to view details of drdr
@@ -199,19 +199,21 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   // Count all submitted ddr 
   Route::get('/admin/ddr-count', 'DdrController@countDdr');
   //Return page of ddr
-  Route::get('/admin/ddrs', 'DdrController@ddrAdminPage');
+  Route::get('/admin/ddrs', 'DdrController@ddrAdminPage')->name('admin.ddrs');
   // Ajax call to return all submitted Ddr
   Route::get('/admin/ddrs-all', 'DdrController@getAllDdrs');
   // Return page to view details of drdr
   Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails');
   // Generate pdf file for ddr
   Route::get('/admin/ddr-pdf/{id}', 'DdrController@ddrPdf');
+  // Mark DDR as distributed
+  Route::post('/admin/ddr-distributed', 'DdrController@distributed');
   
   // NCN routes
   // Count all submitted ncn 
   Route::get('/admin/ncn-count', 'NcnController@countNcn');
   //Return page of ncn
-  Route::get('/admin/ncns', 'NcnController@ncnAdminPage');
+  Route::get('/admin/ncns', 'NcnController@ncnAdminPage')->name('admin.ncns');
   // Ajax call to return all submitted ncn
   Route::get('/admin/ncns-all', 'NcnController@getAllNcns');
   // Return page to view details of drdr

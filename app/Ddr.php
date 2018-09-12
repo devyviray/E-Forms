@@ -31,6 +31,10 @@ class Ddr extends Model
         return $this->belongsTo('App\User', 'approver_id');
     }
 
+    public function distributed(){
+        return $this->belongsTo('App\User', 'distributed_id');
+    }
+
     public function company(){
         return $this->belongsTo('App\Company', 'company_id');
     }

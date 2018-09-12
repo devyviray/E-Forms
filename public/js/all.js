@@ -62211,7 +62211,7 @@ var render = function() {
                       attrs: { "aria-labelledby": "dropdownMenuButton" }
                     },
                     [
-                      drdr.status != 14
+                      drdr.status == 4
                         ? _c(
                             "a",
                             {
@@ -62581,6 +62581,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -62596,6 +62619,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             endDate: '',
             keywords: '',
             errors: '',
+            selected_id: '',
             currentPage: 0,
             itemsPerPage: 10
         };
@@ -62628,6 +62652,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.errors = error.response.data.errors;
             });
         },
+        getDdrId: function getDdrId(id) {
+            this.selected_id = id;
+        },
+        distributeDdr: function distributeDdr(id) {
+            var _this3 = this;
+
+            axios.post('/admin/ddr-distributed', {
+                'id': id
+            }).then(function (response) {
+                $('#distributedDdrModal').modal('hide');
+                _this3.selected_id = '';
+                window.location.href = response.data.redirect;
+            }).catch(function (error) {
+                _this3.errors = response.data.errors;
+            });
+        },
         setPage: function setPage(pageNumber) {
             this.currentPage = pageNumber;
         },
@@ -62643,11 +62683,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         filteredDdrs: function filteredDdrs() {
-            var _this3 = this;
+            var _this4 = this;
 
             var self = this;
             return self.ddrs.filter(function (ddr) {
-                return ddr.requester.name.toLowerCase().includes(_this3.keywords.toLowerCase());
+                return ddr.requester.name.toLowerCase().includes(_this4.keywords.toLowerCase());
             });
         },
         totalPages: function totalPages() {
@@ -63057,7 +63097,75 @@ var render = function() {
                       ])
               ]),
               _vm._v(" "),
-              _vm._m(2, true)
+              _c("td", [
+                _c("div", { staticClass: "dropdown" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary dropdown-toggle btn-sm",
+                      attrs: {
+                        type: "button",
+                        id: "dropdownMenuButton",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                 Option\n                             "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "dropdown-menu",
+                      attrs: { "aria-labelledby": "dropdownMenuButton" }
+                    },
+                    [
+                      ddr.status == 4
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "dropdown-item",
+                              attrs: {
+                                "data-toggle": "modal",
+                                "data-target": "#distributedDdrModal",
+                                href: "javascript:void(0)"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.getDdrId(ddr.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Mark as distributed")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Move to trash")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Mark as archive")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Cancel document")]
+                      )
+                    ]
+                  )
+                ])
+              ])
             ])
           })
         )
@@ -63107,7 +63215,83 @@ var render = function() {
       _c("div", { staticClass: "col-6 text-right" }, [
         _c("span", [_vm._v(_vm._s(_vm.ddrs.length) + " Ddr form(s)")])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "distributedDdrModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "editCompanyLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selected_id,
+                      expression: "selected_id"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Id" },
+                  domProps: { value: _vm.selected_id },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.selected_id = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm._m(3)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.distributeDdr(_vm.selected_id)
+                      }
+                    }
+                  },
+                  [_vm._v("Save")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -63147,51 +63331,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "dropdown" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary dropdown-toggle btn-sm",
-            attrs: {
-              type: "button",
-              id: "dropdownMenuButton",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false"
-            }
-          },
-          [
-            _vm._v(
-              "\n                                 Option\n                             "
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "dropdown-menu",
-            attrs: { "aria-labelledby": "dropdownMenuButton" }
-          },
-          [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Mark as distributed")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Move to trash")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Mark as archive")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Cancel document")
-            ])
-          ]
-        )
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "editCompanyLabel" } },
+        [_vm._v("Mark as distributed")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("span", [
+        _vm._v(" Are you sure to mark this document as distributed?")
       ])
     ])
   }

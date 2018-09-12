@@ -572,6 +572,12 @@ class DrdrController extends Controller
         return $drdrs;
     }
 
+    /**
+     * Mark DRDR as distributed
+     *
+     * @return \Illuminate\Http\Response
+     */
+
     public function distributed(Request $request)
     {
         $request->validate([
@@ -591,7 +597,7 @@ class DrdrController extends Controller
         if($drdr->save()){
 
             \Notification::send($emails , new MrMarkAsDistributedDrdr($drdr));
-            return ['redirect' => route('admin.ddrs')];
+            return ['redirect' => route('admin.drdrs')];
         }
     }
 }

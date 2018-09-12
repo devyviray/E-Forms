@@ -42,13 +42,12 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Mark as distributed</a>
+                                    <a v-if="ddr.status == 4" @click="getDdrId(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDdrModal" href="javascript:void(0)">Mark as distributed</a>
                                     <a class="dropdown-item" href="#">Move to trash</a>
                                     <a class="dropdown-item" href="#">Mark as archive</a>
                                     <a class="dropdown-item" href="#">Cancel document</a>
                                 </div>
                             </div>
-                            <!-- <button  class="btn btn-warning" @click="viewDdrDetails(ddr.id)">View</button> -->
                         </td>
                     </tr>    
                 </tbody>
@@ -62,6 +61,30 @@
             </div>
             <div class="col-6 text-right">
                 <span>{{ ddrs.length }} Ddr form(s)</span>
+            </div>
+        </div>
+
+         <!-- Mark as distributed Modal -->
+        <div  class="modal fade" id="distributedDdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="editCompanyLabel">Mark as distributed</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                    <div class="form-group">
+                        <span> Are you sure to mark this document as distributed?</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button @click="distributeDdr(selected_id)" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
             </div>
         </div>
    </div>
@@ -82,6 +105,7 @@ export default {
             endDate: '',
             keywords: '',
             errors: '',
+            selected_id: '',
             currentPage: 0,
            itemsPerPage: 10,
         }
@@ -114,6 +138,23 @@ export default {
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
+            })
+        },
+        getDdrId(id)
+        {
+            this.selected_id = id;
+        },
+        distributeDdr(id){
+            axios.post('/admin/ddr-distributed', { 
+                'id': id
+            })
+            .then(response=> {
+                $('#distributedDdrModal').modal('hide');
+                this.selected_id = '';
+                window.location.href = response.data.redirect;
+            })
+            .catch(error => { 
+                this.errors = response.data.errors;
             })
         },
         setPage(pageNumber) {

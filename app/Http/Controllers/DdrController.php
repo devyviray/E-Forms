@@ -13,6 +13,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Notifications\RequesterSubmitDdr;
 use App\Notifications\ApproverNotifyMrDdr;
+use App\Notifications\MrMarkAsDistributedDdr;
 
 class DdrController extends Controller
 {
@@ -385,5 +386,33 @@ class DdrController extends Controller
                 ->orderBy('id', 'desc')->get();
 
         return $ddrs;
+    }
+
+      /**
+     * Mark DDR as distributed
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function distributed(Request $request)
+    {
+        $request->validate([
+            'id' => 'required'
+        ]);
+        $carbon = new Carbon();
+        $ddr = Ddr::findOrFail($request->id);
+        $approver = User::findOrFail($ddr->approver_id);
+        $requester = User::findOrFail($ddr->requester_id);
+
+        $emails = [$approver, $requester];
+
+        $ddr->distributed_id = Auth::user()->id;
+        $ddr->status = StatusType::MARK_AS_DISTRIBUTED;
+        $ddr->distributed_date = $carbon::now();
+        if($ddr->save()){
+
+            \Notification::send($emails , new MrMarkAsDistributedDdr($ddr));
+            return ['redirect' => route('admin.ddrs')];
+        }
     }
 }
