@@ -68,7 +68,7 @@ export default {
     components: { Multiselect },
     data(){
         return{
-            users: [],
+
             user: {
                 id: '',
                 name: '',
@@ -158,21 +158,29 @@ export default {
         },
         fetchCompanies(){
             axios.get('/companies')
-                .then(response => {
-                    this.companies = response.data;
-                })
-                .catch(err => console.log(err));  
+            .then(response => {
+                this.companies = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });  
         },
         fetchDepartments(){
             axios.get('/departments')    
             .then(response => {
                 this.departments = response.data;
+            })
+            .catch(error =>{
+                this.errors = error.response.data.errors;
             });
         },
         fetchRoles(){
             axios.get('/roles')    
             .then(response => {
                 this.roles = response.data;
+            })
+            .catch(error =>{
+                this.errors = error.response.data.errors;
             });
         },
     }

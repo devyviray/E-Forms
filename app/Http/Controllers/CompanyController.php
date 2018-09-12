@@ -42,12 +42,11 @@ class CompanyController extends Controller
             ]);
             
             $company = new Company;
-            
             $company->name = $request->input('name');
             $company->address = $request->input('address');
             
             if($company->save()){
-                return $company;
+                return Company::orderBy('id','desc')->get();
             }
     }
         

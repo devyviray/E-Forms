@@ -37,6 +37,11 @@ class Drdr extends Model
         return $this->belongsTo('App\User', 'requester_id');
     }
 
+    public function distributed()
+    {
+        return $this->belongsTo('App\User', 'distributed_id');
+    }
+
     public function company()
     {
         return $this->belongsTO('App\Company');

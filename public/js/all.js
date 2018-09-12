@@ -62334,7 +62334,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Id" },
+                  attrs: { type: "hidden", placeholder: "Id" },
                   domProps: { value: _vm.selected_id },
                   on: {
                     input: function($event) {
@@ -65425,6 +65425,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 //
 //
 //
@@ -65638,6 +65640,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['drdrId'],
@@ -65656,6 +65659,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
         fetchDrdrs: function fetchDrdrs() {
             var _this = this;
 
@@ -65905,7 +65909,15 @@ var render = function() {
                   ? _c("td", [
                       _vm._v(" Effective Date: "),
                       _c("strong", [
-                        _vm._v(" " + _vm._s(_vm.drdrs[0].effective_date) + " ")
+                        _vm._v(
+                          " " +
+                            _vm._s(
+                              _vm
+                                .moment(_vm.drdrs[0].effective_date)
+                                .format("LL")
+                            ) +
+                            " "
+                        )
                       ])
                     ])
                   : _vm._e()
@@ -65969,7 +65981,15 @@ var render = function() {
                 _vm._m(10),
                 _vm._v(" "),
                 _vm.drdrs.length
-                  ? _c("td", [_vm._v(" " + _vm._s(_vm.drdrs[0].date_request))])
+                  ? _c("td", [
+                      _vm._v(
+                        " " +
+                          _vm._s(
+                            _vm.moment(_vm.drdrs[0].date_request).format("LL")
+                          ) +
+                          " "
+                      )
+                    ])
                   : _vm._e()
               ])
             ])
@@ -66019,7 +66039,13 @@ var render = function() {
                 _vm._v(" "),
                 _vm.drdrs.length
                   ? _c("td", [
-                      _vm._v(" " + _vm._s(_vm.drdrs[0].reviewed_date) + "  ")
+                      _vm._v(
+                        " " +
+                          _vm._s(
+                            _vm.moment(_vm.drdrs[0].reviewed_date).format("LL")
+                          ) +
+                          "  "
+                      )
                     ])
                   : _vm._e()
               ]),
@@ -66066,7 +66092,13 @@ var render = function() {
                     _vm.drdrs.length
                       ? _c("td", [
                           _vm._v(
-                            " " + _vm._s(_vm.drdrs[0].approved_date) + "  "
+                            " " +
+                              _vm._s(
+                                _vm
+                                  .moment(_vm.drdrs[0].approved_date)
+                                  .format("LL")
+                              ) +
+                              "  "
                           )
                         ])
                       : _vm._e()
@@ -66142,7 +66174,11 @@ var render = function() {
                           [
                             _vm._v(
                               "Effective Date: " +
-                                _vm._s(_vm.drdrs[0].effective_date)
+                                _vm._s(
+                                  _vm
+                                    .moment(_vm.drdrs[0].effective_date)
+                                    .format("LL")
+                                )
                             )
                           ]
                         )
@@ -66196,7 +66232,43 @@ var render = function() {
           _vm._v(" "),
           _c("table"),
           _vm._v(" "),
-          _vm._m(25)
+          _c(
+            "table",
+            {
+              staticStyle: { "margin-bottom": "100px" },
+              attrs: { width: "100%" }
+            },
+            [
+              _c("tbody", [
+                _c("tr", [
+                  _vm._m(25),
+                  _vm._v(" "),
+                  _vm.drdrs[0].distributed
+                    ? _c("td", [
+                        _vm._v(
+                          " " + _vm._s(_vm.drdrs[0].distributed.name) + " "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._m(26),
+                  _vm._v(" "),
+                  _vm.drdrs[0].distributed
+                    ? _c("td", [
+                        _vm._v(
+                          "  " +
+                            _vm._s(
+                              _vm
+                                .moment(_vm.drdrs[0].distributed_date)
+                                .format("LL")
+                            )
+                        )
+                      ])
+                    : _vm._e()
+                ])
+              ])
+            ]
+          )
         ])
       : _vm._e()
   ])
@@ -66433,23 +66505,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "table",
-      { staticStyle: { "margin-bottom": "100px" }, attrs: { width: "100%" } },
-      [
-        _c("tbody", [
-          _c("tr", [
-            _c("td", [_vm._v("Verified by:")]),
-            _vm._v(" "),
-            _c("td", [_vm._v(" Cherry Ann Siscar ")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("Date:")]),
-            _vm._v(" "),
-            _c("td", [_vm._v(" August 03, 2018 ")])
-          ])
-        ])
-      ]
-    )
+    return _c("td", [_c("strong", [_vm._v(" Verified by: ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Date: ")])])
   }
 ]
 render._withStripped = true
@@ -69193,7 +69255,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { Multiselect: __WEBPACK_IMPORTED_MODULE_0_vue_multiselect___default.a },
     data: function data() {
         return {
-            users: [],
+
             user: {
                 id: '',
                 name: '',
@@ -69281,8 +69343,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('/companies').then(function (response) {
                 _this2.companies = response.data;
-            }).catch(function (err) {
-                return console.log(err);
+            }).catch(function (error) {
+                _this2.errors = error.response.data.errors;
             });
         },
         fetchDepartments: function fetchDepartments() {
@@ -69290,6 +69352,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('/departments').then(function (response) {
                 _this3.departments = response.data;
+            }).catch(function (error) {
+                _this3.errors = error.response.data.errors;
             });
         },
         fetchRoles: function fetchRoles() {
@@ -69297,6 +69361,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('/roles').then(function (response) {
                 _this4.roles = response.data;
+            }).catch(function (error) {
+                _this4.errors = error.response.data.errors;
             });
         }
     }
@@ -70304,6 +70370,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             itemsPerPage: 10
         };
     },
+
+    watch: {
+        companies: function companies(val, oldVal) {}
+    },
     created: function created() {
         this.fetchCompanies();
     },
@@ -70351,7 +70421,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: this.company.name,
                 address: this.company.address
             }).then(function (response) {
-                _this4.company.name = '', _this4.company.address = '', _this4.errors = [], _this4.fetchCompanies;
+                _this4.company.name = '', _this4.company.address = '', _this4.errors = [], _this4.companies = response.data;
                 $('#addModal').modal('hide');
             }).catch(function (error) {
                 if (error.response.data) {
@@ -71172,6 +71242,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             itemsPerPage: 10
         };
     },
+
+    watch: {
+        departments: function departments(val, oldVal) {}
+    },
     created: function created() {
         this.fetchDepartments();
     },
@@ -71192,7 +71266,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (response) {
                 _this2.department.name = '';
                 _this2.errors = [];
-                _this2.fetchDepartments();
+                _this2.departments = response.data;
                 $('#addModal').modal('hide');
             }).catch(function (error) {
                 _this2.errors = error.response.data.errors;
@@ -74542,7 +74616,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Approve")]
+                  [_vm._v("Click for approval")]
                 )
               ])
             ])
@@ -75111,7 +75185,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         viewDrdr: function viewDrdr(id) {
-            alert(id);
+            var base_url = window.location.origin;
+            window.location.href = base_url + ('/drdr-view/' + id);
         },
         editDrdr: function editDrdr(id) {
             var base_url = window.location.origin;
@@ -77488,6 +77563,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 //
 //
 //
@@ -77686,11 +77763,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -77704,6 +77777,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
         fetchDrdrs: function fetchDrdrs() {
             var _this = this;
 
@@ -77749,7 +77823,13 @@ var render = function() {
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].effective_date) + " ")
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.drdrs[0].effective_date).format("LL")
+                      ) +
+                      " "
+                  )
                 ])
               : _vm._e()
           ]),
@@ -77815,7 +77895,13 @@ var render = function() {
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].date_request) + " ")
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.drdrs[0].date_request).format("LL")
+                      ) +
+                      " "
+                  )
                 ])
               : _vm._e()
           ])
@@ -77831,7 +77917,23 @@ var render = function() {
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].reviewer.name) + " ")
+                  _vm._v(
+                    " \n                            " +
+                      _vm._s(_vm.drdrs[0].reviewer.name)
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _vm.drdrs[0].status == 2
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" NOT YET APPROVED ")
+                      ])
+                    : _vm.drdrs[0].status == 5
+                      ? _c("span", { staticStyle: { color: "red" } }, [
+                          _vm._v(" DISAPPROVED ")
+                        ])
+                      : _c("span", { staticStyle: { color: "green" } }, [
+                          _vm._v(" APPROVED ")
+                        ])
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -77845,9 +77947,15 @@ var render = function() {
             _vm._v(" "),
             _vm._m(14),
             _vm._v(" "),
-            _vm.drdrs.length
+            _vm.drdrs[0].reviewed_date
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].reviewed_date) + " ")
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.drdrs[0].reviewed_date).format("LL")
+                      ) +
+                      " "
+                  )
                 ])
               : _vm._e()
           ]),
@@ -77855,15 +77963,31 @@ var render = function() {
           _c("tr", [
             _vm._m(15),
             _vm._v(" "),
-            _vm.drdrs.length
+            _vm.drdrs[0].approver
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].approver.name) + " ")
+                  _vm._v(
+                    " \n                            " +
+                      _vm._s(_vm.drdrs[0].approver.name)
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _vm.drdrs[0].status == 3
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" NOT YET APPROVED ")
+                      ])
+                    : _vm.drdrs[0].status == 6
+                      ? _c("span", { staticStyle: { color: "red" } }, [
+                          _vm._v(" DISAPPROVED ")
+                        ])
+                      : _c("span", { staticStyle: { color: "green" } }, [
+                          _vm._v(" APPROVED ")
+                        ])
                 ])
               : _vm._e(),
             _vm._v(" "),
             _vm._m(16),
             _vm._v(" "),
-            _vm.drdrs.length
+            _vm.drdrs[0].approver
               ? _c("td", [
                   _vm._v(" " + _vm._s(_vm.drdrs[0].approver.position) + " ")
                 ])
@@ -77873,7 +77997,13 @@ var render = function() {
             _vm._v(" "),
             _vm.drdrs.length
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.drdrs[0].approved_date) + " ")
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.drdrs[0].approved_date).format("LL")
+                      ) +
+                      " "
+                  )
                 ])
               : _vm._e()
           ])
@@ -77886,15 +78016,147 @@ var render = function() {
       _vm._v(" "),
       _vm._m(20),
       _vm._v(" "),
-      _vm._m(21),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          {
+            staticClass: "col-md-8",
+            staticStyle: {
+              "padding-right": "0 ! important",
+              "margin-right": "0 ! important"
+            }
+          },
+          [
+            _c("table", { staticClass: "table table-bordered" }, [
+              _vm._m(21),
+              _vm._v(" "),
+              _c("tbody", [
+                _vm.drdrs[0].copy_number
+                  ? _c("tr", [
+                      _c("td", [
+                        _vm._v(" " + _vm._s(_vm.drdrs[0].copy_number) + " ")
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(" " + _vm._s(_vm.drdrs[0].copy_holder) + " ")
+                      ])
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "col-md-4",
+            staticStyle: { "padding-left": "0 ! important" }
+          },
+          [
+            _c(
+              "table",
+              {
+                staticClass: "table table-bordered",
+                staticStyle: { "border-left": "0 ! important" }
+              },
+              [
+                _c("thead", [
+                  _c("tr", [
+                    _c(
+                      "td",
+                      { staticStyle: { "border-left": "0 ! important" } },
+                      [
+                        _vm._v(
+                          " Effective Date: " +
+                            _vm._s(
+                              _vm
+                                .moment(_vm.drdrs[0].effective_date)
+                                .format("LL")
+                            ) +
+                            " "
+                        )
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tbody", [
+                  _vm._m(22),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c(
+                      "td",
+                      { staticStyle: { "border-left": "0 ! important" } },
+                      [
+                        _vm._v(
+                          " Document Title:  " +
+                            _vm._s(_vm.drdrs[0].document_title) +
+                            "  "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(23),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c(
+                      "td",
+                      { staticStyle: { "border-left": "0 ! important" } },
+                      [
+                        _vm._v(
+                          " Revision No: " +
+                            _vm._s(_vm.drdrs[0].rev_number) +
+                            " "
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      ]),
       _vm._v(" "),
-      _vm._m(22),
+      _vm._m(24),
       _vm._v(" "),
       _c("p", [_vm._v('Yellow stamp with "Obsolete" and use as reference ')]),
       _vm._v(" "),
       _c("table"),
       _vm._v(" "),
-      _vm._m(23)
+      _c(
+        "table",
+        { staticStyle: { "margin-bottom": "100px" }, attrs: { width: "100%" } },
+        [
+          _c("tbody", [
+            _c("tr", [
+              _vm._m(25),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  'v-if="drdrs[0].distributed" ' +
+                    _vm._s(_vm.drdrs[0].distributed.name)
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(26),
+              _vm._v(" "),
+              _vm.drdrs[0].distributed
+                ? _c("td", [
+                    _vm._v(
+                      " " +
+                        _vm._s(
+                          _vm.moment(_vm.drdrs[0].distributed_date).format("LL")
+                        )
+                    )
+                  ])
+                : _vm._e()
+            ])
+          ])
+        ]
+      )
     ])
   ])
 }
@@ -78088,128 +78350,32 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        {
-          staticClass: "col-md-8",
-          staticStyle: {
-            "padding-right": "0 ! important",
-            "margin-right": "0 ! important"
-          }
-        },
-        [
-          _c("table", { staticClass: "table table-bordered" }, [
-            _c("thead", [
-              _c("tr", [
-                _c("td", [_vm._v("Copy No.")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("Copyholder (Department)")])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("tbody", [
-              _c("tr", [
-                _c("td", [_vm._v(" 1 ")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" QM ")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v(" 2 ")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" Food Safety Team ")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v(" 1 ")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" QM ")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v(" 2 ")]),
-                _vm._v(" "),
-                _c("td", [_vm._v(" Food Safety Team")])
-              ])
-            ])
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "col-md-4",
-          staticStyle: { "padding-left": "0 ! important" }
-        },
-        [
-          _c(
-            "table",
-            {
-              staticClass: "table table-bordered",
-              staticStyle: { "border-left": "0 ! important" }
-            },
-            [
-              _c("thead", [
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v(" Effective Date: ")]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v("vAugust 09, 2018 ")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v(" DRDR NO: PFMC-I-07-2018-2734 ")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [
-                      _vm._v(
-                        " Document Title: Product Description - Swine Feeds "
-                      )
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v(" Document Code: HACFD-002-004a ")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c(
-                    "td",
-                    { staticStyle: { "border-left": "0 ! important" } },
-                    [_vm._v(" Revision No: 11 ")]
-                  )
-                ])
-              ])
-            ]
-          )
-        ]
-      )
+    return _c("thead", [
+      _c("tr", [
+        _c("td", [_vm._v("Copy No.")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Copyholder (Department)")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticStyle: { "border-left": "0 ! important" } }, [
+        _vm._v(" DRDR NO: PFMC-I-07-2018-2734 ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticStyle: { "border-left": "0 ! important" } }, [
+        _vm._v(" Document Code: HACFD-002-004a ")
+      ])
     ])
   },
   function() {
@@ -78229,23 +78395,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "table",
-      { staticStyle: { "margin-bottom": "100px" }, attrs: { width: "100%" } },
-      [
-        _c("tbody", [
-          _c("tr", [
-            _c("td", [_vm._v("Verified by:")]),
-            _vm._v(" "),
-            _c("td", [_vm._v(" Caressa Marie De Jesus")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("Date:")]),
-            _vm._v(" "),
-            _c("td", [_vm._v(" August 09, 2018 ")])
-          ])
-        ])
-      ]
-    )
+    return _c("td", [_c("strong", [_vm._v(" Verified by: ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v(" Date: ")])])
   }
 ]
 render._withStripped = true

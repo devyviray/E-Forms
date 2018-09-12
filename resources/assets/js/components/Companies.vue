@@ -143,6 +143,11 @@ export default {
         }
 
     },
+    watch:{
+        companies: function(val, oldVal){
+
+        }
+    },
     created(){
         this.fetchCompanies();
     },
@@ -191,7 +196,7 @@ export default {
                 this.company.name = '',
                 this.company.address = '',
                 this.errors = [],
-                this.fetchCompanies;
+                this.companies = response.data;
                 $('#addModal').modal('hide');
             })
             .catch(error => {

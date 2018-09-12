@@ -42,11 +42,10 @@ class DepartmentController extends Controller
         ]);
 
         $department = new Department;
-
         $department->name = $request->input('name');
-        $department->save();
-
-        return $department;
+        if($department->save()){
+            return Department::orderBy('id','desc')->get();   
+        }
     }
 
     /**

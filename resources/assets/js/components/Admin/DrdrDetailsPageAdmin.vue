@@ -32,7 +32,7 @@
                         <td> Doc No. <strong> LFQM-F-001 </strong> </td>
                         <td v-if="drdrs.length"> Rev No. <strong> {{ drdrs[0].rev_number }} </strong> </td>
                         <td> Effective Date </td>
-                        <td v-if="drdrs.length"> Effective Date: <strong> {{ drdrs[0].effective_date }} </strong></td>
+                        <td v-if="drdrs.length"> Effective Date: <strong> {{ moment(drdrs[0].effective_date).format('LL') }} </strong></td>
                     </tr>
                     <tr>
                         <td colspan="5"> DOCUMENT REVIEW and DISTRIBUTION REQUEST </td>
@@ -70,7 +70,7 @@
                         <td> <strong> Position: </strong> </td>
                         <td v-if="drdrs.length"> {{ drdrs[0].requester.position }} </td>
                         <td><strong>Date:</strong></td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].date_request }}</td>
+                        <td v-if="drdrs.length"> {{ moment(drdrs[0].date_request).format('LL') }} </td>
                     </tr>
                 </tbody>
             </table>
@@ -97,7 +97,7 @@
                         <td> <strong> Position:</strong> </td>
                         <td  v-if="drdrs.length"> {{ drdrs[0].reviewer.position }}  </td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs.length" > {{ drdrs[0].reviewed_date }}  </td>
+                        <td v-if="drdrs.length" > {{ moment(drdrs[0].reviewed_date).format('LL') }}  </td>
                     </tr>
 
                     <tr v-if="drdrs.length && drdrs[0].approver">
@@ -111,7 +111,7 @@
                         <td> <strong> Position: </strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].approver.position }}</td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].approved_date }}  </td>
+                        <td v-if="drdrs.length"> {{ moment(drdrs[0].approved_date).format('LL') }}  </td>
                     </tr>	
                 </tbody>
             </table>
@@ -165,7 +165,7 @@
                     <table class="table table-bordered" style="border-left: 0 ! important;">
                         <thead>
                             <tr>
-                                <td style="border-left: 0 ! important;">Effective Date: {{ drdrs[0].effective_date }}</td>
+                                <td style="border-left: 0 ! important;">Effective Date: {{ moment(drdrs[0].effective_date).format('LL') }}</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -200,10 +200,10 @@
             <table width="100%" style="margin-bottom: 100px;">
                 <tbody>
                     <tr>
-                        <td>Verified by:</td>
-                        <td> Cherry Ann Siscar </td>
-                        <td>Date:</td>
-                        <td> August 03, 2018 </td>
+                        <td><strong> Verified by: </strong></td>
+                        <td v-if="drdrs[0].distributed"> {{ drdrs[0].distributed.name }} </td>
+                        <td><strong >Date: </strong></td>
+                        <td v-if="drdrs[0].distributed">  {{ moment(drdrs[0].distributed_date).format('LL') }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -212,6 +212,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     props:['drdrId'],
     data(){
@@ -228,6 +229,7 @@ export default {
         this.fetchDrdrs();
     },
     methods:{
+        moment,
         fetchDrdrs()
         {
             axios.get(`/drdr-data/${this.drdrId}`)

@@ -130,6 +130,12 @@ export default {
             itemsPerPage: 10,
         }
     },
+    watch: {
+        departments: function(val, oldVal)
+        {
+
+        }
+    },
     created(){
         this.fetchDepartments();
     },  
@@ -147,7 +153,7 @@ export default {
             .then(response => {
                 this.department.name = '';
                 this.errors = [];
-                this.fetchDepartments();
+                this.departments = response.data;
                 $('#addModal').modal('hide');
             })
             .catch(error => {

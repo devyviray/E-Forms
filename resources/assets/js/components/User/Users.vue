@@ -136,7 +136,7 @@ export default {
             .catch(error => console.log(error));
         },
         addUserForm()
-        {
+        {   
             var base_url = window.location.origin;
             window.location.href = base_url+'/add-user';
         },

@@ -76,7 +76,8 @@ export default {
             });
         },
         viewDrdr(id){
-            alert(id);
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/drdr-view/${id}`;
         },
         editDrdr(id){
             var base_url = window.location.origin;

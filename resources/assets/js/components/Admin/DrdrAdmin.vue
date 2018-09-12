@@ -80,7 +80,7 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                    <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
                     <div class="form-group">
                         <span> Are you sure to mark this document as distributed?</span>
                     </div>

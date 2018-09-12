@@ -14,7 +14,7 @@
                         <td> Doc No. <strong>LFQM-F-001</strong> </td>
                         <td v-if="drdrs.length"> Rev No. <strong> {{ drdrs[0].rev_number }}</strong> </td>
                         <td> Effective Date </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].effective_date }} </td>
+                        <td v-if="drdrs.length"> {{ moment(drdrs[0].effective_date).format('LL') }} </td>
                     </tr>
                     <tr>
                         <td colspan="5"> DOCUMENT REVIEW and DISTRIBUTION REQUEST </td>
@@ -58,7 +58,7 @@
                         <td><strong>Position:</strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].requester.position }} </td>
                         <td><strong>Date:</strong></td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].date_request }} </td>
+                        <td v-if="drdrs.length"> {{ moment(drdrs[0].date_request).format('LL') }} </td>
                     </tr>
                 </tbody>
             </table>
@@ -75,19 +75,29 @@
                 <tbody>
                     <tr>
                         <td> <strong> Reviewed By: </strong> </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].reviewer.name }} </td>
+                        <td v-if="drdrs.length"> 
+                            {{ drdrs[0].reviewer.name }}<br>
+                            <span style="color: red" v-if="drdrs[0].status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdrs[0].status == 5"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td> <strong> Position: </strong> </td>
                         <td v-if="drdrs.length"> {{ drdrs[0].reviewer.position }} </td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].reviewed_date }} </td>
+                        <td v-if="drdrs[0].reviewed_date"> {{ moment(drdrs[0].reviewed_date).format('LL') }} </td>
                     </tr>
                     <tr>
                         <td> <strong> Approved By: </strong> </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].approver.name }} </td>
+                        <td v-if="drdrs[0].approver"> 
+                            {{ drdrs[0].approver.name }}<br>
+                            <span style="color: red" v-if="drdrs[0].status == 3"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="drdrs[0].status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td> <strong> Position: </strong> </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].approver.position }} </td>
+                        <td v-if="drdrs[0].approver"> {{ drdrs[0].approver.position }} </td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].approved_date }} </td>
+                        <td v-if="drdrs.length"> {{ moment(drdrs[0].approved_date).format('LL') }} </td>
                     </tr>	
                 </tbody>
             </table>
@@ -127,21 +137,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td> 1 </td>
-                                <td> QM </td>
-                            </tr>
-                            <tr>
-                                <td> 2 </td>
-                                <td> Food Safety Team </td>
-                            </tr>
-                            <tr>
-                                <td> 1 </td>
-                                <td> QM </td>
-                            </tr>
-                            <tr>
-                                <td> 2 </td>
-                                <td> Food Safety Team</td>
+                            <tr v-if="drdrs[0].copy_number" >
+                                <td> {{ drdrs[0].copy_number }} </td>
+                                <td> {{ drdrs[0].copy_holder }} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -151,24 +149,21 @@
                     <table class="table table-bordered" style="border-left: 0 ! important;">
                         <thead>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Effective Date: </td>
+                                <td style="border-left: 0 ! important;"> Effective Date: {{ moment(drdrs[0].effective_date).format('LL') }} </td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="border-left: 0 ! important;">vAugust 09, 2018 </td>
-                            </tr>
-                            <tr>
                                 <td style="border-left: 0 ! important;"> DRDR NO: PFMC-I-07-2018-2734 </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Document Title: Product Description - Swine Feeds </td>
+                                <td style="border-left: 0 ! important;"> Document Title:  {{ drdrs[0].document_title }}  </td>
                             </tr>
                             <tr>
                                 <td style="border-left: 0 ! important;"> Document Code: HACFD-002-004a </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Revision No: 11 </td>
+                                <td style="border-left: 0 ! important;"> Revision No: {{ drdrs[0].rev_number }} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -189,10 +184,10 @@
             <table width="100%" style="margin-bottom: 100px;">
                 <tbody>
                     <tr>
-                        <td>Verified by:</td>
-                        <td> Caressa Marie De Jesus</td>
-                        <td>Date:</td>
-                        <td> August 09, 2018 </td>
+                        <td> <strong> Verified by: </strong> </td>
+                        <td >v-if="drdrs[0].distributed" {{ drdrs[0].distributed.name }}</td>
+                        <td> <strong> Date: </strong></td>
+                        <td v-if="drdrs[0].distributed"> {{ moment(drdrs[0].distributed_date).format('LL') }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -202,6 +197,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -213,6 +209,7 @@ export default {
         this.fetchDrdrs();
     },
     methods:{
+        moment,
         fetchDrdrs()
         {
             var url = window.location.href;

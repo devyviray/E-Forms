@@ -26,7 +26,7 @@
                         </td>
                         <td>{{ moment(drdrsPendingApprovalForm.effective_date ).format('LL') }}</td>
                         <td>
-                            <button  class="btn btn-warning" @click="approveDrdr(drdrsPendingApprovalForm.id)">Approve</button>
+                            <button  class="btn btn-warning" @click="approveDrdr(drdrsPendingApprovalForm.id)">Click for approval</button>
                         </td>
                     </tr>    
                 </tbody>

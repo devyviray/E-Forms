@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder
 	            'name' => 'Administrator',
 	            'email' => 'demetrio.viray@lafilgroup.com',
 				'password' => bcrypt('password'),
-				'position' => 'CIO',
+				'position' => 'Web Developer',
 				'department_id' => 1,
 	        ]);
 
@@ -46,98 +46,97 @@ class UsersTableSeeder extends Seeder
 
 		}
 		
-		if (User::where('email', '=', 'mr@lafilgroup.com')->first() === null) {
+		// if (User::where('email', '=', 'mr@lafilgroup.com')->first() === null) {
 
-	        $newUser = User::create([
-	            'name' => 'MR',
-	            'email' => 'tqmmnl-ilogroup@lafilgroup.com',
-				'password' => bcrypt('password'),
-				'department_id' => 1,
-				'position' => 'Team '
-	        ]);
+	    //     $newUser = User::create([
+	    //         'name' => 'MR',
+	    //         'email' => 'tqmmnl-ilogroup@lafilgroup.com',
+		// 		'password' => bcrypt('password'),
+		// 		'department_id' => 1,
+		// 		'position' => 'Team '
+	    //     ]);
 
-	        $newUser->attachRole($MRRole);
-			foreach ($permissions as $permission) {
-				$newUser->attachPermission($permission);
-			}
+	    //     $newUser->attachRole($MRRole);
+		// 	foreach ($permissions as $permission) {
+		// 		$newUser->attachPermission($permission);
+		// 	}
 
-        }
+        // }
 
-        if (User::where('email', '=', 'approver@yahoo.com')->first() === null) {
+        // if (User::where('email', '=', 'approver@yahoo.com')->first() === null) {
 
-	        $newUser = User::create([
-	            'name' => 'Approver',
-	            'email' => 'approver@yahoo.com',
-				'password' => bcrypt('password'),
-				'department_id' => 1,
-				'position' => 'Web Developer'
-	        ]);
+	    //     $newUser = User::create([
+	    //         'name' => 'Approver',
+	    //         'email' => 'approver@yahoo.com',
+		// 		'password' => bcrypt('password'),
+		// 		'department_id' => 1,
+		// 		'position' => 'Web Developer'
+	    //     ]);
 
-	        $newUser;
-	        $newUser->attachRole($approverRole);
+	    //     $newUser;
+	    //     $newUser->attachRole($approverRole);
 
-        }
+        // }
 
-		if (User::where('email', '=', 'reviewer@yahoo.com')->first() === null) {
+		// if (User::where('email', '=', 'reviewer@yahoo.com')->first() === null) {
 
-	        $newUser = User::create([
-	            'name' => 'Reviewer',
-	            'email' => 'reviewer@yahoo.com',
-				'password' => bcrypt('password'),
-				'department_id' => 2,
-				'position' => 'HR'
-	        ]);
+	    //     $newUser = User::create([
+	    //         'name' => 'Reviewer',
+	    //         'email' => 'reviewer@yahoo.com',
+		// 		'password' => bcrypt('password'),
+		// 		'department_id' => 2,
+		// 		'position' => 'HR'
+	    //     ]);
 
-	        $newUser;
-	        $newUser->attachRole($reviewerRole);
+	    //     $newUser;
+	    //     $newUser->attachRole($reviewerRole);
 
-		}
+		// }
 		
+		// if (User::where('email', '=', 'requester@yahoo.com')->first() === null) {
+
+	    //     $newUser = User::create([
+	    //         'name' => 'Requester',
+	    //         'email' => 'requester@yahoo.com',
+		// 		'password' => bcrypt('password'),
+		// 		'department_id' => 3,
+		// 		'position' => 'QA'
+	    //     ]);
+
+	    //     $newUser;
+	    //     $newUser->attachRole($requesterRole);
+
+		// }
 		
-		if (User::where('email', '=', 'requester@yahoo.com')->first() === null) {
+		// if (User::where('email', '=', 'notified@yahoo.com')->first() === null) {
 
-	        $newUser = User::create([
-	            'name' => 'Requester',
-	            'email' => 'requester@yahoo.com',
-				'password' => bcrypt('password'),
-				'department_id' => 3,
-				'position' => 'QA'
-	        ]);
+	    //     $newUser = User::create([
+	    //         'name' => 'Notified',
+	    //         'email' => 'notified@yahoo.com',
+		// 		'password' => bcrypt('password'),	
+		// 		'department_id' => 4,
+		// 		'position' => 'Maintenance'
+	    //     ]);
 
-	        $newUser;
-	        $newUser->attachRole($requesterRole);
+	    //     $newUser;
+	    //     $newUser->attachRole($notifiedRole);
 
-		}
-		
-		if (User::where('email', '=', 'notified@yahoo.com')->first() === null) {
+		// }
 
-	        $newUser = User::create([
-	            'name' => 'Notified',
-	            'email' => 'notified@yahoo.com',
-				'password' => bcrypt('password'),	
-				'department_id' => 4,
-				'position' => 'Maintenance'
-	        ]);
+		// if (User::where('email', '=', 'moderator@yahoo.com')->first() === null) {
 
-	        $newUser;
-	        $newUser->attachRole($notifiedRole);
+	    //     $newUser = User::create([
+	    //         'name' => 'Moderator',
+	    //         'email' => 'moderator@yahoo.com',
+		// 		'password' => bcrypt('password'),
+		// 		'department_id' => 5,
+		// 		'position' => 'Tech writer'
+	    //     ]);
 
-		}
+	    //     $newUser;
+	    //     $newUser->attachRole($moderatorRole);
 
-		if (User::where('email', '=', 'moderator@yahoo.com')->first() === null) {
-
-	        $newUser = User::create([
-	            'name' => 'Moderator',
-	            'email' => 'moderator@yahoo.com',
-				'password' => bcrypt('password'),
-				'department_id' => 5,
-				'position' => 'Tech writer'
-	        ]);
-
-	        $newUser;
-	        $newUser->attachRole($moderatorRole);
-
-        }		
+        // }		
 
     }
 }
