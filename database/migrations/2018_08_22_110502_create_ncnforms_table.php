@@ -19,6 +19,7 @@ class CreateNcnformsTable extends Migration
             $table->integer('company_id');
             $table->integer('department_id');
             $table->integer('approver_id');
+            $table->integer('notified_id')->nullable();
             $table->integer('non_conformity_types');
             $table->string('notification_number');
             $table->string('recurrence_number');

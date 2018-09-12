@@ -138,7 +138,7 @@ class NcnController extends Controller
     */
     public function data($id)
     {
-        $ncn = Ncn::with(['company', 'requester', 'approver', 'department'])
+        $ncn = Ncn::with(['company', 'requester', 'approver', 'department', 'notified'])
                 ->where('id', $id)
                 ->get();
 
@@ -154,22 +154,22 @@ class NcnController extends Controller
     public function approved(Request $request)
     {
         $carbon = new Carbon();
-        $ncn = NCN::findOrFail($request->input('id'));
+        $ncn = Ncn::findOrFail($request->input('id'));
         
         $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
         $ncn->status = $status;
+        $ncn->notified_id = $request->input('notified');
         $ncn->remarks = $request->input('remarks');
         $ncn->approved_date = $carbon::now();
         $ncn->save();
         
-        // $notified = User::findOrFail($request->input('selected_notified'));
-        // \Notification::send($notified, new ApproverNotifyPersonNcn($ncn));
+        $notified = User::findOrFail($request->input('notified'));
+        // Email sending to notified person
+        \Notification::send($notified, new ApproverNotifyPersonNcn($ncn));
 
 
         return ['redirect' => route('ncn')];
     }
-
-
 
     /**
     * View the details of ccir.
@@ -211,6 +211,23 @@ class NcnController extends Controller
         })->where('department_id', $department)->get();
         return $approvers;
     }
+
+     /**
+     * Get notified personnel base on company
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getNotifiedPersonnel($company, $department)
+    {
+        $approvers = User::whereHas('roles', function($q) {
+            $q->where('role_id', RolesType::NOTIFIED);
+        })->whereHas('companies', function($q) use ($company){
+            $q->where('company_id',$company);
+        })->where('department_id', $department)->get();
+        return $approvers;
+    }
+
 
     /**
      * Count all submitted ncn
@@ -353,5 +370,6 @@ class NcnController extends Controller
 
         return $ncns;
     }
+
 
 }

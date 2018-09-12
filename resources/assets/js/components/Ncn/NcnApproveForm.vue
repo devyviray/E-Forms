@@ -77,10 +77,16 @@
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-model="ncns[0].id">
                     <div class="form-group">
-                       <select v-model="ncn.status" class="form-control form-control-lg">
+                       <select v-model="ncn.status" class="form-control form-control-lg" @change="selectedStatus">
                            <option value="" disabled selected>Select Status</option>
                            <option value="1">Approved</option>
                            <option value="2">Disapproved</option>
+                       </select>
+                        <span v-if="errors.status">{{ errors.status }}</span>
+                    </div>
+                    <div class="form-group">
+                       <select v-if="show" v-model="ncn.notified" class="form-control form-control-lg">
+                           <option v-for="(notified, n) in notifieds"  v-bind:key="n" :value="notified.id">{{ notified.name }}</option>
                        </select>
                         <span v-if="errors.status">{{ errors.status }}</span>
                     </div>
@@ -105,6 +111,8 @@ export default {
                 status: '',
                 remarks: ''
             },
+            show: false,
+            notifieds: [],
             ncnId: '',
             errors:''
         }
@@ -132,10 +140,10 @@ export default {
             axios.post('/ncn-approved', {
                 id : id,
                 status: ncn.status,
-                remarks: ncn.remarks
+                notified: ncn.notified,
+                remarks: ncn.remarks,
             })  
             .then(response => {
-
                 var redirect = response.data.redirect;
                 window.location.href = redirect;
 
@@ -143,6 +151,25 @@ export default {
             .catch(error => {
                 this.errors = error.response.data.errors;
             })
+        },
+        fetchNotified(id,department)
+        {
+            axios.get(`/ncns-notified/${id}/${department}`)
+            .then(response => {
+                this.notifieds = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            })
+        },
+        selectedStatus(){
+            if(this.ncn.status == 1)
+            {
+                this.show = true;
+                this.fetchNotified(this.ncns[0].company_id, this.ncns[0].department_id);
+            }else{
+                this.show = false;
+            }
         }
     },
 }

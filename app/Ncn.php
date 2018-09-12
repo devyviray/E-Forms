@@ -32,6 +32,12 @@ class Ncn extends Model
     {
         return $this->belongsTo('App\User', 'approver_id');
     }
+    
+    public function notified()
+    {
+        return $this->belongsTo('App\User', 'notified_id');
+    }
+
     public function company()
     {
         return $this->belongsTo('App\Company');

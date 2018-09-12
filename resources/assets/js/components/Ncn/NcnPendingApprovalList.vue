@@ -21,7 +21,11 @@
                         <td>{{ ncn.non_conformity_details }}</td> -->
                         <td>{{ ncn.notification_number }}</td>
                         <td>{{ moment(ncn.issuance_date).format('LL') }}</td>
-                        <td>{{ ncn.status }}</td>
+                        <td>
+                            <span style="color: red" v-if="ncn.status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="ncn.status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+                        </td>
                         <td>
                             <button  class="btn btn-warning" @click="approveNcn(ncn.id)" >Click for approval</button>
                         </td>

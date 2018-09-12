@@ -66,7 +66,7 @@
                         <td>Date of Issuance:</td>
                         <td v-if="ncns.length"> <strong>{{ ncns[0].issuance_date }} </strong> </td>
                         <td>Notified Person:</td>
-                        <td> <strong> Geraldine Urriza </strong> </td>
+                        <td> <strong> {{ ncns[0].notified.name }} </strong> </td>
                     </tr>
                 </tbody>
             </table>

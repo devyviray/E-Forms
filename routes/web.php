@@ -297,6 +297,8 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   Route::get('/ncn-approver-attachments/{ncnId}/{approverId}', 'NcnController@getUploadedFilesApprover');
   // Generate ncns by date
   Route::get('/ncns-generate/{startDate}/{endDate}', 'NcnController@generate');
+  // Get notified personnel for NCN 
+  Route::get('/ncns-notified/{companyId}/{departmentId}', 'NcnController@getNotifiedPersonnel');
 });
 
 

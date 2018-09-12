@@ -32,11 +32,12 @@ class RolesType extends Type {
 
     const REVIEWER = 4;
 
-    const REQUESTER = 5;
+    const MODERATOR = 5;
     
-    const NOTIFIED = 7;
+    const NOTIFIED = 6;
 
-    const MODERATOR = 8;
+    const REQUESTER = 7;
+
     
 
 } 
