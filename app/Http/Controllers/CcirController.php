@@ -315,13 +315,17 @@ class CcirController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function generate(Request $request, $startDate,$endDate)
+    public function generate(Request $request)
     {
-        $from = \DateTime::createFromFormat('D M d Y H:i:s e+', $startDate);
-        $to =  \DateTime::createFromFormat('D M d Y H:i:s e+', $endDate);
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        
+
         $ccirs = Ccir::with(['requester', 'company'])
-                ->where('date_request', '>=', $from)
-                ->where('date_request' ,'<=', $to)
+                ->whereDate('date_request', '>=',  Carbon::parse($startDate)->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($endDate)->format('Y-m-d'))
                 ->orderBy('id', 'desc')->get();
 
         return $ccirs;

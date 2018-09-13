@@ -1902,7 +1902,7 @@
             try {
                 oldLocale = globalLocale._abbr;
                 var aliasedRequire = require;
-                __webpack_require__(175)("./" + name);
+                __webpack_require__(172)("./" + name);
                 getSetGlobalLocale(oldLocale);
             } catch (e) {}
         }
@@ -6946,7 +6946,7 @@ window.Vue = __webpack_require__(164);
 // Vue admin
 Vue.component('dashboard', __webpack_require__(167));
 Vue.component('drdr-admin', __webpack_require__(170));
-Vue.component('ddr-admin', __webpack_require__(173));
+Vue.component('ddr-admin', __webpack_require__(174));
 Vue.component('ncn-admin', __webpack_require__(177));
 Vue.component('ccir-admin', __webpack_require__(180));
 Vue.component('drdr-details-page-admin', __webpack_require__(183));
@@ -61792,7 +61792,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(171)
 /* template */
-var __vue_template__ = __webpack_require__(172)
+var __vue_template__ = __webpack_require__(173)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61837,6 +61837,8 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 //
 //
 //
@@ -61935,6 +61937,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -61962,6 +61971,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_1_moment___default.a,
         fetchDrdrs: function fetchDrdrs() {
             var _this = this;
 
@@ -61978,7 +61988,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         generateByDate: function generateByDate() {
             var _this2 = this;
 
-            axios.get('/drdrs-generate/' + this.startDate + '/' + this.endDate).then(function (response) {
+            var startDate = this.startDate ? __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.startDate).format() : '';
+            var endDate = this.endDate ? __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.endDate).format() : '';
+
+            axios.post('/drdrs-generate', {
+                'startDate': startDate,
+                'endDate': endDate
+            }).then(function (response) {
                 _this2.drdrs = response.data;
             }).catch(function (error) {
                 _this2.errors = error.response.data.errors;
@@ -62046,6 +62062,274 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var map = {
+	"./af": 19,
+	"./af.js": 19,
+	"./ar": 20,
+	"./ar-dz": 21,
+	"./ar-dz.js": 21,
+	"./ar-kw": 22,
+	"./ar-kw.js": 22,
+	"./ar-ly": 23,
+	"./ar-ly.js": 23,
+	"./ar-ma": 24,
+	"./ar-ma.js": 24,
+	"./ar-sa": 25,
+	"./ar-sa.js": 25,
+	"./ar-tn": 26,
+	"./ar-tn.js": 26,
+	"./ar.js": 20,
+	"./az": 27,
+	"./az.js": 27,
+	"./be": 28,
+	"./be.js": 28,
+	"./bg": 29,
+	"./bg.js": 29,
+	"./bm": 30,
+	"./bm.js": 30,
+	"./bn": 31,
+	"./bn.js": 31,
+	"./bo": 32,
+	"./bo.js": 32,
+	"./br": 33,
+	"./br.js": 33,
+	"./bs": 34,
+	"./bs.js": 34,
+	"./ca": 35,
+	"./ca.js": 35,
+	"./cs": 36,
+	"./cs.js": 36,
+	"./cv": 37,
+	"./cv.js": 37,
+	"./cy": 38,
+	"./cy.js": 38,
+	"./da": 39,
+	"./da.js": 39,
+	"./de": 40,
+	"./de-at": 41,
+	"./de-at.js": 41,
+	"./de-ch": 42,
+	"./de-ch.js": 42,
+	"./de.js": 40,
+	"./dv": 43,
+	"./dv.js": 43,
+	"./el": 44,
+	"./el.js": 44,
+	"./en-au": 45,
+	"./en-au.js": 45,
+	"./en-ca": 46,
+	"./en-ca.js": 46,
+	"./en-gb": 47,
+	"./en-gb.js": 47,
+	"./en-ie": 48,
+	"./en-ie.js": 48,
+	"./en-il": 49,
+	"./en-il.js": 49,
+	"./en-nz": 50,
+	"./en-nz.js": 50,
+	"./eo": 51,
+	"./eo.js": 51,
+	"./es": 52,
+	"./es-do": 53,
+	"./es-do.js": 53,
+	"./es-us": 54,
+	"./es-us.js": 54,
+	"./es.js": 52,
+	"./et": 55,
+	"./et.js": 55,
+	"./eu": 56,
+	"./eu.js": 56,
+	"./fa": 57,
+	"./fa.js": 57,
+	"./fi": 58,
+	"./fi.js": 58,
+	"./fo": 59,
+	"./fo.js": 59,
+	"./fr": 60,
+	"./fr-ca": 61,
+	"./fr-ca.js": 61,
+	"./fr-ch": 62,
+	"./fr-ch.js": 62,
+	"./fr.js": 60,
+	"./fy": 63,
+	"./fy.js": 63,
+	"./gd": 64,
+	"./gd.js": 64,
+	"./gl": 65,
+	"./gl.js": 65,
+	"./gom-latn": 66,
+	"./gom-latn.js": 66,
+	"./gu": 67,
+	"./gu.js": 67,
+	"./he": 68,
+	"./he.js": 68,
+	"./hi": 69,
+	"./hi.js": 69,
+	"./hr": 70,
+	"./hr.js": 70,
+	"./hu": 71,
+	"./hu.js": 71,
+	"./hy-am": 72,
+	"./hy-am.js": 72,
+	"./id": 73,
+	"./id.js": 73,
+	"./is": 74,
+	"./is.js": 74,
+	"./it": 75,
+	"./it.js": 75,
+	"./ja": 76,
+	"./ja.js": 76,
+	"./jv": 77,
+	"./jv.js": 77,
+	"./ka": 78,
+	"./ka.js": 78,
+	"./kk": 79,
+	"./kk.js": 79,
+	"./km": 80,
+	"./km.js": 80,
+	"./kn": 81,
+	"./kn.js": 81,
+	"./ko": 82,
+	"./ko.js": 82,
+	"./ky": 83,
+	"./ky.js": 83,
+	"./lb": 84,
+	"./lb.js": 84,
+	"./lo": 85,
+	"./lo.js": 85,
+	"./lt": 86,
+	"./lt.js": 86,
+	"./lv": 87,
+	"./lv.js": 87,
+	"./me": 88,
+	"./me.js": 88,
+	"./mi": 89,
+	"./mi.js": 89,
+	"./mk": 90,
+	"./mk.js": 90,
+	"./ml": 91,
+	"./ml.js": 91,
+	"./mn": 92,
+	"./mn.js": 92,
+	"./mr": 93,
+	"./mr.js": 93,
+	"./ms": 94,
+	"./ms-my": 95,
+	"./ms-my.js": 95,
+	"./ms.js": 94,
+	"./mt": 96,
+	"./mt.js": 96,
+	"./my": 97,
+	"./my.js": 97,
+	"./nb": 98,
+	"./nb.js": 98,
+	"./ne": 99,
+	"./ne.js": 99,
+	"./nl": 100,
+	"./nl-be": 101,
+	"./nl-be.js": 101,
+	"./nl.js": 100,
+	"./nn": 102,
+	"./nn.js": 102,
+	"./pa-in": 103,
+	"./pa-in.js": 103,
+	"./pl": 104,
+	"./pl.js": 104,
+	"./pt": 105,
+	"./pt-br": 106,
+	"./pt-br.js": 106,
+	"./pt.js": 105,
+	"./ro": 107,
+	"./ro.js": 107,
+	"./ru": 108,
+	"./ru.js": 108,
+	"./sd": 109,
+	"./sd.js": 109,
+	"./se": 110,
+	"./se.js": 110,
+	"./si": 111,
+	"./si.js": 111,
+	"./sk": 112,
+	"./sk.js": 112,
+	"./sl": 113,
+	"./sl.js": 113,
+	"./sq": 114,
+	"./sq.js": 114,
+	"./sr": 115,
+	"./sr-cyrl": 116,
+	"./sr-cyrl.js": 116,
+	"./sr.js": 115,
+	"./ss": 117,
+	"./ss.js": 117,
+	"./sv": 118,
+	"./sv.js": 118,
+	"./sw": 119,
+	"./sw.js": 119,
+	"./ta": 120,
+	"./ta.js": 120,
+	"./te": 121,
+	"./te.js": 121,
+	"./tet": 122,
+	"./tet.js": 122,
+	"./tg": 123,
+	"./tg.js": 123,
+	"./th": 124,
+	"./th.js": 124,
+	"./tl-ph": 125,
+	"./tl-ph.js": 125,
+	"./tlh": 126,
+	"./tlh.js": 126,
+	"./tr": 127,
+	"./tr.js": 127,
+	"./tzl": 128,
+	"./tzl.js": 128,
+	"./tzm": 129,
+	"./tzm-latn": 130,
+	"./tzm-latn.js": 130,
+	"./tzm.js": 129,
+	"./ug-cn": 131,
+	"./ug-cn.js": 131,
+	"./uk": 132,
+	"./uk.js": 132,
+	"./ur": 133,
+	"./ur.js": 133,
+	"./uz": 134,
+	"./uz-latn": 135,
+	"./uz-latn.js": 135,
+	"./uz.js": 134,
+	"./vi": 136,
+	"./vi.js": 136,
+	"./x-pseudo": 137,
+	"./x-pseudo.js": 137,
+	"./yo": 138,
+	"./yo.js": 138,
+	"./zh-cn": 139,
+	"./zh-cn.js": 139,
+	"./zh-hk": 140,
+	"./zh-hk.js": 140,
+	"./zh-tw": 141,
+	"./zh-tw.js": 141
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 172;
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -62055,43 +62339,60 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _c("datepicker", {
-              attrs: { placeholder: "Select Start Date" },
-              model: {
-                value: _vm.startDate,
-                callback: function($$v) {
-                  _vm.startDate = $$v
-                },
-                expression: "startDate"
-              }
-            }),
-            _vm._v(" "),
-            _c("datepicker", {
-              attrs: { placeholder: "Select End Date" },
-              model: {
-                value: _vm.endDate,
-                callback: function($$v) {
-                  _vm.endDate = $$v
-                },
-                expression: "endDate"
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: { click: _vm.generateByDate }
-              },
-              [_vm._v("Generate")]
-            )
-          ],
-          1
-        )
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("datepicker", {
+                attrs: { placeholder: "Select Start Date" },
+                model: {
+                  value: _vm.startDate,
+                  callback: function($$v) {
+                    _vm.startDate = $$v
+                  },
+                  expression: "startDate"
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.startDate
+                ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("datepicker", {
+                attrs: { placeholder: "Select End Date" },
+                model: {
+                  value: _vm.endDate,
+                  callback: function($$v) {
+                    _vm.endDate = $$v
+                  },
+                  expression: "endDate"
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.endDate
+                ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              on: { click: _vm.generateByDate }
+            },
+            [_vm._v("Generate")]
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("input", {
@@ -62455,13 +62756,13 @@ if (false) {
 }
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(174)
+var __vue_script__ = __webpack_require__(175)
 /* template */
 var __vue_template__ = __webpack_require__(176)
 /* template functional */
@@ -62502,7 +62803,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62510,6 +62811,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -62701,7 +63008,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         generateByDate: function generateByDate() {
             var _this2 = this;
 
-            axios.get('/ddrs-generate/' + this.startDate + '/' + this.endDate).then(function (response) {
+            var startDate = this.startDate ? __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.startDate).format() : '';
+            var endDate = this.endDate ? __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.endDate).format() : '';
+
+            axios.post('/ddrs-generate', {
+                'startDate': startDate,
+                'endDate': endDate
+            }).then(function (response) {
                 _this2.ddrs = response.data;
             }).catch(function (error) {
                 _this2.errors = error.response.data.errors;
@@ -62788,274 +63101,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 175 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./af": 19,
-	"./af.js": 19,
-	"./ar": 20,
-	"./ar-dz": 21,
-	"./ar-dz.js": 21,
-	"./ar-kw": 22,
-	"./ar-kw.js": 22,
-	"./ar-ly": 23,
-	"./ar-ly.js": 23,
-	"./ar-ma": 24,
-	"./ar-ma.js": 24,
-	"./ar-sa": 25,
-	"./ar-sa.js": 25,
-	"./ar-tn": 26,
-	"./ar-tn.js": 26,
-	"./ar.js": 20,
-	"./az": 27,
-	"./az.js": 27,
-	"./be": 28,
-	"./be.js": 28,
-	"./bg": 29,
-	"./bg.js": 29,
-	"./bm": 30,
-	"./bm.js": 30,
-	"./bn": 31,
-	"./bn.js": 31,
-	"./bo": 32,
-	"./bo.js": 32,
-	"./br": 33,
-	"./br.js": 33,
-	"./bs": 34,
-	"./bs.js": 34,
-	"./ca": 35,
-	"./ca.js": 35,
-	"./cs": 36,
-	"./cs.js": 36,
-	"./cv": 37,
-	"./cv.js": 37,
-	"./cy": 38,
-	"./cy.js": 38,
-	"./da": 39,
-	"./da.js": 39,
-	"./de": 40,
-	"./de-at": 41,
-	"./de-at.js": 41,
-	"./de-ch": 42,
-	"./de-ch.js": 42,
-	"./de.js": 40,
-	"./dv": 43,
-	"./dv.js": 43,
-	"./el": 44,
-	"./el.js": 44,
-	"./en-au": 45,
-	"./en-au.js": 45,
-	"./en-ca": 46,
-	"./en-ca.js": 46,
-	"./en-gb": 47,
-	"./en-gb.js": 47,
-	"./en-ie": 48,
-	"./en-ie.js": 48,
-	"./en-il": 49,
-	"./en-il.js": 49,
-	"./en-nz": 50,
-	"./en-nz.js": 50,
-	"./eo": 51,
-	"./eo.js": 51,
-	"./es": 52,
-	"./es-do": 53,
-	"./es-do.js": 53,
-	"./es-us": 54,
-	"./es-us.js": 54,
-	"./es.js": 52,
-	"./et": 55,
-	"./et.js": 55,
-	"./eu": 56,
-	"./eu.js": 56,
-	"./fa": 57,
-	"./fa.js": 57,
-	"./fi": 58,
-	"./fi.js": 58,
-	"./fo": 59,
-	"./fo.js": 59,
-	"./fr": 60,
-	"./fr-ca": 61,
-	"./fr-ca.js": 61,
-	"./fr-ch": 62,
-	"./fr-ch.js": 62,
-	"./fr.js": 60,
-	"./fy": 63,
-	"./fy.js": 63,
-	"./gd": 64,
-	"./gd.js": 64,
-	"./gl": 65,
-	"./gl.js": 65,
-	"./gom-latn": 66,
-	"./gom-latn.js": 66,
-	"./gu": 67,
-	"./gu.js": 67,
-	"./he": 68,
-	"./he.js": 68,
-	"./hi": 69,
-	"./hi.js": 69,
-	"./hr": 70,
-	"./hr.js": 70,
-	"./hu": 71,
-	"./hu.js": 71,
-	"./hy-am": 72,
-	"./hy-am.js": 72,
-	"./id": 73,
-	"./id.js": 73,
-	"./is": 74,
-	"./is.js": 74,
-	"./it": 75,
-	"./it.js": 75,
-	"./ja": 76,
-	"./ja.js": 76,
-	"./jv": 77,
-	"./jv.js": 77,
-	"./ka": 78,
-	"./ka.js": 78,
-	"./kk": 79,
-	"./kk.js": 79,
-	"./km": 80,
-	"./km.js": 80,
-	"./kn": 81,
-	"./kn.js": 81,
-	"./ko": 82,
-	"./ko.js": 82,
-	"./ky": 83,
-	"./ky.js": 83,
-	"./lb": 84,
-	"./lb.js": 84,
-	"./lo": 85,
-	"./lo.js": 85,
-	"./lt": 86,
-	"./lt.js": 86,
-	"./lv": 87,
-	"./lv.js": 87,
-	"./me": 88,
-	"./me.js": 88,
-	"./mi": 89,
-	"./mi.js": 89,
-	"./mk": 90,
-	"./mk.js": 90,
-	"./ml": 91,
-	"./ml.js": 91,
-	"./mn": 92,
-	"./mn.js": 92,
-	"./mr": 93,
-	"./mr.js": 93,
-	"./ms": 94,
-	"./ms-my": 95,
-	"./ms-my.js": 95,
-	"./ms.js": 94,
-	"./mt": 96,
-	"./mt.js": 96,
-	"./my": 97,
-	"./my.js": 97,
-	"./nb": 98,
-	"./nb.js": 98,
-	"./ne": 99,
-	"./ne.js": 99,
-	"./nl": 100,
-	"./nl-be": 101,
-	"./nl-be.js": 101,
-	"./nl.js": 100,
-	"./nn": 102,
-	"./nn.js": 102,
-	"./pa-in": 103,
-	"./pa-in.js": 103,
-	"./pl": 104,
-	"./pl.js": 104,
-	"./pt": 105,
-	"./pt-br": 106,
-	"./pt-br.js": 106,
-	"./pt.js": 105,
-	"./ro": 107,
-	"./ro.js": 107,
-	"./ru": 108,
-	"./ru.js": 108,
-	"./sd": 109,
-	"./sd.js": 109,
-	"./se": 110,
-	"./se.js": 110,
-	"./si": 111,
-	"./si.js": 111,
-	"./sk": 112,
-	"./sk.js": 112,
-	"./sl": 113,
-	"./sl.js": 113,
-	"./sq": 114,
-	"./sq.js": 114,
-	"./sr": 115,
-	"./sr-cyrl": 116,
-	"./sr-cyrl.js": 116,
-	"./sr.js": 115,
-	"./ss": 117,
-	"./ss.js": 117,
-	"./sv": 118,
-	"./sv.js": 118,
-	"./sw": 119,
-	"./sw.js": 119,
-	"./ta": 120,
-	"./ta.js": 120,
-	"./te": 121,
-	"./te.js": 121,
-	"./tet": 122,
-	"./tet.js": 122,
-	"./tg": 123,
-	"./tg.js": 123,
-	"./th": 124,
-	"./th.js": 124,
-	"./tl-ph": 125,
-	"./tl-ph.js": 125,
-	"./tlh": 126,
-	"./tlh.js": 126,
-	"./tr": 127,
-	"./tr.js": 127,
-	"./tzl": 128,
-	"./tzl.js": 128,
-	"./tzm": 129,
-	"./tzm-latn": 130,
-	"./tzm-latn.js": 130,
-	"./tzm.js": 129,
-	"./ug-cn": 131,
-	"./ug-cn.js": 131,
-	"./uk": 132,
-	"./uk.js": 132,
-	"./ur": 133,
-	"./ur.js": 133,
-	"./uz": 134,
-	"./uz-latn": 135,
-	"./uz-latn.js": 135,
-	"./uz.js": 134,
-	"./vi": 136,
-	"./vi.js": 136,
-	"./x-pseudo": 137,
-	"./x-pseudo.js": 137,
-	"./yo": 138,
-	"./yo.js": 138,
-	"./zh-cn": 139,
-	"./zh-cn.js": 139,
-	"./zh-hk": 140,
-	"./zh-hk.js": 140,
-	"./zh-tw": 141,
-	"./zh-tw.js": 141
-};
-function webpackContext(req) {
-	return __webpack_require__(webpackContextResolve(req));
-};
-function webpackContextResolve(req) {
-	var id = map[req];
-	if(!(id + 1)) // check for number or string
-		throw new Error("Cannot find module '" + req + "'.");
-	return id;
-};
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 175;
-
-/***/ }),
 /* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -63068,43 +63113,60 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _c("datepicker", {
-              attrs: { placeholder: "Select Start Date" },
-              model: {
-                value: _vm.startDate,
-                callback: function($$v) {
-                  _vm.startDate = $$v
-                },
-                expression: "startDate"
-              }
-            }),
-            _vm._v(" "),
-            _c("datepicker", {
-              attrs: { placeholder: "Select End Date" },
-              model: {
-                value: _vm.endDate,
-                callback: function($$v) {
-                  _vm.endDate = $$v
-                },
-                expression: "endDate"
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: { click: _vm.generateByDate }
-              },
-              [_vm._v("Generate")]
-            )
-          ],
-          1
-        )
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("datepicker", {
+                attrs: { placeholder: "Select Start Date" },
+                model: {
+                  value: _vm.startDate,
+                  callback: function($$v) {
+                    _vm.startDate = $$v
+                  },
+                  expression: "startDate"
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.startDate
+                ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("datepicker", {
+                attrs: { placeholder: "Select End Date" },
+                model: {
+                  value: _vm.endDate,
+                  callback: function($$v) {
+                    _vm.endDate = $$v
+                  },
+                  expression: "endDate"
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.endDate
+                ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              on: { click: _vm.generateByDate }
+            },
+            [_vm._v("Generate")]
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("input", {
@@ -63884,6 +63946,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -63899,7 +63967,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             endDate: '',
             keywords: '',
             currentPage: 0,
-            itemsPerPage: 10
+            itemsPerPage: 10,
+            errors: ''
         };
     },
     created: function created() {
@@ -63924,7 +63993,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         generateByDate: function generateByDate() {
             var _this2 = this;
 
-            axios.get('/ncns-generate/' + this.startDate + '/' + this.endDate).then(function (response) {
+            var startDate = this.startDate ? __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.startDate).format() : '';
+            var endDate = this.endDate ? __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.endDate).format() : '';
+
+            axios.post('/ncns-generate', {
+                'startDate': startDate,
+                'endDate': endDate
+            }).then(function (response) {
                 _this2.ncns = response.data;
             }).catch(function (error) {
                 _this2.errors = error.response.data.errors;
@@ -63985,43 +64060,60 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _c("datepicker", {
-              attrs: { placeholder: "Select Start Date" },
-              model: {
-                value: _vm.startDate,
-                callback: function($$v) {
-                  _vm.startDate = $$v
-                },
-                expression: "startDate"
-              }
-            }),
-            _vm._v(" "),
-            _c("datepicker", {
-              attrs: { placeholder: "Select End Date" },
-              model: {
-                value: _vm.endDate,
-                callback: function($$v) {
-                  _vm.endDate = $$v
-                },
-                expression: "endDate"
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: { click: _vm.generateByDate }
-              },
-              [_vm._v("Generate")]
-            )
-          ],
-          1
-        )
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("datepicker", {
+                attrs: { placeholder: "Select Start Date" },
+                model: {
+                  value: _vm.startDate,
+                  callback: function($$v) {
+                    _vm.startDate = $$v
+                  },
+                  expression: "startDate"
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.startDate
+                ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("datepicker", {
+                attrs: { placeholder: "Select End Date" },
+                model: {
+                  value: _vm.endDate,
+                  callback: function($$v) {
+                    _vm.endDate = $$v
+                  },
+                  expression: "endDate"
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.endDate
+                ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              on: { click: _vm.generateByDate }
+            },
+            [_vm._v("Generate")]
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("input", {
@@ -64425,6 +64517,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -64491,7 +64589,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         generateByDate: function generateByDate() {
             var _this3 = this;
 
-            axios.get('/ccirs-generate/' + this.startDate + '/' + this.endDate).then(function (response) {
+            var startDate = this.startDate ? __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.startDate).format() : '';
+            var endDate = this.endDate ? __WEBPACK_IMPORTED_MODULE_1_moment___default()(this.endDate).format() : '';
+
+            axios.post('/ccirs-generate', {
+                'startDate': startDate,
+                'endDate': endDate
+            }).then(function (response) {
                 _this3.ccirs = response.data;
             }).catch(function (error) {
                 _this3.errors = error.response.data.errors;
@@ -64552,43 +64656,60 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row mb-3" }, [
-        _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _c("datepicker", {
-              attrs: { placeholder: "Select Start Date" },
-              model: {
-                value: _vm.startDate,
-                callback: function($$v) {
-                  _vm.startDate = $$v
-                },
-                expression: "startDate"
-              }
-            }),
-            _vm._v(" "),
-            _c("datepicker", {
-              attrs: { placeholder: "Select End Date" },
-              model: {
-                value: _vm.endDate,
-                callback: function($$v) {
-                  _vm.endDate = $$v
-                },
-                expression: "endDate"
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: { click: _vm.generateByDate }
-              },
-              [_vm._v("Generate")]
-            )
-          ],
-          1
-        )
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("datepicker", {
+                attrs: { placeholder: "Select Start Date" },
+                model: {
+                  value: _vm.startDate,
+                  callback: function($$v) {
+                    _vm.startDate = $$v
+                  },
+                  expression: "startDate"
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.startDate
+                ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("datepicker", {
+                attrs: { placeholder: "Select End Date" },
+                model: {
+                  value: _vm.endDate,
+                  callback: function($$v) {
+                    _vm.endDate = $$v
+                  },
+                  expression: "endDate"
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.endDate
+                ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              on: { click: _vm.generateByDate }
+            },
+            [_vm._v("Generate")]
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("input", {

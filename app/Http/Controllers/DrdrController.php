@@ -613,13 +613,16 @@ class DrdrController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function generate(Request $request, $startDate,$endDate)
+    public function generate(Request $request)
     {
-        $from = \DateTime::createFromFormat('D M d Y H:i:s e+', $startDate);
-        $to =  \DateTime::createFromFormat('D M d Y H:i:s e+', $endDate);
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        
         $drdrs = Drdr::with(['reviewer', 'approver', 'company'])
-                ->where('date_request', '>=', $from)
-                ->where('date_request' ,'<=', $to)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
                 ->orderBy('id', 'desc')->get();
 
         return $drdrs;

@@ -38,6 +38,7 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 // Authenticated accessible routes
 Route::group(['middleware' => 'auth'], function (){
+  Route::get('/sampleRoute', 'DrdrController@emailScheduling');
 
   Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/ccir_page', 'HomeController@ccir_index')->name('ccir');
@@ -260,7 +261,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   // Get uploaded files of approver for drdr
   Route::get('/drdr-approver-attachments/{drdrId}/{approverId}', 'DrdrController@getUploadedFilesApprover');
   // Generate drdrs by date
-  Route::get('/drdrs-generate/{startDate}/{endDate}', 'DrdrController@generate');
+  Route::post('/drdrs-generate', 'DrdrController@generate');
 
 
   // DDR routes
@@ -271,7 +272,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   // Approve specific ddr
   Route::post('/ddr-approved', 'DdrController@approved');
   // Generate ddrs by date
-  Route::get('/ddrs-generate/{startDate}/{endDate}', 'DdrController@generate');
+  Route::post('/ddrs-generate', 'DdrController@generate');
 
   // CCIR routes
   Route::get('/ccirs', 'CcirController@index');
@@ -284,7 +285,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   // Get uploaded files of verifier for ccir
   Route::get('/ccir-verifier-attachments/{ccirId}/{verifierId}', 'CcirController@getUploadedFilesApprover');
   // Generate ccir by date
-  Route::get('/ccirs-generate/{startDate}/{endDate}', 'CcirController@generate');
+  Route::post('/ccirs-generate', 'CcirController@generate');
 
   
   // NCN routes
@@ -300,7 +301,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   // Get uploaded files of approver for ncn
   Route::get('/ncn-approver-attachments/{ncnId}/{approverId}', 'NcnController@getUploadedFilesApprover');
   // Generate ncns by date
-  Route::get('/ncns-generate/{startDate}/{endDate}', 'NcnController@generate');
+  Route::post('/ncns-generate', 'NcnController@generate');
   // Get notified personnel for NCN 
   Route::get('/ncns-notified/{companyId}/{departmentId}', 'NcnController@getNotifiedPersonnel');
 });

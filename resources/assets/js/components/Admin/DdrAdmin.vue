@@ -6,8 +6,14 @@
             </div>
             <div class="row mb-3">
                 <div class="row">
-                    <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
-                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                    <div class="form-group">
+                        <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
+                        <span v-if="errors.startDate">{{ errors.startDate }}</span>
+                    </div>
+                    <div class="form-group">
+                        <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                        <span v-if="errors.endDate">{{ errors.endDate }}</span>
+                    </div>
                     <button @click="generateByDate" class="btn btn-primary">Generate</button>
                 </div>
             </div>
@@ -189,7 +195,13 @@ export default {
             
         },
         generateByDate(){
-            axios.get('/ddrs-generate/'+ this.startDate + '/' + this.endDate)
+            var startDate  =  this.startDate ? moment(this.startDate).format() : '';
+            var endDate = this.endDate ? moment(this.endDate).format() : '';
+
+            axios.post('/ddrs-generate',{
+                'startDate': startDate,
+                'endDate': endDate
+            })
             .then(response => { 
                 this.ddrs = response.data;
             })
