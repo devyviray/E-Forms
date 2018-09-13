@@ -84,7 +84,7 @@ class DrdrController extends Controller
     }
 
     
-    /**
+    /*
      * Display a listing of the approved forms.
      *
      * @return \Illuminate\Http\Response
@@ -181,7 +181,10 @@ class DrdrController extends Controller
     */
     public function show($id)
     {
-        return view('drdr.review');
+        $drdr = Drdr::findOrFail($id);
+        if($drdr->status == StatusType::SUBMITTED){
+            return view('drdr.review');
+        } return redirect()->back();
     }
 
     /**
@@ -204,13 +207,16 @@ class DrdrController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function showApprovedForm()
+    public function showApprovedForm($id)
     {
-        return view('drdr.approve-form');
+        $drdr = Drdr::findOrFail($id);
+        if($drdr->status == StatusType::APPROVED_REVIEWER){
+            return view('drdr.approve-form');
+        } return redirect()->back();
     }
 
     /**
-    * Display the details of apporved drdr.
+    * Display the details of apporved drdr. 
     *
     * @return \Illuminate\Http\Response     
     */

@@ -62227,7 +62227,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Mark as distributed")]
+                            [_vm._v("Mark as verify")]
                           )
                         : _vm._e(),
                       _vm._v(" "),
@@ -62419,7 +62419,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "editCompanyLabel" } },
-        [_vm._v("Mark as distributed")]
+        [_vm._v("Verification")]
       ),
       _vm._v(" "),
       _c(
@@ -62441,9 +62441,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("span", [
-        _vm._v(" Are you sure to mark this document as distributed?")
-      ])
+      _c("span", [_vm._v(" Are you sure to verify this document ?")])
     ])
   }
 ]
@@ -77079,6 +77077,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -77087,6 +77091,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             drdrs: [],
+            requesterAttachments: [],
+            selectedAttachment: '',
             drdr: {
                 consider_documents: ' ',
                 status: ' ',
@@ -77119,6 +77125,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.drdrs = response.data;
                 _this.company_id = _this.drdrs[0].company.id;
                 _this.fetchApprover(_this.company_id);
+                _this.fetchUploadedFilesRequester();
             }).catch(function (error) {
                 _this.errors = error.response.data.errors;
             });
@@ -77130,6 +77137,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.approvers = response.data;
             }).catch(function (error) {
                 _this2.errors = error.response.data.errors;
+            });
+        },
+        fetchUploadedFilesRequester: function fetchUploadedFilesRequester() {
+            var _this3 = this;
+
+            axios.get('/drdr-requester-attachments/' + this.drdrs[0].id + '/' + this.drdrs[0].requester_id).then(function (response) {
+                _this3.requesterAttachments = response.data;
+            }).catch(function (error) {
+                _this3.errors = error.response.data.errors;
             });
         },
         uploadFileChange: function uploadFileChange(e) {
@@ -77154,7 +77170,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         reviewedDrdr: function reviewedDrdr(id, drdr, approver) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.prepareFields();
             this.formData.append('id', id);
@@ -77163,14 +77179,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.formData.append('remarks', drdr.remarks);
             this.formData.append('approver_id', approver.id);
             axios.post('/drdr-reviewed', this.formData).then(function (response) {
-                _this3.resetData();
+                _this4.resetData();
                 window.location.href = response.data.redirect;
             }).catch(function (error) {
-                _this3.errors = error.response.data.errors;
+                _this4.errors = error.response.data.errors;
             });
         },
         selectedStatus: function selectedStatus() {
             this.drdr.status == 1 ? this.show = true : this.show = false;
+        },
+        downloadAttachment: function downloadAttachment() {
+            var base_url = window.location.origin;
+            window.location = base_url + ('/download-attachment/' + this.selectedAttachment);
         }
     }
 });
@@ -77262,6 +77282,58 @@ var render = function() {
                 }
               })
             : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.selectedAttachment,
+                    expression: "selectedAttachment"
+                  }
+                ],
+                staticClass: "form-control form-control-lg",
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selectedAttachment = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    _vm.downloadAttachment
+                  ]
+                }
+              },
+              [
+                _c("option", { attrs: { selected: "", disabled: "" } }, [
+                  _vm._v(" Download Attachment - Requester ")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.requesterAttachments, function(
+                  requesterAttachment,
+                  re
+                ) {
+                  return _c(
+                    "option",
+                    { key: re, domProps: { value: requesterAttachment.id } },
+                    [_vm._v(_vm._s(requesterAttachment.file_name))]
+                  )
+                })
+              ],
+              2
+            )
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c(
@@ -78651,6 +78723,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -78658,6 +78737,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             drdrs: [],
+            reviewerAttachments: [],
+            selectedAttachment: '',
             drdr: {
                 consider_documents: '',
                 status: '',
@@ -78683,8 +78764,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('/drdr-data/' + id).then(function (response) {
                 _this.drdrs = response.data;
+                _this.fetchUploadedFilesReviewer();
             }).catch(function (error) {
                 _this.errors = error.response.data.errors;
+            });
+        },
+        fetchUploadedFilesReviewer: function fetchUploadedFilesReviewer() {
+            var _this2 = this;
+
+            axios.get('/drdr-reviewer-attachments/' + this.drdrs[0].id + '/' + this.drdrs[0].reviewer_id).then(function (response) {
+                _this2.reviewerAttachments = response.data;
+            }).catch(function (error) {
+                _this2.errors = error.response.data.errors;
             });
         },
         uploadFileChange: function uploadFileChange(e) {
@@ -78709,7 +78800,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         approvedDrdr: function approvedDrdr(id, drdr, drdrs) {
-            var _this2 = this;
+            var _this3 = this;
 
             this.prepareFields();
             this.formData.append('id', id);
@@ -78719,14 +78810,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.formData.append('copy_number', drdr.copy_number);
             this.formData.append('copy_holder', drdr.copy_holder);
             axios.post('/drdr-approved', this.formData).then(function (response) {
-                _this2.resetData();
+                _this3.resetData();
                 window.location.href = response.data.redirect;
             }).catch(function (error) {
-                _this2.errors = error.response.data.errors;
+                _this3.errors = error.response.data.errors;
             });
         },
         selectedStatus: function selectedStatus() {
             this.drdr.status == 1 ? this.show = true : this.show = false;
+        },
+        downloadAttachment: function downloadAttachment() {
+            var base_url = window.location.origin;
+            window.location = base_url + ('/download-attachment/' + this.selectedAttachment);
         }
     },
     components: {
@@ -78821,6 +78916,60 @@ var render = function() {
                 }
               })
             : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _vm.reviewerAttachments.length
+              ? _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedAttachment,
+                        expression: "selectedAttachment"
+                      }
+                    ],
+                    staticClass: "form-control form-control-lg",
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedAttachment = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                        _vm.downloadAttachment
+                      ]
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "", disabled: "" } }, [
+                      _vm._v(" Download Attachment - Reviewer ")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.reviewerAttachments, function(
+                      reviewerAttachment,
+                      r
+                    ) {
+                      return _c(
+                        "option",
+                        { key: r, domProps: { value: reviewerAttachment.id } },
+                        [_vm._v(_vm._s(reviewerAttachment.file_name))]
+                      )
+                    })
+                  ],
+                  2
+                )
+              : _vm._e()
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c(

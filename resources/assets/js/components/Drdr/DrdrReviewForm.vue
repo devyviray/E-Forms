@@ -53,6 +53,12 @@
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-if="drdrs.length" v-model="drdrs[0].id">
                     <div class="form-group">
+                        <select class="form-control form-control-lg" v-model="selectedAttachment" @change="downloadAttachment">
+                            <option selected disabled> Download Attachment - Requester </option>
+                            <option v-for="(requesterAttachment, re) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="re">{{ requesterAttachment.file_name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                        <select v-model="drdr.status" class="form-control form-control-lg" @change="selectedStatus">
                            <option value="" disabled selected>Select Status</option>
                            <option value="1">Approved</option>
@@ -98,6 +104,8 @@ export default {
     data(){
         return{
             drdrs: [],
+            requesterAttachments: [],
+            selectedAttachment: '',
             drdr:{
                 consider_documents: ' ',
                 status: ' ',
@@ -128,7 +136,8 @@ export default {
             .then(response => {
                 this.drdrs = response.data;
                 this.company_id = this.drdrs[0].company.id;
-                this.fetchApprover(this.company_id);  
+                this.fetchApprover(this.company_id);
+                this.fetchUploadedFilesRequester();
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
@@ -142,6 +151,16 @@ export default {
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
+            })
+        },
+        fetchUploadedFilesRequester()
+        {
+            axios.get('/drdr-requester-attachments/'+this.drdrs[0].id+'/'+this.drdrs[0].requester_id)
+            .then(response => {
+                this.requesterAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
             })
         },
         uploadFileChange(e){
@@ -186,7 +205,13 @@ export default {
         selectedStatus()
         {
             this.drdr.status == 1 ? this.show = true : this.show = false;
-        }
+        },
+        downloadAttachment()
+        {
+            var base_url = window.location.origin;
+            window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
+        },
+        
     }
 }
 </script>

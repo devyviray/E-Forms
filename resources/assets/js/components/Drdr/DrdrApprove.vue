@@ -53,6 +53,13 @@
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-if="drdrs.length" v-model="drdrs[0].id">
                     <div class="form-group">
+                        <select class="form-control form-control-lg" v-if="reviewerAttachments.length" v-model="selectedAttachment" @change="downloadAttachment">
+                            <option selected disabled> Download Attachment - Reviewer </option>
+                            <option v-for="(reviewerAttachment, r) in reviewerAttachments" :value="reviewerAttachment.id" v-bind:key="r">{{ reviewerAttachment.file_name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                        <select v-model="drdr.status" class="form-control form-control-lg"  @change="selectedStatus">
                            <option value="" disabled selected>Select Status</option>
                            <option value="1">Approved</option>
@@ -99,6 +106,8 @@ export default {
     data(){
         return{
             drdrs: [],
+            reviewerAttachments: [],
+            selectedAttachment: '',
             drdr:{
                 consider_documents: '',
                 status: '',
@@ -122,10 +131,21 @@ export default {
             axios.get(`/drdr-data/${id}`)
             .then(response => {
                 this.drdrs = response.data;
+                this.fetchUploadedFilesReviewer();
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
             });
+        },
+        fetchUploadedFilesReviewer()
+        {
+            axios.get('/drdr-reviewer-attachments/'+this.drdrs[0].id+'/'+this.drdrs[0].reviewer_id)
+            .then(response => {
+                this.reviewerAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
         },
         uploadFileChange(e){
             var files = e.target.files || e.dataTransfer.files;
@@ -170,7 +190,12 @@ export default {
         selectedStatus()
         {
             this.drdr.status == 1 ? this.show = true : this.show = false;
-        }
+        },
+        downloadAttachment()
+        {
+            var base_url = window.location.origin;
+            window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
+        },
     },
     components: {
          Datepicker

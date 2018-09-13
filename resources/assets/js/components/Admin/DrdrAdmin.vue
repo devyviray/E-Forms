@@ -47,7 +47,7 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a v-if="drdr.status == 4" @click="getDrdrId(drdr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDrdrModal" href="javascript:void(0)">Mark as distributed</a>
+                                    <a v-if="drdr.status == 4" @click="getDrdrId(drdr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDrdrModal" href="javascript:void(0)">Mark as verify</a>
                                     <a class="dropdown-item" href="#">Move to trash</a>
                                     <a class="dropdown-item" href="#">Mark as archive</a>
                                     <a class="dropdown-item" href="#">Cancel document</a>
@@ -74,7 +74,7 @@
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyLabel">Mark as distributed</h5>
+                <h5 class="modal-title" id="editCompanyLabel">Verification</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -82,7 +82,7 @@
                 <div class="modal-body">
                     <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
                     <div class="form-group">
-                        <span> Are you sure to mark this document as distributed?</span>
+                        <span> Are you sure to verify this document ?</span>
                     </div>
                 </div>
                 <div class="modal-footer">
