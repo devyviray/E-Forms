@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ApproverDisapprovedDrdr extends Notification
+class ApproverDisapprovedDdr extends Notification
 {
     use Queueable;
 
@@ -41,7 +41,7 @@ class ApproverDisapprovedDrdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Drdr filed REQUESTER NAME in E-FORMS portal has been disapproved by approver')
+                    ->line('Ddr filed REQUESTER NAME in E-FORMS portal has been disapproved by approver')
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }

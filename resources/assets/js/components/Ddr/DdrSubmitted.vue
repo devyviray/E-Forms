@@ -8,7 +8,8 @@
                     <th>Approver</th>
                     <th>Reason</th>
                     <th>date_requested</th>
-                    <th>Status</th>
+                    <th>Approver status</th>
+                    <th>Distributed</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
@@ -21,6 +22,11 @@
                             <span style="color: red" v-if="ddrSubmitted.status == 2"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="ddrSubmitted.status == 6"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
+                        </td>
+                        <td>
+                            <span style="color: red" v-if="ddrSubmitted.status == 4"> PENDING </span>
+                            <span style="color: green" v-else-if="ddrSubmitted.status == 14"> DISTRIBUTED </span>
+                            <span style="color: green; padding-left: 30px" v-else> {{ '-' }} </span>
                         </td>
                         <td>
                             <button class="btn btn-primary" @click="viewDdr(ddrSubmitted.id)">View</button>
@@ -61,6 +67,11 @@ export default {
     },
     methods:{
         moment,
+        viewDdr(id)
+        {
+            var base_url = window.location.origin;
+            window.location.href = base_url+`/ddr-view/${id}`;
+        },
         fetchDdrSubmitted()
         {
             axios.get('/ddrs-submitted')

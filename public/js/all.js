@@ -63603,7 +63603,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Id" },
+                  attrs: { type: "hidden", placeholder: "Id" },
                   domProps: { value: _vm.selected_id },
                   on: {
                     input: function($event) {
@@ -66614,6 +66614,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 //
 //
 //
@@ -66761,17 +66763,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['ddrId'],
@@ -66786,6 +66778,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
         fetchDdrs: function fetchDdrs() {
             var _this = this;
 
@@ -66827,61 +66820,52 @@ var render = function() {
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
         _c("tbody", [
-          _vm._m(0),
-          _vm._v(" "),
           _c("tr", [
-            _vm._m(1),
+            _vm._m(2),
             _vm._v(" "),
-            _vm.ddrs.length
+            _vm.ddrs[0].reason_of_distribution == 1
               ? _c("td", [
-                  _vm._v(" Rev No. "),
-                  _c("strong", [_vm._v(_vm._s(_vm.ddrs[0].rev_number))])
+                  _vm._v(
+                    "\n\t\t\t\t\t\t\t Relevant external doc. (controll copy)\n\t\t\t\t\t\t"
+                  )
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v(" Effective Date ")]),
+            _vm.ddrs[0].reason_of_distribution == 2
+              ? _c("td", [
+                  _vm._v(
+                    "\n\t\t\t\t\t\t\t Customer request (uncontrolled copy)\t\t\t\n\t\t\t\t\t\t"
+                  )
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].effective_date))])
+            _vm.ddrs[0].reason_of_distribution == 3
+              ? _c("td", [_vm._v(" Others: ")])
               : _vm._e()
           ]),
           _vm._v(" "),
-          _vm._m(2)
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(3),
-      _vm._v(" "),
-      _c("table", { staticClass: "table table-bordered" }, [
-        _c("tbody", [
-          _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5),
-          _vm._v(" "),
-          _vm._m(6),
-          _vm._v(" "),
-          _vm._m(7),
-          _vm._v(" "),
           _c("tr", [
-            _vm._m(8),
+            _vm._m(3),
             _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", { attrs: { colspan: "2" } }, [
-                  _vm._v(" " + _vm._s(_vm.ddrs[0].date_needed) + " ")
-                ])
-              : _vm._e()
+            _c("td", [
+              _vm._v(_vm._s(_vm.moment(_vm.ddrs[0].date_needed).format("LL")))
+            ])
           ])
         ])
       ]),
       _vm._v(" "),
-      _vm._m(9),
+      _vm._m(4),
       _vm._v(" "),
-      _vm._m(10),
+      _vm._m(5),
       _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
-        _vm._m(11),
+        _vm._m(6),
         _vm._v(" "),
         _vm.ddrs.length
           ? _c(
@@ -66896,11 +66880,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v(" " + _vm._s(ddr.copy_number) + " ")]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(" " + _vm._s(ddr.copy_holder) + " ")]),
-                  _vm._v(" "),
-                  _c("td"),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(" April 12, 2017 ")])
+                  _c("td", [_vm._v(" " + _vm._s(ddr.copy_holder) + " ")])
                 ])
               })
             )
@@ -66909,10 +66889,10 @@ var render = function() {
       _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
         _c("tbody", [
-          _vm._m(12),
+          _vm._m(7),
           _vm._v(" "),
           _c("tr", [
-            _vm._m(13),
+            _vm._m(8),
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
@@ -66920,12 +66900,12 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(14),
+            _vm._m(9),
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
                   _vm._v(
-                    " \n                        " +
+                    " \n                            " +
                       _vm._s(_vm.ddrs[0].approver.name)
                   ),
                   _c("br"),
@@ -66944,13 +66924,17 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(15),
+            _vm._m(10),
             _vm._v(" "),
-            _c("td", [_vm._v(" Michelle Paje ")])
+            _vm.ddrs.length && _vm.ddrs[0].distributed
+              ? _c("td", [
+                  _vm._v(" " + _vm._s(_vm.ddrs[0].distributed.name) + "  ")
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("tr", [
-            _vm._m(16),
+            _vm._m(11),
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
@@ -66958,7 +66942,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(17),
+            _vm._m(12),
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
@@ -66966,36 +66950,70 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(18),
+            _vm._m(13),
             _vm._v(" "),
-            _c("td", [_vm._v(" Management Representative Supervisor ")])
+            _vm.ddrs.length && _vm.ddrs[0].distributed
+              ? _c("td", [
+                  _vm._v(" " + _vm._s(_vm.ddrs[0].distributed.position) + " ")
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("tr", [
-            _vm._m(19),
+            _vm._m(14),
             _vm._v(" "),
             _vm.ddrs.length
-              ? _c("td", [_vm._v(_vm._s(_vm.ddrs[0].reviewed_date))])
+              ? _c("td", [
+                  _vm._v(
+                    _vm._s(_vm.moment(_vm.ddrs[0].date_request).format("LL"))
+                  )
+                ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(20),
+            _vm._m(15),
             _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].approved_date))])
-              : _vm._e(),
+            _vm.ddrs.length && _vm.ddrs[0].status == 6
+              ? _c("td", [
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.ddrs[0].dispproved_date).format("LL")
+                      ) +
+                      " "
+                  )
+                ])
+              : _c("td", [
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.ddrs[0].approved_date).format("LL")
+                      ) +
+                      " "
+                  )
+                ]),
             _vm._v(" "),
-            _vm._m(21),
+            _vm._m(16),
             _vm._v(" "),
-            _c("td", [_vm._v(" July 26, 2017 ")])
+            _vm.ddrs.length && _vm.ddrs[0].distributed
+              ? _c("td", [
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.ddrs[0].distributed_date).format("LL")
+                      ) +
+                      " "
+                  )
+                ])
+              : _vm._e()
           ])
         ])
       ]),
       _vm._v(" "),
-      _vm._m(22),
+      _vm._m(17),
       _vm._v(" "),
-      _vm._m(23),
+      _vm._m(18),
       _vm._v(" "),
-      _vm._m(24),
+      _vm._m(19),
       _vm._v(" "),
       _c("small"),
       _vm._v(" "),
@@ -67008,35 +67026,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { rowspan: "3", width: "10%" } }, [
-        _c("img", {
-          staticClass: "img-responsive",
-          staticStyle: { padding: "10px", width: "100px", height: "auto" },
-          attrs: {
-            src: "http://172.17.2.88/e-forms-test/public/image/lfug-logo.png"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("td", { attrs: { colspan: "4" } }, [
-        _vm._v("La Filipina Uy Gongco Group of Companies")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_vm._v(" Doc No. "), _c("strong", [_vm._v("LFQM-F-002")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { colspan: "5" } }, [
-        _vm._v(" DOCUMENT DISTRIBUTION REQUEST ")
+    return _c("table", { staticClass: "table table-bordered" }, [
+      _c("tbody", [
+        _c("tr", [
+          _c("td", { attrs: { rowspan: "3", width: "10%" } }, [
+            _c("img", {
+              staticClass: "img-responsive",
+              staticStyle: { padding: "10px", width: "100px", height: "auto" },
+              attrs: {
+                src:
+                  "http://172.17.2.88/e-forms-test/public/image/lfug-logo.png"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("td", { attrs: { colspan: "4" } }, [
+            _vm._v("La Filipina Uy Gongco Group of Companies")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [_vm._v(" Doc No. "), _c("strong", [_vm._v("LFQM-F-002")])])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", { attrs: { colspan: "5" } }, [
+            _vm._v(" DOCUMENT DISTRIBUTION REQUEST ")
+          ])
+        ])
       ])
     ])
   },
@@ -67048,7 +67065,7 @@ var staticRenderFns = [
       _c("h4", [
         _c("strong", [_vm._v("Step 1:")]),
         _vm._v(
-          " Requester defines reason for distribution and required date of distribution.\n            "
+          " Requester defines reason for distribution and required date of distribution.\n                "
         )
       ])
     ])
@@ -67057,49 +67074,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { rowspan: "4" } }, [
-        _vm._v(" Reason for distribution:")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { colspan: "2" } }, [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Relevant external doc. (controll copy)\n                    ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { colspan: "2" } }, [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Customer request (uncontrolled copy)\n                    ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_c("strong", [_vm._v(" Others: ")])]),
-      _vm._v(" "),
-      _c("td")
-    ])
+    return _c("td", [_c("strong", [_vm._v(" Reason for distribution: ")])])
   },
   function() {
     var _vm = this
@@ -67115,7 +67090,7 @@ var staticRenderFns = [
       _c("h4", [
         _c("strong", [_vm._v("Step 2:")]),
         _vm._v(
-          "\n                Requester fills out columns with asterisk, obtains approval from department head and \n                submits to DC (Together with orignal and photocopoies of the external document).\n            "
+          "\n                    Requester fills out columns with asterisk, obtains approval from department head and \n                    submits to DC (Together with orignal and photocopoies of the external document).\n                "
         )
       ])
     ])
@@ -67128,7 +67103,7 @@ var staticRenderFns = [
       _c("h4", [
         _c("strong", [_vm._v("Step 3:")]),
         _vm._v(
-          "\n            DC distributes base on defined copyholder and signs below.\n        "
+          "\n                DC distributes base on defined copyholder and signs below.\n            "
         )
       ])
     ])
@@ -67139,19 +67114,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Document Title")]),
+        _c("th", [_c("strong", [_vm._v("Document Title")])]),
         _vm._v(" "),
-        _c("th", [_vm._v("Control Code")]),
+        _c("th", [_c("strong", [_vm._v("Control Code")])]),
         _vm._v(" "),
-        _c("th", [_vm._v("Rev No.")]),
+        _c("th", [_c("strong", [_vm._v("Rev No.")])]),
         _vm._v(" "),
-        _c("th", [_vm._v("Copy No.")]),
+        _c("th", [_c("strong", [_vm._v("Copy No.")])]),
         _vm._v(" "),
-        _c("th", [_vm._v("Copy holder")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Received by:")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Date")])
+        _c("th", [_c("strong", [_vm._v("Copy holder")])])
       ])
     ])
   },
@@ -67249,7 +67220,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("li", [
           _vm._v(
-            "\n                No Part of the document may be reproduced or utilized in any form, electronic or mechanical, including photocopying without written permission to the QM Document Controller.\n                "
+            "\n                    No Part of the document may be reproduced or utilized in any form, electronic or mechanical, including photocopying without written permission to the QM Document Controller.\n                    "
           )
         ])
       ])
@@ -80093,6 +80064,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -80111,6 +80088,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
+        viewDdr: function viewDdr(id) {
+            var base_url = window.location.origin;
+            window.location.href = base_url + ('/ddr-view/' + id);
+        },
         fetchDdrSubmitted: function fetchDdrSubmitted() {
             var _this = this;
 
@@ -80235,6 +80216,27 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", [
+                ddrSubmitted.status == 4
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" PENDING ")
+                    ])
+                  : ddrSubmitted.status == 14
+                    ? _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" DISTRIBUTED ")
+                      ])
+                    : _c(
+                        "span",
+                        {
+                          staticStyle: {
+                            color: "green",
+                            "padding-left": "30px"
+                          }
+                        },
+                        [_vm._v(" " + _vm._s("-") + " ")]
+                      )
+              ]),
+              _vm._v(" "),
+              _c("td", [
                 _c(
                   "button",
                   {
@@ -80343,7 +80345,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("date_requested")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Status")]),
+      _c("th", [_vm._v("Approver status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Distributed")]),
       _vm._v(" "),
       _c("th", [_vm._v("Option")])
     ])
@@ -82276,6 +82280,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 //
 //
 //
@@ -82419,14 +82425,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -82440,6 +82439,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
         fetchDdrs: function fetchDdrs() {
             var _this = this;
 
@@ -82467,81 +82467,79 @@ var render = function() {
     _c("div", { staticClass: "container-fluid" }, [
       _c("hr"),
       _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
         _c("tbody", [
-          _vm._m(0),
-          _vm._v(" "),
           _c("tr", [
-            _vm._m(1),
+            _vm._m(2),
             _vm._v(" "),
-            _vm.ddrs.length
+            _vm.ddrs[0].reason_of_distribution == 1
               ? _c("td", [
-                  _vm._v(" Rev No. "),
-                  _c("strong", [_vm._v(_vm._s(_vm.ddrs[0].rev_number))])
+                  _vm._v(
+                    "\n\t\t\t\t\t\t\t Relevant external doc. (controll copy)\n\t\t\t\t\t\t"
+                  )
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v(" Effective Date ")]),
-            _vm._v(" "),
-            _vm.ddrs.length
+            _vm.ddrs[0].reason_of_distribution == 2
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.ddrs[0].effective_date) + " ")
+                  _vm._v(
+                    "\n\t\t\t\t\t\t\t Customer request (uncontrolled copy)\t\t\t\n\t\t\t\t\t\t"
+                  )
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.ddrs[0].reason_of_distribution == 3
+              ? _c("td", [_vm._v(" Others: ")])
               : _vm._e()
           ]),
           _vm._v(" "),
-          _vm._m(2)
+          _c("tr", [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(_vm._s(_vm.moment(_vm.ddrs[0].date_needed).format("LL")))
+            ])
+          ])
         ])
       ]),
-      _vm._v(" "),
-      _vm._m(3),
       _vm._v(" "),
       _vm._m(4),
       _vm._v(" "),
       _vm._m(5),
       _vm._v(" "),
-      _vm._m(6),
-      _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
-        _vm._m(7),
+        _vm._m(6),
         _vm._v(" "),
-        _c("tbody", [
-          _c("tr", [
-            _vm.ddrs.length
-              ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.ddrs[0].document_title) + " ")
+        _vm.ddrs.length
+          ? _c(
+              "tbody",
+              _vm._l(_vm.ddrs[0].ddr_lists, function(ddr, d) {
+                return _c("tr", { key: d }, [
+                  _c("td", [_vm._v(" " + _vm._s(ddr.document_title) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" " + _vm._s(ddr.control_code) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" " + _vm._s(ddr.rev_number) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" " + _vm._s(ddr.copy_number) + " ")]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(" " + _vm._s(ddr.copy_holder) + " ")])
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].control_code))])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].rev_number) + " ")])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].copy_number))])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(" " + _vm._s(_vm.ddrs[0].copy_holder) + " ")])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("td"),
-            _vm._v(" "),
-            _c("td", [_vm._v(" March 27, 2017 ")])
-          ])
-        ])
+              })
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
         _c("tbody", [
-          _vm._m(8),
+          _vm._m(7),
           _vm._v(" "),
           _c("tr", [
-            _vm._m(9),
+            _vm._m(8),
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
@@ -82549,21 +82547,40 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(10),
+            _vm._m(9),
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.ddrs[0].approver.name) + " ")
+                  _vm._v(
+                    " \n\t\t\t\t\t\t\t" + _vm._s(_vm.ddrs[0].approver.name)
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _vm.ddrs[0].status == 2
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" NOT YET APPROVED ")
+                      ])
+                    : _vm.ddrs[0].status == 6
+                      ? _c("span", { staticStyle: { color: "red" } }, [
+                          _vm._v(" DISAPPROVED ")
+                        ])
+                      : _c("span", { staticStyle: { color: "green" } }, [
+                          _vm._v(" APPROVED ")
+                        ])
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(11),
+            _vm._m(10),
             _vm._v(" "),
-            _c("td", [_vm._v(" Airah Hernandez Michelle Karen Samson ")])
+            _vm.ddrs.length && _vm.ddrs[0].distributed
+              ? _c("td", [
+                  _vm._v(" " + _vm._s(_vm.ddrs[0].distributed.name) + " ")
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("tr", [
-            _vm._m(12),
+            _vm._m(11),
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
@@ -82571,7 +82588,7 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(13),
+            _vm._m(12),
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
@@ -82579,40 +82596,68 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(14),
+            _vm._m(13),
             _vm._v(" "),
-            _c("td", [
-              _vm._v(" Management Representative Management Representative ")
-            ])
+            _vm.ddrs.length && _vm.ddrs[0].distributed
+              ? _c("td", [
+                  _vm._v(" " + _vm._s(_vm.ddrs[0].distributed.position))
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("tr", [
-            _vm._m(15),
-            _vm._v(" "),
-            _vm.ddrs.length
-              ? _c("td", [_vm._v(_vm._s(_vm.ddrs[0].date_request))])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm._m(16),
+            _vm._m(14),
             _vm._v(" "),
             _vm.ddrs.length
               ? _c("td", [
-                  _vm._v(" " + _vm._s(_vm.ddrs[0].approved_date) + " ")
+                  _vm._v(
+                    _vm._s(_vm.moment(_vm.ddrs[0].date_request).format("LL"))
+                  )
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm._m(17),
+            _vm._m(15),
             _vm._v(" "),
-            _c("td", [_vm._v(" March 28, 2017 March 28, 2017 ")])
+            _vm.ddrs.length && _vm.ddrs[0].status == 6
+              ? _c("td", [
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.ddrs[0].dispproved_date).format("LL")
+                      ) +
+                      " "
+                  )
+                ])
+              : _c("td", [
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm.moment(_vm.ddrs[0].approved_date).format("LL")
+                      ) +
+                      " "
+                  )
+                ]),
+            _vm._v(" "),
+            _vm._m(16),
+            _vm._v(" "),
+            _vm.ddrs.length && _vm.ddrs[0].distributed
+              ? _c("td", [
+                  _vm._v(
+                    _vm._s(
+                      _vm.moment(_vm.ddrs[0].distributed_date).format("LL")
+                    ) + " "
+                  )
+                ])
+              : _vm._e()
           ])
         ])
       ]),
       _vm._v(" "),
+      _vm._m(17),
+      _vm._v(" "),
       _vm._m(18),
       _vm._v(" "),
       _vm._m(19),
-      _vm._v(" "),
-      _vm._m(20),
       _vm._v(" "),
       _c("small"),
       _vm._v(" "),
@@ -82625,35 +82670,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { rowspan: "3", width: "10%" } }, [
-        _c("img", {
-          staticClass: "img-responsive",
-          staticStyle: { padding: "10px", width: "100px", height: "auto" },
-          attrs: {
-            src: "http://172.17.2.88/e-forms-test/public/image/lfug-logo.png"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("td", { attrs: { colspan: "4" } }, [
-        _vm._v("La Filipina Uy Gongco Group of Companies")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_vm._v(" Doc No. "), _c("strong", [_vm._v("LFQM-F-002")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { colspan: "5" } }, [
-        _vm._v(" DOCUMENT DISTRIBUTION REQUEST ")
+    return _c("table", { staticClass: "table table-bordered" }, [
+      _c("tbody", [
+        _c("tr", [
+          _c("td", { attrs: { rowspan: "3", width: "10%" } }, [
+            _c("img", {
+              staticClass: "img-responsive",
+              staticStyle: { padding: "10px", width: "100px", height: "auto" },
+              attrs: {
+                src:
+                  "http://172.17.2.88/e-forms-test/public/image/lfug-logo.png"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("td", { attrs: { colspan: "4" } }, [
+            _vm._v("La Filipina Uy Gongco Group of Companies")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [_vm._v(" Doc No. "), _c("strong", [_vm._v("LFQM-F-002")])])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", { attrs: { colspan: "5" } }, [
+            _vm._v(" DOCUMENT DISTRIBUTION REQUEST ")
+          ])
+        ])
       ])
     ])
   },
@@ -82665,7 +82709,7 @@ var staticRenderFns = [
       _c("h4", [
         _c("strong", [_vm._v("Step 1:")]),
         _vm._v(
-          "\n\t\t\t\tRequester defines reason for distribution and required date of distribution.\n\t\t\t"
+          "\n\t\t\t\t\tRequester defines reason for distribution and required date of distribution.\n\t\t\t\t"
         )
       ])
     ])
@@ -82674,47 +82718,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table table-bordered" }, [
-      _c("tbody", [
-        _c("tr", [
-          _c("td", { attrs: { rowspan: "4" } }, [
-            _vm._v(" Reason for distribution: ")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", { attrs: { colspan: "2" } }, [
-            _c("i", {
-              staticClass: "ion-android-checkbox-outline-blank",
-              staticStyle: { "font-weight": "bold", "font-size": "20px" }
-            }),
-            _vm._v("  Relevant external doc. (controll copy)\n\t\t\t\t\t")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", { attrs: { colspan: "2" } }, [
-            _c("i", {
-              staticClass: "ion-android-checkbox-outline-blank",
-              staticStyle: { "font-weight": "bold", "font-size": "20px" }
-            }),
-            _vm._v("  Customer request (uncontrolled copy)\t\t\t\n\t\t\t\t\t")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", [_c("strong", [_vm._v("Others: ")])]),
-          _vm._v(" "),
-          _c("td")
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", [_c("strong", [_vm._v(" Date Neeeded: ")])]),
-          _vm._v(" "),
-          _c("td", { attrs: { colspan: "2" } }, [_vm._v(" March 27, 2017")])
-        ])
-      ])
-    ])
+    return _c("td", [_c("strong", [_vm._v(" Reason for distribution: ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v(" Date Neeeded: ")])])
   },
   function() {
     var _vm = this
@@ -82724,7 +82734,7 @@ var staticRenderFns = [
       _c("h4", [
         _c("strong", [_vm._v("Step 2:")]),
         _vm._v(
-          "\n\t\t\t\tRequester fills out columns with asterisk, obtains approval from department head and \n\t\t\t\tsubmits to DC (Together with orignal and photocopoies of the external document).\n\t\t\t"
+          "\n\t\t\t\t\tRequester fills out columns with asterisk, obtains approval from department head and \n\t\t\t\t\tsubmits to DC (Together with orignal and photocopoies of the external document).\n\t\t\t\t"
         )
       ])
     ])
@@ -82737,7 +82747,7 @@ var staticRenderFns = [
       _c("h4", [
         _c("strong", [_vm._v("Step 3:")]),
         _vm._v(
-          "\n\t\t\t\tDC distributes base on defined copyholder and signs below.\n\t\t\t"
+          "\n\t\t\t\t\tDC distributes base on defined copyholder and signs below.\n\t\t\t\t"
         )
       ])
     ])
@@ -82748,19 +82758,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Document Title")]),
+        _c("th", [_c("strong", [_vm._v("Document Title ")])]),
         _vm._v(" "),
-        _c("th", [_vm._v("Control Code")]),
+        _c("th", [_c("strong", [_vm._v(" Control Code ")])]),
         _vm._v(" "),
-        _c("th", [_vm._v("Rev No.")]),
+        _c("th", [_c("strong", [_vm._v(" Rev No. ")])]),
         _vm._v(" "),
-        _c("th", [_vm._v("Copy No.")]),
+        _c("th", [_c("strong", [_vm._v(" Copy No. ")])]),
         _vm._v(" "),
-        _c("th", [_vm._v("Copy holder")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Received by:")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Date")])
+        _c("th", [_c("strong", [_vm._v("Copy holder")])])
       ])
     ])
   },
@@ -82816,19 +82822,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v(" Date ")])])
+    return _c("td", [_c("strong", [_vm._v(" Date: ")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v(" Date ")])])
+    return _c("td", [_c("strong", [_vm._v(" Date: ")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v(" Date ")])])
+    return _c("td", [_c("strong", [_vm._v(" Date: ")])])
   },
   function() {
     var _vm = this
@@ -82858,7 +82864,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("li", [
           _vm._v(
-            "\n\t\t\t\tNo Part of the document may be reproduced or utilized in any form, electronic or mechanical, including photocopying without written permission to the QM Document Controller.\n\t\t\t\t"
+            "\n\t\t\t\t\tNo Part of the document may be reproduced or utilized in any form, electronic or mechanical, including photocopying without written permission to the QM Document Controller.\n\t\t\t\t\t"
           )
         ])
       ])

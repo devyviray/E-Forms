@@ -165,8 +165,7 @@ class NcnController extends Controller
         
         $notified = User::findOrFail($request->input('notified'));
         // Email sending to notified person
-        \Notification::send($notified, new ApproverNotifyPersonNcn($ncn));
-
+        $notified->notify(new ApproverNotifyPersonNcn($ncn));
 
         return ['redirect' => route('ncn')];
     }

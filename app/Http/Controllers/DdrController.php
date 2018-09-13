@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use App\Notifications\RequesterSubmitDdr;
 use App\Notifications\ApproverNotifyMrDdr;
 use App\Notifications\MrMarkAsDistributedDdr;
+use App\Notifications\ApproverDisapprovedDdr;
 
 class DdrController extends Controller
 {
@@ -53,7 +54,7 @@ class DdrController extends Controller
     {
         $ddrs = Ddr::with('requester')
                 ->where('approver_id', Auth::user()->id)
-                ->where('status', '!=' , StatusType::APPROVED_REVIEWER)
+                ->where('status', '!=' , StatusType::SUBMITTED)
                 ->orderBy('id', 'desc')->get();
         return $ddrs;
     }
@@ -96,7 +97,7 @@ class DdrController extends Controller
         $ddr->company_id = $request->input('company_id');
         $ddr->department_id = $request->input('department_id');
         $ddr->reason_of_distribution = $request->input('reason');
-        $ddr->date_needed = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('date_needed'));
+        $ddr->date_needed = Carbon::parse($request->input('date_needed'));
         $ddr->date_request = $carbon::now();
         $ddr->requester_id  = Auth::user()->id;
         $ddr->approver_id = $request->input('approver_id');
@@ -132,7 +133,10 @@ class DdrController extends Controller
     */
     public function show($id)
     {
-        return view('ddr.approved');
+        $ddr = Ddr::findOrFail($id);
+        if($ddr->status != StatusType::SUBMITTED){
+            return redirect()->back();
+        }  return view('ddr.approved');
     }
 
     /**
@@ -143,7 +147,7 @@ class DdrController extends Controller
     */
     public function data($id)
     {
-        $ddr = Ddr::with(['company', 'department', 'requester', 'approver', 'ddrLists'])
+        $ddr = Ddr::with(['company', 'department', 'requester', 'approver', 'ddrLists', 'distributed'])
                 ->where('id', $id)
                 ->get();
 
@@ -159,24 +163,42 @@ class DdrController extends Controller
     */
     public function approved(Request $request)
     {
+        $request->validate([
+            'id' => 'required',
+            'status' => 'required',
+            'remarks' => 'required'
+        ]);
+        
         $carbon = new Carbon();
         $ddr = Ddr::findOrFail($request->input('id'));
-        
-        $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
-        $ddr->status = $status;
-        $ddr->remarks = $request->input('remarks');
-        $ddr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
-        $ddr->approved_date = $carbon::now();
-        $ddr->save();
-        
-        $company_id = $ddr->company_id;
-        $mr = User::whereHas('roles', function($q) {
-            $q->where('role_id', RolesType::MR);
-        })->whereHas('companies', function($q) use ($company_id) {
-            $q->where('company_id',$company_id);
-        })->get();
 
-        \Notification::send($mr, new ApproverNotifyMrDdr($ddr));
+        if($request->input('status') == 1) {
+
+            $ddr->status = StatusType::APPROVED_APPROVER;
+            $ddr->remarks = $request->input('remarks');
+            $ddr->approved_date = $carbon::now();
+            $ddr->save();
+            
+            $company_id = $ddr->company_id;
+            $mr = User::whereHas('roles', function($q) {
+                $q->where('role_id', RolesType::MR);
+            })->whereHas('companies', function($q) use ($company_id) {
+                $q->where('company_id',$company_id);
+            })->get();
+
+            \Notification::send($mr, new ApproverNotifyMrDdr($ddr));
+        }else {
+
+            $ddr->status = StatusType::DISAPPROVED_APPROVER;
+            $ddr->remarks = $request->input('remarks');
+            $ddr->dispproved_date = $carbon::now();
+            $ddr->save();
+            
+            $requester = User::findOrFail($ddr->requester_id); 
+            // Email sending to requester of disapproved ddr
+            $requester->notify(new ApproverDisapprovedDdr($ddr));
+        }
+        
 
 
         return ['redirect' => route('ddr')];
@@ -234,7 +256,7 @@ class DdrController extends Controller
         $ddr->department_id = $request->input('department');
         $ddr->reason_of_distribution = $request->input('reason');
         $ddr->others = $request->input('reason') == 3 ? $request->input('others') : '';
-        $ddr->date_needed = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('date_needed'));
+        $ddr->date_needed = Carbon::parse($request->input('date_needed'));
         $ddr->approver_id = $request->input('approver');
         $ddr->status = StatusType::SUBMITTED;
 

@@ -13,9 +13,6 @@
 					</tr>
 					<tr>
 						<td> Doc No. <strong>LFQM-F-002</strong> </td>
-						<td v-if="ddrs.length"> Rev No. <strong>{{ ddrs[0].rev_number }}</strong> </td>
-						<td> Effective Date </td>
-						<td v-if="ddrs.length"> {{ ddrs[0].effective_date }} </td>
 					</tr>
 					<tr>
 						<td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>
@@ -34,25 +31,18 @@
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
-						<td rowspan="4"> Reason for distribution: </td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Relevant external doc. (controll copy)
+						<td> <strong> Reason for distribution: </strong> </td>
+						<td v-if="ddrs[0].reason_of_distribution == 1">
+							 Relevant external doc. (controll copy)
 						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Customer request (uncontrolled copy)			
+						<td v-if="ddrs[0].reason_of_distribution == 2">
+							 Customer request (uncontrolled copy)			
 						</td>
-					</tr>
-					<tr>
-						<td> <strong>Others: </strong> </td>
-						<td></td> 
+						<td v-if="ddrs[0].reason_of_distribution == 3"> Others: </td>
 					</tr>
 					<tr>
 						<td> <strong> Date Neeeded: </strong> </td>
-						<td colspan="2"> March 27, 2017</td>
+						<td>{{ moment(ddrs[0].date_needed).format('LL') }}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -77,26 +67,22 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>Document Title</th>
-						<th>Control Code</th>
-						<th>Rev No.</th>
-						<th>Copy No.</th>
-						<th>Copy holder</th>
-						<th>Received by:</th>
-						<th>Date</th>
+						<th><strong>Document Title </strong></th>
+						<th><strong> Control Code </strong></th>
+						<th><strong> Rev No. </strong></th>
+						<th><strong> Copy No. </strong></th>
+						<th><strong>Copy holder</strong></th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td v-if="ddrs.length"> {{ ddrs[0].document_title }} </td>
-						<td v-if="ddrs.length"> {{ ddrs[0].control_code }}</td>
-						<td v-if="ddrs.length"> {{ ddrs[0].rev_number }} </td>
-						<td v-if="ddrs.length"> {{ ddrs[0].copy_number }}</td>
-						<td v-if="ddrs.length"> {{ ddrs[0].copy_holder }} </td>
-						<td> </td>
-						<td> March 27, 2017 </td>
-					</tr>
-				</tbody>
+			      <tbody v-if="ddrs.length">
+                        <tr v-for="(ddr, d) in ddrs[0].ddr_lists" v-bind:key="d">
+                            <td> {{ ddr.document_title }} </td>
+                            <td> {{ ddr.control_code }} </td>
+                            <td> {{ ddr.rev_number }} </td>
+                            <td> {{ ddr.copy_number }} </td>
+                            <td> {{ ddr.copy_holder }} </td>
+                        </tr>
+                </tbody>
 			</table>
 
 			<table class="table table-bordered">
@@ -110,25 +96,31 @@
 						<td> <strong> Requested by: <strong> </strong></strong></td>
 						<td v-if="ddrs.length"> {{ ddrs[0].requester.name }} </td>
 						<td> <strong> Approved by: </strong> </td>
-						<td v-if="ddrs.length"> {{ ddrs[0].approver.name }} </td>
+						<td v-if="ddrs.length"> 
+							{{ ddrs[0].approver.name }}<br>
+							<span style="color: red" v-if="ddrs[0].status == 2"> NOT YET APPROVED </span>
+                            <span style="color: red" v-else-if="ddrs[0].status == 6"> DISAPPROVED </span>
+                            <span style="color: green" v-else> APPROVED </span>
+						</td>
 						<td> <strong> Distributed by: </strong> </td>
-						<td> Airah Hernandez Michelle Karen Samson </td>
+						<td v-if="ddrs.length && ddrs[0].distributed"> {{ ddrs[0].distributed.name }} </td>
 					</tr>
-					<tr> 
+					<tr>
 						<td> <strong> Position: <strong> </strong></strong></td>
 						<td v-if="ddrs.length"> {{ ddrs[0].requester.position }} </td>
 						<td> <strong> Position: </strong> </td>
 						<td v-if="ddrs.length"> {{ ddrs[0].approver.position }} </td>
 						<td> <strong> Position: </strong> </td>
-						<td> Management Representative Management Representative </td>
+						<td v-if="ddrs.length && ddrs[0].distributed"> {{ ddrs[0].distributed.position }}</td>
 					</tr>
 					<tr>
-						<td> <strong> Date </strong> </td>
-						<td v-if="ddrs.length">{{ ddrs[0].date_request }}</td>
-						<td> <strong> Date </strong> </td>
-						<td v-if="ddrs.length"> {{ ddrs[0].approved_date }} </td>
-						<td> <strong> Date </strong> </td>
-						<td> March 28, 2017 March 28, 2017 </td>
+						<td> <strong> Date: </strong> </td>
+						<td v-if="ddrs.length">{{ moment(ddrs[0].date_request).format('LL') }}</td>
+						<td> <strong> Date: </strong> </td>
+						<td v-if="ddrs.length && ddrs[0].status == 6"> {{ moment(ddrs[0].dispproved_date).format('LL') }} </td>
+						<td v-else> {{ moment(ddrs[0].approved_date).format('LL') }} </td>
+						<td> <strong> Date: </strong> </td>
+						<td v-if="ddrs.length && ddrs[0].distributed">{{ moment(ddrs[0].distributed_date).format('LL') }} </td>
 					</tr>
 				</tbody>
 			</table>
@@ -150,6 +142,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -161,6 +154,7 @@ export default {
         this.fetchDdrs();
     },
     methods:{
+		moment,
         fetchDdrs()
         {
 			var url = window.location.href;

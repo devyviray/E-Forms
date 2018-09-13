@@ -14,9 +14,6 @@
                     </tr>
                     <tr>
                         <td> Doc No. <strong>LFQM-F-002</strong> </td>
-                        <td v-if="ddrs.length"> Rev No. <strong>{{ ddrs[0].rev_number}}</strong> </td>
-                        <td> Effective Date </td>
-                        <td v-if="ddrs.length"> {{ ddrs[0].effective_date }}</td>
                     </tr>
                     <tr>
                         <td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>
@@ -33,25 +30,20 @@
 
             <table class="table table-bordered">
                 <tbody>
-                    <tr> <td rowspan="4"> Reason for distribution:</td> </tr>
-                    <tr>
-                        <td colspan="2">
-                            <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Relevant external doc. (controll copy)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Customer request (uncontrolled copy)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> <strong> Others: </strong> </td>
-                        <td> </td>
-                    </tr>
-                    <tr>
-                        <td> <strong> Date Neeeded: </strong>  </td>
-                        <td colspan="2" v-if="ddrs.length"> {{ ddrs[0].date_needed }} </td>
-                    </tr>
+            		<tr>
+						<td > <strong> Reason for distribution: </strong> </td>
+                        <td v-if="ddrs[0].reason_of_distribution == 1">
+							 Relevant external doc. (controll copy)
+						</td>
+						<td v-if="ddrs[0].reason_of_distribution == 2">
+							 Customer request (uncontrolled copy)			
+						</td>
+						<td v-if="ddrs[0].reason_of_distribution == 3"> Others: </td>
+					</tr>	
+					<tr>
+						<td> <strong> Date Neeeded: </strong> </td>
+						<td>{{ moment(ddrs[0].date_needed).format('LL') }}</td>
+					</tr>
                 </tbody>
             </table>
 
@@ -75,13 +67,11 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Document Title</th>
-                        <th>Control Code</th>
-                        <th>Rev No.</th>
-                        <th>Copy No.</th>
-                        <th>Copy holder</th>
-                        <th>Received by:</th>
-                        <th>Date</th>
+                        <th><strong>Document Title</strong></th>
+                        <th><strong>Control Code</strong></th>
+                        <th><strong>Rev No.</strong></th>
+                        <th><strong>Copy No.</strong></th>
+                        <th><strong>Copy holder</strong></th>
                     </tr>
                 </thead>
                 <tbody v-if="ddrs.length">
@@ -91,8 +81,6 @@
                             <td> {{ ddr.rev_number }} </td>
                             <td> {{ ddr.copy_number }} </td>
                             <td> {{ ddr.copy_holder }} </td>
-                            <td></td>
-                            <td> April 12, 2017 </td>
                         </tr>
                 </tbody>
             </table>
@@ -115,7 +103,7 @@
                             <span style="color: green" v-else> APPROVED </span>
                          </td>
                         <td> <strong> Distributed by: </strong> </td>
-                        <td> Michelle Paje </td>
+                        <td v-if="ddrs.length && ddrs[0].distributed"> {{ ddrs[0].distributed.name }}  </td>
                     </tr>
 
                     <tr>
@@ -124,16 +112,17 @@
                         <td> <strong> Position: </strong> </td>
                         <td v-if="ddrs.length"> {{ ddrs[0].approver.position }} </td>
                         <td> <strong> Position: </strong></td>
-                        <td> Management Representative Supervisor </td>
+                        <td v-if="ddrs.length && ddrs[0].distributed"> {{ ddrs[0].distributed.position }} </td>
                     </tr>
 
                     <tr>
                         <td> <strong>Date </strong> </td>
-                        <td v-if="ddrs.length">{{ ddrs[0].reviewed_date }}</td>
+                        <td v-if="ddrs.length">{{ moment(ddrs[0].date_request).format('LL') }}</td>
                         <td> <strong> Date </strong> </td>
-                        <td v-if="ddrs.length"> {{ ddrs[0].approved_date }}</td>
+						<td v-if="ddrs.length && ddrs[0].status == 6"> {{ moment(ddrs[0].dispproved_date).format('LL') }} </td>
+                        <td v-else> {{ moment(ddrs[0].approved_date).format('LL') }} </td>
                         <td> <strong> Date </strong> </td>
-                        <td> July 26, 2017 </td>
+                        <td v-if="ddrs.length && ddrs[0].distributed"> {{ moment(ddrs[0].distributed_date).format('LL') }} </td>
                     </tr>
                 </tbody>
             </table>
@@ -157,6 +146,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     props:['ddrId'],
     data(){
@@ -169,6 +159,7 @@ export default {
         this.fetchDdrs();
     },
     methods:{
+        moment,
         fetchDdrs()
         {
             axios.get(`/ddr-data/${this.ddrId}`)

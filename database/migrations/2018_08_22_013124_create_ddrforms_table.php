@@ -21,7 +21,6 @@ class CreateDdrformsTable extends Migration
             $table->string('others')->nullable();
             $table->datetime('date_request');
             $table->datetime('date_needed')->nullable();
-            $table->datetime('effective_date')->nullable();
             $table->integer('requester_id');
             $table->integer('approver_id');
             $table->datetime('approved_date')->nullable();
