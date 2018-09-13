@@ -14,8 +14,10 @@
                     <div class="col-md-6">
                         <span>Type of Request</span>
                     </div>
-                    <div class="col-md-6">
-                        <span>Sample Request</span>
+                    <div class="col-md-6" v-if="drdrs.length">
+                        <span v-if="drdrs[0].request_type == 1">{{ 'Proposal (For proposed)' }}</span>
+                        <span v-else-if="drdrs[0].request_type == 2">{{ 'Revision (For existing document)' }}</span>
+                        <span v-else-if="drdrs[0].request_type == 3">{{ 'Cancellation' }}</span>
                     </div>
                 </div>
                 <div class="row">

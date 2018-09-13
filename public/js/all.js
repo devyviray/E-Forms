@@ -77083,6 +77083,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -77216,7 +77218,23 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "row" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _vm.drdrs.length
+            ? _c("div", { staticClass: "col-md-6" }, [
+                _vm.drdrs[0].request_type == 1
+                  ? _c("span", [_vm._v(_vm._s("Proposal (For proposed)"))])
+                  : _vm.drdrs[0].request_type == 2
+                    ? _c("span", [
+                        _vm._v(_vm._s("Revision (For existing document)"))
+                      ])
+                    : _vm.drdrs[0].request_type == 3
+                      ? _c("span", [_vm._v(_vm._s("Cancellation"))])
+                      : _vm._e()
+              ])
+            : _vm._e()
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _vm._m(2),
@@ -77562,14 +77580,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("span", [_vm._v("Type of Request")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("span", [_vm._v("Sample Request")])
-      ])
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("span", [_vm._v("Type of Request")])
     ])
   },
   function() {
@@ -78730,6 +78742,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -78850,7 +78864,23 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "row" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _vm.drdrs.length
+            ? _c("div", { staticClass: "col-md-6" }, [
+                _vm.drdrs[0].request_type == 1
+                  ? _c("span", [_vm._v(_vm._s("Proposal (For proposed)"))])
+                  : _vm.drdrs[0].request_type == 2
+                    ? _c("span", [
+                        _vm._v(_vm._s("Revision (For existing document)"))
+                      ])
+                    : _vm.drdrs[0].request_type == 3
+                      ? _c("span", [_vm._v(_vm._s("Cancellation"))])
+                      : _vm._e()
+              ])
+            : _vm._e()
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _vm._m(2),
@@ -79202,14 +79232,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("span", [_vm._v("Type of Request")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("span", [_vm._v("Sample Request")])
-      ])
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("span", [_vm._v("Type of Request")])
     ])
   },
   function() {

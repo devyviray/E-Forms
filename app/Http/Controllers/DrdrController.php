@@ -16,6 +16,8 @@ use App\Notifications\ApproverNotifyMrDrdr;
 use App\Notifications\MrMarkAsDistributedDrdr;
 use App\Notifications\ApproverDisapprovedDrdr;
 use App\Notifications\ReviewerDisapprovedDrdr;
+use App\Notifications\SchedulingNotifyApproverDrdr;
+use App\Notifications\SchedulingNotifyReviewerDrdr;
 
 use PDF;
 use Response;
@@ -649,6 +651,29 @@ class DrdrController extends Controller
 
             \Notification::send($emails , new MrMarkAsDistributedDrdr($drdr));
             return ['redirect' => route('admin.drdrs')];
+        }
+    }
+
+    public function emailScheduling(){
+        // $reviewer = User::findOrFail(6);
+        // $reviewer->notify(new SchedulingNotifyReviewerDrdr($reviewer));
+
+        $drdrSubmitted = Drdr::where('status', StatusType::SUBMITTED)->whereDate('effective_date','=', Carbon::today()->subDays(-1)->toDateTimeString())->get();
+        $drdrReviewed = Drdr::where('status', StatusType::APPROVED_REVIEWER)->whereDate('effective_date','=', Carbon::today()->subDays(-1)->toDateTimeString())->get();
+        if($drdrSubmitted){
+            $reviewerId = $drdrSubmitted->pluck('reviewer_id');
+            foreach($reviewerId as $key => $id){
+                $reviewer = User::findOrFail($id);
+                $reviewer->notify(new SchedulingNotifyReviewerDrdr($drdrSubmitted[$key]));
+            }
+        }
+
+        if($drdrReviewed){
+            $approverId = $drdrReviewed->pluck('approver_id');
+            foreach($approverId as $key => $id){
+                $approver = User::findOrFail($id);
+                $approver->notify(new SchedulingNotifyApproverDrdr($drdrReviewed[$key]));
+            }
         }
     }
 }
