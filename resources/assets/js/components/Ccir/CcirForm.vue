@@ -4,19 +4,30 @@
             <div class="col-md-12">
                 <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Complainant" v-model="ccir.complainant">
+                        <label for="complainant">Complainant</label>
+                        <input type="text" class="form-control"  v-model="ccir.complainant" id="complainant">
                         <span v-if="errors.complainant">{{ errors.complainant }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Commodity" v-model="ccir.commodity">
+                        <select v-model="ccir.company_id" class="form-control form-control-lg">
+                            <option value="" disabled selected>Select Company</option>
+                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
+                        </select>
+                        <span v-if="errors.company">{{ errors.company }}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="commodity">Commodity</label>
+                        <input type="text" class="form-control" v-model="ccir.commodity" id="commodity">
                         <span v-if="errors.commodity">{{ errors.commodity }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Product control number" v-model="ccir.product_control_number">
+                        <label for="product_control_number">Product control number</label>
+                        <input type="text" class="form-control" v-model="ccir.product_control_number" id="product_control_number">
                         <span v-if="errors.product_control_number">{{ errors.product_control_number }}</span>
                     </div>
                     <div class="form-group">
-                        <datepicker  placeholder="Select Delivery Date" v-model="ccir.delivery_date"></datepicker>
+                        <label for="delivery_date">Delivery date</label>
+                        <datepicker v-model="ccir.delivery_date" id="delivery_date" placeholder="Select delivery date"></datepicker>
                         <span v-if="errors.delivery_date">{{ errors.delivery_date }}</span>
                     </div>
                     <div class="form-group">
@@ -32,19 +43,23 @@
                         <span v-if="errors.type">{{ errors.type }}</span>
                     </div>
                     <div class="form-group">
-                        <textarea  class="form-control" v-model="ccir.other_details" placeholder="Other Details"></textarea>
+                        <label for="other_details">Other Details</label>
+                        <textarea  class="form-control" v-model="ccir.other_details" id="other_details"></textarea>
                         <span v-if="errors.other_details">{{ errors.other_details }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Affected Quantity" v-model="ccir.affected_quantity">
+                        <label for="affected_quantity">Affected Quantity</label>
+                        <input type="text" class="form-control" v-model="ccir.affected_quantity" id="affected_quantity">
                         <span v-if="errors.affected_quantity">{{ errors.affected_quantity }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Quantity of Sample" v-model="ccir.quality_of_sample">
+                        <label for="quality_of_sample">Quantity of sample</label>
+                        <input type="text" class="form-control" v-model="ccir.quality_of_sample" id="quality_of_sample">
                         <span v-if="errors.affected_quantity">{{ errors.affected_quantity }}</span>
                     </div>
                     <div class="form-group">
-                        <datepicker placeholder="Select returned Date" v-model="ccir.returned_date"></datepicker>
+                        <label for="attachments">Returned Date</label>
+                        <datepicker v-model="ccir.returned_date" placeholder="Select returned date" id="returned_date"></datepicker>
                         <span v-if="errors.returned_date">{{ errors.returned_date }}</span>
                     </div>
                     <div class="form-group">
@@ -83,15 +98,27 @@ export default {
                 attached_file: '',
                 verifier_id: '',
                 status: '',
-                remarks: ''
-
+                remarks: '',
             },
+            companies: [],
             attachments: [],
             formData: new FormData(),
             errors: '',
         }
     },
+    created(){
+         this.fetchCompanies();
+    },
     methods: {
+        fetchCompanies(){
+            axios.get('/companies')
+            .then(response => {
+                this.companies = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
         prepareFields(){
             if(this.attachments.length > 0){
                 for(var i = 0; i < this.attachments.length; i++){
@@ -117,6 +144,7 @@ export default {
         addCcir(ccir){
             this.prepareFields();
             this.formData.append('complainant', ccir.complainant);
+            this.formData.append('company', ccir.company_id);
             this.formData.append('commodity', ccir.commodity);
             this.formData.append('product_control_number', ccir.product_control_number);
             this.formData.append('delivery_date', ccir.delivery_date);

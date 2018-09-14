@@ -399,10 +399,14 @@ class DdrController extends Controller
      */
     public function getAllDdrs()
     {
-        $drdrs = Ddr::with(['requester', 'approver', 'company', 'ddrLists'])
-            ->orderBy('id','desc')->get();
+        if(Auth::user()->hasRole('administrator')){
+            $ddrs = Ddr::with(['requester', 'approver', 'company', 'ddrLists'])->orderBy('id','desc')->get();
+        }else{
+            $ddrs = Ddr::with(['requester', 'approver', 'company', 'ddrLists'])
+            ->whereIn('company_id', Auth::user()->companies->pluck('id'))->orderBy('id','desc')->get();
+        }
 
-        return $drdrs;
+        return $ddrs;
     }
 
      /**

@@ -261,7 +261,12 @@ class NcnController extends Controller
      */
     public function getAllNcns()
     {
-        $ncns = Ncn::with(['requester', 'approver', 'company'])->orderBy('id', 'desc')->get();
+        if(Auth::user()->hasRole('administrator')){
+            $ncns = Ncn::with(['requester', 'approver', 'company'])->orderBy('id', 'desc')->get();
+        }else{
+            $ncns = Ncn::with(['requester', 'approver', 'company'])
+            ->whereIn('company_id', Auth::user()->companies->pluck('id'))->orderBy('id','desc')->get();
+        }
 
         return $ncns;
     }

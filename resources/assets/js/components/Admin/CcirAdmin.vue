@@ -88,7 +88,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                      <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
                       <select v-model="selected_status" class="form-control form-control-lg" @change="selectedStatus">
                         <option value="" disabled selected>Option</option>
                         <option value="1">Approved</option>
@@ -237,8 +237,9 @@ export default {
                 'car_number': car_number  
             })
             .then(response => {
-                $('#validateCcir').modal('hide');
-                this.selected_id = '';
+                $('#validateCcirModal').modal('hide');
+                this.selected_id = ' ';
+                window.location.href = response.data.redirect;
             })
             .catch(error => {
                 this.errors = error.response.data.errors;

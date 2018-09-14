@@ -282,8 +282,6 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   Route::get('/ccirs-approved-forms', 'CcirController@approvedForms');
   // Get uploaded files of requester for ccir
   Route::get('/ccir-requester-attachments/{ccirId}/{requesterId}', 'CcirController@getUploadedFilesRequester');
-  // Get uploaded files of verifier for ccir
-  Route::get('/ccir-verifier-attachments/{ccirId}/{verifierId}', 'CcirController@getUploadedFilesApprover');
   // Generate ccir by date
   Route::post('/ccirs-generate', 'CcirController@generate');
 

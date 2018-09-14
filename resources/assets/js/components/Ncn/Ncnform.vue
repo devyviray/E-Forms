@@ -21,7 +21,7 @@
                     <select v-model="ncn.non_conformity_types" class="form-control form-control-lg">
                         <option value="" disabled selected>Type of Non Conformity</option>
                         <option value="1">Customer - returns</option>
-                        <option value="2">Objectibe not met</option>
+                        <option value="2">Objective not met</option>
                         <option value="3">Project related</option>
                         <option value="3">Vendor</option>
                         <option value="3">Contracted - service</option>

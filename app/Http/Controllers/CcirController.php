@@ -74,6 +74,7 @@ class CcirController extends Controller
     {
         $validator  = $request->validate([
             'complainant' => 'required',
+            'company' => 'required',
             'commodity' => 'required',
             'product_control_number' => 'required',
             'delivery_date' => 'required',
@@ -88,7 +89,7 @@ class CcirController extends Controller
         $ccirs  = new Ccir;
         $carbon = new Carbon();
         $ccirs->requester_id = Auth::user()->id;
-        $ccirs->company_id = 1;
+        $ccirs->company_id = $request->input('company');
         $ccirs->complainant = $request->input('complainant');
         $ccirs->commodity = $request->input('commodity');
         $ccirs->brand_name = 'Sample brand name';
@@ -101,9 +102,6 @@ class CcirController extends Controller
         $ccirs->quality_of_sample = $request->input('quality_of_sample');
         $ccirs->returned_date =  \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('returned_date'));
         $ccirs->status = StatusType::SUBMITTED;
-
-        // $setting = Setting::findOrFail('1');
-        // $setting->notify(new RequesterSubmitCcir($ccirs));
 
         if($ccirs->save()){
             
@@ -150,7 +148,7 @@ class CcirController extends Controller
     */
     public function data($id)
     {
-        $ccir = Ccir::with(['company', 'requester'])
+        $ccir = Ccir::with(['company', 'requester', 'verifier'])
                 ->where('id', $id)
                 ->get();
 
@@ -276,22 +274,6 @@ class CcirController extends Controller
         ->where('role', 'requester')
         ->where('model', 'App\Ccir')
         ->get();
-
-        return $uploadedFile;
-    }
-
-     /**
-     * Get approver upload files of ccir 
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getUploadedFilesApprover($ccirId,$verifierId)
-    {
-        $uploadedFile =  UploadedFile::where('user_id', $verifierId)
-            ->where('form_id', $ccirId)
-            ->where('role', 'verifier')
-            ->where('model', 'App\Ccir')
-            ->get();
 
         return $uploadedFile;
     }

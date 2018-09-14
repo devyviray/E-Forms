@@ -64576,8 +64576,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'status': status,
                 'car_number': car_number
             }).then(function (response) {
-                $('#validateCcir').modal('hide');
-                _this2.selected_id = '';
+                $('#validateCcirModal').modal('hide');
+                _this2.selected_id = ' ';
+                window.location.href = response.data.redirect;
             }).catch(function (error) {
                 _this2.errors = error.response.data.errors;
             });
@@ -64975,7 +64976,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "Id" },
+                    attrs: { type: "hidden", placeholder: "Id" },
                     domProps: { value: _vm.selected_id },
                     on: {
                       input: function($event) {
@@ -65760,7 +65761,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -66017,29 +66017,21 @@ var render = function() {
                 _vm._v(" "),
                 _vm.drdrs.length
                   ? _c("td", [
-                      _vm._v(" Rev No. "),
-                      _c("strong", [
-                        _vm._v(" " + _vm._s(_vm.drdrs[0].rev_number) + " ")
-                      ])
+                      _c("strong", [_vm._v("  Rev No. ")]),
+                      _vm._v("  " + _vm._s(_vm.drdrs[0].rev_number) + " ")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _c("td", [_vm._v(" Effective Date ")]),
-                _vm._v(" "),
                 _vm.drdrs.length
                   ? _c("td", [
-                      _vm._v(" Effective Date: "),
-                      _c("strong", [
-                        _vm._v(
-                          " " +
-                            _vm._s(
-                              _vm
-                                .moment(_vm.drdrs[0].effective_date)
-                                .format("LL")
-                            ) +
-                            " "
-                        )
-                      ])
+                      _c("strong", [_vm._v(" Effective Date: ")]),
+                      _vm._v(
+                        " " +
+                          _vm._s(
+                            _vm.moment(_vm.drdrs[0].effective_date).format("LL")
+                          ) +
+                          " "
+                      )
                     ])
                   : _vm._e()
               ]),
@@ -66456,8 +66448,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("td", [
-      _vm._v(" Doc No. "),
-      _c("strong", [_vm._v(" LFQM-F-001 ")])
+      _c("strong", [_vm._v("  Doc No. ")]),
+      _vm._v("  LFQM-F-001 ")
     ])
   },
   function() {
@@ -68028,30 +68020,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 //
 //
 //
@@ -68139,13 +68109,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['ccirId'],
     data: function data() {
         return {
             ccirs: [],
             selectedAttachment: '',
-            verifierAttachments: [],
             requesterAttachments: [],
             errors: ''
         };
@@ -68155,6 +68125,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
         fetchCcirs: function fetchCcirs() {
             var _this = this;
 
@@ -68173,15 +68144,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.requesterAttachments = response.data;
             }).catch(function (error) {
                 _this2.errors = error.response.data.errors;
-            });
-        },
-        fetchUploadedFilesVerifier: function fetchUploadedFilesVerifier() {
-            var _this3 = this;
-
-            axios.get('/ccir-verifier-attachments/' + this.ccirs[0].id + '/' + this.ccirs[0].verifier_id).then(function (response) {
-                _this3.verifierAttachments = response.data;
-            }).catch(function (error) {
-                _this3.errors = error.response.data.errors;
             });
         },
         downloadAttachment: function downloadAttachment() {
@@ -68256,52 +68218,6 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.selectedAttachment,
-              expression: "selectedAttachment"
-            }
-          ],
-          on: {
-            change: [
-              function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.selectedAttachment = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              _vm.downloadAttachment
-            ]
-          }
-        },
-        [
-          _c("option", { attrs: { selected: "", disabled: "" } }, [
-            _vm._v(" Download Attachment - Verifier ")
-          ]),
-          _vm._v(" "),
-          _vm._l(_vm.verifierAttachments, function(verifierAttachment, a) {
-            return _c(
-              "option",
-              { key: a, domProps: { value: verifierAttachment.id } },
-              [_vm._v(_vm._s(verifierAttachment.file_name))]
-            )
-          })
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c(
         "a",
         {
           staticClass: "btn btn-primary",
@@ -68314,91 +68230,150 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
-      _c("table", { staticClass: "table table-bordered" }, [
-        _c("tbody", [
-          _vm._m(1),
-          _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Brand Name:")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "6" } }, [
-                  _vm._v(" " + _vm._s(_vm.ccirs[0].brand_name) + " ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Affected Quantities")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "6" } }, [
-                  _vm._v(" " + _vm._s(_vm.ccirs[0].affected_quantity) + "  ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Product Control No")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "2" } }, [
+      _vm.ccirs.length
+        ? _c("table", { staticClass: "table table-bordered" }, [
+            _c("tbody", [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(2),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(" " + _vm._s(_vm.ccirs[0].requester.name) + " ")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("td", { attrs: { colspan: "6" } }, [
                   _vm._v(
-                    " " + _vm._s(_vm.ccirs[0].product_control_number) + " "
+                    _vm._s(_vm.moment(_vm.ccirs[0].date_request).format("LL")) +
+                      " "
                   )
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("td", [_vm._v("Delivery Date")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "3" } }, [
-                  _vm._v(" " + _vm._s(_vm.ccirs[0].delivery_date) + "  ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Quantity of sample")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "2" } }, [
-                  _vm._v(_vm._s(_vm.ccirs[0].quality_of_sample) + "  ")
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("td", [_vm._v("Return Date")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "3" } }, [
-                  _vm._v(" " + _vm._s(_vm.ccirs[0].returned_date) + "   ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5),
-          _vm._v(" "),
-          _vm._m(6),
-          _vm._v(" "),
-          _c("tr", [
-            _vm._m(7),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "6" } }, [
-                  _vm._v(" " + _vm._s(_vm.ccirs[0].other_details) + " ")
-                ])
-              : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(4),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(" " + _vm._s(_vm.ccirs[0].brand_name) + " ")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(5),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(
+                        " " + _vm._s(_vm.ccirs[0].affected_quantity) + "  "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(6),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(
+                        " " + _vm._s(_vm.ccirs[0].product_control_number) + " "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(7),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.moment(_vm.ccirs[0].delivery_date).format("LL")
+                        )
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(8),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(_vm._s(_vm.ccirs[0].quality_of_sample) + "  ")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(9),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.moment(_vm.ccirs[0].returned_date).format("LL")
+                        )
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(10),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 1
+                  ? _c("td", { attrs: { colspan: "6" } }, [_vm._v("Wet/Lumpy")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 2
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v("Busted Bag")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 3
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v("Under / Over Weight")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 4
+                  ? _c("td", { attrs: { colspan: "6" } }, [_vm._v("Infested")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 5
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v("Dirty Packaging")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 6
+                  ? _c("td", { attrs: { colspan: "6" } }, [_vm._v("Others")])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm.ccirs[0].verifier
+                ? _c("tr", [
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(" " + _vm._s(_vm.ccirs[0].verifier.name) + " ")
+                    ])
+                  ])
+                : _vm._e()
+            ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(8)
+        : _vm._e()
     ])
   ])
 }
@@ -68427,16 +68402,7 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("tr", [
-          _c("td", [
-            _vm._v("  Doc No. "),
-            _c("strong", [_vm._v("LFQM-F-029b")])
-          ]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" Rev No. "), _c("strong", [_vm._v("00")])]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" Effective Date ")]),
-          _vm._v(" "),
-          _c("td")
+          _c("td", [_c("strong", [_vm._v("Doc No.")]), _vm._v(" LFQM-F-029b ")])
         ]),
         _vm._v(" "),
         _c("tr", [
@@ -68461,94 +68427,61 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("Issuer:")]),
-      _vm._v(" "),
-      _c("td", { attrs: { colspan: "6" } })
-    ])
+    return _c("td", [_c("strong", [_vm._v("Issuer:")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("Date of Issuance:")]),
-      _vm._v(" "),
-      _c("td", { attrs: { colspan: "6" } }, [_vm._v(" April 12 2017 ")])
-    ])
+    return _c("td", [_c("strong", [_vm._v("Date of Issuance:")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { rowspan: "3" } }, [_vm._v("Nature of Complaint")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Wet/Lumpy")]),
-      _vm._v(" "),
-      _c("td"),
-      _vm._v(" "),
-      _c("td", [_vm._v("Busted Bag")]),
-      _vm._v(" "),
-      _c("td"),
-      _vm._v(" "),
-      _c("td", [_vm._v("Under / Over Weight")]),
-      _vm._v(" "),
-      _c("td")
-    ])
+    return _c("td", [_c("strong", [_vm._v("Brand Name:")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("Infested")]),
-      _vm._v(" "),
-      _c("td"),
-      _vm._v(" "),
-      _c("td", [_vm._v("Dirty Packaging")]),
-      _vm._v(" "),
-      _c("td"),
-      _vm._v(" "),
-      _c("td", [_vm._v("Others")]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-checkmark-round",
-          staticStyle: { color: "green" }
-        })
-      ])
-    ])
+    return _c("td", [_c("strong", [_vm._v("Affected Quantities")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("For Other please specify:")]),
-      _vm._v(" "),
-      _c("td", { attrs: { colspan: "5" } }, [_vm._v(" quality problem ")])
-    ])
+    return _c("td", [_c("strong", [_vm._v("Product Control No")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_vm._v(" Other Details:"), _c("br")])
+    return _c("td", [_c("strong", [_vm._v("Delivery Date")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table table-bordered" }, [
-      _c("tbody", [
-        _c("tr", [
-          _c("td", { attrs: { width: "50%" } }, [_vm._v("Prepared By:")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Cheryl Calipes ")])
-        ])
-      ])
-    ])
+    return _c("td", [_c("strong", [_vm._v("Quantity of sample")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Return Date")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Nature of Complaint")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v(" Verified By: ")])])
   }
 ]
 render._withStripped = true
@@ -85529,7 +85462,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("option", { attrs: { value: "2" } }, [
-                  _vm._v("Objectibe not met")
+                  _vm._v("Objective not met")
                 ]),
                 _vm._v(" "),
                 _c("option", { attrs: { value: "3" } }, [
@@ -88252,6 +88185,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -88279,15 +88227,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 verifier_id: '',
                 status: '',
                 remarks: ''
-
             },
+            companies: [],
             attachments: [],
             formData: new FormData(),
             errors: ''
         };
     },
+    created: function created() {
+        this.fetchCompanies();
+    },
 
     methods: {
+        fetchCompanies: function fetchCompanies() {
+            var _this = this;
+
+            axios.get('/companies').then(function (response) {
+                _this.companies = response.data;
+            }).catch(function (error) {
+                _this.errors = error.response.data.errors;
+            });
+        },
         prepareFields: function prepareFields() {
             if (this.attachments.length > 0) {
                 for (var i = 0; i < this.attachments.length; i++) {
@@ -88310,10 +88270,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.attachments = [];
         },
         addCcir: function addCcir(ccir) {
-            var _this = this;
+            var _this2 = this;
 
             this.prepareFields();
             this.formData.append('complainant', ccir.complainant);
+            this.formData.append('company', ccir.company_id);
             this.formData.append('commodity', ccir.commodity);
             this.formData.append('product_control_number', ccir.product_control_number);
             this.formData.append('delivery_date', ccir.delivery_date);
@@ -88326,10 +88287,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.formData.append('returned_date', ccir.returned_date);
 
             axios.post('/ccir', this.formData).then(function (response) {
-                _this.resetData();
+                _this2.resetData();
                 window.location.href = response.data.redirect;
             }).catch(function (error) {
-                _this.errors = error.response.data.errors;
+                _this2.errors = error.response.data.errors;
             });
         }
     },
@@ -88351,6 +88312,10 @@ var render = function() {
       _c("div", { staticClass: "col-md-12" }, [
         _c("form", [
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "complainant" } }, [
+              _vm._v("Complainant")
+            ]),
+            _vm._v(" "),
             _c("input", {
               directives: [
                 {
@@ -88361,7 +88326,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Complainant" },
+              attrs: { type: "text", id: "complainant" },
               domProps: { value: _vm.ccir.complainant },
               on: {
                 input: function($event) {
@@ -88379,6 +88344,62 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.ccir.company_id,
+                    expression: "ccir.company_id"
+                  }
+                ],
+                staticClass: "form-control form-control-lg",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.ccir,
+                      "company_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              [
+                _c(
+                  "option",
+                  { attrs: { value: "", disabled: "", selected: "" } },
+                  [_vm._v("Select Company")]
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.companies, function(company, c) {
+                  return _c(
+                    "option",
+                    { key: c, domProps: { value: company.id } },
+                    [_vm._v(_vm._s(company.name + " - " + company.address))]
+                  )
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _vm.errors.company
+              ? _c("span", [_vm._v(_vm._s(_vm.errors.company))])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "commodity" } }, [_vm._v("Commodity")]),
+            _vm._v(" "),
             _c("input", {
               directives: [
                 {
@@ -88389,7 +88410,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Commodity" },
+              attrs: { type: "text", id: "commodity" },
               domProps: { value: _vm.ccir.commodity },
               on: {
                 input: function($event) {
@@ -88407,6 +88428,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "product_control_number" } }, [
+              _vm._v("Product control number")
+            ]),
+            _vm._v(" "),
             _c("input", {
               directives: [
                 {
@@ -88417,7 +88442,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Product control number" },
+              attrs: { type: "text", id: "product_control_number" },
               domProps: { value: _vm.ccir.product_control_number },
               on: {
                 input: function($event) {
@@ -88442,8 +88467,15 @@ var render = function() {
             "div",
             { staticClass: "form-group" },
             [
+              _c("label", { attrs: { for: "delivery_date" } }, [
+                _vm._v("Delivery date")
+              ]),
+              _vm._v(" "),
               _c("datepicker", {
-                attrs: { placeholder: "Select Delivery Date" },
+                attrs: {
+                  id: "delivery_date",
+                  placeholder: "Select delivery date"
+                },
                 model: {
                   value: _vm.ccir.delivery_date,
                   callback: function($$v) {
@@ -88522,6 +88554,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "other_details" } }, [
+              _vm._v("Other Details")
+            ]),
+            _vm._v(" "),
             _c("textarea", {
               directives: [
                 {
@@ -88532,7 +88568,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { placeholder: "Other Details" },
+              attrs: { id: "other_details" },
               domProps: { value: _vm.ccir.other_details },
               on: {
                 input: function($event) {
@@ -88550,6 +88586,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "affected_quantity" } }, [
+              _vm._v("Affected Quantity")
+            ]),
+            _vm._v(" "),
             _c("input", {
               directives: [
                 {
@@ -88560,7 +88600,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Affected Quantity" },
+              attrs: { type: "text", id: "affected_quantity" },
               domProps: { value: _vm.ccir.affected_quantity },
               on: {
                 input: function($event) {
@@ -88578,6 +88618,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "quality_of_sample" } }, [
+              _vm._v("Quantity of sample")
+            ]),
+            _vm._v(" "),
             _c("input", {
               directives: [
                 {
@@ -88588,7 +88632,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Quantity of Sample" },
+              attrs: { type: "text", id: "quality_of_sample" },
               domProps: { value: _vm.ccir.quality_of_sample },
               on: {
                 input: function($event) {
@@ -88609,8 +88653,15 @@ var render = function() {
             "div",
             { staticClass: "form-group" },
             [
+              _c("label", { attrs: { for: "attachments" } }, [
+                _vm._v("Returned Date")
+              ]),
+              _vm._v(" "),
               _c("datepicker", {
-                attrs: { placeholder: "Select returned Date" },
+                attrs: {
+                  placeholder: "Select returned date",
+                  id: "returned_date"
+                },
                 model: {
                   value: _vm.ccir.returned_date,
                   callback: function($$v) {
@@ -88720,6 +88771,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 //
 //
 //
@@ -88799,23 +88852,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -88829,6 +88866,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
         fetchCcirs: function fetchCcirs() {
             var _this = this;
 
@@ -88858,83 +88896,150 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
-      _c("table", { staticClass: "table table-bordered" }, [
-        _c("tbody", [
-          _vm._m(1),
-          _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Brand Name:")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "6" } }, [
-                  _vm._v(" " + _vm._s(_vm.ccirs[0].brand_name) + " ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Affected Quantities")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "6" } }, [
-                  _vm._v(" " + _vm._s(_vm.ccirs[0].affected_quantity) + " ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Product Control No")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "2" } }, [
+      _vm.ccirs.length
+        ? _c("table", { staticClass: "table table-bordered" }, [
+            _c("tbody", [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(2),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(" " + _vm._s(_vm.ccirs[0].requester.name) + " ")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("td", { attrs: { colspan: "6" } }, [
                   _vm._v(
-                    " " + _vm._s(_vm.ccirs[0].product_control_number) + " "
+                    _vm._s(_vm.moment(_vm.ccirs[0].date_request).format("LL")) +
+                      " "
                   )
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("td", [_vm._v("Delivery Date")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "3" } }, [
-                  _vm._v(" " + _vm._s(_vm.ccirs[0].delivery_date) + "  ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Quantity of sample")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "2" } }, [
-                  _vm._v("  " + _vm._s(_vm.ccirs[0].quality_of_sample) + " ")
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("td", [_vm._v("Return Date")]),
-            _vm._v(" "),
-            _vm.ccirs.length
-              ? _c("td", { attrs: { colspan: "3" } }, [
-                  _vm._v(" " + _vm._s(_vm.ccirs[0].returned_date) + " ")
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5),
-          _vm._v(" "),
-          _vm._m(6),
-          _vm._v(" "),
-          _vm._m(7)
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(8)
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(4),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(" " + _vm._s(_vm.ccirs[0].brand_name) + " ")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(5),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(
+                        " " + _vm._s(_vm.ccirs[0].affected_quantity) + "  "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(6),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(
+                        " " + _vm._s(_vm.ccirs[0].product_control_number) + " "
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(7),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.moment(_vm.ccirs[0].delivery_date).format("LL")
+                        )
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(8),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(_vm._s(_vm.ccirs[0].quality_of_sample) + "  ")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(9),
+                _vm._v(" "),
+                _vm.ccirs.length
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.moment(_vm.ccirs[0].returned_date).format("LL")
+                        )
+                      )
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _vm._m(10),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 1
+                  ? _c("td", { attrs: { colspan: "6" } }, [_vm._v("Wet/Lumpy")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 2
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v("Busted Bag")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 3
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v("Under / Over Weight")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 4
+                  ? _c("td", { attrs: { colspan: "6" } }, [_vm._v("Infested")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 5
+                  ? _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v("Dirty Packaging")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ccirs[0].nature_of_complaint == 6
+                  ? _c("td", { attrs: { colspan: "6" } }, [_vm._v("Others")])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm.ccirs[0].verifier
+                ? _c("tr", [
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _c("td", { attrs: { colspan: "6" } }, [
+                      _vm._v(" " + _vm._s(_vm.ccirs[0].verifier.name) + " ")
+                    ])
+                  ])
+                : _vm._e()
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -88963,21 +89068,12 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("tr", [
-          _c("td", [
-            _vm._v("  Doc No. "),
-            _c("strong", [_vm._v("LFQM-F-029b")])
-          ]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" Rev No. "), _c("strong", [_vm._v("00")])]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" Effective Date ")]),
-          _vm._v(" "),
-          _c("td")
+          _c("td", [_c("strong", [_vm._v("Doc No.")]), _vm._v(" LFQM-F-029b ")])
         ]),
         _vm._v(" "),
         _c("tr", [
           _c("td", { attrs: { colspan: "5" } }, [
-            _vm._v(" CUSTOMER COMPLAINT REPORT ")
+            _vm._v(" CUSTOMER COMPLAINT REPORT")
           ])
         ])
       ])
@@ -88997,100 +89093,61 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("Issuer:")]),
-      _vm._v(" "),
-      _c("td", { attrs: { colspan: "6" } })
-    ])
+    return _c("td", [_c("strong", [_vm._v("Issuer:")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("Date of Issuance:")]),
-      _vm._v(" "),
-      _c("td", { attrs: { colspan: "6" } }, [_vm._v(" May 09 2017 ")])
-    ])
+    return _c("td", [_c("strong", [_vm._v("Date of Issuance:")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { rowspan: "3" } }, [_vm._v("Nature of Complaint")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Wet/Lumpy")]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-checkmark-round",
-          staticStyle: { color: "green" }
-        })
-      ]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Busted Bag")]),
-      _vm._v(" "),
-      _c("td"),
-      _vm._v(" "),
-      _c("td", [_vm._v("Under / Over Weight")]),
-      _vm._v(" "),
-      _c("td")
-    ])
+    return _c("td", [_c("strong", [_vm._v("Brand Name:")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("Infested")]),
-      _vm._v(" "),
-      _c("td"),
-      _vm._v(" "),
-      _c("td", [_vm._v("Dirty Packaging")]),
-      _vm._v(" "),
-      _c("td"),
-      _vm._v(" "),
-      _c("td", [_vm._v("Others")]),
-      _vm._v(" "),
-      _c("td")
-    ])
+    return _c("td", [_c("strong", [_vm._v("Affected Quantities")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("For Other please specify:")]),
-      _vm._v(" "),
-      _c("td", { attrs: { colspan: "5" } })
-    ])
+    return _c("td", [_c("strong", [_vm._v("Product Control No")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v(" Other Details:"), _c("br")]),
-      _vm._v(" "),
-      _c("td", { attrs: { colspan: "6" } }, [
-        _vm._v(" Sack with plastic liner.")
-      ])
-    ])
+    return _c("td", [_c("strong", [_vm._v("Delivery Date")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table table-bordered" }, [
-      _c("tbody", [
-        _c("tr", [
-          _c("td", { attrs: { width: "50%" } }, [_vm._v("Prepared By:")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Pepsi")])
-        ])
-      ])
-    ])
+    return _c("td", [_c("strong", [_vm._v("Quantity of sample")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Return Date")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Nature of Complaint")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v(" Verified By: ")])])
   }
 ]
 render._withStripped = true

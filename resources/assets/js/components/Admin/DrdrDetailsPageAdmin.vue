@@ -29,10 +29,9 @@
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
                     <tr>
-                        <td> Doc No. <strong> LFQM-F-001 </strong> </td>
-                        <td v-if="drdrs.length"> Rev No. <strong> {{ drdrs[0].rev_number }} </strong> </td>
-                        <td> Effective Date </td>
-                        <td v-if="drdrs.length"> Effective Date: <strong> {{ moment(drdrs[0].effective_date).format('LL') }} </strong></td>
+                        <td> <strong>  Doc No. </strong>  LFQM-F-001 </td>
+                        <td v-if="drdrs.length"><strong>  Rev No. </strong>  {{ drdrs[0].rev_number }} </td>
+                        <td v-if="drdrs.length"><strong> Effective Date: </strong> {{ moment(drdrs[0].effective_date).format('LL') }} </td>
                     </tr>
                     <tr>
                         <td colspan="5"> DOCUMENT REVIEW and DISTRIBUTION REQUEST </td>

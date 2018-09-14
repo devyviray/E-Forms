@@ -33,4 +33,8 @@ class Ccir extends Model
     {
         return $this->belongsTo('App\Company');
     }
+
+    public function verifier(){
+        return $this->belongsTo('App\User', 'verifier_id');
+    }
 }
