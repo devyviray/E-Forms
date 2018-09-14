@@ -3,55 +3,64 @@
     <head>
         <title>PDF Download</title>
             <style>
-                body {
-                font-family: 'Miriam Libre', sans-serif;
-                font-size: 70%;
-                }
-                h1,h2,h3,h4,h5,h6{
-                    font-family: 'Miriam Libre', sans-serif;
+                table {
+                width:100%;
                 }
                 table, th, td {
-                border: 0.50px solid black ! important;
+                    border: 1px solid black;
+                    border-collapse: collapse;
                 }
-                .borderless, .borderless th, .borderless td {
-                    border: 0 ! important;
-                    font-size: 12px;
+                th, td {
+                    padding: 15px;
+                    text-align: left;
+                }
+                table#t01 tr:nth-child(even) {
+                    background-color: #eee;
+                }
+                table#t01 tr:nth-child(odd) {
+                background-color: #fff;
+                }
+                table#t01 th {
+                    background-color: black;
+                    color: white;
                 }
             </style>
     </head>
     <body>
-        <table class="table table-bordered" width="100%">
+        <table style="margin-bottom:30px">
             <tr>
-            <td rowspan="3" width="60px;">
-                    <img class="logo-logo" src="{{asset('image/lfug-logo.png')}}" 
-                    style="display:block;  width: 60px; height: auto; padding: 0;">
+                <td rowspan="4">
+                    <img class="logo-logo" src="http://172.17.2.88/e-forms-test/public/image/lfug-logo.png" 
+                        style="display:block;  width: 60px; height: auto; padding: 0;">
                 </td>
-                <td colspan="5" >La Filipina Uy Gongco Group of Companies</td>
+            <td colspan="5">La Filipina Uy Gongco Group of Companies</td>
             </tr>
             <tr>
-                <td>  Doc No. <strong>LFQM-F-001</strong> </td>
-                <td> Rev No. <strong>04</strong> </td>
-                    <td> Effective Date </td>
-                <td colspan="2"> {{ $drdr[0]->effective_date }}</td>
+                <td><strong> Doc No.</strong> </td>
+                <td colspan="4"></td>
             </tr>
             <tr>
-                <td colspan="5"> DOCUMENT REVIEW AND DISTRIBUTION REQUEST </td>
+                <td><strong>Rev No. </strong> </td>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td><strong> Effective Date </strong></td>
+                <td colspan="4"> {{ $drdr[0]->effective_date }}</td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:center"> DOCUMENT REVIEW AND DISTRIBUTION REQUEST </td>
             </tr>
         </table>
 
-        <table class="table borderless">
+        <table>
             <tr>
-                <td> <strong> </strong> </td>
                 <td> <strong> Document Title: </strong> </td>
-                <td>  </td>
+                <td colspan="2">  </td>
                 <td> <strong> Rev. No: </strong> </td>
                 <td colspan="3">{{ $drdr[0]->rev_number }}</td>
             </tr>
             <tr>
                 <td colspan="7"> <strong> Reason for proposal / change / cancellation: </strong> {{ $drdr[0]->reason_request }} </td>
-            </tr>
-            <tr>
-                <td colspan="7"> </td>
             </tr>
             <tr>
                 <td><strong>Requested by:</strong></td>
@@ -63,7 +72,7 @@
             </tr>
         </table>
         
-        <table class="table borderless" width="100%">
+        <table>
             <tr>
                 <td width="15%"> <strong> Reviewed by: </strong> </td>
                 <td> {{ $drdr[0]->reviewer->name }} </td>
@@ -82,7 +91,7 @@
             </tr>
         </table>
 
-        <table class="table" width="100%">
+        <table>
             <tr>
                 <td class="info"> <strong> Considered Documents in reviewing: </strong> </td>
             </tr>
@@ -91,11 +100,11 @@
             </tr>
         </table>
 
-        <table class="table table-bordered" width="100%">
+        <table>
             <thead>
                 <tr>
-                    <td class="info">Copy No.  {{ $drdr[0]->copy_number  }} </td>
-                    <td class="info">Copyholder  {{ $drdr[0]->copy_holder  }}  </td>
+                    <td>Copy No.  {{ $drdr[0]->copy_number  }} </td>
+                    <td>Copyholder  {{ $drdr[0]->copy_holder  }}  </td>
                     <td rowspan=""> 
                         <strong>Effective date: </strong> <br/>
                         <strong style="margin-top: 10px;">DRDR NO:</strong> <br/>
@@ -113,16 +122,16 @@
             </tbody>
         </table>
         
-        <table class="table" style="border: 0 ! important;">
+        <table>
             <tr>
-                <td width="80px" style="border: 0 ! important;">Verified by:</td>
-                <td colspan="3" style="border: 0 ! important;"> </td>
+                <td>Verified by:</td>
+                <td colspan="3"> </td>
             </tr>
             <tr>
-                <td width="80px" style="border: 0 ! important;">Position:</td>
-                <td style="border: 0 ! important;"> </td>
-                <td width="80px" style="border: 0 ! important;">Date:</td>
-                <td style="border: 0 ! important;"> </td>
+                <td>Position:</td>
+                <td > </td>
+                <td>Date:</td>
+                <td> </td>
             </tr>
         </table>
     </body>

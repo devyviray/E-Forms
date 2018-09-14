@@ -30,7 +30,7 @@
                 </thead>    
                 <tbody>
                     <tr v-for="ccir in filteredQueues" v-bind:key="ccir.id">
-                        <td @click="viewCcirDetails(ccir.id)">{{ ccir.id }}</td>
+                        <td>{{ ccir.id }}</td>
                         <td>{{ ccir.requester.name }}</td>
                         <td>{{ ccir.brand_name }}</td>
                         <td>
@@ -53,6 +53,7 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a @click="viewCcirDetails(ccir.id)" class="dropdown-item" href="javascript:void(0)">View</a>
                                     <a v-if="ccir.status != 9 && ccir.status != 10" @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#validateCcirModal" href="javascript:void(0)">Validate</a>
                                     <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#trashCcirModal" href="javascript:void(0)">Move to trash</a>
                                     <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#archieveCcirModal" href="javascript:void(0)">Mark as archive</a>
