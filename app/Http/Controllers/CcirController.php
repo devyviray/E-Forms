@@ -83,7 +83,8 @@ class CcirController extends Controller
             'delivery_date' => 'required',
             'affected_quantity' => 'required',
             'quality_of_sample' => 'required',
-            'returned_date' => 'required'
+            'returned_date' => 'required',
+            'attachments' => 'required'
         ]);
 
         $ccirs  = new Ccir;

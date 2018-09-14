@@ -4,52 +4,60 @@
           <div class="col-md-12">
               <form>
                 <div class="form-group">
-                    <select v-model="company.id" class="form-control form-control-lg" @change="getCompanyId(company.id)">
+                    <label for="company">Company</label>
+                    <select v-model="company.id" class="form-control form-control-lg" @change="getCompanyId(company.id)" id="company">
                         <option value="" disabled selected>Select Company</option>
                         <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
                     </select>
                     <span v-if="errors.company">{{ errors.company }}</span>
                 </div>
                 <div class="form-group">
-                    <select v-model="department.id" class="form-control form-control-lg" @change="getDepartmentId(department.id)">
+                    <label for="department">Department</label>
+                    <select v-model="department.id" class="form-control form-control-lg" @change="getDepartmentId(department.id)" id="department">
                         <option value="" disabled selected>Select Department</option>
                         <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
                     </select>
                     <span v-if="errors.department">{{ errors.department }}</span>
                 </div>
                 <div class="form-group">
-                    <select v-model="ncn.non_conformity_types" class="form-control form-control-lg">
-                        <option value="" disabled selected>Type of Non Conformity</option>
-                        <option value="1">Customer - returns</option>
-                        <option value="2">Objective not met</option>
-                        <option value="3">Project related</option>
-                        <option value="3">Vendor</option>
-                        <option value="3">Contracted - service</option>
-                        <option value="3">Others</option>
+                    <label for="non_conformity_types">Type of Non Conformity</label>
+                    <select v-model="ncn.non_conformity_types" class="form-control form-control-lg" id="non_conformity_types">
+                        <option value="" disabled selected>Select type</option>
+                        <option value="1">Customer - Returns</option>
+                        <option value="2">Objective not Met</option>
+                        <option value="3">Project Related</option>
+                        <option value="4">Vendor</option>
+                        <option value="5">Contracted - Service</option>
+                        <option value="6">Others</option>
                     </select>
                     <span v-if="errors.non_conformity_types">{{ errors.non_conformity_types }}</span>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Notification number" v-model="ncn.notification_number">
+       Contracted - Service             <label for="notification_number">Notification number</label>
+                    <input type="text" class="form-control" v-model="ncn.notification_number" id="notification_number">
                     <span v-if="errors.notification_number">{{ errors.notification_number }}</span>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Recurrence number" v-model="ncn.recurrence_number">
+                    <label for="recurrence_number">Reccurrence number</label>
+                    <input type="text" class="form-control" v-model="ncn.recurrence_number" id="recurrence_number">
                     <span v-if="errors.recurrence_number">{{ errors.recurrence_number }}</span>
                 </div>
                 <div class="form-group">
-                    <datepicker placeholder="Select Issuance Date" v-model="ncn.issuance_date"></datepicker>
+                    <label for="issuance_date">Issuance Date</label>
+                    <datepicker placeholder="Select Issuance Date" v-model="ncn.issuance_date" id="issuance_date"></datepicker>
                     <span v-if="errors.issuance_date">{{ errors.issuance_date }}</span>
                 </div>
                 <div class="form-group">
-                    <select v-model="approver.id" class="form-control form-control-lg">
+                    <label for="approver">Approver</label>
+                    <select v-model="approver.id" class="form-control form-control-lg" id="approver">
                         <option value="" disabled selected>Select Approver</option>
                         <option v-for="(approver, a) in approvers" :value="approver.id" v-bind:key="a">{{ approver.name }}</option>
                     </select>
                     <span v-if="errors.approver">{{ errors.approver }}</span>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" placeholder="Details of Non-Conformity" v-model="ncn.non_conformity_details"></textarea>
+                    <label for="non_conformity_details">Details of Non-Conformity</label>
+                    <textarea class="form-control" v-model="ncn.non_conformity_details" id="non_conformity_details"></textarea>
                     <span v-if="errors.non_conformity_details">{{ errors.non_conformity_details }}</span>
                 </div>
                 <div class="form-group">

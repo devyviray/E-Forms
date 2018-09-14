@@ -25,6 +25,7 @@ class NcnController extends Controller
     {
         $ncns = Ncn::with('requester')
                 ->where('approver_id', Auth::user()->id)
+                ->where('status', StatusType::SUBMITTED)
                 ->orderBy('id', 'desc')->get();
 
         return $ncns;
@@ -49,7 +50,7 @@ class NcnController extends Controller
      */
     public function approvedForms(){
         $ncns = Ncn::with('requester')->where('approver_id', Auth::user()->id)
-            ->where('status','!=' , StatusType::APPROVED_REVIEWER)
+            ->where('status','!=' , StatusType::SUBMITTED)
             ->orderBy('id','desc')->get();
 
         return $ncns;
@@ -101,11 +102,11 @@ class NcnController extends Controller
         $ncn->non_conformity_details = $request->input('non_conformity_details');
         $ncn->status = StatusType::SUBMITTED;
 
-        $user = User::findOrFail($request->input('approver_id'));
-        $user->notify(new RequesterSubmitNcn($ncn));
-
 
         if($ncn->save()){
+            $user = User::findOrFail($request->input('approver_id'));
+            $user->notify(new RequesterSubmitNcn($ncn));
+            
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){
                 $filename = $attachment->getClientOriginalName();

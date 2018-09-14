@@ -85139,6 +85139,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -85298,6 +85306,8 @@ var render = function() {
       _c("div", { staticClass: "col-md-12" }, [
         _c("form", [
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "company" } }, [_vm._v("Company")]),
+            _vm._v(" "),
             _c(
               "select",
               {
@@ -85310,6 +85320,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control form-control-lg",
+                attrs: { id: "company" },
                 on: {
                   change: [
                     function($event) {
@@ -85359,6 +85370,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "department" } }, [
+              _vm._v("Department")
+            ]),
+            _vm._v(" "),
             _c(
               "select",
               {
@@ -85371,6 +85386,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control form-control-lg",
+                attrs: { id: "department" },
                 on: {
                   change: [
                     function($event) {
@@ -85420,6 +85436,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "non_conformity_types" } }, [
+              _vm._v("Type of Non Conformity")
+            ]),
+            _vm._v(" "),
             _c(
               "select",
               {
@@ -85432,6 +85452,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control form-control-lg",
+                attrs: { id: "non_conformity_types" },
                 on: {
                   change: function($event) {
                     var $$selectedVal = Array.prototype.filter
@@ -85454,28 +85475,28 @@ var render = function() {
                 _c(
                   "option",
                   { attrs: { value: "", disabled: "", selected: "" } },
-                  [_vm._v("Type of Non Conformity")]
+                  [_vm._v("Select type")]
                 ),
                 _vm._v(" "),
                 _c("option", { attrs: { value: "1" } }, [
-                  _vm._v("Customer - returns")
+                  _vm._v("Customer - Returns")
                 ]),
                 _vm._v(" "),
                 _c("option", { attrs: { value: "2" } }, [
-                  _vm._v("Objective not met")
+                  _vm._v("Objective not Met")
                 ]),
                 _vm._v(" "),
                 _c("option", { attrs: { value: "3" } }, [
-                  _vm._v("Project related")
+                  _vm._v("Project Related")
                 ]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [_vm._v("Vendor")]),
+                _c("option", { attrs: { value: "4" } }, [_vm._v("Vendor")]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [
-                  _vm._v("Contracted - service")
+                _c("option", { attrs: { value: "5" } }, [
+                  _vm._v("Contracted - Service")
                 ]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [_vm._v("Others")])
+                _c("option", { attrs: { value: "6" } }, [_vm._v("Others")])
               ]
             ),
             _vm._v(" "),
@@ -85485,6 +85506,11 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _vm._v("\n     Contracted - Service             "),
+            _c("label", { attrs: { for: "notification_number" } }, [
+              _vm._v("Notification number")
+            ]),
+            _vm._v(" "),
             _c("input", {
               directives: [
                 {
@@ -85495,7 +85521,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Notification number" },
+              attrs: { type: "text", id: "notification_number" },
               domProps: { value: _vm.ncn.notification_number },
               on: {
                 input: function($event) {
@@ -85513,6 +85539,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "recurrence_number" } }, [
+              _vm._v("Reccurrence number")
+            ]),
+            _vm._v(" "),
             _c("input", {
               directives: [
                 {
@@ -85523,7 +85553,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Recurrence number" },
+              attrs: { type: "text", id: "recurrence_number" },
               domProps: { value: _vm.ncn.recurrence_number },
               on: {
                 input: function($event) {
@@ -85544,8 +85574,15 @@ var render = function() {
             "div",
             { staticClass: "form-group" },
             [
+              _c("label", { attrs: { for: "issuance_date" } }, [
+                _vm._v("Issuance Date")
+              ]),
+              _vm._v(" "),
               _c("datepicker", {
-                attrs: { placeholder: "Select Issuance Date" },
+                attrs: {
+                  placeholder: "Select Issuance Date",
+                  id: "issuance_date"
+                },
                 model: {
                   value: _vm.ncn.issuance_date,
                   callback: function($$v) {
@@ -85563,6 +85600,8 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "approver" } }, [_vm._v("Approver")]),
+            _vm._v(" "),
             _c(
               "select",
               {
@@ -85575,6 +85614,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control form-control-lg",
+                attrs: { id: "approver" },
                 on: {
                   change: function($event) {
                     var $$selectedVal = Array.prototype.filter
@@ -85617,6 +85657,10 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "non_conformity_details" } }, [
+              _vm._v("Details of Non-Conformity")
+            ]),
+            _vm._v(" "),
             _c("textarea", {
               directives: [
                 {
@@ -85627,7 +85671,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { placeholder: "Details of Non-Conformity" },
+              attrs: { id: "non_conformity_details" },
               domProps: { value: _vm.ncn.non_conformity_details },
               on: {
                 input: function($event) {
@@ -86232,6 +86276,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 //
 //
 //
@@ -86336,6 +86382,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -86356,6 +86411,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
         fetchNcn: function fetchNcn() {
             var _this = this;
 
@@ -86453,7 +86509,29 @@ var render = function() {
               _vm._m(4),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-6" }, [
-                _c("span", [_vm._v(_vm._s(_vm.ncns[0].non_conformity_types))])
+                _vm.ncns[0].non_conformity_types == 1
+                  ? _c("span", [_vm._v(_vm._s("Customer - Returns"))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ncns[0].non_conformity_types == 2
+                  ? _c("span", [_vm._v(_vm._s("Objective not Met"))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ncns[0].non_conformity_types == 3
+                  ? _c("span", [_vm._v(_vm._s("Project Related"))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ncns[0].non_conformity_types == 4
+                  ? _c("span", [_vm._v(_vm._s("Vendor"))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ncns[0].non_conformity_types == 5
+                  ? _c("span", [_vm._v(_vm._s("Contracted - Service"))])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.ncns[0].non_conformity_types == 6
+                  ? _c("span", [_vm._v(_vm._s("Others"))])
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -86477,7 +86555,11 @@ var render = function() {
               _vm._m(7),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-" }, [
-                _c("span", [_vm._v(_vm._s(_vm.ncns[0].issuance_date))])
+                _c("span", [
+                  _vm._v(
+                    _vm._s(_vm.moment(_vm.ncns[0].issuance_date).format("LL"))
+                  )
+                ])
               ])
             ]),
             _vm._v(" "),
@@ -86513,6 +86595,10 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "status" } }, [
+                  _vm._v("Select status")
+                ]),
+                _vm._v(" "),
                 _c(
                   "select",
                   {
@@ -86525,6 +86611,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control form-control-lg",
+                    attrs: { id: "status" },
                     on: {
                       change: [
                         function($event) {
@@ -86570,9 +86657,13 @@ var render = function() {
                   : _vm._e()
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _vm.show
-                  ? _c(
+              _vm.show
+                ? _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "notified" } }, [
+                      _vm._v("Notified Person")
+                    ]),
+                    _vm._v(" "),
+                    _c(
                       "select",
                       {
                         directives: [
@@ -86584,6 +86675,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control form-control-lg",
+                        attrs: { id: "notified" },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -86604,20 +86696,29 @@ var render = function() {
                           }
                         }
                       },
-                      _vm._l(_vm.notifieds, function(notified, n) {
-                        return _c(
+                      [
+                        _c(
                           "option",
-                          { key: n, domProps: { value: notified.id } },
-                          [_vm._v(_vm._s(notified.name))]
-                        )
-                      })
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.errors.status
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.status))])
-                  : _vm._e()
-              ]),
+                          { attrs: { value: "", disabled: "", selected: "" } },
+                          [_vm._v("Select Notified Person")]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.notifieds, function(notified, n) {
+                          return _c(
+                            "option",
+                            { key: n, domProps: { value: notified.id } },
+                            [_vm._v(_vm._s(notified.name))]
+                          )
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm.errors.status
+                      ? _c("span", [_vm._v(_vm._s(_vm.errors.status))])
+                      : _vm._e()
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "reason_request" } }, [

@@ -39,7 +39,12 @@
                         <span>Type of Non-conformity:</span>
                     </div>
                     <div class="col-md-6">
-                        <span>{{ ncns[0].non_conformity_types }}</span>
+                        <span v-if="ncns[0].non_conformity_types == 1">{{ 'Customer - Returns' }}</span>
+                        <span v-if="ncns[0].non_conformity_types == 2">{{ 'Objective not Met' }}</span> 
+                        <span v-if="ncns[0].non_conformity_types == 3">{{ 'Project Related' }}</span>
+                        <span v-if="ncns[0].non_conformity_types == 4">{{ 'Vendor' }}</span>
+                        <span v-if="ncns[0].non_conformity_types == 5">{{ 'Contracted - Service' }}</span>
+                        <span v-if="ncns[0].non_conformity_types == 6">{{ 'Others' }}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -63,7 +68,7 @@
                         <span>Date of issuance:</span>
                     </div>
                     <div class="col-md-">
-                        <span>{{ ncns[0].issuance_date }}</span>
+                        <span>{{ moment(ncns[0].issuance_date).format('LL') }}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -77,15 +82,18 @@
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-model="ncns[0].id">
                     <div class="form-group">
-                       <select v-model="ncn.status" class="form-control form-control-lg" @change="selectedStatus">
+                       <label for="status">Select status</label>
+                       <select v-model="ncn.status" class="form-control form-control-lg" @change="selectedStatus" id="status">
                            <option value="" disabled selected>Select Status</option>
                            <option value="1">Approved</option>
                            <option value="2">Disapproved</option>
                        </select>
                         <span v-if="errors.status">{{ errors.status }}</span>
                     </div>
-                    <div class="form-group">
-                       <select v-if="show" v-model="ncn.notified" class="form-control form-control-lg">
+                    <div class="form-group" v-if="show">
+                       <label for="notified">Notified Person</label>
+                       <select v-model="ncn.notified" class="form-control form-control-lg" id="notified">
+                           <option value="" disabled selected>Select Notified Person</option>
                            <option v-for="(notified, n) in notifieds"  v-bind:key="n" :value="notified.id">{{ notified.name }}</option>
                        </select>
                         <span v-if="errors.status">{{ errors.status }}</span>
@@ -103,6 +111,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -121,6 +130,7 @@ export default {
         this.fetchNcn();
     },
     methods:{
+        moment,
        fetchNcn(){
             var url = window.location.href;
             var id = url.match(/[^\/]+$/)[0];
