@@ -304,4 +304,11 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   Route::get('/ncns-notified/{companyId}/{departmentId}', 'NcnController@getNotifiedPersonnel');
 });
 
+// Accessible routes for notified person
+Route::group(['middleware' => ['auth', 'role:notified']], function () {
 
+  Route::get('/notified-page', 'NcnController@notifiedIndex')->name('notified');
+  Route::get('/ncns-notified', 'NcnController@notifiedIndexData');
+  Route::post('/notified/ncn-notified', 'NcnController@validateNcn');
+
+});

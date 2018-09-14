@@ -33,7 +33,7 @@
                     <span v-if="errors.non_conformity_types">{{ errors.non_conformity_types }}</span>
                 </div>
                 <div class="form-group">
-       Contracted - Service             <label for="notification_number">Notification number</label>
+                    <label for="notification_number">Notification number</label>
                     <input type="text" class="form-control" v-model="ncn.notification_number" id="notification_number">
                     <span v-if="errors.notification_number">{{ errors.notification_number }}</span>
                 </div>

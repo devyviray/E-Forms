@@ -61,7 +61,18 @@
                                         <p>Ncn</p>
                                     </a>
                                 </li>
+                            
                             </ul>
+                        </li>
+                        <li>
+                        @role('notified') 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('notified') }}">
+                                <i class="nc-icon nc-circle-09"></i>
+                                <p>Notified</p>
+                            </a>
+                        </li>
+                        @endrole
                         </li>
                         <li>
                             @role('administrator,mr') 

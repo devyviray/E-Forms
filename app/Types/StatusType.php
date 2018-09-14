@@ -55,4 +55,6 @@ class StatusType extends Type {
 
     const MARK_AS_DISTRIBUTED = 14;
 
+    const NOTIFIED = 15;
+
 } 

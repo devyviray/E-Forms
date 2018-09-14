@@ -6985,9 +6985,12 @@ Vue.component('ncnform', __webpack_require__(292));
 Vue.component('ncn-view', __webpack_require__(295));
 Vue.component('ncn-approve-form', __webpack_require__(298));
 
+// Vue Ccir
 Vue.component('ccir', __webpack_require__(301));
 Vue.component('ccir-form', __webpack_require__(313));
 Vue.component('ccir-view', __webpack_require__(316));
+
+Vue.component('notified', __webpack_require__(325));
 
 var app = new Vue({
   el: '#app'
@@ -32241,9 +32244,9 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(9);
-__webpack_require__(319);
-__webpack_require__(320);
-module.exports = __webpack_require__(321);
+__webpack_require__(321);
+__webpack_require__(322);
+module.exports = __webpack_require__(323);
 
 
 /***/ }),
@@ -67499,42 +67502,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['ncnId'],
@@ -67733,17 +67700,91 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5)
+          _vm.ncns.length
+            ? _c("tr", [
+                _vm._m(3),
+                _vm._v(" "),
+                _vm.ncns[0].non_conformity_types == 1
+                  ? _c("td", [_vm._v("Customer-returns")])
+                  : _vm.ncns[0].non_conformity_types == 2
+                    ? _c("td", [_vm._v("Process-related")])
+                    : _vm.ncns[0].non_conformity_types == 3
+                      ? _c("td", [_vm._v("Contracted-service")])
+                      : _vm.ncns[0].non_conformity_types == 4
+                        ? _c("td", [_vm._v("Objectives not met")])
+                        : _vm.ncns[0].non_conformity_types == 5
+                          ? _c("td", [_vm._v("Vendor")])
+                          : _c("td", [_c("strong", [_vm._v("Others:")])])
+              ])
+            : _vm._e()
         ])
       ]),
       _vm._v(" "),
-      _vm._m(6),
+      _c("table", { staticClass: "table table-bordered" }, [
+        _c("tbody", [
+          _c("tr", [
+            _vm._m(4),
+            _vm._v(" "),
+            _vm.ncns.length
+              ? _c("td", [_vm._v(_vm._s(_vm.ncns[0].notification_number))])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._m(5),
+            _vm._v(" "),
+            _vm.ncns.length
+              ? _c("td", [_vm._v(_vm._s(_vm.ncns[0].requester.name))])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _vm.ncns.length
+            ? _c("tr", [
+                _vm._m(6),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.ncns[0].recurrence_number))]),
+                _vm._v(" "),
+                _vm._m(7),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.ncns[0].requester.position))])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.ncns.length
+            ? _c("tr", [
+                _vm._m(8),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.ncns[0].issuance_date))]),
+                _vm._v(" "),
+                _vm._m(9),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(_vm.ncns[0].notified.name))])
+              ])
+            : _vm._e()
+        ])
+      ]),
       _vm._v(" "),
-      _vm._m(7)
+      _c("table", { staticClass: "table table-bordered" }, [
+        _c("tbody", [
+          _vm._m(10),
+          _vm._v(" "),
+          _c("tr", [
+            _vm.ncns.length
+              ? _c("td", { attrs: { colspan: "4" } }, [
+                  _vm._v(" " + _vm._s(_vm.ncns[0].non_conformity_details) + " ")
+                ])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _vm._m(11),
+          _vm._v(" "),
+          _c("tr", [
+            _vm.ncns.length
+              ? _c("td", { attrs: { colspan: "4" } }, [
+                  _vm._v(" " + _vm._s(_vm.ncns[0].action_taken) + " ")
+                ])
+              : _vm._e()
+          ])
+        ])
+      ])
     ])
   ])
 }
@@ -67772,16 +67813,8 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("tr", [
-          _c("td", [_vm._v(" Doc No. "), _c("strong", [_vm._v("LFQM-F-019")])]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" Rev No. "), _c("strong", [_vm._v("02")])]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" Effective Date ")]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" June 22, 2016 ")])
-        ]),
-        _vm._v(" "),
-        _c("tr")
+          _c("td", [_vm._v(" Doc No. "), _c("strong", [_vm._v("LFQM-F-019")])])
+        ])
       ])
     ])
   },
@@ -67801,39 +67834,51 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { colspan: "3" } }, [
-        _c("strong", [_vm._v(" TYPE OF NON CONFORMITY: ")])
-      ])
-    ])
+    return _c("td", [_c("strong", [_vm._v(" TYPE OF NON CONFORMITY: ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Notification No:")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Issued by:")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Recurrence No: ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Position:")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Date of Issuance:")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("Notified Person:")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Customer-returns \t\t\t\t\n                    ")
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Process-related \t\t\t\t\n                    ")
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Contracted-service \t\t\t\t\t\n                    ")
+      _c("td", { attrs: { colspan: "4" } }, [
+        _c("strong", [_vm._v(" Step 1: Provide details of non-conformity: ")])
       ])
     ])
   },
@@ -67842,118 +67887,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Objectives not met \t\t\t\t\t\n                    ")
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Vendor\t\t\t\t\t\n                    ")
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v(" Others:\t\t\t\t\t\n                    ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table table-bordered" }, [
-      _c("tbody", [
-        _c("tr", [
-          _c("td", [_vm._v("Notification No:")]),
-          _vm._v(" "),
-          _c("td", [_c("strong")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Issued by:")]),
-          _vm._v(" "),
-          _c("td", [
-            _c("strong", [
-              _vm._v(
-                "\n                            Geraldine Urriza\n                        "
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", [_vm._v("Recurrence No:")]),
-          _vm._v(" "),
-          _c("td", [_c("strong")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Position:")]),
-          _vm._v(" "),
-          _c("td", [_c("strong", [_vm._v("  QA ")])])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", [_vm._v("Date of Issuance:")]),
-          _vm._v(" "),
-          _c("td", [_c("strong", [_vm._v(" May 22, 2017 ")])]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Notified Person:")]),
-          _vm._v(" "),
-          _c("td", [_c("strong", [_vm._v(" Geraldine Urriza")])])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table table-bordered" }, [
-      _c("tbody", [
-        _c("tr", [
-          _c("td", { attrs: { colspan: "4" } }, [
-            _c("strong", [
-              _vm._v(" Step 1: Provide details of non-conformity: ")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", { attrs: { colspan: "4" } }, [
-            _vm._v(
-              "\n                        Upon cleaning of blowthrough sieve last April 19 2017 we haved retrieve  pieces of silicon, brown paper and black foreign material.\n                        please see deliveries attached.\n                    "
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", { attrs: { colspan: "4" } }, [
-            _c("strong", [_vm._v(" Step 2: Immediate Action Taken: ")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", { attrs: { colspan: "4" } }, [
-            _vm._v(" Forwarded to QM dated 26 April 2017 for CAR completion ")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", [_vm._v("Responsible:")]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" Cheryl Calipes ")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Execution Date:")]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" April 26, 2017\t")])
-        ])
+      _c("td", { attrs: { colspan: "4" } }, [
+        _c("strong", [_vm._v(" Step 2: Immediate Action Taken: ")])
       ])
     ])
   }
@@ -85506,7 +85441,6 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
-            _vm._v("\n     Contracted - Service             "),
             _c("label", { attrs: { for: "notification_number" } }, [
               _vm._v("Notification number")
             ]),
@@ -85785,6 +85719,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 //
 //
 //
@@ -85870,19 +85806,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -85896,6 +85820,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
         fetchNcns: function fetchNcns() {
             var _this = this;
 
@@ -85932,9 +85857,7 @@ var render = function() {
             _vm._v(" "),
             _vm.ncns.length
               ? _c("td", { attrs: { colspan: "2" } }, [
-                  _c("strong", [
-                    _vm._v(" " + _vm._s(_vm.ncns[0].company.name) + " ")
-                  ])
+                  _vm._v(_vm._s(_vm.ncns[0].company.name))
                 ])
               : _vm._e()
           ]),
@@ -85944,86 +85867,89 @@ var render = function() {
             _vm._v(" "),
             _vm.ncns.length
               ? _c("td", { attrs: { colspan: "2" } }, [
-                  _c("strong", [
-                    _vm._v(" " + _vm._s(_vm.ncns[0].department.name) + " ")
-                  ])
+                  _vm._v(" " + _vm._s(_vm.ncns[0].department.name))
                 ])
               : _vm._e()
           ]),
           _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5)
+          _vm.ncns.length
+            ? _c("tr", [
+                _vm._m(3),
+                _vm._v(" "),
+                _vm.ncns[0].non_conformity_types == 1
+                  ? _c("td", [_vm._v("Customer-returns")])
+                  : _vm.ncns[0].non_conformity_types == 2
+                    ? _c("td", [_vm._v("Process-related")])
+                    : _vm.ncns[0].non_conformity_types == 3
+                      ? _c("td", [_vm._v("Contracted-service")])
+                      : _vm.ncns[0].non_conformity_types == 4
+                        ? _c("td", [_vm._v("Objectives not met")])
+                        : _vm.ncns[0].non_conformity_types == 5
+                          ? _c("td", [_vm._v("Vendor")])
+                          : _c("td", { attrs: { colspan: "2" } }, [
+                              _vm._v("Others:")
+                            ])
+              ])
+            : _vm._e()
         ])
       ]),
       _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
         _c("tbody", [
           _c("tr", [
-            _c("td", [_vm._v("Notification No:")]),
+            _vm._m(4),
             _vm._v(" "),
             _vm.ncns.length
-              ? _c("td", [
-                  _c("strong", [
-                    _vm._v(" " + _vm._s(_vm.ncns[0].notification_number) + " ")
-                  ])
-                ])
+              ? _c("td", [_vm._v(_vm._s(_vm.ncns[0].notification_number))])
               : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v("Issued by:")]),
+            _vm._m(5),
+            _vm._v(" "),
+            _vm.ncns.length
+              ? _c("td", [_vm._v(_vm._s(_vm.ncns[0].requester.name))])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _vm._m(6),
+            _vm._v(" "),
+            _vm.ncns.length
+              ? _c("td", [_vm._v(_vm._s(_vm.ncns[0].recurrence_number) + " ")])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._m(7),
             _vm._v(" "),
             _vm.ncns.length
               ? _c("td", [
-                  _c("strong", [
-                    _vm._v(" " + _vm._s(_vm.ncns[0].requester.name) + " ")
-                  ])
+                  _vm._v(" " + _vm._s(_vm.ncns[0].requester.position) + " ")
                 ])
               : _vm._e()
           ]),
           _vm._v(" "),
           _c("tr", [
-            _c("td", [_vm._v("Recurrence No:")]),
+            _vm._m(8),
             _vm._v(" "),
             _vm.ncns.length
               ? _c("td", [
-                  _c("strong", [
-                    _vm._v(" " + _vm._s(_vm.ncns[0].recurrence_number) + " ")
-                  ])
+                  _vm._v(
+                    _vm._s(_vm.moment(_vm.ncns[0].issuance_date).format("LL")) +
+                      " "
+                  )
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v("Position:")]),
-            _vm._v(" "),
-            _vm._m(6)
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [_vm._v("Date of Issuance:")]),
+            _vm._m(9),
             _vm._v(" "),
             _vm.ncns.length
-              ? _c("td", [
-                  _c("strong", [
-                    _vm._v(_vm._s(_vm.ncns[0].issuance_date) + " ")
-                  ])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("td", [_vm._v("Notified Person:")]),
-            _vm._v(" "),
-            _c("td", [
-              _c("strong", [
-                _vm._v(" " + _vm._s(_vm.ncns[0].notified.name) + " ")
-              ])
-            ])
+              ? _c("td", [_vm._v(_vm._s(_vm.ncns[0].notified.name) + " ")])
+              : _vm._e()
           ])
         ])
       ]),
       _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
         _c("tbody", [
-          _vm._m(7),
+          _vm._m(10),
           _vm._v(" "),
           _c("tr", [
             _vm.ncns.length
@@ -86033,11 +85959,15 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _vm._m(8),
+          _vm._m(11),
           _vm._v(" "),
-          _vm._m(9),
-          _vm._v(" "),
-          _vm._m(10)
+          _c("tr", [
+            _vm.ncns.length
+              ? _c("td", { attrs: { colspan: "4" } }, [
+                  _vm._v(" " + _vm._s(_vm.ncns[0].action_taken) + " ")
+                ])
+              : _vm._e()
+          ])
         ])
       ])
     ])
@@ -86068,13 +85998,7 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("tr", [
-          _c("td", [_vm._v(" Doc No. "), _c("strong", [_vm._v("LFQM-F-019")])]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" Rev No. "), _c("strong", [_vm._v("02")])]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" Effective Date ")]),
-          _vm._v(" "),
-          _c("td", [_vm._v(" June 22, 2016 ")])
+          _c("td", [_c("strong", [_vm._v("Doc No.")]), _vm._v(" LFQM-F-019 ")])
         ]),
         _vm._v(" "),
         _c("tr")
@@ -86097,77 +86021,43 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { colspan: "3" } }, [
-        _c("strong", [_vm._v(" TYPE OF NON CONFORMITY: ")])
-      ])
-    ])
+    return _c("td", [_c("strong", [_vm._v(" TYPE OF NON CONFORMITY: ")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Customer-returns  ")
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Process-related  ")
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Contracted-service ")
-      ])
-    ])
+    return _c("td", [_c("strong", [_vm._v("Notification No:")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Objectives not met")
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v("  Vendor ")
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("i", {
-          staticClass: "ion-android-checkbox-outline-blank",
-          staticStyle: { "font-weight": "bold", "font-size": "20px" }
-        }),
-        _vm._v(" Others:")
-      ])
-    ])
+    return _c("td", [_c("strong", [_vm._v(" Issued by: ")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("strong", [_vm._v(" QA ")])])
+    return _c("td", [_c("strong", [_vm._v("Recurrence No: ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v(" Position: ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v(" Date of Issuance:  ")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("strong", [_vm._v("  Notified Person: ")])])
   },
   function() {
     var _vm = this
@@ -86187,30 +86077,6 @@ var staticRenderFns = [
       _c("td", { attrs: { colspan: "4" } }, [
         _c("strong", [_vm._v(" Step 2: Immediate Action Taken: ")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { colspan: "4" } }, [
-        _vm._v(" Forwarded to QM dated 26 April 2017 for CAR completion ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("Responsible:")]),
-      _vm._v(" "),
-      _c("td", [_vm._v(" Cheryl Calipes ")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Execution Date:")]),
-      _vm._v(" "),
-      _c("td", [_vm._v(" April 26, 2017 ")])
     ])
   }
 ]
@@ -86390,6 +86256,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -86403,7 +86275,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             show: false,
             notifieds: [],
             ncnId: '',
-            errors: ''
+            errors: '',
+            selectedAttachment: ' ',
+            requesterAttachments: ' '
         };
     },
     created: function created() {
@@ -86422,6 +86296,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get('/ncn-data/' + id).then(function (response) {
                 _this.ncns = response.data;
+                _this.fetchUploadedFilesRequester();
             }).catch(function (error) {
                 _this.errors = error.response.data.errors;
             });
@@ -86457,6 +86332,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 this.show = false;
             }
+        },
+        fetchUploadedFilesRequester: function fetchUploadedFilesRequester() {
+            var _this4 = this;
+
+            axios.get('/ncn-requester-attachments/' + this.ncns[0].id + '/' + this.ncns[0].requester_id).then(function (response) {
+                _this4.requesterAttachments = response.data;
+            }).catch(function (error) {
+                _this4.errors = error.response.data.errors;
+            });
+        },
+        downloadAttachment: function downloadAttachment() {
+            var base_url = window.location.origin;
+            window.location = base_url + ('/download-attachment/' + this.selectedAttachment);
         }
     }
 });
@@ -86593,6 +86481,61 @@ var render = function() {
                   }
                 }
               }),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedAttachment,
+                        expression: "selectedAttachment"
+                      }
+                    ],
+                    staticClass: "form-control form-control-lg",
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedAttachment = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                        _vm.downloadAttachment
+                      ]
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "", disabled: "" } }, [
+                      _vm._v(" Download Attachment - Requester ")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.requesterAttachments, function(
+                      requesterAttachment,
+                      re
+                    ) {
+                      return _c(
+                        "option",
+                        {
+                          key: re,
+                          domProps: { value: requesterAttachment.id }
+                        },
+                        [_vm._v(_vm._s(requesterAttachment.file_name))]
+                      )
+                    })
+                  ],
+                  2
+                )
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "status" } }, [
@@ -89261,7 +89204,9 @@ if (false) {
 }
 
 /***/ }),
-/* 319 */
+/* 319 */,
+/* 320 */,
+/* 321 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -91654,7 +91599,7 @@ Popper.Defaults = Defaults;
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
 
 /***/ }),
-/* 320 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -91666,7 +91611,7 @@ Popper.Defaults = Defaults;
 //# sourceMappingURL=bootstrap.min.js.map
 
 /***/ }),
-/* 321 */
+/* 323 */
 /***/ (function(module, exports) {
 
 /*!
@@ -91868,6 +91813,590 @@ lbd = {
         if (immediate && !timeout) func.apply(context, args);
     };
 };
+
+/***/ }),
+/* 324 */,
+/* 325 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(326)
+/* template */
+var __vue_template__ = __webpack_require__(327)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Ncn\\Notified.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1a99f35c", Component.options)
+  } else {
+    hotAPI.reload("data-v-1a99f35c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 326 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            ncns: [],
+            ncn: {
+                id: ' ',
+                action_taken: ' '
+            },
+            keywords: '',
+            currentPage: 0,
+            itemsPerPage: 10
+        };
+    },
+    created: function created() {
+        this.fetchNcns();
+    },
+
+    methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
+        viewNcn: function viewNcn(id) {
+            var base_url = window.location.origin;
+            window.location.href = base_url + ('/ncn-view/' + id);
+        },
+        getNcnId: function getNcnId(id) {
+            this.ncn.id = id;
+        },
+        fetchNcns: function fetchNcns() {
+            var _this = this;
+
+            axios.get('/ncns-notified').then(function (response) {
+                _this.ncns = response.data;
+            }).catch(function (error) {
+                _this.errors = error.response.data.errors;
+            });
+        },
+        validateNcn: function validateNcn(ncn) {
+            var _this2 = this;
+
+            axios.post('/notified/ncn-notified', {
+                'id': ncn.id,
+                'action_taken': ncn.action_taken
+            }).then(function (response) {
+                $('#validateNcnModal').modal('hide');
+                _this2.selected_id = ' ';
+                _this2.ncn.id = ' ';
+                _this2.ncn.action_taken = ' ';
+                window.location.href = response.data.redirect;
+            }).catch(function (error) {
+                _this2.errors = response.data.errors;
+            });
+        },
+        setPage: function setPage(pageNumber) {
+            this.currentPage = pageNumber;
+        },
+        resetStartRow: function resetStartRow() {
+            this.currentPage = 0;
+        },
+        showPreviousLink: function showPreviousLink() {
+            return this.currentPage == 0 ? false : true;
+        },
+        showNextLink: function showNextLink() {
+            return this.currentPage == this.totalPages - 1 ? false : true;
+        }
+    },
+    computed: {
+        filteredNcns: function filteredNcns() {
+            var _this3 = this;
+
+            var self = this;
+            return self.ncns.filter(function (ncn) {
+                return ncn.requester.name.toLowerCase().includes(_this3.keywords.toLowerCase());
+            });
+        },
+        totalPages: function totalPages() {
+            return Math.ceil(this.filteredNcns.length / this.itemsPerPage);
+        },
+        filteredQueues: function filteredQueues() {
+            var index = this.currentPage * this.itemsPerPage;
+            var queues_array = this.filteredNcns.slice(index, index + this.itemsPerPage);
+
+            if (this.currentPage >= this.totalPages) {
+                this.currentPage = this.totalPages - 1;
+            }
+
+            if (this.currentPage == -1) {
+                this.currentPage = 0;
+            }
+
+            return queues_array;
+        }
+    }
+});
+
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "card-body table-full-width table-responsive" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.keywords,
+            expression: "keywords"
+          }
+        ],
+        staticClass: "form-control  mb-5",
+        attrs: { type: "text", placeholder: "Search" },
+        domProps: { value: _vm.keywords },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.keywords = $event.target.value
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("table", { staticClass: "table table-hover table-striped" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.filteredQueues, function(ncn) {
+            return _c("tr", { key: ncn.id }, [
+              _c("td", [_vm._v(_vm._s(ncn.id))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(ncn.requester.name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(ncn.requester.position))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(ncn.notification_number))]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(_vm._s(_vm.moment(ncn.issuance_date).format("LL")))
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                ncn.status == 2
+                  ? _c("span", { staticStyle: { color: "red" } }, [
+                      _vm._v(" NOT YET APPROVED ")
+                    ])
+                  : ncn.status == 6
+                    ? _c("span", { staticStyle: { color: "red" } }, [
+                        _vm._v(" DISAPPROVED ")
+                      ])
+                    : _c("span", { staticStyle: { color: "green" } }, [
+                        _vm._v(" APPROVED ")
+                      ])
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c("div", { staticClass: "dropdown" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary dropdown-toggle btn-sm",
+                      attrs: {
+                        type: "button",
+                        id: "dropdownMenuButton",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Option\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "dropdown-menu",
+                      attrs: { "aria-labelledby": "dropdownMenuButton" }
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { href: "javascript:void(0)" },
+                          on: {
+                            click: function($event) {
+                              _vm.viewNcn(ncn.id)
+                            }
+                          }
+                        },
+                        [_vm._v("View")]
+                      ),
+                      _vm._v(" "),
+                      ncn.status == 4
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "dropdown-item",
+                              attrs: {
+                                "data-toggle": "modal",
+                                "data-target": "#validateNcnModal",
+                                href: "javascript:void(0)"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.getNcnId(ncn.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Validate")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Mark as archive")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "dropdown-item", attrs: { href: "#" } },
+                        [_vm._v("Cancel document")]
+                      )
+                    ]
+                  )
+                ])
+              ])
+            ])
+          })
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row mb-3" }, [
+      _c("div", { staticClass: "col-6" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default btn-sm btn-fill",
+            attrs: { disabled: !_vm.showPreviousLink() },
+            on: {
+              click: function($event) {
+                _vm.setPage(_vm.currentPage - 1)
+              }
+            }
+          },
+          [_vm._v(" Previous ")]
+        ),
+        _vm._v(" "),
+        _c("span", { staticClass: "text-dark" }, [
+          _vm._v(
+            "Page " +
+              _vm._s(_vm.currentPage + 1) +
+              " of " +
+              _vm._s(_vm.totalPages)
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default btn-sm btn-fill",
+            attrs: { disabled: !_vm.showNextLink() },
+            on: {
+              click: function($event) {
+                _vm.setPage(_vm.currentPage + 1)
+              }
+            }
+          },
+          [_vm._v(" Next ")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-6 text-right" }, [
+        _c("span", [_vm._v(_vm._s(_vm.ncns.length) + " Ncn form(s)")])
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "validateNcnModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "editCompanyLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.ncn.id,
+                      expression: "ncn.id"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "hidden", placeholder: "Id" },
+                  domProps: { value: _vm.ncn.id },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.ncn, "id", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "action" } }, [
+                    _vm._v("Immediate Action Taken")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.ncn.action_taken,
+                        expression: "ncn.action_taken"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "action" },
+                    domProps: { value: _vm.ncn.action_taken },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.ncn, "action_taken", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.validateNcn(_vm.ncn)
+                      }
+                    }
+                  },
+                  [_vm._v("Save")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", [_vm._v("ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Requester")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Position")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Notification")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Date of Issuance")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Option")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "editCompanyLabel" } },
+        [_vm._v("Validate")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1a99f35c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

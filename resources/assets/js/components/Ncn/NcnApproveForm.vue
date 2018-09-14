@@ -82,6 +82,12 @@
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-model="ncns[0].id">
                     <div class="form-group">
+                        <select class="form-control form-control-lg" v-model="selectedAttachment" @change="downloadAttachment">
+                            <option selected disabled> Download Attachment - Requester </option>
+                            <option v-for="(requesterAttachment, re) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="re">{{ requesterAttachment.file_name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                        <label for="status">Select status</label>
                        <select v-model="ncn.status" class="form-control form-control-lg" @change="selectedStatus" id="status">
                            <option value="" disabled selected>Select Status</option>
@@ -123,7 +129,9 @@ export default {
             show: false,
             notifieds: [],
             ncnId: '',
-            errors:''
+            errors:'',
+            selectedAttachment: ' ',
+            requesterAttachments: ' '
         }
     },
     created(){
@@ -140,6 +148,7 @@ export default {
             axios.get(`/ncn-data/${id}`)
             .then(response => {
                 this.ncns = response.data;
+                this.fetchUploadedFilesRequester();
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -180,7 +189,23 @@ export default {
             }else{
                 this.show = false;
             }
-        }
+        },
+        fetchUploadedFilesRequester()
+        {
+            axios.get('/ncn-requester-attachments/'+this.ncns[0].id+'/'+this.ncns[0].requester_id)
+            .then(response => {
+                this.requesterAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
+        },
+        downloadAttachment()
+        {
+            var base_url = window.location.origin;
+            window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
+        },
+        
     },
 }
 </script>

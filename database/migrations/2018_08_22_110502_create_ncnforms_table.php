@@ -30,6 +30,8 @@ class CreateNcnformsTable extends Migration
             $table->string('non_conformity_details');
             $table->string('status');
             $table->string('remarks')->nullable();
+            $table->text('action_taken')->nullable();
+            $table->datetime('action_date')->nullable();
             $table->timestamps();
         });
     }

@@ -25,11 +25,7 @@
                     </tr>
                     <tr>
                         <td> Doc No. <strong>LFQM-F-019</strong> </td>
-                        <td> Rev No. <strong>02</strong> </td>
-                        <td> Effective Date </td>
-                        <td> June 22, 2016 </td>
                     </tr>
-                    <tr></tr>
                 </tbody>
             </table>
 
@@ -44,31 +40,14 @@
                         <td> <strong> DIVISION / DEPARTMENT: </strong> </td>
                         <td colspan="2" v-if="ncns.length"> {{ ncns[0].department.name }} </td>
                     </tr>
-                    <tr>
-                        <td colspan="3"> <strong> TYPE OF NON CONFORMITY: </strong> </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Customer-returns 				
-                        </td>
-                        <td>		
-                            <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Process-related 				
-                        </td>
-                        <td>
-                            <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Contracted-service 					
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>		
-                            <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i>  Objectives not met 					
-                        </td>
-                        <td>
-                            <i class="ion-android-checkbox-outline" style="font-weight: bold; font-size: 20px;"></i>  Vendor					
-                        </td>
-                        <td>
-                            <i class="ion-android-checkbox-outline-blank" style="font-weight: bold; font-size: 20px;"></i> Others:					
-                        </td>
+                    <tr v-if="ncns.length">
+                        <td> <strong> TYPE OF NON CONFORMITY: </strong> </td>
+                        <td v-if="ncns[0].non_conformity_types == 1">Customer-returns</td>
+                        <td v-else-if="ncns[0].non_conformity_types == 2">Process-related</td>
+                        <td v-else-if="ncns[0].non_conformity_types == 3">Contracted-service</td>
+                        <td v-else-if="ncns[0].non_conformity_types == 4">Objectives not met</td>
+                        <td v-else-if="ncns[0].non_conformity_types == 5">Vendor</td>
+                        <td v-else><strong>Others:</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -76,28 +55,22 @@
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <td>Notification No:</td>
-                        <td>
-                            <strong></strong>
-                        </td>
-                        <td>Issued by:</td>
-                        <td>
-                            <strong>
-                                Geraldine Urriza
-                            </strong>
-                        </td>
+                        <td><strong>Notification No:</strong></td>
+                        <td v-if="ncns.length">{{ ncns[0].notification_number }}</td>
+                        <td><strong>Issued by:</strong></td>
+                       <td v-if="ncns.length">{{ ncns[0].requester.name }}</td>
                     </tr>
-                    <tr>
-                        <td>Recurrence No:</td>
-                        <td> <strong> </strong> </td>
-                        <td>Position:</td>
-                        <td> <strong>  QA </strong> </td>
+                    <tr v-if="ncns.length">
+                        <td><strong>Recurrence No: </strong></td>
+                        <td>{{ ncns[0].recurrence_number }}</td>
+                        <td><strong>Position:</strong></td>
+                        <td>{{ ncns[0].requester.position }}</td>
                     </tr>
-                    <tr>
-                        <td>Date of Issuance:</td>
-                        <td> <strong> May 22, 2017 </strong></td>
-                        <td>Notified Person:</td>
-                        <td><strong> Geraldine Urriza</strong></td>
+                    <tr  v-if="ncns.length">
+                        <td><strong>Date of Issuance:</strong></td>
+                        <td>{{ ncns[0].issuance_date }}</td>
+                        <td><strong>Notified Person:</strong></td>
+                        <td>{{ ncns[0].notified.name }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -110,22 +83,13 @@
                         </td>	
                     </tr>
                     <tr>
-                        <td colspan="4">
-                            Upon cleaning of blowthrough sieve last April 19 2017 we haved retrieve  pieces of silicon, brown paper and black foreign material.
-                            please see deliveries attached.
-                        </td>
+                       <td colspan="4" v-if="ncns.length"> {{ ncns[0].non_conformity_details }} </td>
                     </tr>
                     <tr>
                         <td colspan="4"> <strong> Step 2: Immediate Action Taken: </strong> </td>	
                     </tr>
                     <tr>
-                        <td colspan="4"> Forwarded to QM dated 26 April 2017 for CAR completion </td>
-                    </tr>
-                    <tr>
-                        <td>Responsible:</td>
-                        <td> Cheryl Calipes </td>
-                        <td>Execution Date:</td>
-                        <td> April 26, 2017	</td>
+                        <td colspan="4" v-if="ncns.length"> {{ ncns[0].action_taken }} </td>
                     </tr>
                 </tbody>
             </table>

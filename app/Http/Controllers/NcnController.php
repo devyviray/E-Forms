@@ -13,6 +13,7 @@ use Auth;
 use PDF;
 use App\Notifications\RequesterSubmitNcn;
 use App\Notifications\ApproverNotifyPersonNcn;
+use App\Notifications\NotifiedNcn;
 
 class NcnController extends Controller
 {
@@ -379,5 +380,57 @@ class NcnController extends Controller
         return $ncns;
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function notifiedIndex()
+    {
+        return view('ncn.notified');
+    }
+
+
+    /**
+     * Get all approved Ncn
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function notifiedIndexData(){
+
+        $ncns = Ncn::with('requester')->whereNotIn('status', [StatusType::SUBMITTED, StatusType::DISAPPROVED_APPROVER])->where('notified_id', Auth::user()->id)->get();
+        
+        return $ncns;
+    }
+
+    /**
+     * Notified person validate Ncn
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function validateNcn(Request $request){
+      
+        $request->validate([
+            'id' => 'required',
+            'action_taken' => 'required'
+        ]);
+
+        $ncn = Ncn::findOrFail($request->input('id'));
+
+        $ncn->action_taken = $request->input('action_taken');
+        $ncn->action_date = Carbon::now();
+        $ncn->status = StatusType::NOTIFIED;
+
+        if($ncn->save()){
+            $requester = User::findOrFail($ncn->requester_id);
+            $approver = User::findOrFail($ncn->approver_id);
+            $emails = [$requester, $approver];
+
+            \Notification::send($emails , new NotifiedNcn($ncn));
+            return ['redirect' => route('notified')];
+        }
+    }
 
 }

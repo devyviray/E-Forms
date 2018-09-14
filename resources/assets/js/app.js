@@ -59,10 +59,13 @@ Vue.component('ncnform', require('./components/Ncn/Ncnform.vue'));
 Vue.component('ncn-view', require('./components/Ncn/NcnView.vue'));
 Vue.component('ncn-approve-form', require('./components/Ncn/NcnApproveForm.vue'));
 
-
+// Vue Ccir
 Vue.component('ccir', require('./components/Ccir/Ccir.vue'));
 Vue.component('ccir-form', require('./components/Ccir/CcirForm.vue'));
 Vue.component('ccir-view', require('./components/Ccir/CcirView.vue'));
+
+
+Vue.component('notified', require('./components/Ncn/Notified.vue'));
 
 const app = new Vue({
     el: '#app'
