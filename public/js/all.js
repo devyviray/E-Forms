@@ -68784,15 +68784,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             users: [],
-            user: {
-                id: '',
-                name: '',
-                email: '',
-                password: '',
-                department: '',
-                companies: [],
-                roles: []
-            },
             user_id: '',
             pagination: {},
             edit: false,
@@ -69377,22 +69368,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { Multiselect: __WEBPACK_IMPORTED_MODULE_0_vue_multiselect___default.a },
     data: function data() {
         return {
-
             user: {
-                id: '',
-                name: '',
-                email: '',
+                id: ' ',
+                name: ' ',
+                email: ' ',
                 password: '',
-                position: '',
-                department: '',
-                companies: [],
-                roles: []
+                position: ' ',
+                department: ' '
             },
             user_id: '',
             pagination: {},
@@ -69459,7 +69449,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 department: selected_department,
                 role: roleids
             }).then(function (response) {
-                _this.user.name = "", _this.user.email = "", _this.user.password = "", _this.user.errors = [], window.location.href = response.data.redirect;
+                _this.user.name = " ", _this.user.email = " ", _this.user.password = " ", _this.errors = [], window.location.href = response.data.redirect;
             }).catch(function (error) {
                 if (error.response.data) {
                     _this.errors = error.response.data.errors;
@@ -69581,11 +69571,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: {
-                type: "password",
-                placeholder: "Password",
-                id: "password"
-              },
+              attrs: { type: "password", id: "password" },
               domProps: { value: _vm.user.password },
               on: {
                 input: function($event) {
@@ -69645,7 +69631,8 @@ var render = function() {
                   options: _vm.companies,
                   multiple: true,
                   "track-by": "id",
-                  "custom-label": _vm.customLabelCompany
+                  "custom-label": _vm.customLabelCompany,
+                  placeholder: "Select Company"
                 },
                 model: {
                   value: _vm.selected_company,
@@ -69730,7 +69717,8 @@ var render = function() {
                   options: _vm.roles,
                   multiple: true,
                   "track-by": "id",
-                  "custom-label": _vm.customLabelRole
+                  "custom-label": _vm.customLabelRole,
+                  placeholder: "Select Role"
                 },
                 model: {
                   value: _vm.selected_role,
@@ -69954,10 +69942,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             currentPage: 0,
             itemsPerPage: 10,
             companies: [],
-            selected_company: '',
             departments: [],
-            roles: [],
-            selected_role: ''
+            roles: []
         };
     },
     created: function created() {
@@ -70009,16 +69995,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this4.roles = response.data;
             });
         },
-        editUser: function editUser(user, selected_company, selected_role) {
+        editUser: function editUser(user) {
             var _this5 = this;
 
             var comapanyids = [];
             var roleids = [];
-            selected_company.forEach(function (selected_company) {
-                comapanyids.push(selected_company.id);
+            user.companies.forEach(function (company) {
+                comapanyids.push(company.id);
             });
-            selected_role.forEach(function (selected_role) {
-                roleids.push(selected_role.id);
+            user.roles.forEach(function (role) {
+                roleids.push(role.id);
             });
             axios.patch('/user/' + user.id, {
                 id: user.id,
@@ -70161,11 +70147,11 @@ var render = function() {
                       "custom-label": _vm.customLabelCompany
                     },
                     model: {
-                      value: _vm.selected_company,
+                      value: _vm.users[0].companies,
                       callback: function($$v) {
-                        _vm.selected_company = $$v
+                        _vm.$set(_vm.users[0], "companies", $$v)
                       },
-                      expression: "selected_company"
+                      expression: "users[0].companies"
                     }
                   }),
                   _vm._v(" "),
@@ -70253,11 +70239,11 @@ var render = function() {
                       "custom-label": _vm.customLabelRole
                     },
                     model: {
-                      value: _vm.selected_role,
+                      value: _vm.users[0].roles,
                       callback: function($$v) {
-                        _vm.selected_role = $$v
+                        _vm.$set(_vm.users[0], "roles", $$v)
                       },
-                      expression: "selected_role"
+                      expression: "users[0].roles"
                     }
                   }),
                   _vm._v(" "),
@@ -70275,11 +70261,7 @@ var render = function() {
                   attrs: { type: "button" },
                   on: {
                     click: function($event) {
-                      _vm.editUser(
-                        _vm.users[0],
-                        _vm.selected_company,
-                        _vm.selected_role
-                      )
+                      _vm.editUser(_vm.users[0])
                     }
                   }
                 },

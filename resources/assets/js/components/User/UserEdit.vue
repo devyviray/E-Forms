@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <multiselect
-                            v-model="selected_company"
+                            v-model="users[0].companies"
                             :options="companies"
                             :multiple="true"
                             track-by="id"
@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <multiselect
-                            v-model="selected_role"
+                            v-model="users[0].roles"
                             :options="roles"
                             :multiple="true"
                             track-by="id"
@@ -49,7 +49,7 @@
                         </multiselect>
                         <span v-if="errors.roles">{{ errors.roles }}</span>
                     </div>
-                    <button @click="editUser(users[0],selected_company,selected_role)" type="button" class="btn btn-primary">Update</button>
+                    <button @click="editUser(users[0])" type="button" class="btn btn-primary">Update</button>
                 </form>
             </div>
         </div>
@@ -72,10 +72,8 @@ export default {
             currentPage: 0,
             itemsPerPage: 10,
             companies: [],
-            selected_company: '',
             departments: [],
             roles: [],
-            selected_role: '',
          }
     },
     created(){  
@@ -122,15 +120,15 @@ export default {
                 this.roles = response.data;
             });
         },
-        editUser(user,selected_company,selected_role){
+        editUser(user){
 
             let comapanyids = [];
             let roleids = [];
-            selected_company.forEach((selected_company) => {
-                    comapanyids.push(selected_company.id);
+            user.companies.forEach((company) => {
+                    comapanyids.push(company.id);
             });
-            selected_role.forEach((selected_role) => {
-                roleids.push(selected_role.id);
+            user.roles.forEach((role) => {
+                roleids.push(role.id);
              });
             axios.patch(`/user/${user.id}`,{
                 id: user.id, 

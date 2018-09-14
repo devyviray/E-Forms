@@ -90,15 +90,6 @@ export default {
     data(){
         return{
             users: [],
-            user: {
-                id: '',
-                name: '',
-                email: '',
-                password: '',
-                department: '',
-                companies: [],
-                roles: [] 
-            },
             user_id: '',
             pagination: {}, 
             edit: false,

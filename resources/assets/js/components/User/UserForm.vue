@@ -15,7 +15,7 @@
                     </div>
                      <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" placeholder="Password" v-model="user.password" id="password">
+                        <input type="password" class="form-control"  v-model="user.password" id="password">
                         <span v-if="errors.password">{{ errors.password }}</span>
                     </div>
                     <div class="form-group">
@@ -30,6 +30,7 @@
                             :multiple="true"
                             track-by="id"
                             :custom-label="customLabelCompany"
+                             placeholder="Select Company"
                             >
                         </multiselect>
                         <span v-if="errors.company">{{ errors.company }}</span>
@@ -50,6 +51,7 @@
                             :multiple="true"
                             track-by="id"
                             :custom-label="customLabelRole"
+                            placeholder="Select Role"
                             >
                         </multiselect>
                         <span v-if="errors.roles">{{ errors.roles }}</span>
@@ -68,16 +70,13 @@ export default {
     components: { Multiselect },
     data(){
         return{
-
             user: {
-                id: '',
-                name: '',
-                email: '',
+                id: ' ',
+                name: ' ',
+                email: ' ',
                 password: '',
-                position: '',
-                department: '',
-                companies: [],
-                roles: [] 
+                position: ' ',
+                department: ' ',
             },
             user_id: '',
             pagination: {}, 
@@ -144,10 +143,10 @@ export default {
                 role: roleids
             })
             .then(response => {
-                this.user.name = "",
-                this.user.email = "",
-                this.user.password = "",
-                this.user.errors = [],
+                this.user.name = " ",
+                this.user.email = " ",
+                this.user.password = " ",
+                this.errors = [],
                 window.location.href = response.data.redirect;
             })
             .catch(error => {
