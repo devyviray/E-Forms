@@ -12,6 +12,15 @@
     
     <!-- Styles -->
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
+    <style>
+        .sidebar:after, body>.navbar-collapse:after{
+            background: none;
+            background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+        }
+        .space-left{
+            padding-left: 49px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -36,33 +45,36 @@
                             </a>
                         </li>
                         <li>
-                            <div class="nav-link">
-                                <i class="nc-icon nc-notes"></i>
-                                <p>Forms</p>
+                            <a data-toggle="collapse" href="#Forms" class="collapsed" aria-expanded="false">
+                                <div class="nav-link">
+                                    <i class="nc-icon nc-notes"></i>
+                                    <p>Forms</p>
+                                </div>
+                            </a>
+                            <div class="collapse space-left" id="Forms" style="">
+                                <ul class="nav" style="list-style-type: none;">
+                                    <li>
+                                        <a class="nav-link" href="{{ route('drdr') }}">
+                                            <p>Drdr</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="{{ route('ddr') }}">
+                                            <p>Ddr</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="{{ route('ccir') }}">
+                                            <p>Ccir</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="{{ route('ncn') }}">
+                                            <p>Ncn</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul style="list-style-type: none;">
-                                <li>
-                                    <a class="nav-link" href="{{ route('drdr') }}">
-                                        <p>Drdr</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="nav-link" href="{{ route('ddr') }}">
-                                        <p>Ddr</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="nav-link" href="{{ route('ccir') }}">
-                                        <p>Ccir</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="nav-link" href="{{ route('ncn') }}">
-                                        <p>Ncn</p>
-                                    </a>
-                                </li>
-                            
-                            </ul>
                         </li>
                         <li>
                         @role('notified') 
@@ -75,53 +87,67 @@
                         @endrole
                         </li>
                         <li>
-                            @role('administrator,mr') 
-                            <div class="nav-link" href="./table.html">
-                                <i class="nc-icon nc-circle-09"></i>
-                                <p>Users</p>
+                        @role('administrator,mr') 
+                        <a data-toggle="collapse" href="#Users" class="collapsed" aria-expanded="false">
+                                <div class="nav-link">
+                                    <i class="nc-icon nc-circle-09"></i>
+                                    <p>Users</p>
+                                </div>
+                            </a>
+                            <div class="collapse space-left" id="Users">
+                                <ul class="nav" style="list-style-type: none;">
+                                    <li>
+                                        <a class="nav-link" href="{{ route('users') }}">
+                                            <p>All user</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="{{ route('roles') }}">
+                                            <p>Roles</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="{{ route('permissions') }}">
+                                            <p>Permisions</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul style="list-style-type: none;">
-                                <li>
-                                    <a class="nav-link" href="{{ route('users') }}">
-                                        <p>All user</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="nav-link" href="{{ route('roles') }}">
-                                        <p>Roles</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="nav-link" href="{{ route('permissions') }}">
-                                        <p>Permisions</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                         <li>
-                            <div class="nav-link" href="./typography.html">
-                                <i class="nc-icon nc-paper-2"></i>
-                                <p>Master Data</p>
+                            <a data-toggle="collapse" href="#MasterData" class="collapsed" aria-expanded="false">
+                                <div class="nav-link">
+                                    <i class="nc-icon nc-paper-2"></i>
+                                    <p>Master Data</p>
+                                </div>
+                            </a>
+                            <div class="collapse space-left" id="MasterData" style="">
+                                <ul class="nav" style="list-style-type: none;">
+                                    <li>
+                                        <a class="nav-link" href="{{ route('companies') }}">
+                                            <p>Company</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="{{ route('departments') }}">
+                                            <p>Department</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul style="list-style-type: none;">
-                                <li>
-                                    <a class="nav-link" href="{{ route('companies') }}">
-                                        <p>Company</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="nav-link" href="{{ route('departments') }}">
-                                        <p>Department</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                         @endrole
                         <li class="nav-item active active-pro">
-                            <a class="nav-link active" href="upgrade.html">
+                            <a class="nav-link" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
                                 <i class="nc-icon nc-alien-33"></i>
-                                <p>Upgrade to PRO</p>
+                                <span class="no-icon">Log out</span>
                             </a>
+                        
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -185,7 +211,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('logout') }}"
+                                <a class="nav-link" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
                                     <span class="no-icon">Log out</span>
