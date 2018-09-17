@@ -61674,10 +61674,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return console.log(errors);
             });
         },
-        viewDrdrs: function viewDrdrs() {
-            var base_url = window.location.origin;
-            window.location.href = base_url + '/admin/drdrs';
-        },
         viewDdrs: function viewDdrs() {
             var base_url = window.location.origin;
             window.location.href = base_url + '/admin/ddrs';
@@ -61689,6 +61685,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         viewCcir: function viewCcir() {
             var base_url = window.location.origin;
             window.location.href = base_url + '/admin/ccirs';
+        }
+    },
+    computed: {
+        viewDrdrs: function viewDrdrs() {
+            var base_url = window.location.origin;
+            var url = base_url + '/admin/drdrs';
+
+            return url;
+        },
+        viewDdrs: function viewDdrs() {
+            var base_url = window.location.origin;
+            var url = base_url + '/admin/ddrs';
+
+            return url;
+        },
+        viewNcn: function viewNcn() {
+            var base_url = window.location.origin;
+            var url = base_url + '/admin/ncns';
+
+            return url;
+        },
+        viewCcir: function viewCcir() {
+            var base_url = window.location.origin;
+            var url = base_url + '/admin/ccirs';
+
+            return url;
         }
     }
 });
@@ -61719,29 +61741,51 @@ var render = function() {
                     _vm._m(1),
                     _vm._v(" "),
                     _c("tbody", [
-                      _c("tr", { on: { click: _vm.viewDrdrs } }, [
+                      _c("tr", [
                         _c("td", [
-                          _vm._v("Document review & Distribution request")
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: _vm.viewDrdrs, target: "_blank" }
+                            },
+                            [_vm._v(" Document review & Distribution request ")]
+                          )
                         ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(_vm.drdrs))])
                       ]),
                       _vm._v(" "),
-                      _c("tr", { on: { click: _vm.viewDdrs } }, [
-                        _c("td", [_vm._v("Document distribution request")]),
+                      _c("tr", [
+                        _c("td", [
+                          _c(
+                            "a",
+                            { attrs: { href: _vm.viewDdrs, target: "_blank" } },
+                            [_vm._v(" Document distribution request ")]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(_vm.ddrs))])
                       ]),
                       _vm._v(" "),
-                      _c("tr", { on: { click: _vm.viewNcn } }, [
-                        _c("td", [_vm._v("Non-conformance notification")]),
+                      _c("tr", [
+                        _c("td", [
+                          _c(
+                            "a",
+                            { attrs: { href: _vm.viewNcn, target: "_blank" } },
+                            [_vm._v(" Non-conformance notification")]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(_vm.ncns))])
                       ]),
                       _vm._v(" "),
-                      _c("tr", { on: { click: _vm.viewCcir } }, [
+                      _c("tr", [
                         _c("td", [
-                          _vm._v("Customer complaint information report")
+                          _c(
+                            "a",
+                            { attrs: { href: _vm.viewCcir, target: "_blank" } },
+                            [_vm._v(" Customer complaint information report ")]
+                          )
                         ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(_vm.ccirs))])
@@ -61842,8 +61886,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
-//
-//
 //
 //
 //
@@ -62342,60 +62384,55 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row mb-3" }, [
-        _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("datepicker", {
-                attrs: { placeholder: "Select Start Date" },
-                model: {
-                  value: _vm.startDate,
-                  callback: function($$v) {
-                    _vm.startDate = $$v
-                  },
-                  expression: "startDate"
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.startDate
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("datepicker", {
-                attrs: { placeholder: "Select End Date" },
-                model: {
-                  value: _vm.endDate,
-                  callback: function($$v) {
-                    _vm.endDate = $$v
-                  },
-                  expression: "endDate"
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.endDate
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: { click: _vm.generateByDate }
-            },
-            [_vm._v("Generate")]
-          )
-        ])
+        _c(
+          "div",
+          { staticClass: "form-group", staticStyle: { "margin-left": "15px" } },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select Start Date" },
+              model: {
+                value: _vm.startDate,
+                callback: function($$v) {
+                  _vm.startDate = $$v
+                },
+                expression: "startDate"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.startDate
+              ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select End Date" },
+              model: {
+                value: _vm.endDate,
+                callback: function($$v) {
+                  _vm.endDate = $$v
+                },
+                expression: "endDate"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.endDate
+              ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.generateByDate } },
+          [_vm._v("Generate")]
+        )
       ]),
       _vm._v(" "),
       _c("input", {
@@ -62967,7 +63004,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -63116,60 +63152,55 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row mb-3" }, [
-        _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("datepicker", {
-                attrs: { placeholder: "Select Start Date" },
-                model: {
-                  value: _vm.startDate,
-                  callback: function($$v) {
-                    _vm.startDate = $$v
-                  },
-                  expression: "startDate"
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.startDate
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("datepicker", {
-                attrs: { placeholder: "Select End Date" },
-                model: {
-                  value: _vm.endDate,
-                  callback: function($$v) {
-                    _vm.endDate = $$v
-                  },
-                  expression: "endDate"
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.endDate
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: { click: _vm.generateByDate }
-            },
-            [_vm._v("Generate")]
-          )
-        ])
+        _c(
+          "div",
+          { staticClass: "form-group", staticStyle: { "margin-left": "15px" } },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select Start Date" },
+              model: {
+                value: _vm.startDate,
+                callback: function($$v) {
+                  _vm.startDate = $$v
+                },
+                expression: "startDate"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.startDate
+              ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select End Date" },
+              model: {
+                value: _vm.endDate,
+                callback: function($$v) {
+                  _vm.endDate = $$v
+                },
+                expression: "endDate"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.endDate
+              ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.generateByDate } },
+          [_vm._v("Generate")]
+        )
       ]),
       _vm._v(" "),
       _c("input", {
@@ -63201,17 +63232,7 @@ var render = function() {
           "tbody",
           _vm._l(_vm.filteredQueues, function(ddr) {
             return _c("tr", { key: ddr.id }, [
-              _c(
-                "td",
-                {
-                  on: {
-                    click: function($event) {
-                      _vm.viewDdrDetails(ddr.id)
-                    }
-                  }
-                },
-                [_vm._v(_vm._s(ddr.id))]
-              ),
+              _c("td", [_vm._v(_vm._s(ddr.id))]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(ddr.requester.name))]),
               _vm._v(" "),
@@ -63267,6 +63288,20 @@ var render = function() {
                       attrs: { "aria-labelledby": "dropdownMenuButton" }
                     },
                     [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { href: "javascript:void(0)" },
+                          on: {
+                            click: function($event) {
+                              _vm.viewDdrDetails(ddr.id)
+                            }
+                          }
+                        },
+                        [_vm._v("View")]
+                      ),
+                      _vm._v(" "),
                       ddr.status == 4
                         ? _c(
                             "a",
@@ -63955,6 +63990,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -64063,60 +64104,55 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row mb-3" }, [
-        _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("datepicker", {
-                attrs: { placeholder: "Select Start Date" },
-                model: {
-                  value: _vm.startDate,
-                  callback: function($$v) {
-                    _vm.startDate = $$v
-                  },
-                  expression: "startDate"
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.startDate
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("datepicker", {
-                attrs: { placeholder: "Select End Date" },
-                model: {
-                  value: _vm.endDate,
-                  callback: function($$v) {
-                    _vm.endDate = $$v
-                  },
-                  expression: "endDate"
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.endDate
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: { click: _vm.generateByDate }
-            },
-            [_vm._v("Generate")]
-          )
-        ])
+        _c(
+          "div",
+          { staticClass: "form-group", staticStyle: { "margin-left": "15px" } },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select Start Date" },
+              model: {
+                value: _vm.startDate,
+                callback: function($$v) {
+                  _vm.startDate = $$v
+                },
+                expression: "startDate"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.startDate
+              ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select End Date" },
+              model: {
+                value: _vm.endDate,
+                callback: function($$v) {
+                  _vm.endDate = $$v
+                },
+                expression: "endDate"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.endDate
+              ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.generateByDate } },
+          [_vm._v("Generate")]
+        )
       ]),
       _vm._v(" "),
       _c("input", {
@@ -64177,18 +64213,67 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-warning",
-                    on: {
-                      click: function($event) {
-                        _vm.viewNcnDetails(ncn.id)
+                _c("div", { staticClass: "dropdown" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary dropdown-toggle btn-sm",
+                      attrs: {
+                        type: "button",
+                        id: "dropdownMenuButton",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false"
                       }
-                    }
-                  },
-                  [_vm._v("View")]
-                )
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Option\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "dropdown-menu",
+                      attrs: { "aria-labelledby": "dropdownMenuButton" }
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { href: "javascript:void(0)" },
+                          on: {
+                            click: function($event) {
+                              _vm.viewNcnDetails(ncn.id)
+                            }
+                          }
+                        },
+                        [_vm._v("View")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: {
+                            "data-toggle": "modal",
+                            "data-target": "#trashNcnModal",
+                            href: "javascript:void(0)"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.getNcnId(ncn.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Move to trash")]
+                      )
+                    ]
+                  )
+                ])
               ])
             ])
           })
@@ -64524,9 +64609,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -64661,60 +64743,55 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row mb-3" }, [
-        _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("datepicker", {
-                attrs: { placeholder: "Select Start Date" },
-                model: {
-                  value: _vm.startDate,
-                  callback: function($$v) {
-                    _vm.startDate = $$v
-                  },
-                  expression: "startDate"
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.startDate
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("datepicker", {
-                attrs: { placeholder: "Select End Date" },
-                model: {
-                  value: _vm.endDate,
-                  callback: function($$v) {
-                    _vm.endDate = $$v
-                  },
-                  expression: "endDate"
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.endDate
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: { click: _vm.generateByDate }
-            },
-            [_vm._v("Generate")]
-          )
-        ])
+        _c(
+          "div",
+          { staticClass: "form-group", staticStyle: { "margin-left": "15px" } },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select Start Date" },
+              model: {
+                value: _vm.startDate,
+                callback: function($$v) {
+                  _vm.startDate = $$v
+                },
+                expression: "startDate"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.startDate
+              ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          [
+            _c("datepicker", {
+              attrs: { placeholder: "Select End Date" },
+              model: {
+                value: _vm.endDate,
+                callback: function($$v) {
+                  _vm.endDate = $$v
+                },
+                expression: "endDate"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.endDate
+              ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.generateByDate } },
+          [_vm._v("Generate")]
+        )
       ]),
       _vm._v(" "),
       _c("input", {
@@ -67408,6 +67485,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 //
 //
 //
@@ -67507,6 +67586,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['ncnId'],
@@ -67524,6 +67604,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        moment: __WEBPACK_IMPORTED_MODULE_0_moment___default.a,
         fetchNcns: function fetchNcns() {
             var _this = this;
 
@@ -67757,11 +67838,17 @@ var render = function() {
             ? _c("tr", [
                 _vm._m(8),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(_vm.ncns[0].issuance_date))]),
+                _c("td", [
+                  _vm._v(
+                    _vm._s(_vm.moment(_vm.ncns[0].issuance_date).format("LL"))
+                  )
+                ]),
                 _vm._v(" "),
                 _vm._m(9),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(_vm.ncns[0].notified.name))])
+                _vm.ncns[0].notified
+                  ? _c("td", [_vm._v(_vm._s(_vm.ncns[0].notified.name))])
+                  : _vm._e()
               ])
             : _vm._e()
         ])
@@ -67817,9 +67904,7 @@ var staticRenderFns = [
           ])
         ]),
         _vm._v(" "),
-        _c("tr", [
-          _c("td", [_vm._v(" Doc No. "), _c("strong", [_vm._v("LFQM-F-019")])])
-        ])
+        _c("tr", [_c("td", [_vm._v(" Doc No. "), _c("strong")])])
       ])
     ])
   },
@@ -86267,6 +86352,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -86279,6 +86370,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             show: false,
             notifieds: [],
+            attachments: [],
+            formData: new FormData(),
             ncnId: '',
             errors: '',
             selectedAttachment: ' ',
@@ -86309,12 +86402,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         approvedNcn: function approvedNcn(id, ncn) {
             var _this2 = this;
 
-            axios.post('/ncn-approved', {
-                id: id,
-                status: ncn.status,
-                notified: ncn.notified,
-                remarks: ncn.remarks
-            }).then(function (response) {
+            this.prepareFields();
+            this.formData.append('id', id);
+            this.formData.append('status', ncn.status);
+            this.formData.append('notified', ncn.notified);
+            this.formData.append('remarks', ncn.remarks);
+
+            axios.post('/ncn-approved', this.formData).then(function (response) {
                 var redirect = response.data.redirect;
                 window.location.href = redirect;
             }).catch(function (error) {
@@ -86350,6 +86444,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         downloadAttachment: function downloadAttachment() {
             var base_url = window.location.origin;
             window.location = base_url + ('/download-attachment/' + this.selectedAttachment);
+        },
+        uploadFileChange: function uploadFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+
+            if (!files.length) return;
+
+            for (var i = files.length - 1; i >= 0; i--) {
+                this.attachments.push(files[i]);
+            }
+        },
+        prepareFields: function prepareFields() {
+            if (this.attachments.length > 0) {
+                for (var i = 0; i < this.attachments.length; i++) {
+                    var attachment = this.attachments[i];
+                    this.formData.append('attachments[]', attachment);
+                }
+            }
         }
     }
 });
@@ -86606,65 +86717,85 @@ var render = function() {
               ]),
               _vm._v(" "),
               _vm.show
-                ? _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "notified" } }, [
-                      _vm._v("Notified Person")
+                ? _c("div", [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "notified" } }, [
+                        _vm._v("Notified Person")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.ncn.notified,
+                              expression: "ncn.notified"
+                            }
+                          ],
+                          staticClass: "form-control form-control-lg",
+                          attrs: { id: "notified" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.ncn,
+                                "notified",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              attrs: { value: "", disabled: "", selected: "" }
+                            },
+                            [_vm._v("Select Notified Person")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.notifieds, function(notified, n) {
+                            return _c(
+                              "option",
+                              { key: n, domProps: { value: notified.id } },
+                              [_vm._v(_vm._s(notified.name))]
+                            )
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.status
+                        ? _c("span", [_vm._v(_vm._s(_vm.errors.status))])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.ncn.notified,
-                            expression: "ncn.notified"
-                          }
-                        ],
-                        staticClass: "form-control form-control-lg",
-                        attrs: { id: "notified" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.ncn,
-                              "notified",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "option",
-                          { attrs: { value: "", disabled: "", selected: "" } },
-                          [_vm._v("Select Notified Person")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.notifieds, function(notified, n) {
-                          return _c(
-                            "option",
-                            { key: n, domProps: { value: notified.id } },
-                            [_vm._v(_vm._s(notified.name))]
-                          )
-                        })
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _vm.errors.status
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.status))])
-                      : _vm._e()
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        attrs: {
+                          type: "file",
+                          multiple: "multiple",
+                          id: "attachments",
+                          placeholder: "Attach file"
+                        },
+                        on: { change: _vm.uploadFileChange }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.attachments
+                        ? _c("span", [_vm._v(_vm._s(_vm.errors.attachments))])
+                        : _vm._e()
+                    ])
                   ])
                 : _vm._e(),
               _vm._v(" "),

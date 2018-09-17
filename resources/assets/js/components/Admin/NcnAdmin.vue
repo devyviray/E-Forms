@@ -5,17 +5,15 @@
                 <h4 class="card-title">Non-conformance Notification</h4>   
             </div>
             <div class="row mb-3">
-                <div class="row">
-                    <div class="form-group">
-                        <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
-                        <span v-if="errors.startDate">{{ errors.startDate }}</span>
-                    </div>
-                    <div class="form-group">
-                        <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
-                        <span v-if="errors.endDate">{{ errors.endDate }}</span>
-                    </div>
-                    <button @click="generateByDate" class="btn btn-primary">Generate</button>
+                <div class="form-group" style="margin-left: 15px">
+                    <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
+                    <span v-if="errors.startDate">{{ errors.startDate }}</span>
                 </div>
+                <div class="form-group">
+                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                    <span v-if="errors.endDate">{{ errors.endDate }}</span>
+                </div>
+                <button @click="generateByDate" class="btn btn-primary">Generate</button>
             </div>
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
@@ -45,7 +43,15 @@
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td>
-                            <button @click="viewNcnDetails(ncn.id)" class="btn btn-warning">View</button>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Option
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a @click="viewNcnDetails(ncn.id)" class="dropdown-item" href="javascript:void(0)">View</a>
+                                    <a @click="getNcnId(ncn.id)" class="dropdown-item" data-toggle="modal" data-target="#trashNcnModal" href="javascript:void(0)">Move to trash</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>    
                 </tbody>

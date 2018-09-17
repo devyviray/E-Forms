@@ -129,6 +129,10 @@ class NcnController extends Controller
      */
     public function show($id)
     {
+        $ncn = Ncn::findOrFail($id);
+        if($ncn->status != StatusType::SUBMITTED){
+            return redirect()->back();
+        }
         return view('ncn.approved');
     }
 
@@ -155,19 +159,45 @@ class NcnController extends Controller
     */
     public function approved(Request $request)
     {
+        $request->validate([
+            'id' => 'required',
+            'remarks' => 'required',
+            'status' => 'required'
+        ]);
+
         $carbon = new Carbon();
         $ncn = Ncn::findOrFail($request->input('id'));
-        
-        $status = $request->input('status') == 1 ? StatusType::APPROVED_APPROVER : StatusType::DISAPPROVED_APPROVER;
-        $ncn->status = $status;
-        $ncn->notified_id = $request->input('notified');
-        $ncn->remarks = $request->input('remarks');
-        $ncn->approved_date = $carbon::now();
-        $ncn->save();
-        
-        $notified = User::findOrFail($request->input('notified'));
-        // Email sending to notified person
-        $notified->notify(new ApproverNotifyPersonNcn($ncn));
+
+        if($request->input('status') == 1){
+
+            $request->validate(['attachments' => 'required']);
+
+            $ncn->status = StatusType::APPROVED_APPROVER;
+            $ncn->notified_id = $request->input('notified');
+            $ncn->remarks = $request->input('remarks');
+            $ncn->approved_date = $carbon::now();
+            
+            if($ncn->save()){
+                
+                $notified = User::findOrFail($request->input('notified'));
+                // Email sending to notified person
+                $notified->notify(new ApproverNotifyPersonNcn($ncn));
+                
+                $attachments = $request->file('attachments');   
+                foreach($attachments as $attachment){
+                    $filename = $attachment->getClientOriginalName();
+                    $path = $attachment->store('ncn');
+                    $role = 'approver';
+    
+                    $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
+                } 
+            }
+        }else{
+            $ncn->status = StatusType::DISAPPROVED_APPROVER;
+            $ncn->remarks = $request->input('remarks');
+            $ncn->disapproved_date = $carbon::now();
+            $ncn->save();
+        }
 
         return ['redirect' => route('ncn')];
     }

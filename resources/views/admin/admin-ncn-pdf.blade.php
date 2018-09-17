@@ -2,27 +2,32 @@
 <html>
 <head>
 	<title>PDF Download</title>
-        <style>
-			body {
-			font-family: 'Miriam Libre', sans-serif;
-			font-size: 70%;
-			}
-
-			h1,h2,h3,h4,h5,h6{
-				font-family: 'Miriam Libre', sans-serif;
+		<style>
+			table {
+				width:100%;
 			}
 			table, th, td {
-			border: 0.50px solid black ! important;
+				border: 1px solid black;
+				border-collapse: collapse;
 			}
-
-			.borderless, .borderless th, .borderless td {
-				border: 0 ! important;
-				font-size: 12px;
+			th, td {
+				padding: 15px;
+				text-align: left;
 			}
-    	</style>
+			table#t01 tr:nth-child(even) {
+				background-color: #eee;
+			}
+			table#t01 tr:nth-child(odd) {
+			background-color: #fff;
+			}
+			table#t01 th {
+				background-color: black;
+				color: white;
+			}
+		</style>
 </head>
 <body>
-	<table class="table table-bordered" width="100%">
+	<table style="margin-bottom: 15px">
 		<tr>
 			<td rowspan="3">
 				<img class="logo-logo" src="{{asset('image/lfug-logo.png')}}" 
@@ -31,83 +36,93 @@
 			<td colspan="4">La Filipina Uy Gongco Group of Companies</td>
 		</tr>
 		<tr>
-			<td> Doc No. <strong>LFQM-F-019</strong> </td>
-			<td> Rev No. <strong>02</strong> </td>
-			<td> Effective Date </td>
-			<td> June 22, 2016 </td>
+			<td><strong> Doc No. </strong></td>
+			<td><strong> Rev No. </strong> </td>
+			<td><strong> Effective Date </strong></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td colspan="4"> NON CONFORMANCE NOTIFICATION </td>
 		</tr>
 	</table>
 
-	<table class="table"  width="100%">
+	<table style="margin-bottom: 5px">
 		<tr>
-			<td width="30%" class="info"> <strong> COMPANY: </strong> </td>
-			<td colspan="2"> {{ $ncn[0]->company->name }} </td>
-		</tr>
-		<tr>
-			<td class="info"> <strong> DIVISION / DEPARTMENT: </strong> </td>
-			<td colspan="2"> {{ $ncn[0]->department->name }}</td>
+			<td> <strong> COMPANY: </strong> </td>
+			<td> {{ $ncn[0]->company->name }} </td>
+			<td> <strong> DIVISION / DEPARTMENT: </strong> </td>
+			<td> {{ $ncn[0]->department->name }}</td>
 		</tr>
 	</table>
 	
 	<!-- step 1 -->
-	<table class="table borderless"  width="100%">
+	<table style="margin-bottom: 5px">
 		<tr>
-			<td colspan="3"> <strong> TYPE OF NON CONFORMITY: </strong> </td>
-		</tr>
-		<tr>
-			<td>
-				<img src="{{asset('image/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> item name
-			</td>
+			<td> <strong> TYPE OF NON CONFORMITY: </strong> </td>
+			@if($ncn[0]->non_conformity_types ==1)
+			<td>Customer-returns</td>
+			@elseif($ncn[0]->non_conformity_types ==2)
+			<td>Process-related</td>
+			@elseif($ncn[0]->non_conformity_types ==3)
+			<td>Contracted-service</td>
+			@elseif($ncn[0]->non_conformity_types ==4)
+			<td>Objectives not met</td>
+			@elseif($ncn[0]->non_conformity_types ==5)
+			<td>Vendor</td>
+			@else
+			<td>Others</td>
+			@endif
 		</tr>
 	</table>
 
-	<table class="table table-bordered" width="100%">
+	<table style="margin-bottom: 5px">
 		<tr>
-			<td  class="info"> <strong> Notification No: </strong> </td>
+			<td colspan="2"> <strong> Notification No: </strong> </td>
 			<td>  {{ $ncn[0]->notification_number }} </td>
-			<td  class="info"> <strong> Issued by: </strong> </td>
-			<td> {{ $ncn[0]->requester->name }} </td>
-		</tr>
-		<tr>
-			<td  class="info"> <strong> Recurrence No: </strong> </td>
+			<td colspan="2"> <strong> Recurrence No: </strong> </td>
 			<td> {{ $ncn[0]->recurrence_number }}</td>
-			<td  class="info"> <strong> Position: </strong> </td>
-			<td> {{ $ncn[0]->requester->position }} </td>
 		</tr>
 		<tr>
-			<td  class="info"> <strong> Date of Issuance: </strong> </td>
-			<td> {{ $ncn[0]->issuance_date }} </td>
-			<td  class="info"> <strong> Notified Person: </strong> </td>
-			<td> </td>
+			<td> <strong> Issued by: </strong> </td>
+			<td> {{ $ncn[0]->requester->name }} </td>
+			<td> <strong> Position: </strong> </td>
+			<td> {{ $ncn[0]->requester->position }} </td>
+			<td> <strong> Date of Issuance: </strong> </td>
+			<td>{{  date('F j, Y', strtotime($ncn[0]->issuance_date))  }}</td>
+		</tr>
+		<tr>
 		</tr>
 	</table>
 
-	<table class="table table-bordered" width="100%">
-			<tr> 
-				<td colspan="4" class="info"> <strong> Details of Non-conformity: </strong> </td>	
-			</tr>
-			<tr>
-				<td colspan="4" style="height:100px; "> {{ $ncn[0]->non_conformity_details }} </td>
-			</tr>
-			<tr>
-				<td colspan="4" class="info"> <strong> Immediate Action Taken: </strong> </td>	
-			</tr>
-			<tr>
-				<td colspan="4" style="height:100px; "> action taken </td>
-			</tr>
-			<tr>
-				<td class="info"> <strong> Responsible: </strong> </td>
-				<td colspan="3"> notified name </td>
-			</tr>
-			<tr>
-				<td class="info"> <strong> Position: </strong> </td>
-				<td> </td>
-				<td class="info"> <strong> Execution Date: </strong> </td>
-				<td> execution date </td>
-			</tr>
+	<table style="margin-bottom: 5px">
+		<tr> 
+			<td colspan="6"> <strong> Details of Non-conformity: </strong> </td>	
+		</tr>
+		<tr>
+			<td colspan="6" style="height:100px; "> {{ $ncn[0]->non_conformity_details }} </td>
+		</tr>
+		<tr>
+			<td colspan="6"> <strong> Immediate Action Taken: </strong> </td>	
+		</tr>
+		<tr>
+			<td colspan="6" style="height:100px; ">{{ $ncn[0]->action_taken }}</td>
+		</tr>
+		<tr>
+			<td> <strong> Responsible: </strong> </td>
+			@if($ncn[0]->notified)
+			<td>{{ $ncn[0]->notified->name }}</td>
+			@else
+			<td></td>
+			@endif
+			<td> <strong> Position: </strong> </td>
+			@if($ncn[0]->notified)
+			<td>{{ $ncn[0]->notified->position }}</td>
+			@else
+			<td></td>
+			@endif
+			<td> <strong> Execution Date: </strong> </td>
+			<td>{{  date('F j, Y', strtotime($ncn[0]->action_date))  }}</td>
+		</tr>
 	</table>
 
 </body>

@@ -190,7 +190,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){
   Route::get('/admin/drdrs-all', 'DrdrController@getAllDrdrs');
   // Return page to view details of drdr
   Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
-  // Generate pdf file for drdr
+  // Generate pdf file for drdrP
   Route::get('/admin/drdr-pdf/{id}', 'DrdrController@drdrPdf');
   // Mark DRDR as distributed
   Route::post('/admin/drdr-distributed', 'DrdrController@distributed');

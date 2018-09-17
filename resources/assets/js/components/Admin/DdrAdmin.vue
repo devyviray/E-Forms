@@ -5,17 +5,15 @@
                 <h4 class="card-title">Document Distribution Request</h4>   
             </div>
             <div class="row mb-3">
-                <div class="row">
-                    <div class="form-group">
-                        <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
-                        <span v-if="errors.startDate">{{ errors.startDate }}</span>
-                    </div>
-                    <div class="form-group">
-                        <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
-                        <span v-if="errors.endDate">{{ errors.endDate }}</span>
-                    </div>
-                    <button @click="generateByDate" class="btn btn-primary">Generate</button>
+                <div class="form-group" style="margin-left: 15px">
+                    <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
+                    <span v-if="errors.startDate">{{ errors.startDate }}</span>
                 </div>
+                <div class="form-group">
+                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                    <span v-if="errors.endDate">{{ errors.endDate }}</span>
+                </div>
+                <button @click="generateByDate" class="btn btn-primary">Generate</button>
             </div>
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
@@ -31,7 +29,7 @@
                 </thead>    
                 <tbody>
                     <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
-                        <td @click="viewDdrDetails(ddr.id)">{{ ddr.id }}</td>
+                        <td>{{ ddr.id }}</td>
                         <td>{{ ddr.requester.name }}</td>
                         <td>{{ ddr.company.name }}</td>
                         <td>{{ ddr.reason_of_distribution }}</td>
@@ -48,6 +46,7 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a @click="viewDdrDetails(ddr.id)" class="dropdown-item" href="javascript:void(0)">View</a>
                                     <a v-if="ddr.status == 4" @click="getDdr(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#editDdrModal" href="javascript:void(0)">Edit Document</a>
                                     <a v-if="ddr.status == 4" @click="getDdrId(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDdrModal" href="javascript:void(0)">Mark as distributed</a>
                                     <a class="dropdown-item" href="#">Move to trash</a>

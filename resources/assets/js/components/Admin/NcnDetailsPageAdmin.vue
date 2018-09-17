@@ -24,7 +24,7 @@
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
                     <tr>
-                        <td> Doc No. <strong>LFQM-F-019</strong> </td>
+                        <td> Doc No. <strong></strong> </td>
                     </tr>
                 </tbody>
             </table>
@@ -68,9 +68,9 @@
                     </tr>
                     <tr  v-if="ncns.length">
                         <td><strong>Date of Issuance:</strong></td>
-                        <td>{{ ncns[0].issuance_date }}</td>
+                        <td>{{ moment(ncns[0].issuance_date).format('LL') }}</td>
                         <td><strong>Notified Person:</strong></td>
-                        <td>{{ ncns[0].notified.name }}</td>
+                        <td v-if="ncns[0].notified">{{ ncns[0].notified.name }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -98,6 +98,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 export default {
     props:['ncnId'],
     data(){
@@ -113,6 +114,7 @@ export default {
         this.fetchNcns();
     },
     methods:{
+        moment,
         fetchNcns()
         {
             axios.get(`/ncn-data/${this.ncnId}`)

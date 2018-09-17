@@ -96,13 +96,19 @@
                        </select>
                         <span v-if="errors.status">{{ errors.status }}</span>
                     </div>
-                    <div class="form-group" v-if="show">
-                       <label for="notified">Notified Person</label>
-                       <select v-model="ncn.notified" class="form-control form-control-lg" id="notified">
-                           <option value="" disabled selected>Select Notified Person</option>
-                           <option v-for="(notified, n) in notifieds"  v-bind:key="n" :value="notified.id">{{ notified.name }}</option>
-                       </select>
-                        <span v-if="errors.status">{{ errors.status }}</span>
+                    <div v-if="show">
+                        <div class="form-group">
+                            <label for="notified">Notified Person</label>
+                            <select v-model="ncn.notified" class="form-control form-control-lg" id="notified">
+                                <option value="" disabled selected>Select Notified Person</option>
+                                <option v-for="(notified, n) in notifieds"  v-bind:key="n" :value="notified.id">{{ notified.name }}</option>
+                            </select>
+                            <span v-if="errors.status">{{ errors.status }}</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
+                            <span v-if="errors.attachments">{{ errors.attachments }}</span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="reason_request">Remarks</label>
@@ -128,6 +134,8 @@ export default {
             },
             show: false,
             notifieds: [],
+            attachments: [],
+            formData: new FormData(),
             ncnId: '',
             errors:'',
             selectedAttachment: ' ',
@@ -156,12 +164,13 @@ export default {
         },
         approvedNcn(id,ncn)
         {
-            axios.post('/ncn-approved', {
-                id : id,
-                status: ncn.status,
-                notified: ncn.notified,
-                remarks: ncn.remarks,
-            })  
+            this.prepareFields();
+            this.formData.append('id', id);
+            this.formData.append('status', ncn.status);
+            this.formData.append('notified', ncn.notified);
+            this.formData.append('remarks', ncn.remarks);
+
+            axios.post('/ncn-approved', this.formData)  
             .then(response => {
                 var redirect = response.data.redirect;
                 window.location.href = redirect;
@@ -204,6 +213,24 @@ export default {
         {
             var base_url = window.location.origin;
             window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
+        },
+        uploadFileChange(e){
+            var files = e.target.files || e.dataTransfer.files;
+
+            if(!files.length)
+                return;
+            
+            for (var i = files.length - 1; i >= 0; i--){
+                this.attachments.push(files[i]);
+            }
+        },
+        prepareFields(){
+            if(this.attachments.length > 0){
+                for(var i = 0; i < this.attachments.length; i++){
+                    let attachment = this.attachments[i];
+                    this.formData.append('attachments[]', attachment);
+                }
+            } 
         },
         
     },

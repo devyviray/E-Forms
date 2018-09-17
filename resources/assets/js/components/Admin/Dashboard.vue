@@ -14,20 +14,20 @@
                                     <th>ENTRIES</th>
                                 </thead>
                                 <tbody>
-                                    <tr @click="viewDrdrs">
-                                        <td>Document review & Distribution request</td>
+                                    <tr>
+                                        <td><a :href="viewDrdrs" target="_blank"> Document review & Distribution request </a></td>
                                         <td>{{ drdrs }}</td>
                                     </tr>
-                                    <tr @click="viewDdrs">
-                                        <td>Document distribution request</td>
+                                    <tr>
+                                        <td> <a :href="viewDdrs" target="_blank"> Document distribution request </a> </td>
                                         <td>{{ ddrs }}</td>
                                     </tr>
-                                    <tr @click="viewNcn">
-                                        <td>Non-conformance notification</td>
+                                    <tr>
+                                        <td><a :href="viewNcn" target="_blank"> Non-conformance notification</a></td>
                                         <td>{{ ncns }}</td>
                                     </tr>
-                                    <tr @click="viewCcir">
-                                        <td>Customer complaint information report</td>
+                                    <tr>
+                                        <td><a :href="viewCcir" target="_blank"> Customer complaint information report </a> </td>
                                         <td>{{ ccirs }}</td>
                                     </tr>
                                 </tbody>
@@ -90,11 +90,6 @@ export default {
                 })
                 .catch(error => console.log(errors));  
         },
-        viewDrdrs()
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+'/admin/drdrs';
-        },
         viewDdrs()
         {
             var base_url = window.location.origin;
@@ -110,6 +105,36 @@ export default {
             var base_url = window.location.origin;
             window.location.href = base_url+'/admin/ccirs';
         }
-    }   
+    }, 
+    computed:{
+        viewDrdrs()
+        {
+            var base_url = window.location.origin;
+            var url = base_url+'/admin/drdrs';
+
+            return url;
+        },
+         viewDdrs()
+        {
+            var base_url = window.location.origin;
+            var url = base_url+'/admin/ddrs';
+
+            return url;
+        },
+        viewNcn()
+        {
+            var base_url = window.location.origin;
+            var url = base_url+'/admin/ncns';
+
+            return url;
+        },
+        viewCcir()
+        {
+            var base_url = window.location.origin;
+            var url = base_url+'/admin/ccirs';
+
+            return url;
+        }
+    }
 }
 </script>

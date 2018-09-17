@@ -2,27 +2,33 @@
 <html>
 <head>
 	<title>PDF Download</title>
-    <style>
-        body {
-            font-family: 'Miriam Libre', sans-serif;
-            font-size: 70%;
-        }
-        h1,h2,h3,h4,h5,h6{
-            font-family: 'Miriam Libre', sans-serif;
-        }
-        table, th, td {
-        border: 0.50px solid black ! important;
-        }
-        .borderless, .borderless th, .borderless td {
-            border: 0 ! important;
-            font-size: 12px;
-        }
-    </style>
-
+	<style>
+		table {
+			width:100%;
+		}
+		table, th, td {
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+		th, td {
+			padding: 15px;
+			text-align: left;
+		}
+		table#t01 tr:nth-child(even) {
+			background-color: #eee;
+		}
+		table#t01 tr:nth-child(odd) {
+		background-color: #fff;	
+		}
+		table#t01 th {
+			background-color: black;
+			color: white;
+		}
+	</style>
 </head>
 <body>
 
-<table class="table table-bordered" width="100%">
+	<table style="margin-bottom:10px">
 		<tr>
 			<td rowspan="3">
 				<img class="logo-logo" src="" 
@@ -31,113 +37,112 @@
 			<td colspan="5" >La Filipina Uy Gongco Group of Companies</td>
 		</tr>
 		<tr>
-			<td>  Doc No. <strong>LFQM-F-002</strong> </td>
-			<td> Rev No. <strong>03</strong> </td>
+			<td><strong>Doc No.</strong> </td>
+			<td><strong>Rev No.</strong> </td>
 			<td> Effective Date </td>
-			<td colspan="2"> {{ $ddr[0]->effective_date }} </td>
+			<td colspan="2"> {{  date('F j, Y', strtotime($ddr[0]->effective_date))  }} </td>
 		</tr>
 		<tr>
 			<td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>
 		</tr>
-</table>
+	</table>
 
-<table class="table borderless">
-	<tr>
-		<td rowspan="3"> <strong> Reason for distribution: </strong> </td>
-        <td colspan="2"> {{ $ddr[0]->reason_of_distribution }} </td>
-    </tr>
-    <tr>
-		<td colspan="3">
-			<img src="" style="width: auto; height: 20px; margin-left: 8px;">
-			Customer request (uncontrolled copy)
-		</td>
-	</tr>
-	<tr>
-		<td>
-            <img src="{{asset('image/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;">
-            <strong> Others:</strong>
-		</td>
-		<td colspan="2"> Others </td>
-	</tr>
-	<tr>
-		<td> <strong> Date Neeeded: {{ $ddr[0]->date_needed }} </strong>  </td> 
-        <td colspan="3"> </td>
-	</tr>
-</table>
-<table class="table table-bordered" width="100%">
-	<thead>
+	<table style="margin-bottom:5px">
 		<tr>
-			<th  class="info">Document Title</th>
-			<th  class="info">Control Code</th>
-			<th  class="info">Rev No.</th>
-			<th  class="info">Copy No.</th>
-			<th  class="info">Copy holder</th>
-			<th  class="info">Received by:</th>
-			<th  class="info">Date</th>
+			<td> <strong> Reason for distribution: </strong> </td>
+			@if($ddr[0]->reason_of_distribution == 1)
+				<td>Relevant External Document (controlled copy)</td>
+			@elseif($ddr[0]->reason_of_distribution == 2)
+				<td>Customer Request (uncontrolled copy)</td>
+			@else
+			<td>Others (please specify)</td>
+			@endif
+			<td> <strong> Date Neeeded: </strong> </td> 
+			<td>{{  date('F j, Y', strtotime($ddr[0]->date_needed))  }}</td>
 		</tr>
-	</thead>
-	<tbody>
-		@foreach($ddr[0]->ddrLists as $ddrlist )
+	</table>
+
+	<table style="margin-bottom:5px">
+		<thead>
 			<tr>
-				<td> {{ $ddrlist->document_title }} </td>
-				<td> {{ $ddrlist->control_code }} </td>
-				<td> {{ $ddrlist->rev_number }}</td>
-				<td> {{ $ddrlist->copy_number }} </td>
-				<td> {{ $ddrlist->copy_holder }} </td>
-				<td> Sample receiver </td>
-				<td> sample date</td>
+				<th>Document Title</th>
+				<th>Control Code</th>
+				<th>Rev No.</th>
+				<th>Copy No.</th>
+				<th>Copy holder</th>
 			</tr>
-		@endforeach
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			@foreach($ddr[0]->ddrLists as $ddrlist )
+				<tr>
+					<td> {{ $ddrlist->document_title }} </td>
+					<td> {{ $ddrlist->control_code }} </td>
+					<td> {{ $ddrlist->rev_number }}</td>
+					<td> {{ $ddrlist->copy_number }} </td>
+					<td> {{ $ddrlist->copy_holder }} </td>
+				</tr>
+			@endforeach
+		</tbody>
+	</table>
 
-<table class="table" style="border: 0 ! important;">
-	<tr>
-	    <td class="info" colspan="6" style="border: 0 ! important;">
-	        <em> <strong> Total number of obsolete copy retrieved: {{ count($ddr[0]->ddrLists) }} </strong> </em>
-	    </td>
-	</tr>
-	<tr>
-	<td style="border: 0 ! important;"> <strong> Requested by:  <strong></td>
-		<td style="border: 0 ! important;"> {{ $ddr[0]->requester->name }} </td>
-		<td style="border: 0 ! important;">
-		    <strong> Approved by: </strong>
-		</td>
-		<td style="border: 0 ! important;"> {{ $ddr[0]->approver->name }} </td>
-		<td style="border: 0 ! important;">
-		    <strong> Distributed by: </strong>
-		</td>
-		<td style="border: 0 ! important;"> </td>
-	</tr>
-	<tr>
-		<td style="border: 0 ! important;"> <strong> Position:  <strong> </td>
-		<td style="border: 0 ! important;">  {{ $ddr[0]->requester->position }} </td>
-		<td style="border: 0 ! important;"> <strong> Position: </strong> </td>
-        <td style="border: 0 ! important;">  {{ $ddr[0]->approver->position }} </td>
-		<td style="border: 0 ! important;"> <strong> Position: </strong> </td>
-        <td style="border: 0 ! important;"> ddrms </td>
-	</tr>
-	<tr>
-		<td style="border: 0 ! important;"> <strong> Date </strong> </td>
-		<td style="border: 0 ! important;"> {{ $ddr[0]->date_request }} </td>
-		<td style="border: 0 ! important;"> <strong> Date </strong> </td>
-        <td style="border: 0 ! important;"> {{ $ddr[0]->approved }}  </td>
-		<td style="border: 0 ! important;"> <strong> Date </strong> </td>
-        <td style="border: 0 ! important;"> ddrms </td>
-	</tr>
-</table>
+	<table style="margin-bottom:5px">
+		<tr>
+			<td colspan="6">
+				<em> <strong> Total number of obsolete copy retrieved: {{ count($ddr[0]->ddrLists) }} </strong> </em>
+			</td>
+		</tr>
+		<tr>
+			<td> <strong> Requested by:  <strong></td>
+			<td> {{ $ddr[0]->requester->name }} </td>
+			<td> <strong> Approved by: </strong> </td>
+			<td> {{ $ddr[0]->approver->name }} </td>
+			<td> <strong> Distributed by: </strong> </td>
+			@if($ddr[0]->distributed)
+			<td> {{ $ddr[0]->distributed->name }} </td>
+			@else
+			<td></td>
+			@endif
+		</tr>
+		<tr>
+			<td> <strong> Position:  <strong> </td>
+			<td>  {{ $ddr[0]->requester->position }} </td>
+			<td> <strong> Position: </strong> </td>
+			<td>  {{ $ddr[0]->approver->position }} </td>
+			<td> <strong> Position: </strong> </td>
+			@if($ddr[0]->distributed)
+			<td> {{ $ddr[0]->distributed->position }} </td>
+			@else
+			<td></td>
+			@endif
+		</tr>
+		<tr>
+			<td> <strong> Date </strong> </td>
+			<td>{{  date('F j, Y', strtotime($ddr[0]->date_request))  }}</td>
+			<td> <strong> Date </strong> </td>
+			@if($ddr[0]->approved_date)
+			<td>{{  date('F j, Y', strtotime($ddr[0]->approved_date))  }}</td>
+			@else
+			<td></td>
+			@endif
+			<td> <strong> Date </strong> </td>
+			@if($ddr[0]->distributed_date)
+			<td>{{  date('F j, Y', strtotime($ddr[0]->distributed_date))  }}</td>
+			@else
+			<td></td>
+			@endif
+		</tr>
+	</table>
 
-<p> <small> Disclaimer for uncrolled document: </small> </p>
-
-<p> 
-    <small>
-		<ul>
-			<li>Documents are issued as requested and shall not be used for any other purpose</li>
-			<li>
-			No Part of the document may be reproduced or utilized in any form, electronic or mechanical, including photocopying without written permission to the QM Document Controller.
-			</li>
-		</ul>
-	</small>
-</p>
+	<p> <small> Disclaimer for uncontrolled document: </small> </p>
+	<p> 
+		<small>
+			<ul>
+				<li>Documents are issued as requested and shall not be used for any other purpose</li>
+				<li>
+				No Part of the document may be reproduced or utilized in any form, electronic or mechanical, including photocopying without written permission to the QM Document Controller.
+				</li>
+			</ul>
+		</small>
+	</p>
 </body>
 </html>

@@ -5,17 +5,15 @@
                 <h4 class="card-title">Customer Complaint Inforamtion Report</h4>
             </div>
             <div class="row mb-3">
-                <div class="row">
-                    <div class="form-group">
-                        <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
-                        <span v-if="errors.startDate">{{ errors.startDate }}</span>
-                    </div>
-                    <div class="form-group">
-                        <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
-                        <span v-if="errors.endDate">{{ errors.endDate }}</span>
-                     </div>
-                    <button @click="generateByDate" class="btn btn-primary">Generate</button>
+                <div class="form-group" style="margin-left: 15px">
+                    <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
+                    <span v-if="errors.startDate">{{ errors.startDate }}</span>
                 </div>
+                <div class="form-group">
+                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                    <span v-if="errors.endDate">{{ errors.endDate }}</span>
+                    </div>
+                <button @click="generateByDate" class="btn btn-primary">Generate</button>
             </div>
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
@@ -60,7 +58,6 @@
                                     <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#cancelCcirModal" href="javascript:void(0)">Cancel document</a>
                                 </div>
                             </div>
-                            <!-- <button @click="viewCcirDetails(ccir.id)" class="btn btn-warning">View</button> -->
                         </td>
                     </tr>    
                 </tbody>
