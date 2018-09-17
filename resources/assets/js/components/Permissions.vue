@@ -9,6 +9,12 @@
                     </div>
                     <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
                     <div class="card-body table-full-width table-responsive">
+
+                        <content-placeholders v-if="loading">
+                            <content-placeholders-heading :img="true" />
+                            <content-placeholders-text :lines="3" />
+                        </content-placeholders>
+
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -23,10 +29,16 @@
                                     <td>{{ permission.name }}</td>
                                     <td>{{ permission.slug }}</td>
                                     <td>{{ permission.description }}</td>
-                                    <td>{{ permission.level }}</td>
                                     <td>
-                                        <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${permission.id}`">Edit</button>
-                                        <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${permission.id}`">Delete</button>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Option
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#editModal-${permission.id}`">Edit</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#deleteModal-${permission.id}`">Delete</a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -134,7 +146,12 @@
     </div>
 </template>
 <script>
+import VueContentPlaceholders from 'vue-content-placeholders';
+
 export default {
+    components:{
+        VueContentPlaceholders
+    },
     data(){
         return{
             permissions: [],
@@ -151,6 +168,7 @@ export default {
             errors: [],
             currentPage: 0,
             itemsPerPage: 5,
+            loading: false
         }
     },
     created(){
@@ -158,9 +176,11 @@ export default {
     },  
     methods: {
         fetchPermissions(){
+            this.loading = true;
             axios.get('/permissions')    
             .then(response => {
                 this.permissions = response.data;
+                this.loading = false;
             });
         },
         addPermission(permission){

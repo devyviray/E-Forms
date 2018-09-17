@@ -2,6 +2,12 @@
     <div>
         <div class="card-body table-full-width table-responsive">
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+            
+            <content-placeholders v-if="loading">
+                <content-placeholders-heading :img="true" />
+                <content-placeholders-text :lines="3" />
+            </content-placeholders>
+
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -46,7 +52,11 @@
 </template>
 <script>
 import moment from 'moment';
+import VueContentPlaceholders from 'vue-content-placeholders';
 export default {
+    components:{ 
+        VueContentPlaceholders
+    },
     data() {
         return {
             drdrsPendingApprovalForms: [],
@@ -54,6 +64,7 @@ export default {
             errors: '',
             currentPage: 0,
             itemsPerPage: 10,
+            loading: false
         }
     },
 
@@ -65,9 +76,11 @@ export default {
         moment,
         fetchdrdrsPendingApprovalForms()
         {
+            this.loading = true;
             axios.get('/drdrs-pending-approvals')
             .then(response => {
                 this.drdrsPendingApprovalForms = response.data;
+                this.loading = false;
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;

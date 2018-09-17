@@ -9,6 +9,12 @@
                     </div>
                     <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
                     <div class="card-body table-full-width table-responsive">
+
+                        <content-placeholders v-if="loading">
+                            <content-placeholders-heading :img="true" />
+                            <content-placeholders-text :lines="3" />
+                        </content-placeholders>
+
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -133,7 +139,12 @@
     </div>
 </template>
 <script>
+import VueContentPlaceholders from 'vue-content-placeholders';
+
 export default {
+    components(){
+        VueContentPlaceholders
+    },
     data(){
         return{
             roles: [],
@@ -151,6 +162,7 @@ export default {
             errors: [],
             currentPage: 0,
             itemsPerPage: 10,
+            loading: false
         }
     },
     created(){
@@ -158,9 +170,11 @@ export default {
     },  
     methods: {
         fetchRoles(){
+            this.loading = true;
             axios.get('/roles')    
             .then(response => {
                 this.roles = response.data;
+                this.loading = false;
             });
         },
         addRole(role){

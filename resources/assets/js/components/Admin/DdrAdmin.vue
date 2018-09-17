@@ -28,6 +28,14 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
+                    <tr v-if="loading">
+                        <td colspan="8">
+                            <content-placeholders>
+                                <content-placeholders-heading :img="true" />
+                                <content-placeholders-text :lines="3" />
+                            </content-placeholders>
+                        </td>
+                    </tr>
                     <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
                         <td>{{ ddr.id }}</td>
                         <td>{{ ddr.requester.name }}</td>
@@ -69,7 +77,6 @@
                 <span>{{ ddrs.length }} Ddr form(s)</span>
             </div>
         </div>
-
 
         <!-- Edit document Modal -->
         <div  class="modal fade bd-example-modal-lg" id="editDdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
@@ -154,10 +161,12 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
+import VueContentPlaceholders from 'vue-content-placeholders';
 
 export default {
     components:{
       Datepicker,
+      VueContentPlaceholders
     },
     data(){
         return{
@@ -170,6 +179,7 @@ export default {
             ddrlists: [],
             currentPage: 0,
            itemsPerPage: 10,
+           loading: false
         }
     },
     created(){
@@ -179,9 +189,11 @@ export default {
         moment,
         fetchDdrs()
         {
+            this.loading = true;
             axios.get('/admin/ddrs-all')
             .then(response => {
                 this.ddrs = response.data;
+                this.loading = false;
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;

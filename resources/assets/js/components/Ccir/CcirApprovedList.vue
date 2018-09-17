@@ -2,6 +2,12 @@
     <div>
         <div class="card-body table-full-width table-responsive">
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+
+            <content-placeholders v-if="loading">
+                <content-placeholders-heading :img="true" />
+                <content-placeholders-text :lines="3" />
+            </content-placeholders>
+
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -43,7 +49,12 @@
 
 <script>
 import moment from 'moment';
+import VueContentPlaceholders from 'vue-content-placeholders';
+
 export default {
+    components:{
+        VueContentPlaceholders
+    },
     data(){
         return{
             ccirApprovedForms: [],
@@ -51,6 +62,7 @@ export default {
             errors: '',
             currentPage: 0,
             itemsPerPage: 10,
+            loading: false
         }
     },
     created(){
@@ -64,9 +76,11 @@ export default {
             window.location.href = base_url+`/ccir-view/${id}`;
         },
         fetchCcirApprovedForms(){
+            this.loading = true;
             axios.get('/ccirs-approved-forms')
             .then(response => {
-                this.ccirApprovedForms = response.data; 
+                this.ccirApprovedForms = response.data;
+                this.loading = false;
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;

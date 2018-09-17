@@ -9,6 +9,12 @@
                     </div>
                     <div class="card-body table-full-width table-responsive">
                         <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+
+                        <content-placeholders v-if="loading">
+                            <content-placeholders-heading :img="true" />
+                            <content-placeholders-text :lines="3" />
+                        </content-placeholders>
+
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -36,8 +42,15 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <button  class="btn btn-warning" @click="editUser(user.id)">Edit</button>
-                                        <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${user.id}`">Delete</button>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Option
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a  @click="editUser(user.id)" class="dropdown-item" href="javascript:void(0)">Edit</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#deleteModal-${user.id}`">Delete</a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -84,9 +97,14 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <script>
-import Multiselect from 'vue-multiselect'
+import Multiselect from 'vue-multiselect';
+import VueContentPlaceholders from 'vue-content-placeholders';
+
 export default {
-    components: { Multiselect },
+    components: { 
+        Multiselect,
+        VueContentPlaceholders
+    },
     data(){
         return{
             users: [],
@@ -97,6 +115,7 @@ export default {
             errors: [],
             currentPage: 0,
             itemsPerPage: 10,
+            loading: false
 
          }
     },
@@ -112,9 +131,11 @@ export default {
             return `${role.name}`
         },
         fetchUsers(){
+            this.loading = true;
             axios.get('/users')
                 .then(response => {
                     this.users = response.data;
+                    this.loading = false;
                 })
                 .catch(error => console.log(errors));  
         },

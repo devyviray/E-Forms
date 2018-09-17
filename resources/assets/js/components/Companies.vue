@@ -9,6 +9,12 @@
                     </div>
                     <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
                     <div class="card-body table-full-width table-responsive">
+
+                        <content-placeholders v-if="loading">
+                            <content-placeholders-heading :img="true" />
+                            <content-placeholders-text :lines="3" />
+                        </content-placeholders>
+
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -22,8 +28,15 @@
                                     <td>{{ company.name }}</td>
                                     <td>{{ company.address }}</td>
                                     <td>
-                                        <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${company.id}`">Edit</button>
-                                        <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${company.id}`">Delete</button>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Option
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="javascript:void(0)"  data-toggle="modal" :data-target="`#editModal-${company.id}`">Edit</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#deleteModal-${company.id}`">Delete</a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -124,7 +137,12 @@
 </template>
 
 <script>
+import VueContentPlaceholders from 'vue-content-placeholders';
+
 export default {
+    components(){
+        VueContentPlaceholders
+    },
     data(){
         return{
             companies: [],
@@ -140,12 +158,12 @@ export default {
             errors: [],
             currentPage: 0,
             itemsPerPage: 10,
+            loading: false
         }
 
     },
     watch:{
         companies: function(val, oldVal){
-
         }
     },
     created(){
@@ -153,9 +171,11 @@ export default {
     },
      methods: {
         fetchCompanies(){
+            this.loading = true;
             axios.get('/companies')
                 .then(response => {
                     this.companies = response.data;
+                    this.loading = false;
                 })
                 .catch(err => console.log(err));  
         },

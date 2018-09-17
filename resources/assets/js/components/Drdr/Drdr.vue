@@ -4,8 +4,8 @@
             <div class="col-md-12">
                 <button class="btn btn-primary mb-2" @click="addDrdrForm" >Add Drdr</button>
                 <div class="card strpied-tabled-with-hover">
-                    <div class="card-header ">
-                        <h4 class="card-title">Drdr Forms</h4>
+                     <div class="card-header mb-3">
+                        <h4 class="card-title">Document Review & Document Request</h4>   
                     </div>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                          <li class="nav-item">
@@ -94,7 +94,7 @@ export default {
         DrdrReviewedList,
         DrdrPendingApprovalList,
         DrdrApprovedList,
-        DrdrSubmitted
+        DrdrSubmitted,
     },
 
     props: ['roleId'],

@@ -13,10 +13,10 @@
                     <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
                     <span v-if="errors.endDate">{{ errors.endDate }}</span>
                 </div>
-                <button @click="generateByDate" class="btn btn-primary">Generate</button>
+                <button @click="generateByDate" type="button" class="btn btn-outline-dark">Generate</button>
             </div>
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
-            <table class="table table-hover table-striped">
+            <table class="table table-hover table-striped">  
                 <thead>
                     <th>ID</th>
                     <th>Document title</th>
@@ -27,8 +27,16 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
+                    <tr v-if="loading">
+                        <td colspan="6">
+                        <content-placeholders>
+                            <content-placeholders-heading :img="true" />
+                            <content-placeholders-text :lines="3" />
+                        </content-placeholders>
+                        </td>
+                    </tr>
                     <tr v-for="drdr in filteredQueues" v-bind:key="drdr.id">
-                        <td @click="viewDrdrDetails(drdr.id)">{{ drdr.id }}</td>
+                        <td>{{ drdr.id }}</td>
                         <td>{{ drdr.document_title }}</td>
                         <td>{{ drdr.company.name  }}</td>
                         <td>{{ drdr.rev_number }}</td>
@@ -51,6 +59,7 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a  @click="viewDrdrDetails(drdr.id)" class="dropdown-item">View</a>
                                     <a v-if="drdr.status == 4" @click="getDrdrId(drdr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDrdrModal" href="javascript:void(0)">Mark as verify</a>
                                     <a class="dropdown-item" href="#">Move to trash</a>
                                     <a class="dropdown-item" href="#">Mark as archive</a>
@@ -103,9 +112,11 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
+import VueContentPlaceholders from 'vue-content-placeholders';
 export default {
     components:{
-      Datepicker  
+      Datepicker,
+      VueContentPlaceholders
     },
     data(){
         return{
@@ -117,6 +128,7 @@ export default {
             errors: '',
             currentPage: 0,
             itemsPerPage: 10,
+            loading: false
         }
     },
     watch: {
@@ -131,9 +143,11 @@ export default {
         moment,
         fetchDrdrs()
         {
+            this.loading = true;
             axios.get('/admin/drdrs-all')
             .then(response => {
                 this.drdrs = response.data;
+                this.loading = false;
             })
             .catch(error => {
                 this.errors = error.response.data.errors;

@@ -27,6 +27,14 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
+                    <tr v-if="loading">
+                        <td colspan="7">
+                            <content-placeholders>
+                                <content-placeholders-heading :img="true" />
+                                <content-placeholders-text :lines="3" />
+                            </content-placeholders>
+                        </td>
+                    </tr>
                     <tr v-for="ccir in filteredQueues" v-bind:key="ccir.id">
                         <td>{{ ccir.id }}</td>
                         <td>{{ ccir.requester.name }}</td>
@@ -184,10 +192,12 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
+import VueContentPlaceholders from 'vue-content-placeholders';
 
 export default {
     components:{
-      Datepicker  
+      Datepicker,
+      VueContentPlaceholders
     },
     data(){
         return{
@@ -203,6 +213,7 @@ export default {
             show: false,
             currentPage: 0,
             itemsPerPage: 10,
+            loading: false
         }
     },
     created(){
@@ -211,9 +222,11 @@ export default {
     methods:{
         moment,
         fetchCcirs(){
+            this.loading = true;
             axios.get('/admin/ccirs-all')
             .then(response => {
-                this.ccirs = response.data; 
+                this.ccirs = response.data;
+                this.loading = false;
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;

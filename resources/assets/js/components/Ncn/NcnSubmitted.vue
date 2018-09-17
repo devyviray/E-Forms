@@ -2,6 +2,12 @@
     <div>
         <div class="card-body table-full-width table-responsive">
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+
+            <content-placeholders v-if="loading">
+                <content-placeholders-heading :img="true" />
+                <content-placeholders-text :lines="3" />
+            </content-placeholders>
+
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -11,9 +17,9 @@
                     <th>Date of Issuance</th>
                     <th>Status</th>
                     <th>Option</th>
-                </thead>    
+                </thead>
                 <tbody>
-                    <tr v-for="ncnSubmitted in ncnSubmitteds" v-bind:key="ncnSubmitted.id">
+                    <tr v-for="ncnSubmitted in filteredQueues" v-bind:key="ncnSubmitted.id">
                         <td>{{ ncnSubmitted.id }}</td>
                         <td>{{ ncnSubmitted.requester.name }}</td>
                         <td>{{ ncnSubmitted.requester.position }}</td>
@@ -49,13 +55,18 @@
 
 <script>
 import moment from 'moment';
+import VueContentPlaceholders from 'vue-content-placeholders';
 export default {
+    components:{
+        VueContentPlaceholders
+    },
     data(){
         return{
             ncnSubmitteds: [],
             keywords: '',
             currentPage: 0,
             itemsPerPage: 10,
+            loading: false
         }
     },
     created(){
@@ -70,9 +81,11 @@ export default {
         },
         fetchNcnSubmitteds()
         {
+            this.loading = true;
             axios.get('/ncns-submitted')
             .then(response => {
                 this.ncnSubmitteds = response.data;
+                this.loading = false;
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;

@@ -41,10 +41,10 @@ Route::group(['middleware' => 'auth'], function (){
   Route::get('/sampleRoute', 'DrdrController@emailScheduling');
 
   Route::get('/home', 'HomeController@index')->name('home');
-  Route::get('/ccir_page', 'HomeController@ccir_index')->name('ccir');
-  Route::get('/companies_page', 'HomeController@companies_index')->name('companies');
+  Route::get('/ccir-page', 'HomeController@ccir_index')->name('ccir');
+  Route::get('/companies-page', 'HomeController@companies_index')->name('companies');
   Route::get('/ddr-page', 'HomeController@ddr_index')->name('ddr');
-  Route::get('/departments_page', 'HomeController@departments_index')->name('departments');
+  Route::get('/departments-page', 'HomeController@departments_index')->name('departments');
   Route::get('/drdr-page', 'HomeController@drdr_index')->name('drdr');
   Route::get('/ncn-page', 'HomeController@ncn_index')->name('ncn');
   Route::get('/permissions_page', 'HomeController@permissions_index')->name('permissions');

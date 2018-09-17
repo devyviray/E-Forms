@@ -15,7 +15,7 @@
                 </div>
                 <button @click="generateByDate" class="btn btn-primary">Generate</button>
             </div>
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">  
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -28,6 +28,14 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
+                    <tr v-if="loading">
+                        <td colspan="8">
+                            <content-placeholders>
+                                <content-placeholders-heading :img="true" />
+                                <content-placeholders-text :lines="3" />
+                            </content-placeholders>
+                        </td>
+                    </tr>
                     <tr v-for="ncn in filteredQueues" v-bind:key="ncn.id">
                         <td>{{ ncn.id }}</td>
                         <td>{{ ncn.requester.name }}</td>
@@ -86,7 +94,8 @@ export default {
             keywords: '',
             currentPage: 0,
             itemsPerPage: 10,
-            errors: ''
+            errors: '',
+            loading: false
         }
     },
     created(){
@@ -95,10 +104,12 @@ export default {
     methods:{
         moment,
         fetchNcns()
-        {
+        {   
+            this.loading = true;
             axios.get('/admin/ncns-all')
             .then(response => {
                 this.ncns = response.data;
+                this.loading = false    ;
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;

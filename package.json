@@ -24,6 +24,8 @@
         "bootstrap": "^4.1.3",
         "moment": "^2.22.2",
         "popper.js": "^1.14.4",
+        "vue-content-placeholder": "^1.1.1",
+        "vue-content-placeholders": "^0.2.1",
         "vue-multiselect": "^2.1.0",
         "vue-router": "^3.0.1",
         "vuejs-datepicker": "^1.5.3"

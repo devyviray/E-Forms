@@ -15,19 +15,19 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><a :href="viewDrdrs" target="_blank"> Document review & Distribution request </a></td>
+                                        <td><a :href="viewDrdrs"> Document review & Distribution request </a></td>
                                         <td>{{ drdrs }}</td>
                                     </tr>
                                     <tr>
-                                        <td> <a :href="viewDdrs" target="_blank"> Document distribution request </a> </td>
+                                        <td> <a :href="viewDdrs"> Document distribution request </a> </td>
                                         <td>{{ ddrs }}</td>
                                     </tr>
                                     <tr>
-                                        <td><a :href="viewNcn" target="_blank"> Non-conformance notification</a></td>
+                                        <td><a :href="viewNcn"> Non-conformance notification</a></td>
                                         <td>{{ ncns }}</td>
                                     </tr>
                                     <tr>
-                                        <td><a :href="viewCcir" target="_blank"> Customer complaint information report </a> </td>
+                                        <td><a :href="viewCcir"> Customer complaint information report </a> </td>
                                         <td>{{ ccirs }}</td>
                                     </tr>
                                 </tbody>
@@ -90,21 +90,6 @@ export default {
                 })
                 .catch(error => console.log(errors));  
         },
-        viewDdrs()
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+'/admin/ddrs';
-        },
-        viewNcn()
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+'/admin/ncns';
-        },
-        viewCcir()
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+'/admin/ccirs';
-        }
     }, 
     computed:{
         viewDrdrs()
@@ -114,7 +99,7 @@ export default {
 
             return url;
         },
-         viewDdrs()
+        viewDdrs()
         {
             var base_url = window.location.origin;
             var url = base_url+'/admin/ddrs';
