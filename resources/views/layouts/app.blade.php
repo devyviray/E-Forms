@@ -141,7 +141,7 @@
                             <a class="nav-link" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
-                                <i class="nc-icon nc-alien-33"></i>
+                                <i class="nc-icon nc-tap-01"></i>
                                 <span class="no-icon">Log out</span>
                             </a>
                         

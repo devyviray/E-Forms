@@ -1,5 +1,6 @@
 <template>
       <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
@@ -97,7 +98,12 @@
 </template>
 
 <script>
+import SpinnerLoading from '../SpinnerLoading';
+
 export default {
+    components:{
+        SpinnerLoading
+    },
     data(){
         return{
             ddrs: [],
@@ -106,7 +112,8 @@ export default {
                 remarks: ''
             },
             ddrlists: [],
-            errors:''
+            errors:'',
+            isLoading: false
         }
     },
     created(){
@@ -130,6 +137,7 @@ export default {
         },
         approvedDdr(id,ddr)
         {
+            this.isLoading = true;
             axios.post('/ddr-approved', {
                 id : id,
                 status: ddr.status,

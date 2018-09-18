@@ -1,5 +1,6 @@
 <template>
     <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="card-body table-full-width table-responsive">
             <div class="card-header ">
                 <h4 class="card-title">Non-conformance Notification</h4>   
@@ -81,10 +82,12 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
+import SpinnerLoading from '../SpinnerLoading';
 
 export default {
     components:{
-      Datepicker  
+      Datepicker,
+      SpinnerLoading  
     },
     data(){
         return{
@@ -95,7 +98,8 @@ export default {
             currentPage: 0,
             itemsPerPage: 10,
             errors: '',
-            loading: false
+            loading: false,
+            isLoading: false
         }
     },
     created(){
@@ -123,6 +127,7 @@ export default {
         },
         generateByDate(){
 
+            this.isLoading = true;
             var startDate  =  this.startDate ? moment(this.startDate).format() : '';
             var endDate = this.endDate ? moment(this.endDate).format() : '';
 
@@ -130,10 +135,12 @@ export default {
                 'startDate': startDate,
                 'endDate': endDate
             })
-            .then(response => { 
+            .then(response => {
+                this.isLoading = false;
                 this.ncns = response.data;
             })
             .catch(error => {
+                this.isLoading = false;
                 this.errors = error.response.data.errors;
             })
         },

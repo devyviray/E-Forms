@@ -1,5 +1,6 @@
 <template>
   <div>
+      <spinner-loading v-if="isLoading"></spinner-loading>
       <div class="row">
           <div class="col-md-12">
               <form>
@@ -72,6 +73,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+import SpinnerLoading from '../SpinnerLoading';
 
 export default {
     data(){
@@ -119,6 +121,7 @@ export default {
             selected_department: ' ',
             keywords: '',
             errors: '',
+            isLoading: false
         }
     },
     created(){
@@ -191,6 +194,7 @@ export default {
           this.attachments = [];  
         },
         addNcn(ncn , company, department, approver){
+            this.isLoading = true;
             this.prepareFields();
             this.formData.append('company_id', company.id);
             this.formData.append('department_id', department.id);
@@ -207,12 +211,14 @@ export default {
                 window.location.href = response.data.redirect;
             })
             .catch(error => {
+                this.isLoading = false;
                 this.errors = error.response.data.errors;
             });
         }
     },
      components: {
-         Datepicker
+         Datepicker,
+         SpinnerLoading
     }
 }
 </script>

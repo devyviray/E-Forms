@@ -1,5 +1,6 @@
 <template>
       <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="card-body table-full-width table-responsive">
             <div class="card-header ">
                 <h4 class="card-title">Document Review & Document Request</h4>   
@@ -28,7 +29,7 @@
                 </thead>    
                 <tbody>
                     <tr v-if="loading">
-                        <td colspan="6">
+                        <td colspan="7">
                         <content-placeholders>
                             <content-placeholders-heading :img="true" />
                             <content-placeholders-text :lines="3" />
@@ -113,10 +114,13 @@
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
+import SpinnerLoading from '../SpinnerLoading';
+
 export default {
     components:{
       Datepicker,
-      VueContentPlaceholders
+      VueContentPlaceholders,
+      SpinnerLoading
     },
     data(){
         return{
@@ -128,7 +132,8 @@ export default {
             errors: '',
             currentPage: 0,
             itemsPerPage: 10,
-            loading: false
+            loading: false,
+            isLoading: false
         }
     },
     watch: {
@@ -160,7 +165,7 @@ export default {
             
         },
         generateByDate(){
-
+           this.isLoading = true;
            var startDate  =  this.startDate ? moment(this.startDate).format() : '';
            var endDate = this.endDate ? moment(this.endDate).format() : '';
            
@@ -169,9 +174,11 @@ export default {
                 'endDate': endDate
             })
             .then(response => { 
+                this.isLoading = false;
                 this.drdrs = response.data;
             })
             .catch(error => {
+                this.isLoading = false;
                 this.errors = error.response.data.errors;
             })
         },
@@ -180,11 +187,12 @@ export default {
             this.selected_id = id;
         },
         distributeDrdr(id){
+            $('#distributedDrdrModal').modal('hide');
+            this.isLoading = true;
             axios.post('/admin/drdr-distributed', { 
                 'id': id
             })
             .then(response=> {
-                $('#distributedDrdrModal').modal('hide');
                 this.selected_id = '';
                 window.location.href = response.data.redirect;
             })

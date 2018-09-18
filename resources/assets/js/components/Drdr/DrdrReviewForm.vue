@@ -1,5 +1,6 @@
 <template>
     <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
@@ -100,9 +101,12 @@
 
 <script>
 
-import { eventBus } from '../../app.js';
+import SpinnerLoading from '../SpinnerLoading';
 
 export default {
+    components:{
+        SpinnerLoading
+    },
     data(){
         return{
             drdrs: [],
@@ -123,6 +127,7 @@ export default {
             attachments: [],
             formData: new FormData(),
             show: false,
+            isLoading: false
         }
     },
     created(){
@@ -189,6 +194,7 @@ export default {
         },
         reviewedDrdr(id,drdr, approver)
         {   
+            this.isLoading = true;
             this.prepareFields();
             this.formData.append('id', id);
             this.formData.append('consider_documents', drdr.consider_documents);

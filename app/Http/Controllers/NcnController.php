@@ -403,8 +403,8 @@ class NcnController extends Controller
         ]);
         
         $ncns = Ncn::with(['requester', 'approver', 'company'])
-                ->whereDate('date_request', '>=',  Carbon::parse($startDate)->format('Y-m-d'))
-                ->whereDate('date_request' ,'<=', Carbon::parse($endDate)->format('Y-m-d'))
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
                 ->orderBy('id', 'desc')->get();
 
         return $ncns;

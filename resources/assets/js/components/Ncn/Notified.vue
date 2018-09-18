@@ -1,6 +1,10 @@
 <template>
     <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="card-body table-full-width table-responsive">
+            <div class="card-header ">
+                <h4 class="card-title">Non-conformance Notification</h4>   
+            </div>
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
                 <thead>
@@ -13,6 +17,14 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
+                    <tr v-if="loading">
+                        <td colspan="7">
+                            <content-placeholders>
+                                <content-placeholders-heading :img="true" />
+                                <content-placeholders-text :lines="3" />
+                            </content-placeholders>
+                        </td>
+                    </tr>
                     <tr v-for="ncn in filteredQueues" v-bind:key="ncn.id">
                         <td>{{ ncn.id }}</td>
                         <td>{{ ncn.requester.name }}</td>
@@ -57,7 +69,7 @@
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyLabel">Validate</h5>
+                <h5 class="modal-title" id="editCompanyLabel">Validate NCN</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -66,7 +78,8 @@
                     <input type="hidden" class="form-control" placeholder="Id" v-model="ncn.id">
                     <div class="form-group">
                         <label for="action">Immediate Action Taken</label>
-                        <textarea v-model="ncn.action_taken" class="form-control" id="action"></textarea>
+                        <textarea style="height: 100px" v-model="ncn.action_taken" class="form-control" id="action"></textarea>
+                        <span v-if="errors.action_taken">{{ errors.action_taken }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -81,7 +94,14 @@
 
 <script>
 import moment from 'moment';
+import VueContentPlaceholders from 'vue-content-placeholders';
+import SpinnerLoading from '../SpinnerLoading';
+
 export default {
+    components:{
+        VueContentPlaceholders,
+        SpinnerLoading
+    },
     data(){
         return{
             ncns: [],
@@ -90,8 +110,11 @@ export default {
                 action_taken: ' ' 
             },
             keywords: '',
+            errors:[],
             currentPage: 0,
             itemsPerPage: 10,
+            loading: false,
+            isLoading: false
         }
     },
     created(){
@@ -110,28 +133,35 @@ export default {
         },
         fetchNcns()
         {
+            this.loading = true;
             axios.get('/ncns-notified')
             .then(response => {
                 this.ncns = response.data;
+                this.loading = false;
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
             });
         },
         validateNcn(ncn){
+            if(ncn.action_taken != ' '){
+                $('#validateNcnModal').modal('hide');
+                this.isLoading = true;
+            }
             axios.post('/notified/ncn-notified', { 
                 'id': ncn.id,
                 'action_taken': ncn.action_taken
             })
             .then(response=> {
-                $('#validateNcnModal').modal('hide');
                 this.selected_id = ' ';
                 this.ncn.id = ' ';
                 this.ncn.action_taken =  ' ';
                 window.location.href = response.data.redirect;
+                this.isLoading = false;
             })
             .catch(error => { 
-                this.errors = response.data.errors;
+                this.isLoading = false;
+                this.errors = error.response.data.errors;
             })
         },
         setPage(pageNumber) {

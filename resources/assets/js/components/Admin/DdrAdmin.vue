@@ -1,5 +1,7 @@
 <template>
    <div>
+       <spinner-loading v-if="isLoading"></spinner-loading>
+
         <div class="card-body table-full-width table-responsive">
             <div class="card-header ">
                 <h4 class="card-title">Document Distribution Request</h4>   
@@ -89,7 +91,7 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
+                    <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
                     <div class="form-group">
                          <table class="table table-hover table-striped">
                             <thead>
@@ -162,11 +164,13 @@
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
+import SpinnerLoading from '../SpinnerLoading';
 
 export default {
     components:{
       Datepicker,
-      VueContentPlaceholders
+      VueContentPlaceholders,
+      SpinnerLoading
     },
     data(){
         return{
@@ -179,7 +183,8 @@ export default {
             ddrlists: [],
             currentPage: 0,
            itemsPerPage: 10,
-           loading: false
+           loading: false,
+           isLoading: false
         }
     },
     created(){
@@ -206,6 +211,7 @@ export default {
             
         },
         generateByDate(){
+            this.isLoading = true;
             var startDate  =  this.startDate ? moment(this.startDate).format() : '';
             var endDate = this.endDate ? moment(this.endDate).format() : '';
 
@@ -213,10 +219,12 @@ export default {
                 'startDate': startDate,
                 'endDate': endDate
             })
-            .then(response => { 
+            .then(response => {
+                this.isLoading = false;
                 this.ddrs = response.data;
             })
             .catch(error => {
+                this.isLoading = false;
                 this.errors = error.response.data.errors;
             })
         },
@@ -238,6 +246,8 @@ export default {
         },
         updateDdr(id,ddrlists)
         {
+            $('#editDdrModal').modal('hide');
+            this.isLoading = true;
             axios.patch(`/admin/ddr/${id}`,{
                 ddrlists: ddrlists
             })
@@ -249,11 +259,12 @@ export default {
             })
         },
         distributeDdr(id){
+            $('#distributedDdrModal').modal('hide');
+            this.isLoading = true;
             axios.post('/admin/ddr-distributed', { 
                 'id': id
             })
             .then(response=> {
-                $('#distributedDdrModal').modal('hide');
                 this.selected_id = '';
                 window.location.href = response.data.redirect;
             })

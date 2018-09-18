@@ -1,5 +1,6 @@
 <template>
     <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
@@ -103,6 +104,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+import SpinnerLoading from '../SpinnerLoading';
 
 export default {
     data(){
@@ -119,7 +121,8 @@ export default {
             company_id: '',
             attachments: [],
             formData: new FormData(),
-            show: false
+            show: false,
+            isLoading: false
         }
     },
     created(){
@@ -173,6 +176,7 @@ export default {
         },
         approvedDrdr(id,drdr,drdrs)
         {   
+            this.isLoading = true;
             this.prepareFields();
             this.formData.append('id', id);
             this.formData.append('status', drdr.status);
@@ -200,7 +204,8 @@ export default {
         },
     },
     components: {
-         Datepicker
+         Datepicker,
+         SpinnerLoading
     }
 }
 </script>

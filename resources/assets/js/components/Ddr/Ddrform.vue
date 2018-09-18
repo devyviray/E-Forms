@@ -1,5 +1,6 @@
 <template>
     <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="row">
             <div class="col-md-12">
                 <form>
@@ -86,6 +87,7 @@
 </template>
 <script>
 import Datepicker from 'vuejs-datepicker';
+import SpinnerLoading from '../SpinnerLoading';
 
 export default {
     data(){
@@ -143,7 +145,8 @@ export default {
                 rev_number: '',
                 copy_number: '',
                 copy_holder: ''
-            }]
+            }],
+            isLoading: false
         }
     },
     created(){
@@ -194,6 +197,7 @@ export default {
             }
         },
         addDdr(ddr,company,approver,department,ddrlists){
+            this.isLoading = true;
             axios.post('/ddr',{
                 company_id: company,
                 department_id: department,
@@ -207,6 +211,7 @@ export default {
                 window.location.href = response.data.redirect;
             })
             .catch(error => {
+                this.isLoading = false;
                 this.errors = error.response.data.errors;
             });
         },
@@ -227,7 +232,8 @@ export default {
         }
     },
      components: {
-         Datepicker
+         Datepicker,
+         SpinnerLoading
     }
 }
 </script>

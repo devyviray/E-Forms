@@ -46,7 +46,7 @@
             /* just in case there no content*/
             padding: 20px 25px 30px;
             margin: 0 auto 25px;
-            margin-top: 50px;
+            margin-top: 150px;
             /* shadows and rounded borders */
             -moz-border-radius: 2px;
             -webkit-border-radius: 2px;
@@ -140,6 +140,7 @@
         .btn.btn-signin:active,
         .btn.btn-signin:focus {
             background-color: rgb(12, 97, 33);
+            cursor: pointer;
         }
 
         .forgot-password {
