@@ -1,13 +1,17 @@
 <template>
     <div>
-        <div class="card-body table-full-width table-responsive">
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
-
-            <content-placeholders v-if="loading">
-                <content-placeholders-heading :img="true" />
-                <content-placeholders-text :lines="3" />
-            </content-placeholders>
-
+        <content-placeholders v-if="loading">
+            <content-placeholders-heading :img="true" />
+            <content-placeholders-text :lines="3" />
+        </content-placeholders>
+        
+        <div class="card-body table-full-width table-responsive"  v-if="drdrSubmitteds.length">
+            <div class="row mb-4 ml-2">
+                <div class="col-md-12">
+                    <label for="name">Search by Document title</label>
+                    <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                </div>
+            </div>
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -35,16 +39,16 @@
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td style="padding-left: 30px" v-else>{{ "-" }}</td>
-                        <td>
-                            <button class="btn btn-primary" @click="viewDrdr(drdrSubmitted.id)">View</button>
-                            <button v-if="drdrSubmitted.status == 2" class="btn btn-warning" @click="editDrdr(drdrSubmitted.id)">Edit</button>
-                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${drdrSubmitted.id}`">Delete</button>
+                        <td style="display:inline-grid">
+                            <button class="btn btn-primary btn-round btn-fill mb-1" @click="viewDrdr(drdrSubmitted.id)">View</button>
+                            <button v-if="drdrSubmitted.status == 2" class="btn btn-warning btn-round btn-fill mb-1" @click="editDrdr(drdrSubmitted.id)">Edit</button>
+                            <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${drdrSubmitted.id}`">Delete</button>
                         </td>
                     </tr>  
                 </tbody>
             </table>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-3" v-if="drdrSubmitteds.length">
             <div class="col-6">
                 <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
                     <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
@@ -53,6 +57,24 @@
             <div class="col-6 text-right">
                 <span>{{ drdrSubmitteds.length }} Drdr form(s)</span>
             </div>
+        </div>
+
+        <div class="card-body table-full-width table-responsive" v-if="!drdrSubmitteds.length && !loading">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <th>ID</th>
+                    <th>Document title</th>
+                    <th> Rev.</th>
+                    <th>Reviewer</th>
+                    <th>Approver</th>
+                    <th>Option</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>No data available in the table</td>
+                    </tr>
+                </tbody>   
+            </table>
         </div>
     </div>
 </template>
@@ -120,7 +142,7 @@ export default {
                 return drdrSubmitted.document_title.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
-        totalPages() {
+        totalPages() {  
             return Math.ceil(this.filteredDrdrs.length / this.itemsPerPage)
         },
 

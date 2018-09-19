@@ -40,7 +40,7 @@ class RoleController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'level' => 'required'
+            'level' => 'required|integer'
         ]);
 
         $role = new Role;

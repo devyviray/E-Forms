@@ -31,7 +31,7 @@
 	<table style="margin-bottom:10px">
 		<tr>
 			<td rowspan="3">
-				<img class="logo-logo" src="" 
+				<img class="logo-logo" src="http://172.17.2.88/e-forms-test/public/image/lfug-logo.png" 
 				style="display:block;  width: 60px; height: auto; padding: 0; margin: 10px 10px 0 30px;">
 			</td>
 			<td colspan="5" >La Filipina Uy Gongco Group of Companies</td>

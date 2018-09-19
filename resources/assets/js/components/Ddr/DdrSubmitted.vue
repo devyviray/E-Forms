@@ -1,13 +1,17 @@
 <template>
     <div>
-        <div class="card-body table-full-width table-responsive">
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+        <content-placeholders v-if="loading">
+            <content-placeholders-heading :img="true" />
+            <content-placeholders-text :lines="3" />
+        </content-placeholders>
 
-            <content-placeholders v-if="loading">
-                <content-placeholders-heading :img="true" />
-                <content-placeholders-text :lines="3" />
-            </content-placeholders>
-
+        <div class="card-body table-full-width table-responsive" v-if="ddrSubmitteds.length">
+            <div class="row mb-4 ml-2">
+                <div class="col-md-12">
+                    <label for="name">Search by Approver name</label>
+                    <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                </div>
+            </div>
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -19,10 +23,12 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
-                    <tr v-for="ddrSubmitted in ddrSubmitteds" v-bind:key="ddrSubmitted.id">
+                    <tr v-for="ddrSubmitted in filteredQueues" v-bind:key="ddrSubmitted.id">
                         <td>{{ ddrSubmitted.id }}</td>
                         <td>{{ ddrSubmitted.approver.name }}</td>
-                        <td>{{ ddrSubmitted.reason_of_distribution }}</td>
+						<td v-if="ddrSubmitted.reason_of_distribution == 1"> Relevant external doc. (controll copy) </td>
+						<td v-if="ddrSubmitted.reason_of_distribution == 2"> Customer request (uncontrolled copy) </td>
+						<td v-if="ddrSubmitted.reason_of_distribution == 3"> Others: </td>
                         <td>{{ moment(ddrSubmitted.date_request).format('LL') }}</td>
                         <td>
                             <span style="color: red" v-if="ddrSubmitted.status == 2"> NOT YET APPROVED </span>
@@ -34,16 +40,16 @@
                             <span style="color: green" v-else-if="ddrSubmitted.status == 14"> DISTRIBUTED </span>
                             <span style="color: green; padding-left: 30px" v-else> {{ '-' }} </span>
                         </td>
-                        <td>
-                            <button class="btn btn-primary" @click="viewDdr(ddrSubmitted.id)">View</button>
-                            <button v-if="ddrSubmitted.status == 2" class="btn btn-warning" @click="editDdr(ddrSubmitted.id)">Edit</button>
-                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ddrSubmitted.id}`">Delete</button>
+                        <td  style="display:inline-grid">
+                            <button class="btn btn-primary btn-round btn-fill mb-1" @click="viewDdr(ddrSubmitted.id)">View</button>
+                            <button v-if="ddrSubmitted.status == 2" class="btn btn-warning btn-round btn-fill mb-1" @click="editDdr(ddrSubmitted.id)">Edit</button>
+                            <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${ddrSubmitted.id}`">Delete</button>
                         </td>
                     </tr>    
                 </tbody>
             </table>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-3" v-if="ddrSubmitteds.length">
             <div class="col-6">
                 <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
                     <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
@@ -53,6 +59,26 @@
                 <span>{{ ddrSubmitteds.length }} Ddr submitted form(s)</span>
             </div>
         </div>
+
+        <div class="card-body table-full-width table-responsive" v-if="!ddrSubmitteds.length && !loading">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <th>ID</th>
+                    <th>Approver</th>
+                    <th>Reason</th>
+                    <th>date_requested</th>
+                    <th>Approver status</th>
+                    <th>Distributed</th>
+                    <th>Option</th>
+                </thead>    
+                <tbody>
+                    <tr>
+                        <td>No data available in the table</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </div>  
+
     </div>
 </template>
 
@@ -121,12 +147,12 @@ export default {
     computed: {
         filteredDdrs(){
             let self = this;
-            return self.ddrSubmitteds.filter(ddr => {
-                return ddrSubmitted.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+            return self.ddrSubmitteds.filter(ddrSubmitted => {
+                return ddrSubmitted.approver.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
-            return Math.ceil(this.ddrSubmitteds.length / this.itemsPerPage)
+            return Math.ceil(this.filteredDdrs.length / this.itemsPerPage)
         },
 
         filteredQueues() {

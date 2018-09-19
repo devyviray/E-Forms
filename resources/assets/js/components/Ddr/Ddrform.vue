@@ -1,90 +1,126 @@
 <template>
     <div>
         <spinner-loading v-if="isLoading"></spinner-loading>
-        <div class="row">
-            <div class="col-md-12">
-                <form>
-                    <div class="form-group">
-                       <select v-model="company.id" class="form-control form-control-lg" @change="getCompanyId(company.id)">
-                           <option value="" disabled selected>Select Company</option>
-                           <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
-                       </select>
-                        <span v-if="errors.company">{{ errors.company }}</span>
-                    </div>
-                    <div class="form-group">
-                        <select v-model="department.id" class="form-control form-control-lg"  @change="getDepartmentId(department.id)">
-                            <option value="" disabled selected>Select Department</option>
-                            <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
-                        </select>
-                            <span v-if="errors.department">{{ errors.department }}</span>
-                    </div>
-                    <div class="form-group">
-                       <select v-model="ddr.reason" class="form-control form-control-lg" @change="selectedReason(ddr.reason)">
-                           <option value="" disabled selected>Reason of distribution</option>
-                           <option value="1">Relevant External Document (controlled copy)</option>
-                           <option value="2">Customer Request (uncontrolled copy)</option>
-                           <option value="3">Others (please specify)</option>
-                       </select>
-                        <span v-if="errors.type">{{ errors.type }}</span>
-                    </div>
-                    <div class="form-group" v-if="others == 1">
-                        <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ddr.others">
-                        <span v-if="errors.type">{{ errors.type }}</span>
-                    </div>
-                    <div class="form-group">
-                        <table class="table table-hover table-striped">
-                            <button @click="addRow()" type="button" class="btn btn-primary">Add Row</button>
-                            <thead>
-                                <th>ID</th>
-                                <th>Document Title</th>
-                                <th>Control Code</th>
-                                <th>Rev No.</th>
-                                <th>Copy No.</th>
-                                <th>Copy Holder</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(ddrlist, d) in ddrlists" v-bind:key="d">
-                                    <td>{{ d + 1 }}</td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Document title" v-model="ddrlist.document_title">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Control Code" v-model="ddrlist.control_code">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Rev No." v-model="ddrlist.rev_number">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Copy No." v-model="ddrlist.copy_number">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Copy Holder" v-model="ddrlist.copy_holder">
-                                    </td>
-                                    <td>
-                                        <button @click="deleteRow(d)" type="button" class="btn btn-danger">Delete Row</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="card col-md-8">
+                    <form>
+                        <div class="form-group">
+                            <h1>ADD DDR</h1>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group mb-1">
+                                    <label for="reason">Reason of distribution</label>
+                                    <select v-model="ddr.reason" class="form-control form-control-lg" @change="selectedReason(ddr.reason)" id="reason">
+                                        <option value="" disabled selected>Select Reason</option>
+                                        <option value="1">Relevant External Document (controlled copy)</option>
+                                        <option value="2">Customer Request (uncontrolled copy)</option>
+                                        <option value="3">Others (please specify)</option>
+                                    </select>
+                                    <span v-if="errors.type">{{ errors.type }}</span>
+                                </div>
+                                <div class="form-group" v-if="others == 1">
+                                    <label for="others">Others (Please specify)</label>
+                                    <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ddr.others">
+                                    <span v-if="errors.type">{{ errors.type }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="date_needed"> Date needed </label> 
+                                <datepicker placeholder="Select Date" v-model="ddr.date_needed" id="date_needed"></datepicker>
+                                <span v-if="errors.date_needed">{{ errors.date_needed }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label for="company">Company</label>
+                                <select v-model="company.id" class="form-control form-control-lg" @change="getCompanyId(company.id)" id="company">
+                                    <option value="" disabled selected>Select Company</option>
+                                    <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
+                                </select>
+                                <span v-if="errors.company">{{ errors.company }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="department">Department</label>
+                                <select v-model="department.id" class="form-control form-control-lg"  @change="getDepartmentId(department.id)" id="department">
+                                    <option value="" disabled selected>Select Department</option>
+                                    <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
+                                </select>
+                                <span v-if="errors.department">{{ errors.department }}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <table class="table table-hover table-striped">
+                                <button @click="addRow()" type="button" class="btn btn-warning btn-round btn-fill mb-2 mt-2">Add Row</button>
+                                <thead>
+                                    <th>ID</th>
+                                    <th>Document Title</th>
+                                    <th>Control Code</th>
+                                    <th>Rev No.</th>
+                                    <th>Copy No.</th>
+                                    <th>Copy Holder</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(ddrlist, d) in ddrlists" v-bind:key="d">
+                                        <td>{{ d + 1 }}</td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Document title" v-model="ddrlist.document_title">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Control Code" v-model="ddrlist.control_code">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Rev No." v-model="ddrlist.rev_number">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Copy No." v-model="ddrlist.copy_number">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Copy Holder" v-model="ddrlist.copy_holder">
+                                        </td>
+                                        <td>
+                                            <button @click="deleteRow(d)" type="button" class="btn btn-danger btn-round btn-fill">Delete Row</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <div class="form-group">
-                        <datepicker placeholder="Select Date needed" v-model="ddr.date_needed"></datepicker>
-                        <span v-if="errors.date_needed">{{ errors.date_needed }}</span>
-                    </div>
-                    <div class="form-group">
-                        <select v-model="approver.id" class="form-control form-control-lg">
-                            <option value="" disabled selected>Select Approver</option>
-                            <option v-for="(approver, a) in approvers" v-bind:key="a" :value="approver.id">{{ approver.name }}</option>
-                        </select>
-                    </div>
-                    <button @click="addDdr(ddr,company.id,approver.id,department.id, ddrlists)" type="button" class="btn btn-primary">Submit</button>
-                </form>
+                        <div class="form-group">
+                            <label for="approver">Approver</label>
+                            <select v-model="approver.id" class="form-control form-control-lg" id="approver">
+                                <option value="" disabled selected>Select Approver</option>
+                                <option v-for="(approver, a) in approvers" v-bind:key="a" :value="approver.id">{{ approver.name }}</option>
+                            </select>
+                        </div>
+                        <button @click="addDdr(ddr,company.id,approver.id,department.id, ddrlists)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
+                    </form>
+                </div>
+                <div class="col-md-2"></div>
             </div>
         </div>
     </div>
 </template>
+
+<style>
+    .vdp-datepicker  input{
+        background-color: #FFFFFF;
+        border: 1px solid #E3E3E3;
+        border-radius: 4px;
+        color: #565656;
+        padding: 8px 12px;
+        height: 40px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        display: block;
+        width: 100%;
+        line-height: 1.5;   
+    }
+</style>
+
 <script>
 import Datepicker from 'vuejs-datepicker';
 import SpinnerLoading from '../SpinnerLoading';

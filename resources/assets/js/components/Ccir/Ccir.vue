@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-                <button class="btn btn-primary mb-2"  @click="addCcirForm" >Add Ccir</button>
+                <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2"  @click="addCcirForm" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Add Ccir</button>
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
                         <h4 class="card-title">Ccir Forms</h4>   

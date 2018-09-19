@@ -2,21 +2,27 @@
       <div>
         <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="card-body table-full-width table-responsive">
-            <div class="card-header ">
+            <div class="card-header mb-3">
                 <h4 class="card-title">Document Review & Document Request</h4>   
             </div>
-            <div class="row mb-3">
-                <div class="form-group" style="margin-left: 15px">
-                    <datepicker v-model="startDate" placeholder="Select Start Date"></datepicker>
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label for="name">Search by name</label>
+                    <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                </div> 
+                <div class="col-md-3">
+                    <label for="date">Search by date</label>    
+                    <datepicker v-model="startDate" placeholder="Select Start Date" id="date"></datepicker>
                     <span v-if="errors.startDate">{{ errors.startDate }}</span>
                 </div>
-                <div class="form-group">
+                <div class="col-md-3" style="margin-top: 29px">
                     <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
                     <span v-if="errors.endDate">{{ errors.endDate }}</span>
                 </div>
-                <button @click="generateByDate" type="button" class="btn btn-outline-dark">Generate</button>
+                <div class="col-md-2" style="margin-top: 29px">
+                    <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
+                </div>
             </div>
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">  
                 <thead>
                     <th>ID</th>
@@ -100,8 +106,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button @click="distributeDrdr(selected_id)" type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                <button @click="distributeDrdr(selected_id)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
                 </div>
             </div>
             </div>
@@ -109,6 +115,21 @@
 
     </div>   
 </template>
+<style>
+    .vdp-datepicker  input{
+        background-color: #FFFFFF;
+        border: 1px solid #E3E3E3;
+        border-radius: 4px;
+        color: #565656;
+        padding: 8px 12px;
+        height: 40px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        display: block;
+        width: 100%;
+        line-height: 1.5;   
+    }
+</style>
 
 <script>
 import Datepicker from 'vuejs-datepicker';

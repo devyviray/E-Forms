@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="card-body table-full-width table-responsive">
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+         <content-placeholders v-if="loading">
+            <content-placeholders-heading :img="true" />
+            <content-placeholders-text :lines="3" />
+        </content-placeholders>
 
-            <content-placeholders v-if="loading">
-                <content-placeholders-heading :img="true" />
-                <content-placeholders-text :lines="3" />
-            </content-placeholders>
+        <div class="card-body table-full-width table-responsive" v-if="drdrsReviewedForms.length">
+            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
 
             <table class="table table-hover table-striped">
                 <thead>
@@ -19,7 +19,7 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
-                    <tr v-for="drdrsReviewedForm in drdrsReviewedForms" v-bind:key="drdrsReviewedForm.id">
+                    <tr v-for="drdrsReviewedForm in filteredQueues" v-bind:key="drdrsReviewedForm.id">
                         <td>{{ drdrsReviewedForm.id }}</td>
                         <td>{{ drdrsReviewedForm.document_title }}</td>
                         <td>{{ drdrsReviewedForm.company.name  }}</td>
@@ -44,7 +44,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-3" v-if="drdrsReviewedForms.length">
             <div class="col-6">
                 <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
                     <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
@@ -53,6 +53,25 @@
             <div class="col-6 text-right">
                 <span>{{ drdrsReviewedForms.length }} Drdr form(s)</span>
             </div>
+        </div>
+
+        <div class="card-body table-full-width table-responsive" v-if="!drdrsReviewedForms.length  && !loading">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <th>ID</th>
+                    <th>Document title</th>
+                    <th>Company</th>
+                    <th>Rev.</th>
+                    <th>Reviewer</th>
+                    <th>Approver</th>
+                    <th>Option</th>
+                </thead>    
+                <tbody>
+                    <tr>
+                        <td>No data available in the table</td>
+                    </tr>    
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
@@ -118,7 +137,7 @@ export default {
             });
         },
         totalPages() {
-            return Math.ceil(this.drdrsReviewedForms.length / this.itemsPerPage)
+            return Math.ceil(this.filteredDrdrs.length / this.itemsPerPage)
         },
 
         filteredQueues() {

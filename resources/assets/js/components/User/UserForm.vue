@@ -1,63 +1,75 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-md-12">
-                <form>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" placeholder="Name" v-model="user.name" id="name">
-                        <span v-if="errors.name">{{ errors.name }}</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="text" class="form-control" placeholder="Email" v-model="user.email" id="email">
-                        <span v-if="errors.email">{{ errors.email }}</span>
-                    </div>
-                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control"  v-model="user.password" id="password">
-                        <span v-if="errors.password">{{ errors.password }}</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="position">Position</label>
-                        <input type="position" class="form-control" placeholder="Position" v-model="user.position" id="position">
-                        <span v-if="errors.position">{{ errors.position }}</span>
-                    </div>
-                    <div class="form-group">
-                        <multiselect
-                            v-model="selected_company"
-                            :options="companies"
-                            :multiple="true"
-                            track-by="id"
-                            :custom-label="customLabelCompany"
-                             placeholder="Select Company"
-                            >
-                        </multiselect>
-                        <span v-if="errors.company">{{ errors.company }}</span>
-                    </div>
-                    <div class="form-group">
-                       <select v-model="selected_department" class="form-control form-control-lg">
-                           <option value="" disabled selected>Select department</option>
-                           <option v-for="department in departments" v-bind:key="department.id" :value="department.id">
-                               {{ department.name }}
-                           </option>
-                       </select>
-                        <span v-if="errors.department">{{ errors.department }}</span>
-                    </div>
-                    <div class="form-group">
-                        <multiselect
-                            v-model="selected_role"
-                            :options="roles"
-                            :multiple="true"
-                            track-by="id"
-                            :custom-label="customLabelRole"
-                            placeholder="Select Role"
-                            >
-                        </multiselect>
-                        <span v-if="errors.roles">{{ errors.roles }}</span>
-                    </div>
-                    <button @click="addUser(user,selected_company,selected_department,selected_role)" type="button" class="btn btn-primary">Save</button>
-                </form>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <form>
+                        <div class="form-group">
+                            <h1>ADD USER</h1>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" placeholder="Name" v-model="user.name" id="name">
+                            <span v-if="errors.name">{{ errors.name }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="text" class="form-control" placeholder="Email" v-model="user.email" id="email">
+                            <span v-if="errors.email">{{ errors.email }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control"  v-model="user.password" id="password">
+                            <span v-if="errors.password">{{ errors.password }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="position">Position</label>
+                            <input type="position" class="form-control" placeholder="Position" v-model="user.position" id="position">
+                            <span v-if="errors.position">{{ errors.position }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="selected_company">Company</label>
+                            <multiselect
+                                v-model="selected_company"
+                                :options="companies"
+                                :multiple="true"
+                                track-by="id"
+                                :custom-label="customLabelCompany"
+                                placeholder="Select Company"
+                                id="selected_company"
+                                >
+                            </multiselect>
+                            <span v-if="errors.company">{{ errors.company }}</span>
+                        </div>
+                        <div class="form-group">
+                        <label for="selected_department">Department</label>
+                        <select v-model="selected_department" class="form-control form-control-lg" id="selected_department">
+                            <option value="" disabled selected>Select department</option>
+                            <option v-for="department in departments" v-bind:key="department.id" :value="department.id">
+                                {{ department.name }}
+                            </option>
+                        </select>
+                            <span v-if="errors.department">{{ errors.department }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="selected_role">Role</label>
+                            <multiselect
+                                v-model="selected_role"
+                                :options="roles"
+                                :multiple="true"
+                                track-by="id"
+                                :custom-label="customLabelRole"
+                                placeholder="Select Role"
+                                id="selected_role"
+                                >
+                            </multiselect>
+                            <span v-if="errors.role">{{ errors.role }}</span>
+                        </div>
+                        <button @click="addUser(user,selected_company,selected_department,selected_role)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
+                    </form>
+                </div>
+                <div class="col-md-2"></div>
             </div>
         </div>
     </div>

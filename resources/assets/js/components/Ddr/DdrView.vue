@@ -28,7 +28,7 @@
 				</h4>
 			</em>
 
-			<table class="table table-bordered">
+			<table class="table table-bordered" v-if="ddrs.length">
 				<tbody>
 					<tr>
 						<td> <strong> Reason for distribution: </strong> </td>
@@ -113,7 +113,7 @@
 						<td> <strong> Position: </strong> </td>
 						<td v-if="ddrs.length && ddrs[0].distributed"> {{ ddrs[0].distributed.position }}</td>
 					</tr>
-					<tr>
+					<tr v-if="ddrs.length">
 						<td> <strong> Date: </strong> </td>
 						<td v-if="ddrs.length">{{ moment(ddrs[0].date_request).format('LL') }}</td>
 						<td> <strong> Date: </strong> </td>

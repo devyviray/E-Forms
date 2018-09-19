@@ -2,19 +2,19 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-                <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#addModal" >Add permissions</button>
+                <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" data-toggle="modal" data-target="#addModal"  style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));" @click="cleanData" >Add permissions</button>
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
                         <h4 class="card-title">Permissions</h4>
                     </div>
-                    <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
-                    <div class="card-body table-full-width table-responsive">
 
-                        <content-placeholders v-if="loading">
-                            <content-placeholders-heading :img="true" />
-                            <content-placeholders-text :lines="3" />
-                        </content-placeholders>
+                    <content-placeholders v-if="loading">
+                        <content-placeholders-heading :img="true" />
+                        <content-placeholders-text :lines="3" />
+                    </content-placeholders>
 
+                    <div class="card-body table-full-width table-responsive" v-if="permissions.length">
+                        <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -44,7 +44,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="row mb-3">
+                    <div class="row mb-3" v-if="permissions.length">
                         <div class="col-6">
                             <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
                                 <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
@@ -54,6 +54,24 @@
                             <span>{{ permissions.length }} Permission(s)</span>
                         </div>
                     </div>
+
+                    <div class="card-body table-full-width table-responsive" v-if="!permissions.length && !loading">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <th>ID</th>
+                                <th>Permissions name</th>
+                                <th>Permissions slug</th>
+                                <th>Permissions description</th>
+                                <th>Action</th>
+                            </thead>    
+                            <tbody>
+                                <tr>
+                                    <td>No data available in the table</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -69,21 +87,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Permission name" v-model="permission.name">
+                        <label for="permission_name">Permission name</label>
+                        <input type="text" class="form-control" placeholder="Permission name" v-model="permission.name" id="permission_name">
                         <span v-if="errors.name">{{ errors.name }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Permission slug" v-model="permission.slug">
+                        <label for="permission_slug">Permission slug</label>
+                        <input type="text" class="form-control" placeholder="Permission slug" v-model="permission.slug" id="permission_slug">
                          <span v-if="errors.slug">{{ errors.slug }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Permission description" v-model="permission.description">
+                        <label for="permission_description">Permission description</label>
+                        <input type="text" class="form-control" placeholder="Permission description" v-model="permission.description" id="permission_description">
                          <span v-if="errors.description">{{ errors.description }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button @click="addPermission(permission)" type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                <button @click="addPermission(permission)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
                 </div>
             </div>
             </div>
@@ -102,21 +123,24 @@
                 <div class="modal-body">
                     <input type="hidden" class="form-control" placeholder="Id" v-model="permission.id">
                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Permission name" v-model="permission.name">
+                        <label for="permission_name">Permission name</label>
+                        <input type="text" class="form-control" placeholder="Permission name" v-model="permission.name" id="permission_name">
                         <span v-if="errors.name">{{ errors.name }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Permission slug" v-model="permission.slug">
+                        <label for="permission_slug">Permission name</label>
+                        <input type="text" class="form-control" placeholder="Permission slug" v-model="permission.slug" id="permission_slug">
                         <span v-if="errors.slug">{{ errors.slug }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Permission description" v-model="permission.description">
+                         <label for="permission_description">Permission description</label>
+                        <input type="text" class="form-control" placeholder="Permission description" v-model="permission.description" id="permission_description">
                          <span v-if="errors.description">{{ errors.description }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button @click="editPermission(permission)" type="button" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                <button @click="editPermission(permission)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
                 </div>
             </div>
             </div>
@@ -137,8 +161,8 @@
                     Are you sure you want to delete this permission?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button  @click="deletePermission(permission.id)" type="button" class="btn btn-primary">Delete</button>
+                    <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                    <button  @click="deletePermission(permission.id)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Delete</button>
                 </div>
                 </div>
             </div>
@@ -175,6 +199,12 @@ export default {
         this.fetchPermissions();
     },  
     methods: {
+        cleanData(){
+            this.errors = ' ';
+            this.permission.name = ' ';
+            this.permission.slug = ' ';
+            this.permission.description = ' ';
+        },
         fetchPermissions(){
             this.loading = true;
             axios.get('/permissions')    

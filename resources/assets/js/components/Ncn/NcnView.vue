@@ -59,7 +59,7 @@
                         <td><strong> Date of Issuance:  </strong></td>
                         <td v-if="ncns.length">{{ moment(ncns[0].issuance_date).format('LL') }} </td>
                         <td> <strong>  Notified Person: </strong> </td>
-                        <td v-if="ncns.length">{{ ncns[0].notified.name }} </td>
+                        <td v-if="ncns.length && ncns[0].notified">{{ ncns[0].notified.name }} </td>
                     </tr>
                 </tbody>
             </table>

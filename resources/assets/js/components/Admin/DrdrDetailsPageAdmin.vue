@@ -1,22 +1,32 @@
 <template>
     <div id="page-content-wrapper">
         <div class="container-fluid" v-if="drdrs.length">
-            <select class="" v-model="selectedAttachment" @change="downloadAttachment">
-                <option selected disabled> Download Attachment - Requester </option>
-                <option v-for="(requesterAttachment, re) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="re">{{ requesterAttachment.file_name }}</option>
-            </select>
-
-            <select class="" v-if="reviewerAttachments.length" v-model="selectedAttachment" @change="downloadAttachment">
-                <option selected disabled> Download Attachment - Reviewer </option>
-                <option v-for="(reviewerAttachment, r) in reviewerAttachments" :value="reviewerAttachment.id" v-bind:key="r">{{ reviewerAttachment.file_name }}</option>
-            </select>
-        
-             <select class="" v-if="approverAttachments.length" v-model="selectedAttachment" @change="downloadAttachment">
-                <option selected disabled> Download Attachment - Approver </option>
-                <option v-for="(approverAttachment, a) in approverAttachments" :value="approverAttachment.id" v-bind:key="a">{{ approverAttachment.file_name }}</option>
-            </select>
-
-            <a :href="hrefLink" target="_blank" class="btn btn-primary">Print as PDF</a>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="requesterAttachment"> Download Attachment - Requester</label>
+                    <select class="form-control" v-model="selectedAttachment" @change="downloadAttachment" id="reviewerAttachment">
+                        <option selected disabled> Download Attachment - Requester </option>
+                        <option v-for="(requesterAttachment, re) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="re">{{ requesterAttachment.file_name }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3" v-if="reviewerAttachments.length">
+                    <label for="reviewerAttachment">Download Attachment - Reviewer</label>
+                    <select class="form-control"  v-model="selectedAttachment" @change="downloadAttachment" id="reviewerAttachment">
+                        <option selected disabled> Download Attachment - Reviewer </option>
+                        <option v-for="(reviewerAttachment, r) in reviewerAttachments" :value="reviewerAttachment.id" v-bind:key="r">{{ reviewerAttachment.file_name }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3"  v-if="approverAttachments.length" >
+                    <label for="reviewerAttachment">Download Attachment - Approver</label>
+                    <select class="form-control" v-model="selectedAttachment" @change="downloadAttachment" id="approverAttachment">
+                        <option selected disabled> Download Attachment - Approver </option>
+                        <option v-for="(approverAttachment, a) in approverAttachments" :value="approverAttachment.id" v-bind:key="a">{{ approverAttachment.file_name }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mt-4">
+                    <a :href="hrefLink" target="_blank" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Print as PDF</a>  
+                </div>
+            </div>
 
             <hr>
 

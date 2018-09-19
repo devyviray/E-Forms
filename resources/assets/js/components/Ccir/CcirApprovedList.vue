@@ -1,13 +1,12 @@
 <template>
     <div>
-        <div class="card-body table-full-width table-responsive">
+        <content-placeholders v-if="loading">
+            <content-placeholders-heading :img="true" />
+            <content-placeholders-text :lines="3" />
+        </content-placeholders>
+
+        <div class="card-body table-full-width table-responsive" v-if="ccirApprovedForms.length">
             <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
-
-            <content-placeholders v-if="loading">
-                <content-placeholders-heading :img="true" />
-                <content-placeholders-text :lines="3" />
-            </content-placeholders>
-
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -34,7 +33,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-3" v-if="ccirApprovedForms.length">
             <div class="col-6">
                 <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
                     <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
@@ -44,6 +43,27 @@
                 <span>{{ ccirApprovedForms.length }} Ccir form(s)</span>
             </div>
         </div>
+
+        <div class="card-body table-full-width table-responsive" v-if="!ccirApprovedForms.length && !loading">
+            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <th>ID</th>
+                    <th>Requester</th>
+                    <th>Brand Name</th>
+                    <th>Nature of Complaint</th>
+                    <th>Date of Issuance</th>
+                    <th>Validity</th>
+                    <th>Option</th>
+                </thead>    
+                <tbody>
+                    <tr>
+                        <td>No data available in the table</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </template>
 

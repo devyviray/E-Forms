@@ -2,19 +2,19 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-                <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#addModal" >Add role</button>
+                <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" data-toggle="modal" data-target="#addModal" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));" @click="cleanData">Add role</button>
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
                         <h4 class="card-title">Roles</h4>
                     </div>
-                    <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
-                    <div class="card-body table-full-width table-responsive">
 
-                        <content-placeholders v-if="loading">
-                            <content-placeholders-heading :img="true" />
-                            <content-placeholders-text :lines="3" />
-                        </content-placeholders>
+                    <content-placeholders v-if="loading">
+                        <content-placeholders-heading :img="true" />
+                        <content-placeholders-text :lines="3" />
+                    </content-placeholders>
 
+                    <div class="card-body table-full-width table-responsive" v-if="roles.length">
+                         <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -37,7 +37,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="row mb-3">
+                    <div class="row mb-3" v-if="roles.length">
                         <div class="col-6">
                             <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
                                 <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
@@ -46,6 +46,22 @@
                         <div class="col-6 text-right">
                             <span>{{ roles.length }} Role(s)</span>
                         </div>
+                    </div>
+
+                    <div class="card-body table-full-width table-responsive" v-if="!roles.length && !loading">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <th>ID</th>
+                                <th>Role name</th>
+                                <th>Role description</th>
+                                <th>Role level</th>
+                            </thead>
+                            <tbody>
+                                <tr v-for="role in filteredQueues" v-bind:key="role.id">
+                                    <td>No data available in the table</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -62,21 +78,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Role name" v-model="role.name">
+                        <label for="role">Role name</label>
+                        <input type="text" class="form-control" placeholder="Role name" v-model="role.name" id="role">
                          <span v-if="errors.name">{{ errors.name }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Role description" v-model="role.description">
+                        <label for="description">Role description</label>
+                        <input type="text" class="form-control" placeholder="Role description" v-model="role.description" id="description">
                          <span v-if="errors.description">{{ errors.description }}</span>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Role level" v-model="role.level">
+                        <label for="level">Level</label>
+                        <input type="text" class="form-control" placeholder="Role level" v-model="role.level" id="level">
                         <span v-if="errors.level">{{ errors.level }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button @click="addRole(role)" type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                <button @click="addRole(role)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
                 </div>
             </div>
             </div>
@@ -169,6 +188,13 @@ export default {
         this.fetchRoles();
     },  
     methods: {
+        cleanData(){
+            this.errors = ' ';
+            this.role.name = '',
+            this.role.slug = ' ',
+            this.role.description = ' ',
+            this.role.level = ' '
+        },
         fetchRoles(){
             this.loading = true;
             axios.get('/roles')    

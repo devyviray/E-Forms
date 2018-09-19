@@ -1,11 +1,20 @@
 <template>
     <div id="page-content-wrapper">
         <div class="container-fluid">
-             <select class="" v-model="selectedAttachment" @change="downloadAttachment">
-                <option selected disabled> Download Attachment - Requester </option>
-                <option v-for="(requesterAttachment, r) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="r">{{ requesterAttachment.file_name }}</option>
-            </select>
-        <a :href="hrefLink" target="_blank" class="btn btn-primary"> Print as PDF </a> 
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="requeterAttachment"> Download Attachment - Requester </label>
+                    <select class="form-control" v-model="selectedAttachment" @change="downloadAttachment">
+                        <option selected disabled> Download Attachment - Requester </option>
+                        <option v-for="(requesterAttachment, r) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="r">{{ requesterAttachment.file_name }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3" style="margin-top: 29px">
+                     <a :href="hrefLink" target="_blank" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"> Print as PDF </a> 
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+            </div>
         <hr>
 
         <table class="table table-bordered">
