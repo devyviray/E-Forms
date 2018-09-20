@@ -1,108 +1,155 @@
 <template>
     <div>
         <spinner-loading v-if="isLoading"></spinner-loading>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Company</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="drdrs.length">{{ drdrs[0].company.name }}</span>
-                    </div>
+        <div class="row" v-if="drdrs.length">
+            <div class="card col-md-12">
+                <div class="form-group">
+                    <h1>APPROVE DRDR</h1>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Type of Request</span>
-                    </div>
-                    <div class="col-md-6" v-if="drdrs.length">
-                        <span v-if="drdrs[0].request_type == 1">{{ 'Proposal (For proposed)' }}</span>
-                        <span v-else-if="drdrs[0].request_type == 2">{{ 'Revision (For existing document)' }}</span>
-                        <span v-else-if="drdrs[0].request_type == 3">{{ 'Cancellation' }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Document title</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="drdrs.length">{{ drdrs[0].document_title }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Reasong of request</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="drdrs.length">{{ drdrs[0].reason_request }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Request by</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="drdrs.length">{{ drdrs[0].requester.name }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Date of Request</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="drdrs.length">{{ drdrs[0].date_request }}</span>
-                    </div>
-                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <td> <strong> Company: </strong> </td>
+                        <td> {{ drdrs[0].company.name }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Type of Request: </strong> </td>
+                        <td>
+                            <span v-if="drdrs[0].request_type == 1">{{ 'Proposal (For proposed)' }}</span>
+                            <span v-else-if="drdrs[0].request_type == 2">{{ 'Revision (For existing document)' }}</span>
+                            <span v-else-if="drdrs[0].request_type == 3">{{ 'Cancellation' }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Document title: </strong> </td>
+                        <td> {{ drdrs[0].document_title }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Reasong of Request: </strong> </td>
+                        <td> {{ drdrs[0].reason_request }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Request By: </strong> </td>
+                        <td> {{ drdrs[0].requester.name }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong>Date of Request </strong> </td>
+                        <td> {{ moment(drdrs[0].date_request).format('LL') }} </td>
+                    </tr>
+                </table>
+
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-if="drdrs.length" v-model="drdrs[0].id">
-                    <div class="form-group">
-                        <select class="form-control form-control-lg" v-if="reviewerAttachments.length" v-model="selectedAttachment" @change="downloadAttachment">
-                            <option selected disabled> Download Attachment - Reviewer </option>
-                            <option v-for="(reviewerAttachment, r) in reviewerAttachments" :value="reviewerAttachment.id" v-bind:key="r">{{ reviewerAttachment.file_name }}</option>
-                        </select>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label for="selectedAttachment" class="col-sm-2 col-form-label">Download Attachment - Reviewer</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control form-control-lg" v-if="reviewerAttachments.length" v-model="selectedAttachment" @change="downloadAttachment" id="selectedAttachment">
+                                        <option selected disabled> Download Attachment - Reviewer </option>
+                                        <option v-for="(reviewerAttachment, r) in reviewerAttachments" :value="reviewerAttachment.id" v-bind:key="r">{{ reviewerAttachment.file_name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                       <select v-model="drdr.status" class="form-control form-control-lg"  @change="selectedStatus">
-                           <option value="" disabled selected>Select Status</option>
-                           <option value="1">Approved</option>
-                           <option value="2">Disapproved</option>
-                       </select>
-                        <span v-if="errors.status">{{ errors.status }}</span>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label for="status" class="col-sm-2 col-form-label">Status</label>
+                                <div class="col-sm-10">
+                                    <select v-model="drdr.status" class="form-control form-control-lg"  @change="selectedStatus" id="status">
+                                        <option value="" disabled selected>Select Status</option>
+                                        <option value="1">Approved</option>
+                                        <option value="2">Disapproved</option>
+                                    </select>
+                                    <span v-if="errors.status">{{ errors.status }}</span>
+                                </div>   
+                            </div>
+                        </div>       
                     </div>
-                    <div class="form-group">
-                        <label for="reason_request">Remarks</label>
-                        <textarea class="form-control" v-model="drdr.remarks" id="remarks" cols="30" rows="10"></textarea>
-                        <span v-if="errors.remarks">{{ errors.remarks }}</span>
-                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" v-model="drdr.remarks" id="remarks" cols="30" rows="10"></textarea>
+                                    <span v-if="errors.remarks">{{ errors.remarks }}</span>
+                                </div>   
+                            </div>
+                        </div>       
+                    </div>    
                     <div v-if="show">
-                        <div class="form-group" v-if="drdrs.length">
-                            <datepicker placeholder="Select Effective Date" v-model="drdrs[0].effective_date"></datepicker>
-                            <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="remarks" class="col-sm-2 col-form-label">Effective Date</label>
+                                    <div class="col-sm-10">
+                                        <datepicker placeholder="Select Date" v-model="drdrs[0].effective_date"></datepicker>
+                                        <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
+                                    </div>   
+                                </div>
+                            </div>       
                         </div>
-                        <div class="form-group">
-                            <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
+                                        <span v-if="errors.attachments"> {{ errors.attachments }}</span>
+                                    </div>   
+                                </div>
+                            </div>       
+                        </div> 
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="copy_number" class="col-sm-2 col-form-label">Copy number</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Copy number" v-model="drdr.copy_number" id="copy_number">
+                                        <span v-if="errors.copy_number">{{ errors.copy_number }}</span>
+                                    </div>   
+                                </div>
+                            </div>       
                         </div>
-                        <div class="form-group">
-                            <label for="copy_number">Copy number</label>
-                            <input type="text" class="form-control" placeholder="Copy number" v-model="drdr.copy_number" id="copy_number">
-                            <span v-if="errors.copy_number">{{ errors.copy_number }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="copy_holder">Copy holder</label>
-                            <input type="text" class="form-control" placeholder="Copy holder" v-model="drdr.copy_holder" id="copy_holder">
-                            <span v-if="errors.copy_holder">{{ errors.copy_holder }}</span>
-                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="copy_holder" class="col-sm-2 col-form-label">Copy holder</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Copy holder" v-model="drdr.copy_holder" id="copy_holder">
+                                        <span v-if="errors.copy_holder">{{ errors.copy_holder }}</span>
+                                    </div>   
+                                </div>
+                            </div>       
+                        </div> 
                     </div>
-                    <button @click="approvedDrdr(drdrs[0].id, drdr,drdrs[0])" type="button" class="btn btn-primary">Submit</button>
+                    <button @click="approvedDrdr(drdrs[0].id, drdr,drdrs[0])" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                 </form>
             </div>
         </div>
     </div>
 </template>
 
+<style>
+    .vdp-datepicker  input{
+        background-color: #FFFFFF;
+        border: 1px solid #E3E3E3;
+        border-radius: 4px;
+        color: #565656;
+        padding: 8px 12px;
+        height: 40px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        display: block;
+        width: 100%;
+        line-height: 1.5;   
+    }
+</style>
+
 
 <script>
+import moment from 'moment';
 import Datepicker from 'vuejs-datepicker';
 import SpinnerLoading from '../SpinnerLoading';
 
@@ -116,6 +163,8 @@ export default {
                 consider_documents: '',
                 status: '',
                 remarks: '',
+                copy_number: ' ',
+                copy_holder: ' '
             },
             errors: [],
             company_id: '',
@@ -129,6 +178,7 @@ export default {
         this.fetchDrdr(); 
     },
     methods:{
+        moment,
         fetchDrdr(){
             var url = window.location.href;
             var id = url.match(/[^\/]+$/)[0];
@@ -190,6 +240,7 @@ export default {
                 window.location.href = response.data.redirect;
             })
             .catch(error => {
+                this.isLoading = false;
                 this.errors = error.response.data.errors;
             });
         },

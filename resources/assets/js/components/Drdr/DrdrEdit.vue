@@ -3,65 +3,105 @@
         <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-2"></div>
-                <div class="card col-md-8">
+                <div class="card col-md-12">
                     <form v-if="drdrs.length">
                         <div class="form-group">
                             <h1>EDIT DRDR</h1>
                         </div>
-
-                        <div class="form-group">
-                            <label for="request_type">Type of request</label>
-                            <select v-model="drdrs[0].request_type" class="form-control form-control-lg" @change="selectedType()" id="request_type">
-                                <option value="" disabled selected>Select Type</option>
-                                <option value="1">Proposal (For proposed)</option>
-                                <option value="2">Revision (For existing document)</option>
-                                <option value="3">Cancellation</option>
-                            </select>
-                            <span v-if="errors.type">{{ errors.type }}</span>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="request_type" class="col-sm-2 col-form-label">Type of request</label>
+                                    <div class="col-sm-10">
+                                        <select v-model="drdrs[0].request_type" class="form-control form-control-lg" @change="selectedType()" id="request_type">
+                                            <option value="" disabled selected>Select Type</option>
+                                            <option value="1">Proposal (For proposed)</option>
+                                            <option value="2">Revision (For existing document)</option>
+                                            <option value="3">Cancellation</option>
+                                        </select>
+                                        <span v-if="errors.type">{{ errors.type }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="rev_number" class="col-sm-2 col-form-label">Current Rev No.</label>
+                                    <div class="col-sm-10">
+                                        <input type="textrev_number" class="form-control" placeholder="Rev. No." v-if="drdrs.length" v-model="drdrs[0].rev_number" id="rev_number">
+                                        <span v-if="errors.rev_number">{{ errors.rev_number }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="rev_number">Current Rev No.</label>
-                            <input type="textrev_number" class="form-control" placeholder="Rev. No." v-if="drdrs.length" v-model="drdrs[0].rev_number" id="rev_number">
-                            <span v-if="errors.rev_number">{{ errors.rev_number }}</span>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="effective_date" class="col-sm-2 col-form-label">Effective date</label>
+                                    <div class="col-sm-10">
+                                        <datepicker placeholder="Select Effective Date" v-if="drdrs.length" v-model="drdrs[0].effective_date" id="effective_date"></datepicker>
+                                        <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="company" class="col-sm-2 col-form-label">Company</label>
+                                    <div class="col-sm-10">
+                                        <select v-model="drdrs[0].company.id" class="form-control form-control-lg" @change="fetchReviewers(drdrs[0].company.id)">
+                                            <option value="" disabled selected>Select Company</option>
+                                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
+                                        </select>
+                                        <span v-if="errors.company_id">{{ errors.company_id }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="effective_date">Effective date</label>
-                            <datepicker placeholder="Select Effective Date" v-if="drdrs.length" v-model="drdrs[0].effective_date" id="effective_date"></datepicker>
-                            <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="document_title" class="col-sm-2 col-form-label">Document titlet</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Document Title" v-if="drdrs.length" v-model="drdrs[0].document_title" id="document_title">
+                                        <span v-if="errors.document_title">{{ errors.document_title }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="reason_request" class="col-sm-2 col-form-label">Reason</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" v-if="drdrs.length" v-model="drdrs[0].reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
+                                        <span v-if="errors.reason_request">{{ errors.reason_request }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="company">Company</label>   
-                            <select v-model="drdrs[0].company.id" class="form-control form-control-lg" @change="fetchReviewers(drdrs[0].company.id)">
-                                <option value="" disabled selected>Select Company</option>
-                                <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
-                            </select>
-                            <span v-if="errors.company">{{ errors.company }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="document_title">Document title</label>
-                            <input type="text" class="form-control" placeholder="Document Title" v-if="drdrs.length" v-model="drdrs[0].document_title" id="document_title">
-                            <span v-if="errors.document_title">{{ errors.document_title }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="reason_request">Reason</label>
-                            <textarea class="form-control" v-if="drdrs.length" v-model="drdrs[0].reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
-                            <span v-if="errors.reason_request">{{ errors.reason_request }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="reviewer">Reviewer</label>
-                            <select v-model="drdrs[0].reviewer.id" class="form-control form-control-lg" id="reviewer">
-                                <option value="" disabled selected>Select Reviewer</option>
-                                <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
-                            </select>
-                        </div>
-                         <div class="form-group">
-                            <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="reviewer" class="col-sm-2 col-form-label">Reviewer</label>
+                                    <div class="col-sm-10">
+                                        <select v-model="drdrs[0].reviewer.id" class="form-control form-control-lg" id="reviewer">
+                                            <option value="" disabled selected>Select Reviewer</option>
+                                            <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
+                                        </select>
+                                        <span v-if="errors.reviewer_id">{{ errors.reviewer_id }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
+                                         <span v-if="errors.reviewer_id">{{ errors.reviewer_id }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <button @click="updateDrdr(drdrs[0])" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                     </form>
                 </div>
-                <div class="col-md-2"></div>
             </div>
         </div>
     </div>

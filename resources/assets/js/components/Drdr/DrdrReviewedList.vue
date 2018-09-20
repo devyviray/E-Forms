@@ -6,8 +6,12 @@
         </content-placeholders>
 
         <div class="card-body table-full-width table-responsive" v-if="drdrsReviewedForms.length">
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
-
+            <div class="row mb-4 ml-2">
+                <div class="col-md-12">
+                    <label for="name">Search by Document title</label>
+                    <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                </div>
+            </div>
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -31,14 +35,15 @@
                             <span style="color: green" v-else> APPROVED </span>
 
                         </td>
-                        <td>
+                        <td v-if="drdrsReviewedForm.approver">
                             {{ drdrsReviewedForm.approver.name }} <br>
                             <span style="color: red" v-if="drdrsReviewedForm.status == 3"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="drdrsReviewedForm.status == 5"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
+                        <td v-else></td> 
                         <td>
-                            <button  class="btn btn-warning" @click="viewReviewedDrdr(drdrsReviewedForm.id)">View</button>
+                            <button  class="btn btn-warning btn-round btn-fill" @click="viewReviewedDrdr(drdrsReviewedForm.id)">View</button>
                         </td>
                     </tr>    
                 </tbody>

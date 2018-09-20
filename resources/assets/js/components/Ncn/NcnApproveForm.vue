@@ -2,120 +2,127 @@
       <div v-if="ncns.length">
         <div class="row">
             <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Requester</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span>{{ ncns[0].requester.name }}</span>
-                    </div>
+                <div class="form-group">
+                    <h1>APPROVE NCN</h1>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Position</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span>{{ ncns[0].requester.position }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Company</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span>{{ ncns[0].company.name }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Department</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span>{{ ncns[0].department.name }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Type of Non-conformity:</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ncns[0].non_conformity_types == 1">{{ 'Customer - Returns' }}</span>
-                        <span v-if="ncns[0].non_conformity_types == 2">{{ 'Objective not Met' }}</span> 
-                        <span v-if="ncns[0].non_conformity_types == 3">{{ 'Project Related' }}</span>
-                        <span v-if="ncns[0].non_conformity_types == 4">{{ 'Vendor' }}</span>
-                        <span v-if="ncns[0].non_conformity_types == 5">{{ 'Contracted - Service' }}</span>
-                        <span v-if="ncns[0].non_conformity_types == 6">{{ 'Others' }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Notification Number:</span>
-                    </div>
-                    <div class="col-md-">
-                        <span>{{ ncns[0].notification_number }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span> Recurrence No:</span>
-                    </div>
-                    <div class="col-md-">
-                        <span>{{ ncns[0].recurrence_number }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Date of issuance:</span>
-                    </div>
-                    <div class="col-md-">
-                        <span>{{ moment(ncns[0].issuance_date).format('LL') }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span> Details of non-conformity:</span>
-                    </div>
-                    <div class="col-md-">
-                        <span>{{ ncns[0].non_conformity_details }}</span>
-                    </div>
-                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <td> <strong> Requester: </strong> </td>
+                        <td> {{ ncns[0].requester.name }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Position: </strong> </td>
+                        <td> {{ ncns[0].requester.position }} </td>
+                    </tr> 
+                    <tr>
+                        <td> <strong> Requester: </strong> </td>
+                        <td> {{ ncns[0].requester.name }} </td>
+                    </tr> 
+                    <tr>
+                        <td> <strong> Company: </strong> </td>
+                        <td> {{ ncns[0].company.name }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Department: </strong> </td>
+                        <td> {{ ncns[0].department.name }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Type of Non-conformity: </strong> </td>
+                        <td v-if="ncns[0].non_conformity_types == 1">{{ 'Customer - Returns' }}</td>
+                        <td v-if="ncns[0].non_conformity_types == 2">{{ 'Objective not Met' }}</td> 
+                        <td v-if="ncns[0].non_conformity_types == 3">{{ 'Project Related' }}</td>
+                        <td v-if="ncns[0].non_conformity_types == 4">{{ 'Vendor' }}</td>
+                        <td v-if="ncns[0].non_conformity_types == 5">{{ 'Contracted - Service' }}</td>
+                        <td v-if="ncns[0].non_conformity_types == 6">{{ 'Others' }}</td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Notification Number: </strong> </td>
+                        <td> {{ ncns[0].notification_number }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Recurrence Number: </strong> </td>
+                        <td> {{ ncns[0].recurrence_number }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Date of issuance: </strong> </td>
+                        <td>{{ moment(ncns[0].issuance_date).format('LL') }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Details of non-conformity: </strong> </td>
+                        <td>{{ ncns[0].non_conformity_details }} </td>
+                    </tr>
+                </table>
+
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-model="ncns[0].id">
-                    <div class="form-group">
-                        <select class="form-control form-control-lg" v-model="selectedAttachment" @change="downloadAttachment">
-                            <option selected disabled> Download Attachment - Requester </option>
-                            <option v-for="(requesterAttachment, re) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="re">{{ requesterAttachment.file_name }}</option>
-                        </select>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label for="selectedAttachment" class="col-sm-2 col-form-label">Download Attachment - Requester</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control form-control-lg" v-model="selectedAttachment" @change="downloadAttachment" id="selectedAttachment">
+                                        <option selected disabled> Download Attachment - Requester </option>
+                                        <option v-for="(requesterAttachment, re) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="re">{{ requesterAttachment.file_name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                       <label for="status">Select status</label>
-                       <select v-model="ncn.status" class="form-control form-control-lg" @change="selectedStatus" id="status">
-                           <option value="" disabled selected>Select Status</option>
-                           <option value="1">Approved</option>
-                           <option value="2">Disapproved</option>
-                       </select>
-                        <span v-if="errors.status">{{ errors.status }}</span>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label for="status" class="col-sm-2 col-form-label">Status</label>
+                                <div class="col-sm-10">
+                                    <select v-model="ncn.status" class="form-control form-control-lg" @change="selectedStatus" id="status">
+                                        <option value="" disabled selected>Select Status</option>
+                                        <option value="1">Approved</option>
+                                        <option value="2">Disapproved</option>
+                                    </select>
+                                    <span v-if="errors.status">{{ errors.status }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div v-if="show">
-                        <div class="form-group">
-                            <label for="notified">Notified Person</label>
-                            <select v-model="ncn.notified" class="form-control form-control-lg" id="notified">
-                                <option value="" disabled selected>Select Notified Person</option>
-                                <option v-for="(notified, n) in notifieds"  v-bind:key="n" :value="notified.id">{{ notified.name }}</option>
-                            </select>
-                            <span v-if="errors.status">{{ errors.status }}</span>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="notified" class="col-sm-2 col-form-label">Notified Person</label>
+                                    <div class="col-sm-10">
+                                        <select v-model="ncn.notified" class="form-control form-control-lg" id="notified">
+                                            <option value="" disabled selected>Select Notified Person</option>
+                                            <option v-for="(notified, n) in notifieds"  v-bind:key="n" :value="notified.id">{{ notified.name }}</option>
+                                        </select>
+                                        <span v-if="errors.notified">{{ errors.notified }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
-                            <span v-if="errors.attachments">{{ errors.attachments }}</span>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
+                                        <span v-if="errors.attachments">{{ errors.attachments }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="reason_request">Remarks</label>
-                        <textarea class="form-control" v-model="ncn.remarks" id="remarks" cols="30" rows="10"></textarea>
-                        <span v-if="errors.remarks">{{ errors.remarks }}</span>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" v-model="ncn.remarks" id="remarks" cols="30" rows="10"></textarea>
+                                    <span v-if="errors.remarks">{{ errors.remarks }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button @click="approvedNcn(ncns[0].id, ncn)" type="button" class="btn btn-primary">Submit</button>
+                    <button @click="approvedNcn(ncns[0].id, ncn)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                 </form>
             </div>
         </div>
@@ -129,8 +136,9 @@ export default {
         return{
             ncns: [],
             ncn:{
-                status: '',
-                remarks: ''
+                status: ' ',
+                remarks: ' ',
+                notified: ' '
             },
             show: false,
             notifieds: [],

@@ -32,7 +32,7 @@
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td>
-                            <button  class="btn btn-warning" @click="approveNcn(ncn.id)" >Click for approval</button>
+                            <button  class="btn btn-warning btn-round btn-fill" @click="approveNcn(ncn.id)" >Click for approval</button>
                         </td>
                     </tr>    
                 </tbody>

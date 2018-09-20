@@ -5,7 +5,12 @@
             <div class="card-header ">
                 <h4 class="card-title">Non-conformance Notification</h4>   
             </div>
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+            <div class="row mb-4 mt-3">
+                <div class="col-md-12">
+                    <label for="name">Search by Requester Name</label>
+                    <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                </div>
+            </div>
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -83,8 +88,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button @click="validateNcn(ncn)" type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary btn-round btn-fill" data-dismiss="modal">Close</button>
+                <button @click="validateNcn(ncn)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
                 </div>
             </div>
             </div>

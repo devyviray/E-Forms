@@ -2,55 +2,43 @@
       <div>
         <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Department</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].department.name }}</span>
-                    </div>
+            <div class="col-md-12" v-if="ddrs.length">
+                <div class="form-group">
+                    <h1>APPROVE DDR</h1>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Reason of distribution</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].reason_of_distribution }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Date of request</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].date_requested }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Date Needed</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].date_needed }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Request by</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span v-if="ddrs.length">{{ ddrs[0].requester.name }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <span>Position</span>
-                    </div>
-                    <div class="col-md-">
-                        <span v-if="ddrs.length">{{ ddrs[0].position }}</span>
-                    </div>
-                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <td> <strong> Department: </strong> </td>
+                        <td> {{ ddrs[0].department.name }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Reason of Distribution: </strong> </td>
+						<td v-if="ddrs[0].reason_of_distribution == 1">
+							 Relevant external doc. (controll copy)
+						</td>
+						<td v-if="ddrs[0].reason_of_distribution == 2">
+							 Customer request (uncontrolled copy)			
+						</td>
+						<td v-if="ddrs[0].reason_of_distribution == 3"> Others: </td>
+		
+                    </tr>
+                    <tr>
+                        <td> <strong> Date of Request </strong> </td>
+                        <td> {{ ddrs[0].date_request }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Date Needed </strong> </td>
+                        <td> {{ ddrs[0].date_needed }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong> Request By </strong> </td>
+                        <td>{{ ddrs[0].requester.name }} </td>
+                    </tr>
+                    <tr>
+                        <td> <strong>   Position </strong> </td>
+                        <td>{{ ddrs[0].requester.position }} </td>
+                    </tr>
+                </table>
                 <div  class="row">
                      <div class="col-md-12">
                         <table class="table table-hover table-striped">
@@ -77,20 +65,33 @@
                 </div>
                 <form>
                     <input type="hidden" class="form-control" placeholder="Name" v-if="ddrs.length" v-model="ddrs[0].id">
-                    <div class="form-group">
-                       <select v-model="ddr.status" class="form-control form-control-lg">
-                           <option value="" disabled selected>Select Status</option>
-                           <option value="1">Approved</option>
-                           <option value="2">Disapproved</option>
-                       </select>
-                        <span v-if="errors.status">{{ errors.status }}</span>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label for="status" class="col-sm-2 col-form-label">Status</label>
+                                <div class="col-sm-10">
+                                    <select v-model="ddr.status" class="form-control form-control-lg" id=status>
+                                        <option value="" disabled selected>Select Status</option>
+                                        <option value="1">Approved</option>
+                                        <option value="2">Disapproved</option>
+                                    </select>
+                                    <span v-if="errors.status">{{ errors.status }}</span>
+                                </div>   
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="reason_request">Remarks</label>
-                        <textarea class="form-control" v-model="ddr.remarks" id="remarks" cols="30" rows="10"></textarea>
-                        <span v-if="errors.remarks">{{ errors.remarks }}</span>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" v-model="ddr.remarks" id="remarks" cols="30" rows="10"></textarea>
+                                    <span v-if="errors.remarks">{{ errors.remarks }}</span>
+                                </div>   
+                            </div>
+                        </div>
                     </div>
-                    <button @click="approvedDdr(ddrs[0].id, ddr)" type="button" class="btn btn-primary">Submit</button>
+                    <button @click="approvedDdr(ddrs[0].id, ddr)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                 </form>
             </div>
         </div>
@@ -150,6 +151,7 @@ export default {
 
             })
             .catch(error => {
+                this.isLoading = false;
                 this.errors = error.response.data.errors;
             })
         }

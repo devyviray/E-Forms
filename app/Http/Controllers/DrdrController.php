@@ -332,10 +332,6 @@ class DrdrController extends Controller
 
     public function reviewed(Request $request)
     {
-        $request->validate([
-            'status' => 'required',
-            'id' => 'required'
-        ]);
         
         $drdr = Drdr::findOrFail($request->input('id'));
         $carbon = new Carbon();
@@ -344,10 +340,12 @@ class DrdrController extends Controller
         if($request->input('status') == 1){
 
             $request->validate([
-                'remarks' => 'required',
                 'consider_documents' => 'required',
                 'approver_id' => 'required',
-                'attachments' => 'required'
+                'attachments' => 'required',
+                'status' => 'required',
+                'id' => 'required',
+                'remarks' => 'required',
             ]);
 
             $drdr->status = StatusType::APPROVED_REVIEWER;
@@ -372,6 +370,13 @@ class DrdrController extends Controller
                 return ['redirect' => route('drdr')];
             }
         }else{
+
+            $request->validate([
+                'status' => 'required',
+                'id' => 'required',
+                'remarks' => 'required',
+            ]);
+
             $drdr->status = StatusType::DISAPPROVED_REVIEWER;
             $drdr->disapproved_date =  $carbon::now();
             $drdr->remarks = $request->input('remarks');
@@ -396,25 +401,20 @@ class DrdrController extends Controller
 
     public function approved(Request $request)
     {
-        $request->validate([
-            'status' => 'required',
-            'id' => 'required'
-        ]);
         
         $carbon = new Carbon();
         $drdr = Drdr::findOrFail($request->input('id'));
 
         if($request->input('status') == 1){
-
             $request->validate([
                 'remarks' => 'required',
                 'attachments' => 'required',
                 'copy_number' => 'required',
-                'copy_holder' => 'required'
+                'copy_holder' => 'required',
+                'status' => 'required',
+                'id' => 'required'
             ]);
     
-            
-       
             $drdr->status = StatusType::APPROVED_APPROVER ;
             $drdr->approved_date = $carbon::now();
             $drdr->copy_number = $request->input('copy_number');
@@ -445,6 +445,12 @@ class DrdrController extends Controller
             }
 
         }else{
+
+            $request->validate([
+                'remarks' => 'required',
+                'status' => 'required',
+                'id' => 'required'
+            ]);
 
             $drdr->status = StatusType::DISAPPROVED_APPROVER;
             $drdr->disapproved_date =  $carbon::now();

@@ -159,18 +159,18 @@ class NcnController extends Controller
     */
     public function approved(Request $request)
     {
-        $request->validate([
-            'id' => 'required',
-            'remarks' => 'required',
-            'status' => 'required'
-        ]);
 
         $carbon = new Carbon();
         $ncn = Ncn::findOrFail($request->input('id'));
 
         if($request->input('status') == 1){
-
-            $request->validate(['attachments' => 'required']);
+            $request->validate([
+                'id' => 'required',
+                'remarks' => 'required',
+                'status' => 'required',
+                'attachments' => 'required',
+                'notified' => 'required'
+            ]);
 
             $ncn->status = StatusType::APPROVED_APPROVER;
             $ncn->notified_id = $request->input('notified');
@@ -193,6 +193,13 @@ class NcnController extends Controller
                 } 
             }
         }else{
+
+            $request->validate([
+                'id' => 'required',
+                'remarks' => 'required',
+                'status' => 'required'
+            ]);
+
             $ncn->status = StatusType::DISAPPROVED_APPROVER;
             $ncn->remarks = $request->input('remarks');
             $ncn->disapproved_date = $carbon::now();

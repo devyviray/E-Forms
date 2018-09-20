@@ -6,7 +6,12 @@
         </content-placeholders>
 
         <div class="card-body table-full-width table-responsive" v-if="ncnSubmitteds.length">
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+            <div class="row mb-4 ml-2">
+                <div class="col-md-12">
+                    <label for="name">Search by Requester Name</label>
+                    <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                </div>
+            </div>
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -31,9 +36,9 @@
                             <span style="color: red" v-else-if="ncnSubmitted.status == 6"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
-                        <td>
-                            <button  class="btn btn-primary" @click="viewSubmittedNcn(ncnSubmitted.id)">View</button>
-                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ncnSubmitted.id}`">Delete</button>
+                        <td style="display:inline-grid">
+                            <button  class="btn btn-primary btn-round btn-fill mb-1" @click="viewSubmittedNcn(ncnSubmitted.id)">View</button>
+                            <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${ncnSubmitted.id}`">Delete</button>
                         </td>
                     </tr>    
                 </tbody>

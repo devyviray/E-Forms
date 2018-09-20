@@ -27,7 +27,7 @@
                         <td>{{ moment(ccir.delivery_date ).format('LL') }}</td>
                         <td>{{ ccir.status }}</td>
                         <td>
-                           <button  class="btn btn-warning" @click="approveCcir(ccir.id)">Click for approval</button>
+                           <button  class="btn btn-warning btn-round btn-fill" @click="approveCcir(ccir.id)">Click for approval</button>
                         </td>
                     </tr>    
                 </tbody>

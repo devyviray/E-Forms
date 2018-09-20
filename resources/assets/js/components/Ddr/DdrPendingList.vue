@@ -6,7 +6,12 @@
         </content-placeholders>
 
         <div class="card-body table-full-width table-responsive" v-if="ddrs.length">
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+            <div class="row mb-4 ml-2">
+                <div class="col-md-12">
+                    <label for="name">Search by Requester name</label>
+                    <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                </div>
+            </div>
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -28,7 +33,7 @@
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td>
-                            <button  class="btn btn-warning" @click="approveDdr(ddr.id)" >Click for approval</button>
+                            <button  class="btn btn-warning btn-round btn-fill" @click="approveDdr(ddr.id)" >Click for approval</button>
                         </td>
                     </tr>    
                 </tbody>
@@ -129,7 +134,7 @@ export default {
             });
         },
         totalPages() {
-            return Math.ceil(this.ddrs.length / this.itemsPerPage)
+            return Math.ceil(this.filteredDdrs.length / this.itemsPerPage)
         },
 
         filteredQueues() {
