@@ -36,7 +36,7 @@
                         <span class="simple-text"> E-FORMS </span>
                     </div>
                     <ul class="nav">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">
                                 <i class="nc-icon nc-chart-pie-35"></i>
                                 <p>Dashboard</p>
@@ -154,7 +154,7 @@
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                     <div class=" container-fluid  ">
-                        <span class="navbar-brand">Dashboard</span>
+                        <span class="navbar-brand">{{ $location }}</span>
                 </div>
             </nav>
             <!-- End Navbar -->

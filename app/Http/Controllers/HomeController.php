@@ -25,8 +25,8 @@ class HomeController extends Controller
     public function index()
     {   
         if(Auth::user()->hasRole('administrator') || Auth::user()->hasRole('mr')){
-            return view('home');
-        } return view('home-user');
+            return view('home', ['location' => 'Dashboard']);
+        } return view('home-user', ['location' => 'Dashboard']);
     }
 
     /**
@@ -36,7 +36,7 @@ class HomeController extends Controller
      */
     public function ccir_index()
     {
-        return view('ccir.index');
+        return view('ccir.index', ['location' => 'Customer Complaint Report']);
     }
     
     /**
@@ -46,7 +46,7 @@ class HomeController extends Controller
      */
     public function companies_index()
     {
-        return view('companies.index');
+        return view('companies.index', ['location' => 'Company']);
     }
 
      /**
@@ -56,7 +56,7 @@ class HomeController extends Controller
      */
     public function ddr_index()
     {
-        return view('ddr.index');
+        return view('ddr.index', ['location' => 'Document Distribution Request']);
     }
 
     /**
@@ -66,7 +66,7 @@ class HomeController extends Controller
      */
     public function departments_index()
     {
-        return view('departments.index');
+        return view('departments.index', ['location' => 'Department']);
     }
 
     /**
@@ -76,7 +76,7 @@ class HomeController extends Controller
      */
     public function drdr_index()
     {
-        return view('drdr.index');
+        return view('drdr.index', ['location' => 'Document Review & Document Request'] );
     }
 
     /**
@@ -86,7 +86,7 @@ class HomeController extends Controller
      */
     public function ncn_index()
     {
-        return view('ncn.index');
+        return view('ncn.index', ['location' => 'Non Conformance Notification']);
     }
 
     /**
@@ -96,7 +96,7 @@ class HomeController extends Controller
      */
     public function permissions_index()
     {
-        return view('permissions.index');
+        return view('permissions.index',  ['location' => 'Permission']);
     }
 
     /**
@@ -106,7 +106,7 @@ class HomeController extends Controller
      */
     public function roles_index()
     {
-        return view('roles.index');
+        return view('roles.index', ['location' => 'Role']);
     }
 
      /**
@@ -116,6 +116,6 @@ class HomeController extends Controller
      */
     public function users_index()
     {
-        return view('users.index');
+        return view('users.index', ['location' => 'User']);
     }
 }

@@ -64,7 +64,7 @@ class NcnController extends Controller
      */
     public function create()
     {
-        return view('ncn.form');
+        return view('ncn.form', ['location' => 'Non Conformance Notification']);
     }
 
     /**
@@ -133,7 +133,7 @@ class NcnController extends Controller
         if($ncn->status != StatusType::SUBMITTED){
             return redirect()->back();
         }
-        return view('ncn.approved');
+        return view('ncn.approved',['location' => 'Non Conformance Notification']);
     }
 
     /**
@@ -216,7 +216,7 @@ class NcnController extends Controller
     */
     public function showDetailsNcn($ccir_id)
     {
-        return view('ncn.view');
+        return view('ncn.view',['location' => 'Non Conformance Notification']);
     }
 
     /**
@@ -290,7 +290,7 @@ class NcnController extends Controller
     */
     public function ncnAdminPage()
     {
-        return view('admin.admin-ncn');
+        return view('admin.admin-ncn',['location' => 'Non Conformance Notification']);
     }
 
     /**
@@ -317,7 +317,8 @@ class NcnController extends Controller
      */
     public function ncnDetails($id)
     {
-        return view('admin.admin-ncn-details', ['id' => $id]);
+        $location = 'Non Conformance Notification';
+        return view('admin.admin-ncn-details', compact('id', 'location'));
     }
 
     /**
@@ -424,7 +425,7 @@ class NcnController extends Controller
      */
     public function notifiedIndex()
     {
-        return view('ncn.notified');
+        return view('ncn.notified',['location' => 'Non Conformance Notification']);
     }
 
 

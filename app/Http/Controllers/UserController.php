@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.form');
+        return view('users.form',['location' => 'User']);
     }
 
     /**
@@ -46,7 +46,7 @@ class UserController extends Controller
      */
     public function edit()
     {
-        return view('users.edit');
+        return view('users.edit',['location' => 'User']);
     }
 
     /**

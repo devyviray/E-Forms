@@ -19,7 +19,7 @@
                             <thead>
                                 <th>ID</th>
                                 <th>Company Name</th>
-                                <th>Company Address</th>
+                                <th>City</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>

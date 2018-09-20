@@ -66,7 +66,7 @@ class DdrController extends Controller
      */
     public function create()
     {
-        return view('ddr.form');
+        return view('ddr.form', ['location' => 'Document Distribution Request']);
     }
 
     /**
@@ -136,7 +136,7 @@ class DdrController extends Controller
         $ddr = Ddr::findOrFail($id);
         if($ddr->status != StatusType::SUBMITTED){
             return redirect()->back();
-        }  return view('ddr.approved');
+        }  return view('ddr.approved', ['location' => 'Document Distribution Request']);
     }
 
     /**
@@ -211,7 +211,7 @@ class DdrController extends Controller
     */
     public function showDetailsDdr($ddr_id)
     {
-        return view('ddr.view');
+        return view('ddr.view', ['location' => 'Document Distribution Request']);
     }
 
     /**
@@ -224,7 +224,7 @@ class DdrController extends Controller
         $ddr = Ddr::findOrfail($id);
      
         if($ddr->status == StatusType::SUBMITTED){
-            return view('ddr.edit');
+            return view('ddr.edit', ['location' => 'Document Distribution Request']);
         } return redirect()->back();
     }
 
@@ -389,7 +389,7 @@ class DdrController extends Controller
 
     public function ddrAdminPage()
     {
-        return view('admin.admin-ddr');
+        return view('admin.admin-ddr',['location' => 'Document Distribution Request']);
     }
 
      /**
@@ -416,7 +416,8 @@ class DdrController extends Controller
      */
     public function ddrDetails($id)
     {
-        return view('admin.admin-ddr-details', ['id' => $id]);
+        $location = 'Document Distribution Request';
+        return view('admin.admin-ddr-details', compact('id', 'location'));
     }
 
     /**

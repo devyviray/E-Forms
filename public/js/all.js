@@ -73032,7 +73032,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Company Name")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Company Address")]),
+      _c("th", [_vm._v("City")]),
       _vm._v(" "),
       _c("th", [_vm._v("Action")])
     ])
@@ -89617,7 +89617,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-warning",
+                            staticClass: "btn btn-warning btn-round btn-fill",
                             on: {
                               click: function($event) {
                                 _vm.viewApprovedNcn(ncnApprovedForm.id)
@@ -89625,19 +89625,6 @@ var render = function() {
                             }
                           },
                           [_vm._v("View")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger",
-                            attrs: {
-                              "data-toggle": "modal",
-                              "data-target":
-                                "#deleteModal-" + ncnApprovedForm.id
-                            }
-                          },
-                          [_vm._v("Delete")]
                         )
                       ])
                     ])

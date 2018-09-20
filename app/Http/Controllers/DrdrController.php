@@ -121,7 +121,7 @@ class DrdrController extends Controller
      */
     public function create()
     {
-        return view('drdr.form');
+        return view('drdr.form',['location' => 'Document Review & Document Request']);
     }
 
     /**
@@ -185,7 +185,7 @@ class DrdrController extends Controller
     {
         $drdr = Drdr::findOrFail($id);
         if($drdr->status == StatusType::SUBMITTED){
-            return view('drdr.review');
+            return view('drdr.review',['location' => 'Document Review & Document Request']);
         } return redirect()->back();
     }
 
@@ -213,7 +213,7 @@ class DrdrController extends Controller
     {
         $drdr = Drdr::findOrFail($id);
         if($drdr->status == StatusType::APPROVED_REVIEWER){
-            return view('drdr.approve-form');
+            return view('drdr.approve-form',['location' => 'Document Review & Document Request']);
         } return redirect()->back();
     }
 
@@ -224,7 +224,7 @@ class DrdrController extends Controller
     */
     public function showDetailsDrdr($drdr_id)
     {
-        return view('drdr.view');
+        return view('drdr.view',['location' => 'Document Review & Document Request']);
     }
 
     /**
@@ -237,7 +237,7 @@ class DrdrController extends Controller
         $drdr = Drdr::findOrfail($id);
      
         if($drdr->status == StatusType::SUBMITTED){
-            return view('drdr.edit');
+            return view('drdr.edit',['location' => 'Document Review & Document Request']);
         } return redirect()->back();
     }
 
@@ -490,7 +490,7 @@ class DrdrController extends Controller
     */
     public function drdrAdminPage()
     {
-        return view('admin.admin-drdr');
+        return view('admin.admin-drdr',['location' => 'Document Review & Document Request']);
     }
 
     /**
@@ -517,7 +517,8 @@ class DrdrController extends Controller
      */
     public function drdrDetails($id)
     {
-        return view('admin.admin-drdr-details', ['id' => $id]);
+        $location = 'Document Review & Document Request';
+        return view('admin.admin-drdr-details', compact('id', 'location'));
     }
     
     /**

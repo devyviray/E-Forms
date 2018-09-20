@@ -33,8 +33,8 @@
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td>
-                            <button  class="btn btn-warning" @click="viewApprovedNcn(ncnApprovedForm.id)" >View</button>
-                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ncnApprovedForm.id}`">Delete</button>
+                            <button  class="btn btn-warning btn-round btn-fill" @click="viewApprovedNcn(ncnApprovedForm.id)" >View</button>
+                            <!-- <button  class="btn btn-danger btn-round btn-fill" data-toggle="modal" :data-target="`#deleteModal-${ncnApprovedForm.id}`">Delete</button> -->
                         </td>
                     </tr>    
                 </tbody>
