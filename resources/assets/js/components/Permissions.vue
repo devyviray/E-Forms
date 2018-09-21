@@ -41,7 +41,7 @@
                                                 Option
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#editModal-${permission.id}`">Edit</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" @click="copyObject(permission)" data-toggle="modal" :data-target="`#editModal-${permission.id}`">Edit</a>
                                                 <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#deleteModal-${permission.id}`">Delete</a>
                                             </div>
                                         </div>
@@ -127,26 +127,26 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" class="form-control" placeholder="Id" v-model="permission.id">
+                    <input type="hidden" class="form-control" placeholder="Id" v-model="copiedObject.id">
                    <div class="form-group">
                         <label for="permission_name">Permission name</label>
-                        <input type="text" class="form-control" placeholder="Permission name" v-model="permission.name" id="permission_name">
+                        <input type="text" class="form-control" placeholder="Permission name" v-model="copiedObject.name" id="permission_name">
                         <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                     <div class="form-group">
                         <label for="permission_slug">Permission name</label>
-                        <input type="text" class="form-control" placeholder="Permission slug" v-model="permission.slug" id="permission_slug">
+                        <input type="text" class="form-control" placeholder="Permission slug" v-model="copiedObject.slug" id="permission_slug">
                         <span class="error" v-if="errors.slug">{{ errors.slug[0] }}</span>
                     </div>
                     <div class="form-group">
                          <label for="permission_description">Permission description</label>
-                        <input type="text" class="form-control" placeholder="Permission description" v-model="permission.description" id="permission_description">
+                        <input type="text" class="form-control" placeholder="Permission description" v-model="copiedObject.description" id="permission_description">
                          <span class="error" v-if="errors.description">{{ errors.description[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
-                <button @click="editPermission(permission)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
+                <button @click="editPermission(copiedObject)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
                 </div>
             </div>
             </div>
@@ -198,13 +198,17 @@ export default {
             errors: [],
             currentPage: 0,
             itemsPerPage: 5,
-            loading: false
+            loading: false,
+            copiedObject: []
         }
     },
     created(){
         this.fetchPermissions();
     },  
     methods: {
+        copyObject(permission){
+            this.copiedObject = Object.assign({}, permission)
+        },
         cleanData(){
             this.errors = ' ';
             this.permission.name = ' ';
@@ -248,6 +252,7 @@ export default {
             });
         },
         editPermission(permission){
+            let permissionIndex = this.permissions.findIndex(item => item.id == permission.id);
             axios.patch(`/permission/${permission.id}`,{
                 name: permission.name,
                 slug: permission.slug,
@@ -259,7 +264,7 @@ export default {
                 this.permission.slug = '';
                 this.permission.description = '';
                 this.errors = [],
-                this.fetchPermissions();
+                this.permissions.splice(permissionIndex, 1, response.data);
                 $('#editModal-'+permission.id).modal('hide');
             })
             .catch(error => {

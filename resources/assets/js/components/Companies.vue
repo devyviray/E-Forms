@@ -38,7 +38,7 @@
                                                 Option
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="javascript:void(0)"  data-toggle="modal" :data-target="`#editModal-${company.id}`">Edit</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" @click="copyObject(company)" data-toggle="modal" :data-target="`#editModal-${company.id}`">Edit</a>
                                                 <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#deleteModal-${company.id}`">Delete</a>
                                             </div>
                                         </div>
@@ -119,21 +119,21 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" class="form-control" placeholder="Id" v-model="company.id">
+                    <input type="hidden" class="form-control" placeholder="Id" v-model="copiedObject.id">
                     <div class="form-group">
                         <label for="company">Company name</label>
-                        <input type="text" class="form-control" placeholder="Name" v-model="company.name" id="company">
+                        <input type="text" class="form-control" placeholder="Name" v-model="copiedObject.name" id="company">
                         <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                     <div class="form-group">
                         <label for="address">City</label>
-                        <input type="text" class="form-control" placeholder="Address" v-model="company.address">
+                        <input type="text" class="form-control" placeholder="Address" v-model="copiedObject.address">
                         <span class="error" v-if="errors.address">{{ errors.address[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
-                <button @click="editCompany(company)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
+                <button @click="editCompany(copiedObject)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
                 </div>
             </div>
             </div>
@@ -178,6 +178,7 @@ export default {
                 name: '',
                 address: '',
             },
+            copiedObject: [],
             company_id: '',
             pagination: {},
             edit: false,
@@ -197,6 +198,9 @@ export default {
         this.fetchCompanies();
     },
      methods: {
+        copyObject(company){
+            this.copiedObject = Object.assign({}, company)
+        },
         cleanData(){
             this.errors = ' ';
             this.company.name = ' ';
@@ -220,6 +224,7 @@ export default {
             .catch(error => console.log(error))
         },
         editCompany(company){
+            let companyIndex = this.companies.findIndex(item => item.id == company.id);
             axios.patch(`/company/${company.id}`,{
                 id: company.id,
                 name: company.name,
@@ -229,7 +234,7 @@ export default {
                 this.company.name = '',
                 this.company.address = '',
                 this.errors = [],
-                this.fetchCompanies();
+                this.companies.splice(companyIndex,1,response.data);
                 $('#editModal-'+company.id).modal('hide');
             })
             .catch(error => {

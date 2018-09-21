@@ -72481,6 +72481,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: '',
                 address: ''
             },
+            copiedObject: [],
             company_id: '',
             pagination: {},
             edit: false,
@@ -72500,6 +72501,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        copyObject: function copyObject(company) {
+            this.copiedObject = Object.assign({}, company);
+        },
         cleanData: function cleanData() {
             this.errors = ' ';
             this.company.name = ' ';
@@ -72529,12 +72533,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editCompany: function editCompany(company) {
             var _this3 = this;
 
+            var companyIndex = this.companies.findIndex(function (item) {
+                return item.id == company.id;
+            });
             axios.patch('/company/' + company.id, {
                 id: company.id,
                 name: company.name,
                 city: company.address
             }).then(function (response) {
-                _this3.company.name = '', _this3.company.address = '', _this3.errors = [], _this3.fetchCompanies();
+                _this3.company.name = '', _this3.company.address = '', _this3.errors = [], _this3.companies.splice(companyIndex, 1, response.data);
                 $('#editModal-' + company.id).modal('hide');
             }).catch(function (error) {
                 if (error.response.data) {
@@ -72745,6 +72752,11 @@ var render = function() {
                                               "data-toggle": "modal",
                                               "data-target":
                                                 "#editModal-" + company.id
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.copyObject(company)
+                                              }
                                             }
                                           },
                                           [_vm._v("Edit")]
@@ -73042,19 +73054,19 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: company.id,
-                          expression: "company.id"
+                          value: _vm.copiedObject.id,
+                          expression: "copiedObject.id"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: { type: "hidden", placeholder: "Id" },
-                      domProps: { value: company.id },
+                      domProps: { value: _vm.copiedObject.id },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(company, "id", $event.target.value)
+                          _vm.$set(_vm.copiedObject, "id", $event.target.value)
                         }
                       }
                     }),
@@ -73069,8 +73081,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: company.name,
-                            expression: "company.name"
+                            value: _vm.copiedObject.name,
+                            expression: "copiedObject.name"
                           }
                         ],
                         staticClass: "form-control",
@@ -73079,13 +73091,17 @@ var render = function() {
                           placeholder: "Name",
                           id: "company"
                         },
-                        domProps: { value: company.name },
+                        domProps: { value: _vm.copiedObject.name },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(company, "name", $event.target.value)
+                            _vm.$set(
+                              _vm.copiedObject,
+                              "name",
+                              $event.target.value
+                            )
                           }
                         }
                       }),
@@ -73107,19 +73123,23 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: company.address,
-                            expression: "company.address"
+                            value: _vm.copiedObject.address,
+                            expression: "copiedObject.address"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: { type: "text", placeholder: "Address" },
-                        domProps: { value: company.address },
+                        domProps: { value: _vm.copiedObject.address },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(company, "address", $event.target.value)
+                            _vm.$set(
+                              _vm.copiedObject,
+                              "address",
+                              $event.target.value
+                            )
                           }
                         }
                       }),
@@ -73154,7 +73174,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            _vm.editCompany(company)
+                            _vm.editCompany(_vm.copiedObject)
                           }
                         }
                       },
@@ -73593,6 +73613,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: '',
                 name: ''
             },
+            copiedObject: [],
             department_id: '',
             pagination: {},
             edit: false,
@@ -73611,6 +73632,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        copyObject: function copyObject(deparment) {
+            this.copiedObject = Object.assign({}, deparment);
+        },
         cleanData: function cleanData() {
             this.errors = ' ';
             this.department.name = ' ';
@@ -73651,13 +73675,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editDepartment: function editDepartment(deparment) {
             var _this4 = this;
 
+            var departmentIndex = this.departments.findIndex(function (item) {
+                return item.id == deparment.id;
+            });
             axios.patch('/department/' + deparment.id, {
                 id: deparment.id,
                 name: deparment.name
             }).then(function (response) {
                 _this4.department.name = ' ';
                 _this4.errors = [];
-                _this4.fetchDepartments();
+                _this4.departments.splice(departmentIndex, 1, response.data);
                 $('#editModal-' + deparment.id).modal('hide');
             }).catch(function (error) {
                 _this4.errors = error.response.data.errors;
@@ -73849,6 +73876,11 @@ var render = function() {
                                               "data-toggle": "modal",
                                               "data-target":
                                                 "#editModal-" + department.id
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.copyObject(department)
+                                              }
                                             }
                                           },
                                           [_vm._v("Edit")]
@@ -74067,19 +74099,19 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: department.id,
-                          expression: "department.id"
+                          value: _vm.copiedObject.id,
+                          expression: "copiedObject.id"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: { type: "hidden", placeholder: "Id" },
-                      domProps: { value: department.id },
+                      domProps: { value: _vm.copiedObject.id },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(department, "id", $event.target.value)
+                          _vm.$set(_vm.copiedObject, "id", $event.target.value)
                         }
                       }
                     }),
@@ -74094,8 +74126,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: department.name,
-                            expression: "department.name"
+                            value: _vm.copiedObject.name,
+                            expression: "copiedObject.name"
                           }
                         ],
                         staticClass: "form-control",
@@ -74104,13 +74136,17 @@ var render = function() {
                           placeholder: "Name",
                           id: "department"
                         },
-                        domProps: { value: department.name },
+                        domProps: { value: _vm.copiedObject.name },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(department, "name", $event.target.value)
+                            _vm.$set(
+                              _vm.copiedObject,
+                              "name",
+                              $event.target.value
+                            )
                           }
                         }
                       }),
@@ -74145,7 +74181,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            _vm.editDepartment(department)
+                            _vm.editDepartment(_vm.copiedObject)
                           }
                         }
                       },
@@ -75413,7 +75449,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             errors: [],
             currentPage: 0,
             itemsPerPage: 5,
-            loading: false
+            loading: false,
+            copiedObject: []
         };
     },
     created: function created() {
@@ -75421,6 +75458,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        copyObject: function copyObject(permission) {
+            this.copiedObject = Object.assign({}, permission);
+        },
         cleanData: function cleanData() {
             this.errors = ' ';
             this.permission.name = ' ';
@@ -75466,6 +75506,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editPermission: function editPermission(permission) {
             var _this4 = this;
 
+            var permissionIndex = this.permissions.findIndex(function (item) {
+                return item.id == permission.id;
+            });
             axios.patch('/permission/' + permission.id, {
                 name: permission.name,
                 slug: permission.slug,
@@ -75475,7 +75518,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this4.permission.name = '';
                 _this4.permission.slug = '';
                 _this4.permission.description = '';
-                _this4.errors = [], _this4.fetchPermissions();
+                _this4.errors = [], _this4.permissions.splice(permissionIndex, 1, response.data);
                 $('#editModal-' + permission.id).modal('hide');
             }).catch(function (error) {
                 _this4.errors = error.response.data.errors;
@@ -75673,6 +75716,11 @@ var render = function() {
                                               "data-toggle": "modal",
                                               "data-target":
                                                 "#editModal-" + permission.id
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.copyObject(permission)
+                                              }
                                             }
                                           },
                                           [_vm._v("Edit")]
@@ -75973,19 +76021,19 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: permission.id,
-                          expression: "permission.id"
+                          value: _vm.copiedObject.id,
+                          expression: "copiedObject.id"
                         }
                       ],
                       staticClass: "form-control",
                       attrs: { type: "hidden", placeholder: "Id" },
-                      domProps: { value: permission.id },
+                      domProps: { value: _vm.copiedObject.id },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(permission, "id", $event.target.value)
+                          _vm.$set(_vm.copiedObject, "id", $event.target.value)
                         }
                       }
                     }),
@@ -76000,8 +76048,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: permission.name,
-                            expression: "permission.name"
+                            value: _vm.copiedObject.name,
+                            expression: "copiedObject.name"
                           }
                         ],
                         staticClass: "form-control",
@@ -76010,13 +76058,17 @@ var render = function() {
                           placeholder: "Permission name",
                           id: "permission_name"
                         },
-                        domProps: { value: permission.name },
+                        domProps: { value: _vm.copiedObject.name },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(permission, "name", $event.target.value)
+                            _vm.$set(
+                              _vm.copiedObject,
+                              "name",
+                              $event.target.value
+                            )
                           }
                         }
                       }),
@@ -76038,8 +76090,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: permission.slug,
-                            expression: "permission.slug"
+                            value: _vm.copiedObject.slug,
+                            expression: "copiedObject.slug"
                           }
                         ],
                         staticClass: "form-control",
@@ -76048,13 +76100,17 @@ var render = function() {
                           placeholder: "Permission slug",
                           id: "permission_slug"
                         },
-                        domProps: { value: permission.slug },
+                        domProps: { value: _vm.copiedObject.slug },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(permission, "slug", $event.target.value)
+                            _vm.$set(
+                              _vm.copiedObject,
+                              "slug",
+                              $event.target.value
+                            )
                           }
                         }
                       }),
@@ -76078,8 +76134,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: permission.description,
-                            expression: "permission.description"
+                            value: _vm.copiedObject.description,
+                            expression: "copiedObject.description"
                           }
                         ],
                         staticClass: "form-control",
@@ -76088,14 +76144,14 @@ var render = function() {
                           placeholder: "Permission description",
                           id: "permission_description"
                         },
-                        domProps: { value: permission.description },
+                        domProps: { value: _vm.copiedObject.description },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
                             _vm.$set(
-                              permission,
+                              _vm.copiedObject,
                               "description",
                               $event.target.value
                             )
@@ -76133,7 +76189,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            _vm.editPermission(permission)
+                            _vm.editPermission(_vm.copiedObject)
                           }
                         }
                       },

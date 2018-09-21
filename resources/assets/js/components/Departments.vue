@@ -36,7 +36,7 @@
                                                 Option
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="javascript:void(0)"  data-toggle="modal" :data-target="`#editModal-${department.id}`">Edit</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" @click="copyObject(department)"  data-toggle="modal" :data-target="`#editModal-${department.id}`">Edit</a>
                                                 <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#deleteModal-${department.id}`">Delete</a>
                                             </div>
                                         </div>
@@ -109,16 +109,16 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" class="form-control" placeholder="Id" v-model="department.id">
+                    <input type="hidden" class="form-control" placeholder="Id" v-model="copiedObject.id">
                     <div class="form-group">
                         <label for="department">Department name</label>
-                        <input type="text" class="form-control" placeholder="Name" v-model="department.name" id="department">
+                        <input type="text" class="form-control" placeholder="Name" v-model="copiedObject.name" id="department">
                          <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
-                <button @click="editDepartment(department)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
+                <button @click="editDepartment(copiedObject)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
                 </div>
             </div>
             </div>
@@ -160,6 +160,7 @@ export default {
                 id: '',
                 name: '',
             },
+            copiedObject: [],
             department_id: '',
             pagination: {},
             edit: false,
@@ -179,6 +180,9 @@ export default {
         this.fetchDepartments();
     },  
     methods: {
+        copyObject(deparment){
+            this.copiedObject = Object.assign({}, deparment)
+        },
         cleanData(){
             this.errors = ' ';
             this.department.name = ' ';
@@ -216,6 +220,7 @@ export default {
             });
         },
         editDepartment(deparment){
+            let departmentIndex = this.departments.findIndex(item => item.id == deparment.id);
             axios.patch(`/department/${deparment.id}`,{
                 id: deparment.id,
                 name: deparment.name,
@@ -223,7 +228,7 @@ export default {
             .then(response => {
                 this.department.name = ' ';
                 this.errors = [];
-                this.fetchDepartments();
+                this.departments.splice(departmentIndex, 1, response.data);
                 $('#editModal-'+deparment.id).modal('hide');
             })
             .catch(error => {
