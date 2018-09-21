@@ -166,7 +166,7 @@ export default {
                 request_date: '',
                 approved_date: '',
                 disapproved_date: '',
-                non_confirmity_details: '',
+                non_conformity_details: '',
                 attached_files: '', 
                 status: '',
                 remarks: ''

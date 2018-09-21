@@ -38,12 +38,12 @@ class CompanyController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'address' => 'required',
+            'city' => 'required',
             ]);
             
             $company = new Company;
             $company->name = $request->input('name');
-            $company->address = $request->input('address');
+            $company->address = $request->input('city');
             
             if($company->save()){
                 return Company::orderBy('id','desc')->get();
@@ -86,11 +86,11 @@ class CompanyController extends Controller
         $request->validate([
             'id' => 'required',
             'name' => 'required',
-            'address' => 'required',
+            'city' => 'required',
             ]);
             
             $company->name = $request->input('name');
-            $company->address = $request->input('address');
+            $company->address = $request->input('city');
             $company->save();
             
             return $company;

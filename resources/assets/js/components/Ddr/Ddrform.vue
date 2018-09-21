@@ -283,7 +283,7 @@ export default {
             })
         },
          deleteRow(index) {
-            this.ddrlists.length < 2 ? alert('Unable to delete') : this.ddrlists.splice(index,1);
+            this.ddrlists.length < 2 ? alert('Unable to delete row') : this.ddrlists.splice(index,1);
         },
         selectedReason(id){
            id == 3 ? this.others = 1 : this.others = 2; 

@@ -4,7 +4,7 @@
 <div class="container">
         <div class="card card-container">
             <img id="profile-img" class="profile-img-card" src="http://172.17.2.88/e-forms-test/public/image/lfug-logo.png" />
-            <p id="profile-name" class="profile-name-card"></p>
+            <p id="profile-name" class="profile-name-card">QMD E-FORMS</p>
             <form class="form-signin" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

@@ -15,6 +15,7 @@ let mix = require('laravel-mix');
 // .sass('resources/assets/sass/app.scss', 'public/css');
 mix.styles([
 	'resources/assets/css/bootstrap.min.css',
+	'resources/assets/css/style.css',
 	'resources/assets/css/light-bootstrap-dashboard.css',
 	
 ], 'public/css/all.css')

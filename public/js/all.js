@@ -72532,7 +72532,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.patch('/company/' + company.id, {
                 id: company.id,
                 name: company.name,
-                address: company.address
+                city: company.address
             }).then(function (response) {
                 _this3.company.name = '', _this3.company.address = '', _this3.errors = [], _this3.fetchCompanies();
                 $('#editModal-' + company.id).modal('hide');
@@ -72547,7 +72547,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.post('company', {
                 name: this.company.name,
-                address: this.company.address
+                city: this.company.address
             }).then(function (response) {
                 _this4.company.name = '', _this4.company.address = '', _this4.errors = [], _this4.companies = response.data;
                 $('#addModal').modal('hide');
@@ -72971,9 +72971,9 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm.errors.address
+                    _vm.errors.city
                       ? _c("span", { staticClass: "error" }, [
-                          _vm._v(_vm._s(_vm.errors.address[0]))
+                          _vm._v(_vm._s(_vm.errors.city[0]))
                         ])
                       : _vm._e()
                   ])
@@ -85956,7 +85956,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         deleteRow: function deleteRow(index) {
-            this.ddrlists.length < 2 ? alert('Unable to delete') : this.ddrlists.splice(index, 1);
+            this.ddrlists.length < 2 ? alert('Unable to delete row') : this.ddrlists.splice(index, 1);
         },
         selectedReason: function selectedReason(id) {
             id == 3 ? this.others = 1 : this.others = 2;
@@ -87049,7 +87049,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else if (this.ddrlists.length >= 2) {
                 this.ddrlists.splice(index, 1);
             } else {
-                alert('Unable to delete');
+                alert('Unable to delete  all row');
             }
         },
         updateDdr: function updateDdr(ddr, ddrlists) {
@@ -91080,7 +91080,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 request_date: '',
                 approved_date: '',
                 disapproved_date: '',
-                non_confirmity_details: '',
+                non_conformity_details: '',
                 attached_files: '',
                 status: '',
                 remarks: ''

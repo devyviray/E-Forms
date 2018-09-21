@@ -271,7 +271,7 @@ export default {
             }else if(this.ddrlists.length >= 2){
                 this.ddrlists.splice(index,1);
             }else{
-                alert('Unable to delete');
+                alert('Unable to delete  all row');
             }
         },
         updateDdr(ddr, ddrlists){

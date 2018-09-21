@@ -24,6 +24,10 @@
             color: #a94442;
             font-weight: bold;
         }
+        .div-hover:hover{
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+        }
     </style>
 </head>
 <body>

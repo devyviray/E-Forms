@@ -97,7 +97,7 @@
                     <div class="form-group">
                         <label for="address">City</label>
                         <input type="text" class="form-control" placeholder="Company address" v-model="company.address" id="address">
-                        <span class="error" v-if="errors.address">{{ errors.address[0] }}</span>
+                        <span class="error" v-if="errors.city">{{ errors.city[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -223,7 +223,7 @@ export default {
             axios.patch(`/company/${company.id}`,{
                 id: company.id,
                 name: company.name,
-                address: company.address
+                city: company.address
             })
             .then(response => {
                 this.company.name = '',
@@ -242,7 +242,7 @@ export default {
         addCompany(company){
             axios.post('company', {
                 name: this.company.name,
-                address: this.company.address,
+                city: this.company.address,
             })
             .then(response => {
                 this.company.name = '',
