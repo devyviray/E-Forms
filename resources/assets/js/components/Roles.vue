@@ -14,7 +14,13 @@
                     </content-placeholders>
 
                     <div class="card-body table-full-width table-responsive" v-if="roles.length">
-                         <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+                        <div class="row mb-4 ml-2">
+                            <div class="col-md-12">
+                                <label for="name">Search by Role Name</label>
+                                <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                            </div>
+                        </div>
+
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -80,17 +86,17 @@
                     <div class="form-group">
                         <label for="role">Role name</label>
                         <input type="text" class="form-control" placeholder="Role name" v-model="role.name" id="role">
-                         <span v-if="errors.name">{{ errors.name }}</span>
+                         <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                     <div class="form-group">
                         <label for="description">Role description</label>
                         <input type="text" class="form-control" placeholder="Role description" v-model="role.description" id="description">
-                         <span v-if="errors.description">{{ errors.description }}</span>
+                         <span class="error" v-if="errors.description">{{ errors.description[0] }}</span>
                     </div>
                     <div class="form-group">
                         <label for="level">Level</label>
                         <input type="text" class="form-control" placeholder="Role level" v-model="role.level" id="level">
-                        <span v-if="errors.level">{{ errors.level }}</span>
+                        <span class="error" v-if="errors.level">{{ errors.level[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-12" v-if="ddrs.length">
                 <div class="form-group">
-                    <h1>APPROVE DDR</h1>
+                    <h1 style="color: #888888; text-align: center;">APPROVE DDR</h1>
                 </div>
                 <table class="table table-bordered">
                     <tr>
@@ -75,7 +75,7 @@
                                         <option value="1">Approved</option>
                                         <option value="2">Disapproved</option>
                                     </select>
-                                    <span v-if="errors.status">{{ errors.status }}</span>
+                                    <span class="error" v-if="errors.status">{{ errors.status[0] }}</span>
                                 </div>   
                             </div>
                         </div>
@@ -86,7 +86,7 @@
                                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" v-model="ddr.remarks" id="remarks" cols="30" rows="10"></textarea>
-                                    <span v-if="errors.remarks">{{ errors.remarks }}</span>
+                                    <span class="error" v-if="errors.remarks">{{ errors.remarks[0] }}</span>
                                 </div>   
                             </div>
                         </div>

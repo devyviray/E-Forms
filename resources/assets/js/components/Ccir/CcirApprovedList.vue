@@ -27,7 +27,7 @@
                         <td>{{ ccirApprovedForm.status }}</td>
                         <td>
                            <button  class="btn btn-warning" @click="viewApprovedCcir(ccirApprovedForm.id)">View</button>
-                            <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ccirApprovedForm.id}`">Delete</button>
+                            <!-- <button  class="btn btn-danger" data-toggle="modal" :data-target="`#deleteModal-${ccirApprovedForm.id}`">Delete</button> -->
                         </td>
                     </tr>    
                 </tbody>

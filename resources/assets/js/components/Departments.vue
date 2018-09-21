@@ -14,7 +14,12 @@
                     </content-placeholders>
 
                     <div class="card-body table-full-width table-responsive" v-if="departments.length">
-                        <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+                        <div class="row mb-4 ml-2">
+                            <div class="col-md-12">
+                                <label for="name">Search by Department Name</label>
+                                <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                            </div>
+                        </div>
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -82,7 +87,7 @@
                     <div class="form-group">
                         <label for="department">Department name</label>
                         <input type="text" class="form-control" placeholder="Department name" v-model="department.name" id="department">
-                        <span v-if="errors.name">{{ errors.name }}</span>
+                        <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -108,7 +113,7 @@
                     <div class="form-group">
                         <label for="department">Department name</label>
                         <input type="text" class="form-control" placeholder="Name" v-model="department.name" id="department">
-                         <span v-if="errors.name">{{ errors.name }}</span>
+                         <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">

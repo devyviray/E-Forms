@@ -63234,7 +63234,9 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.errors.startDate
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+                  ? _c("span", { staticClass: "error" }, [
+                      _vm._v(_vm._s(_vm.errors.startDate[0]))
+                    ])
                   : _vm._e()
               ],
               1
@@ -63259,7 +63261,9 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.errors.endDate
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+                  ? _c("span", { staticClass: "error" }, [
+                      _vm._v(_vm._s(_vm.errors.endDate[0]))
+                    ])
                   : _vm._e()
               ],
               1
@@ -64187,7 +64191,9 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.errors.startDate
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+                  ? _c("span", { staticClass: "error" }, [
+                      _vm._v(_vm._s(_vm.errors.startDate[0]))
+                    ])
                   : _vm._e()
               ],
               1
@@ -64212,7 +64218,9 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.errors.endDate
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+                  ? _c("span", { staticClass: "error" }, [
+                      _vm._v(_vm._s(_vm.errors.endDate[0]))
+                    ])
                   : _vm._e()
               ],
               1
@@ -65332,7 +65340,9 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.errors.startDate
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+                  ? _c("span", { staticClass: "error" }, [
+                      _vm._v(_vm._s(_vm.errors.startDate[0]))
+                    ])
                   : _vm._e()
               ],
               1
@@ -65357,7 +65367,9 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.errors.endDate
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+                  ? _c("span", { staticClass: "error" }, [
+                      _vm._v(_vm._s(_vm.errors.endDate[0]))
+                    ])
                   : _vm._e()
               ],
               1
@@ -66130,7 +66142,9 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.errors.startDate
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.startDate))])
+                  ? _c("span", { staticClass: "error" }, [
+                      _vm._v(_vm._s(_vm.errors.startDate[0]))
+                    ])
                   : _vm._e()
               ],
               1
@@ -66155,7 +66169,9 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.errors.endDate
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.endDate))])
+                  ? _c("span", { staticClass: "error" }, [
+                      _vm._v(_vm._s(_vm.errors.endDate[0]))
+                    ])
                   : _vm._e()
               ],
               1
@@ -66560,7 +66576,9 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.errors.name
-                          ? _c("span", [_vm._v(_vm._s(_vm.errors.car_number))])
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.car_number[0]))
+                            ])
                           : _vm._e()
                       ])
                     : _vm._e()
@@ -70306,6 +70324,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -70466,27 +70490,39 @@ var render = function() {
                       staticClass: "card-body table-full-width table-responsive"
                     },
                     [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.keywords,
-                            expression: "keywords"
-                          }
-                        ],
-                        staticClass: "form-control  mb-5",
-                        attrs: { type: "text", placeholder: "Search" },
-                        domProps: { value: _vm.keywords },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c("div", { staticClass: "row mb-4 ml-2" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("label", { attrs: { for: "name" } }, [
+                            _vm._v("Search by User Name")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.keywords,
+                                expression: "keywords"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Search",
+                              id: "name"
+                            },
+                            domProps: { value: _vm.keywords },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.keywords = $event.target.value
+                              }
                             }
-                            _vm.keywords = $event.target.value
-                          }
-                        }
-                      }),
+                          })
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "table",
@@ -70955,6 +70991,8 @@ exports.push([module.i, "\nfieldset[disabled] .multiselect{pointer-events:none\n
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_multiselect__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_multiselect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
 //
 //
 //
@@ -71033,10 +71071,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Multiselect: __WEBPACK_IMPORTED_MODULE_0_vue_multiselect___default.a },
+    components: {
+        Multiselect: __WEBPACK_IMPORTED_MODULE_0_vue_multiselect___default.a,
+        SpinnerLoading: __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default.a
+    },
     data: function data() {
         return {
             user: {
@@ -71071,7 +71153,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: '',
                 name: ''
             },
-            selected_role: ''
+            selected_role: '',
+            isLoading: false
 
         };
     },
@@ -71091,6 +71174,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addUser: function addUser(user, selected_company, selected_department, selected_role) {
             var _this = this;
 
+            this.isLoading = true;
             var comapanyids = [];
             var roleids = [];
             if (selected_company) {
@@ -71115,6 +71199,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.user.name = " ", _this.user.email = " ", _this.user.password = " ", _this.errors = [], window.location.href = response.data.redirect;
             }).catch(function (error) {
                 if (error.response.data) {
+                    _this.isLoading = false;
                     _this.errors = error.response.data.errors;
                 }
             });
@@ -71157,303 +71242,408 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "col-md-12" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-2" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("form", [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+  return _c(
+    "div",
+    [
+      _vm.isLoading ? _c("spinner-loading") : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("form", [
+              _vm._m(0),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.name,
-                    expression: "user.name"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Name", id: "name" },
-                domProps: { value: _vm.user.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "name", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.name
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "email" } }, [
-                _vm._v("Email address")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.email,
-                    expression: "user.email"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Email", id: "email" },
-                domProps: { value: _vm.user.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "email", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.email
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.email))])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "password" } }, [_vm._v("Password")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.password,
-                    expression: "user.password"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "password", id: "password" },
-                domProps: { value: _vm.user.password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "password", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.password
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.password))])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "position" } }, [_vm._v("Position")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.position,
-                    expression: "user.position"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "position",
-                  placeholder: "Position",
-                  id: "position"
-                },
-                domProps: { value: _vm.user.position },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user, "position", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _vm.errors.position
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.position))])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-group" },
-              [
-                _c("label", { attrs: { for: "selected_company" } }, [
-                  _vm._v("Company")
+              _c("div", { staticClass: "row mb-2" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label",
+                        attrs: { for: "name" }
+                      },
+                      [_vm._v("Name")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.name,
+                            expression: "user.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Name",
+                          id: "name"
+                        },
+                        domProps: { value: _vm.user.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.user, "name", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.name
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.name[0]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
                 ]),
                 _vm._v(" "),
-                _c("multiselect", {
-                  attrs: {
-                    options: _vm.companies,
-                    multiple: true,
-                    "track-by": "id",
-                    "custom-label": _vm.customLabelCompany,
-                    placeholder: "Select Company",
-                    id: "selected_company"
-                  },
-                  model: {
-                    value: _vm.selected_company,
-                    callback: function($$v) {
-                      _vm.selected_company = $$v
-                    },
-                    expression: "selected_company"
-                  }
-                }),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label",
+                        attrs: { for: "email" }
+                      },
+                      [_vm._v("Email address")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.email,
+                            expression: "user.email"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Email",
+                          id: "email"
+                        },
+                        domProps: { value: _vm.user.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.user, "email", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.email
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.email[0]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-2" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label",
+                        attrs: { for: "password" }
+                      },
+                      [_vm._v("Password")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.password,
+                            expression: "user.password"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "password", id: "password" },
+                        domProps: { value: _vm.user.password },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.user, "password", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.password
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.password[0]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ]),
                 _vm._v(" "),
-                _vm.errors.company
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.company))])
-                  : _vm._e()
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "selected_department" } }, [
-                _vm._v("Department")
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label",
+                        attrs: { for: "position" }
+                      },
+                      [_vm._v("Position")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.position,
+                            expression: "user.position"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "position",
+                          placeholder: "Position",
+                          id: "position"
+                        },
+                        domProps: { value: _vm.user.position },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.user, "position", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.position
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.position[0]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-2" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label",
+                        attrs: { for: "selected_company" }
+                      },
+                      [_vm._v("Company")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-10" },
+                      [
+                        _c("multiselect", {
+                          attrs: {
+                            options: _vm.companies,
+                            multiple: true,
+                            "track-by": "id",
+                            "custom-label": _vm.customLabelCompany,
+                            placeholder: "Select Company",
+                            id: "selected_company"
+                          },
+                          model: {
+                            value: _vm.selected_company,
+                            callback: function($$v) {
+                              _vm.selected_company = $$v
+                            },
+                            expression: "selected_company"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.company
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.company[0]))
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label",
+                        attrs: { for: "selected_department" }
+                      },
+                      [_vm._v("Department")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.selected_department,
+                              expression: "selected_department"
+                            }
+                          ],
+                          staticClass: "form-control form-control-lg",
+                          attrs: { id: "selected_department" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.selected_department = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              attrs: { value: "", disabled: "", selected: "" }
+                            },
+                            [_vm._v("Select department")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.departments, function(department) {
+                            return _c(
+                              "option",
+                              {
+                                key: department.id,
+                                domProps: { value: department.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            " +
+                                    _vm._s(department.name) +
+                                    "\n                                        "
+                                )
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.department
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.department[0]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "row mb-2" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-2 col-form-label",
+                        attrs: { for: "selected_role" }
+                      },
+                      [_vm._v("Role")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-10" },
+                      [
+                        _c("multiselect", {
+                          attrs: {
+                            options: _vm.roles,
+                            multiple: true,
+                            "track-by": "id",
+                            "custom-label": _vm.customLabelRole,
+                            placeholder: "Select Role",
+                            id: "selected_role"
+                          },
+                          model: {
+                            value: _vm.selected_role,
+                            callback: function($$v) {
+                              _vm.selected_role = $$v
+                            },
+                            expression: "selected_role"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.role
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.role[0]))
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(1)
               ]),
               _vm._v(" "),
               _c(
-                "select",
+                "button",
                 {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selected_department,
-                      expression: "selected_department"
-                    }
-                  ],
-                  staticClass: "form-control form-control-lg",
-                  attrs: { id: "selected_department" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.selected_department = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "option",
-                    { attrs: { value: "", disabled: "", selected: "" } },
-                    [_vm._v("Select department")]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.departments, function(department) {
-                    return _c(
-                      "option",
-                      {
-                        key: department.id,
-                        domProps: { value: department.id }
-                      },
-                      [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(department.name) +
-                            "\n                        "
-                        )
-                      ]
-                    )
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _vm.errors.department
-                ? _c("span", [_vm._v(_vm._s(_vm.errors.department))])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-group" },
-              [
-                _c("label", { attrs: { for: "selected_role" } }, [
-                  _vm._v("Role")
-                ]),
-                _vm._v(" "),
-                _c("multiselect", {
-                  attrs: {
-                    options: _vm.roles,
-                    multiple: true,
-                    "track-by": "id",
-                    "custom-label": _vm.customLabelRole,
-                    placeholder: "Select Role",
-                    id: "selected_role"
+                  staticClass:
+                    "hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right",
+                  staticStyle: {
+                    "background-image":
+                      "linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33))"
                   },
-                  model: {
-                    value: _vm.selected_role,
-                    callback: function($$v) {
-                      _vm.selected_role = $$v
-                    },
-                    expression: "selected_role"
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.addUser(
+                        _vm.user,
+                        _vm.selected_company,
+                        _vm.selected_department,
+                        _vm.selected_role
+                      )
+                    }
                   }
-                }),
-                _vm._v(" "),
-                _vm.errors.role
-                  ? _c("span", [_vm._v(_vm._s(_vm.errors.role))])
-                  : _vm._e()
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass:
-                  "hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right",
-                staticStyle: {
-                  "background-image":
-                    "linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33))"
                 },
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    _vm.addUser(
-                      _vm.user,
-                      _vm.selected_company,
-                      _vm.selected_department,
-                      _vm.selected_role
-                    )
-                  }
-                }
-              },
-              [_vm._v("Save")]
-            )
+                [_vm._v("Save")]
+              )
+            ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-2" })
+        ])
       ])
-    ])
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -71461,7 +71651,17 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("ADD USER")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("ADD USER")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group row" })
     ])
   }
 ]
@@ -71785,7 +71985,9 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _vm.errors.name
-                    ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
+                    ? _c("span", { staticClass: "error" }, [
+                        _vm._v(_vm._s(_vm.errors.name[0]))
+                      ])
                     : _vm._e()
                 ]),
                 _vm._v(" "),
@@ -71817,7 +72019,9 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _vm.errors.email
-                    ? _c("span", [_vm._v(_vm._s(_vm.errors.email))])
+                    ? _c("span", { staticClass: "error" }, [
+                        _vm._v(_vm._s(_vm.errors.email[0]))
+                      ])
                     : _vm._e()
                 ]),
                 _vm._v(" "),
@@ -71853,7 +72057,9 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _vm.errors.position
-                    ? _c("span", [_vm._v(_vm._s(_vm.errors.position))])
+                    ? _c("span", { staticClass: "error" }, [
+                        _vm._v(_vm._s(_vm.errors.position[0]))
+                      ])
                     : _vm._e()
                 ]),
                 _vm._v(" "),
@@ -71882,8 +72088,10 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _vm.errors.company
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.company))])
+                    _vm.errors.company[0]
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(_vm._s(_vm.errors.company[0]))
+                        ])
                       : _vm._e()
                   ],
                   1
@@ -71955,7 +72163,9 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _vm.errors.department
-                    ? _c("span", [_vm._v(_vm._s(_vm.errors.department))])
+                    ? _c("span", { staticClass: "error" }, [
+                        _vm._v(_vm._s(_vm.errors.department[0]))
+                      ])
                     : _vm._e()
                 ]),
                 _vm._v(" "),
@@ -71983,7 +72193,9 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _vm.errors.roles
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.roles))])
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(_vm._s(_vm.errors.roles[0]))
+                        ])
                       : _vm._e()
                   ],
                   1
@@ -72089,6 +72301,11 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_content_placeholders__ = __webpack_require__(2);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -72437,27 +72654,39 @@ var render = function() {
                       staticClass: "card-body table-full-width table-responsive"
                     },
                     [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.keywords,
-                            expression: "keywords"
-                          }
-                        ],
-                        staticClass: "form-control  mb-5",
-                        attrs: { type: "text", placeholder: "Search" },
-                        domProps: { value: _vm.keywords },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c("div", { staticClass: "row mb-4 ml-2" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("label", { attrs: { for: "name" } }, [
+                            _vm._v("Search by Company Name")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.keywords,
+                                expression: "keywords"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Search",
+                              id: "name"
+                            },
+                            domProps: { value: _vm.keywords },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.keywords = $event.target.value
+                              }
                             }
-                            _vm.keywords = $event.target.value
-                          }
-                        }
-                      }),
+                          })
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "table",
@@ -72705,7 +72934,9 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _vm.errors.name
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(_vm._s(_vm.errors.name[0]))
+                        ])
                       : _vm._e()
                   ]),
                   _vm._v(" "),
@@ -72741,7 +72972,9 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _vm.errors.address
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.address))])
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(_vm._s(_vm.errors.address[0]))
+                        ])
                       : _vm._e()
                   ])
                 ]),
@@ -72858,7 +73091,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.name
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.name[0]))
+                          ])
                         : _vm._e()
                     ]),
                     _vm._v(" "),
@@ -72890,7 +73125,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.address
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.address))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.address[0]))
+                          ])
                         : _vm._e()
                     ])
                   ]),
@@ -73338,6 +73575,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -73518,27 +73760,39 @@ var render = function() {
                       staticClass: "card-body table-full-width table-responsive"
                     },
                     [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.keywords,
-                            expression: "keywords"
-                          }
-                        ],
-                        staticClass: "form-control  mb-5",
-                        attrs: { type: "text", placeholder: "Search" },
-                        domProps: { value: _vm.keywords },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c("div", { staticClass: "row mb-4 ml-2" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("label", { attrs: { for: "name" } }, [
+                            _vm._v("Search by Department Name")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.keywords,
+                                expression: "keywords"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Search",
+                              id: "name"
+                            },
+                            domProps: { value: _vm.keywords },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.keywords = $event.target.value
+                              }
                             }
-                            _vm.keywords = $event.target.value
-                          }
-                        }
-                      }),
+                          })
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "table",
@@ -73743,7 +73997,9 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _vm.errors.name
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(_vm._s(_vm.errors.name[0]))
+                        ])
                       : _vm._e()
                   ])
                 ]),
@@ -73860,7 +74116,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.name
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.name[0]))
+                          ])
                         : _vm._e()
                     ])
                   ]),
@@ -74326,6 +74584,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -74512,27 +74776,39 @@ var render = function() {
                     staticClass: "card-body table-full-width table-responsive"
                   },
                   [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.keywords,
-                          expression: "keywords"
-                        }
-                      ],
-                      staticClass: "form-control  mb-5",
-                      attrs: { type: "text", placeholder: "Search" },
-                      domProps: { value: _vm.keywords },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                    _c("div", { staticClass: "row mb-4 ml-2" }, [
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Search by Role Name")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.keywords,
+                              expression: "keywords"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Search",
+                            id: "name"
+                          },
+                          domProps: { value: _vm.keywords },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.keywords = $event.target.value
+                            }
                           }
-                          _vm.keywords = $event.target.value
-                        }
-                      }
-                    }),
+                        })
+                      ])
+                    ]),
                     _vm._v(" "),
                     _c(
                       "table",
@@ -74694,7 +74970,9 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _vm.errors.name
-                    ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
+                    ? _c("span", { staticClass: "error" }, [
+                        _vm._v(_vm._s(_vm.errors.name[0]))
+                      ])
                     : _vm._e()
                 ]),
                 _vm._v(" "),
@@ -74730,7 +75008,9 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _vm.errors.description
-                    ? _c("span", [_vm._v(_vm._s(_vm.errors.description))])
+                    ? _c("span", { staticClass: "error" }, [
+                        _vm._v(_vm._s(_vm.errors.description[0]))
+                      ])
                     : _vm._e()
                 ]),
                 _vm._v(" "),
@@ -74764,7 +75044,9 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _vm.errors.level
-                    ? _c("span", [_vm._v(_vm._s(_vm.errors.level))])
+                    ? _c("span", { staticClass: "error" }, [
+                        _vm._v(_vm._s(_vm.errors.level[0]))
+                      ])
                     : _vm._e()
                 ])
               ]),
@@ -74931,6 +75213,12 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_content_placeholders__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -75290,27 +75578,39 @@ var render = function() {
                       staticClass: "card-body table-full-width table-responsive"
                     },
                     [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.keywords,
-                            expression: "keywords"
-                          }
-                        ],
-                        staticClass: "form-control  mb-5",
-                        attrs: { type: "text", placeholder: "Search" },
-                        domProps: { value: _vm.keywords },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c("div", { staticClass: "row mb-4 ml-2" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("label", { attrs: { for: "name" } }, [
+                            _vm._v("Search by Permission Name")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.keywords,
+                                expression: "keywords"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Search",
+                              id: "name"
+                            },
+                            domProps: { value: _vm.keywords },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.keywords = $event.target.value
+                              }
                             }
-                            _vm.keywords = $event.target.value
-                          }
-                        }
-                      }),
+                          })
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "table",
@@ -75523,7 +75823,9 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _vm.errors.name
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(_vm._s(_vm.errors.name[0]))
+                        ])
                       : _vm._e()
                   ]),
                   _vm._v(" "),
@@ -75559,7 +75861,9 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _vm.errors.slug
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.slug))])
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(_vm._s(_vm.errors.slug[0]))
+                        ])
                       : _vm._e()
                   ]),
                   _vm._v(" "),
@@ -75599,7 +75903,9 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _vm.errors.description
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.description))])
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(_vm._s(_vm.errors.description[0]))
+                        ])
                       : _vm._e()
                   ])
                 ]),
@@ -75716,7 +76022,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.name
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.name))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.name[0]))
+                          ])
                         : _vm._e()
                     ]),
                     _vm._v(" "),
@@ -75752,7 +76060,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.slug
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.slug))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.slug[0]))
+                          ])
                         : _vm._e()
                     ]),
                     _vm._v(" "),
@@ -75794,7 +76104,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.description
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.description))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.description[0]))
+                          ])
                         : _vm._e()
                     ])
                   ]),
@@ -78471,20 +78783,7 @@ var render = function() {
                               },
                               [_vm._v("Edit")]
                             )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "btn btn-danger btn-round btn-fill mb-1",
-                            attrs: {
-                              "data-toggle": "modal",
-                              "data-target": "#deleteModal-" + drdrSubmitted.id
-                            }
-                          },
-                          [_vm._v("Delete")]
-                        )
+                          : _vm._e()
                       ])
                     ])
                   })
@@ -79329,7 +79628,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.type
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.type))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.type[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -79378,7 +79679,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.rev_number
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.rev_number))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.rev_number[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -79416,8 +79719,8 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.errors.effective_date
-                          ? _c("span", [
-                              _vm._v(_vm._s(_vm.errors.effective_date))
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.effective_date[0]))
                             ])
                           : _vm._e()
                       ],
@@ -79501,7 +79804,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.company_id
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.company_id))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.company_id[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -79552,8 +79857,8 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.document_title
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.document_title))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.document_title[0]))
                           ])
                         : _vm._e()
                     ])
@@ -79604,8 +79909,8 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.reason_request
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.reason_request))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.reason_request[0]))
                           ])
                         : _vm._e()
                     ])
@@ -79680,7 +79985,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.reviewer_id
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.reviewer_id))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.reviewer_id[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -79710,7 +80017,9 @@ var render = function() {
                       _c("br"),
                       _vm._v(" "),
                       _vm.errors.attachments
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.attachments))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.attachments[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -79751,7 +80060,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("ADD DRDR")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("ADD DRDR")
+      ])
     ])
   },
   function() {
@@ -79878,7 +80189,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
-//
 //
 //
 //
@@ -80242,7 +80552,9 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _vm.errors.type
-                            ? _c("span", [_vm._v(_vm._s(_vm.errors.type))])
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.type[0]))
+                              ])
                             : _vm._e()
                         ])
                       ])
@@ -80293,8 +80605,8 @@ var render = function() {
                             : _vm._e(),
                           _vm._v(" "),
                           _vm.errors.rev_number
-                            ? _c("span", [
-                                _vm._v(_vm._s(_vm.errors.rev_number))
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.rev_number[0]))
                               ])
                             : _vm._e()
                         ])
@@ -80339,8 +80651,8 @@ var render = function() {
                               : _vm._e(),
                             _vm._v(" "),
                             _vm.errors.effective_date
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.errors.effective_date))
+                              ? _c("span", { staticClass: "error" }, [
+                                  _vm._v(_vm._s(_vm.errors.effective_date[0]))
                                 ])
                               : _vm._e()
                           ],
@@ -80430,8 +80742,8 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _vm.errors.company_id
-                            ? _c("span", [
-                                _vm._v(_vm._s(_vm.errors.company_id))
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.company_id[0]))
                               ])
                             : _vm._e()
                         ])
@@ -80487,8 +80799,8 @@ var render = function() {
                             : _vm._e(),
                           _vm._v(" "),
                           _vm.errors.document_title
-                            ? _c("span", [
-                                _vm._v(_vm._s(_vm.errors.document_title))
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.document_title[0]))
                               ])
                             : _vm._e()
                         ])
@@ -80540,12 +80852,6 @@ var render = function() {
                                   }
                                 }
                               })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.errors.reason_request
-                            ? _c("span", [
-                                _vm._v(_vm._s(_vm.errors.reason_request))
-                              ])
                             : _vm._e()
                         ])
                       ])
@@ -80624,8 +80930,8 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _vm.errors.reviewer_id
-                            ? _c("span", [
-                                _vm._v(_vm._s(_vm.errors.reviewer_id))
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.reviewer_id[0]))
                               ])
                             : _vm._e()
                         ])
@@ -80656,8 +80962,8 @@ var render = function() {
                           _c("br"),
                           _vm._v(" "),
                           _vm.errors.reviewer_id
-                            ? _c("span", [
-                                _vm._v(_vm._s(_vm.errors.reviewer_id))
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.reviewer_id[0]))
                               ])
                             : _vm._e()
                         ])
@@ -80698,7 +81004,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("EDIT DRDR")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("EDIT DRDR")
+      ])
     ])
   }
 ]
@@ -80768,6 +81076,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
+//
 //
 //
 //
@@ -81264,7 +81573,9 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _vm.errors.status
-                          ? _c("span", [_vm._v(_vm._s(_vm.errors.status))])
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.status[0]))
+                            ])
                           : _vm._e()
                       ])
                     ])
@@ -81319,9 +81630,9 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _vm.errors.consider_documents
-                                ? _c("span", [
+                                ? _c("span", { staticClass: "error" }, [
                                     _vm._v(
-                                      _vm._s(_vm.errors.consider_documents)
+                                      _vm._s(_vm.errors.consider_documents[0])
                                     )
                                   ])
                                 : _vm._e()
@@ -81407,8 +81718,8 @@ var render = function() {
                               ),
                               _vm._v(" "),
                               _vm.errors.approver
-                                ? _c("span", [
-                                    _vm._v(_vm._s(_vm.errors.approver))
+                                ? _c("span", { staticClass: "error" }, [
+                                    _vm._v(_vm._s(_vm.errors.approver[0]))
                                   ])
                                 : _vm._e()
                             ])
@@ -81437,7 +81748,13 @@ var render = function() {
                                   placeholder: "Attach file"
                                 },
                                 on: { change: _vm.uploadFileChange }
-                              })
+                              }),
+                              _vm._v(" "),
+                              _vm.errors.attachments
+                                ? _c("span", { staticClass: "error" }, [
+                                    _vm._v(_vm._s(_vm.errors.attachments[0]))
+                                  ])
+                                : _vm._e()
                             ])
                           ])
                         ])
@@ -81481,7 +81798,9 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.errors.remarks
-                          ? _c("span", [_vm._v(_vm._s(_vm.errors.remarks))])
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.remarks[0]))
+                            ])
                           : _vm._e()
                       ])
                     ])
@@ -81524,7 +81843,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("REVIEW DRDR")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("REVIEW DRDR")
+      ])
     ])
   },
   function() {
@@ -83154,7 +83475,9 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _vm.errors.status
-                          ? _c("span", [_vm._v(_vm._s(_vm.errors.status))])
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.status[0]))
+                            ])
                           : _vm._e()
                       ])
                     ])
@@ -83197,7 +83520,9 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.errors.remarks
-                          ? _c("span", [_vm._v(_vm._s(_vm.errors.remarks))])
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.remarks[0]))
+                            ])
                           : _vm._e()
                       ])
                     ])
@@ -83238,8 +83563,10 @@ var render = function() {
                                 }),
                                 _vm._v(" "),
                                 _vm.errors.effective_date
-                                  ? _c("span", [
-                                      _vm._v(_vm._s(_vm.errors.effective_date))
+                                  ? _c("span", { staticClass: "error" }, [
+                                      _vm._v(
+                                        _vm._s(_vm.errors.effective_date[0])
+                                      )
                                     ])
                                   : _vm._e()
                               ],
@@ -83274,8 +83601,10 @@ var render = function() {
                               _c("br"),
                               _vm._v(" "),
                               _vm.errors.attachments
-                                ? _c("span", [
-                                    _vm._v(" " + _vm._s(_vm.errors.attachments))
+                                ? _c("span", { staticClass: "error" }, [
+                                    _vm._v(
+                                      " " + _vm._s(_vm.errors.attachments[0])
+                                    )
                                   ])
                                 : _vm._e()
                             ])
@@ -83327,8 +83656,8 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _vm.errors.copy_number
-                                ? _c("span", [
-                                    _vm._v(_vm._s(_vm.errors.copy_number))
+                                ? _c("span", { staticClass: "error" }, [
+                                    _vm._v(_vm._s(_vm.errors.copy_number[0]))
                                   ])
                                 : _vm._e()
                             ])
@@ -83380,8 +83709,8 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _vm.errors.copy_holder
-                                ? _c("span", [
-                                    _vm._v(_vm._s(_vm.errors.copy_holder))
+                                ? _c("span", { staticClass: "error" }, [
+                                    _vm._v(_vm._s(_vm.errors.copy_holder[0]))
                                   ])
                                 : _vm._e()
                             ])
@@ -83427,7 +83756,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("APPROVE DRDR")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("APPROVE DRDR")
+      ])
     ])
   },
   function() {
@@ -84923,20 +85254,7 @@ var render = function() {
                               },
                               [_vm._v("Edit")]
                             )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "btn btn-danger btn-round btn-fill mb-1",
-                            attrs: {
-                              "data-toggle": "modal",
-                              "data-target": "#deleteModal-" + ddrSubmitted.id
-                            }
-                          },
-                          [_vm._v("Delete")]
-                        )
+                          : _vm._e()
                       ])
                     ])
                   })
@@ -85748,7 +86066,9 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _vm.errors.reason
-                          ? _c("span", [_vm._v(_vm._s(_vm.errors.reason))])
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.reason[0]))
+                            ])
                           : _vm._e()
                       ])
                     ])
@@ -85792,7 +86112,9 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _vm.errors.type
-                            ? _c("span", [_vm._v(_vm._s(_vm.errors.type))])
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.type[0]))
+                              ])
                             : _vm._e()
                         ])
                       ])
@@ -85829,7 +86151,9 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.errors.date_needed
-                          ? _c("span", [_vm._v(_vm._s(_vm.errors.date_needed))])
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.date_needed[0]))
+                            ])
                           : _vm._e()
                       ],
                       1
@@ -85914,7 +86238,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.company_id
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.company_id))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.company_id[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -85991,7 +86317,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.department_id
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.department_id))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.department_id[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -86265,7 +86593,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.approver_id
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.approver_id))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.approver_id[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -86310,7 +86640,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("ADD DDR")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("ADD DDR")
+      ])
     ])
   },
   function() {
@@ -86856,7 +87188,9 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _vm.errors.type
-                              ? _c("span", [_vm._v(_vm._s(_vm.errors.type))])
+                              ? _c("span", { staticClass: "error" }, [
+                                  _vm._v(_vm._s(_vm.errors.type[0]))
+                                ])
                               : _vm._e()
                           ])
                         ])
@@ -86905,8 +87239,8 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _vm.errors.others
-                                ? _c("span", [
-                                    _vm._v(_vm._s(_vm.errors.others))
+                                ? _c("span", { staticClass: "error" }, [
+                                    _vm._v(_vm._s(_vm.errors.others[0]))
                                   ])
                                 : _vm._e()
                             ])
@@ -86944,8 +87278,8 @@ var render = function() {
                             }),
                             _vm._v(" "),
                             _vm.errors.date_needed
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.errors.date_needed))
+                              ? _c("span", { staticClass: "error" }, [
+                                  _vm._v(_vm._s(_vm.errors.date_needed[0]))
                                 ])
                               : _vm._e()
                           ],
@@ -87038,7 +87372,9 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _vm.errors.company
-                            ? _c("span", [_vm._v(_vm._s(_vm.errors.company))])
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.company[0]))
+                              ])
                             : _vm._e()
                         ])
                       ])
@@ -87125,8 +87461,8 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _vm.errors.department
-                            ? _c("span", [
-                                _vm._v(_vm._s(_vm.errors.department))
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.department[0]))
                               ])
                             : _vm._e()
                         ])
@@ -87452,7 +87788,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("EDIT DDR")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("EDIT DDR")
+      ])
     ])
   },
   function() {
@@ -88584,7 +88922,9 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _vm.errors.status
-                          ? _c("span", [_vm._v(_vm._s(_vm.errors.status))])
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.status[0]))
+                            ])
                           : _vm._e()
                       ])
                     ])
@@ -88627,7 +88967,9 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.errors.remarks
-                          ? _c("span", [_vm._v(_vm._s(_vm.errors.remarks))])
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.remarks[0]))
+                            ])
                           : _vm._e()
                       ])
                     ])
@@ -88666,7 +89008,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("APPROVE DDR")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("APPROVE DDR")
+      ])
     ])
   },
   function() {
@@ -90154,19 +90498,6 @@ var render = function() {
                             }
                           },
                           [_vm._v("View")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "btn btn-danger btn-round btn-fill mb-1",
-                            attrs: {
-                              "data-toggle": "modal",
-                              "data-target": "#deleteModal-" + ncnSubmitted.id
-                            }
-                          },
-                          [_vm._v("Delete")]
                         )
                       ])
                     ])
@@ -90974,7 +91305,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.company_id
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.company_id))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.company_id[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -91051,7 +91384,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.department_id
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.department_id))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.department_id[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -91140,8 +91475,8 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.non_conformity_types
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.non_conformity_types))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.non_conformity_types[0]))
                           ])
                         : _vm._e()
                     ])
@@ -91187,8 +91522,8 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.notification_number
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.notification_number))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.notification_number[0]))
                           ])
                         : _vm._e()
                     ])
@@ -91236,8 +91571,8 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.recurrence_number
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.recurrence_number))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.recurrence_number[0]))
                           ])
                         : _vm._e()
                     ])
@@ -91274,8 +91609,8 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.errors.issuance_date
-                          ? _c("span", [
-                              _vm._v(_vm._s(_vm.errors.issuance_date))
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.issuance_date[0]))
                             ])
                           : _vm._e()
                       ],
@@ -91352,7 +91687,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.approver_id
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.approver_id))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.approver_id[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -91397,8 +91734,8 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.non_conformity_details
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.non_conformity_details))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.non_conformity_details[0]))
                           ])
                         : _vm._e()
                     ])
@@ -91431,7 +91768,9 @@ var render = function() {
                       _c("br"),
                       _vm._v(" "),
                       _vm.errors.attachments
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.attachments))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.attachments[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -91477,7 +91816,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("ADD NCN")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("ADD NCN")
+      ])
     ])
   },
   function() {
@@ -92497,7 +92838,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.status
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.status))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.status[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -92615,8 +92958,8 @@ var render = function() {
                             _c("br"),
                             _vm._v(" "),
                             _vm.errors.attachments
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.errors.attachments))
+                              ? _c("span", { staticClass: "error" }, [
+                                  _vm._v(_vm._s(_vm.errors.attachments[0]))
                                 ])
                               : _vm._e()
                           ])
@@ -92662,7 +93005,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.remarks
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.remarks))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.remarks[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -92699,7 +93044,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("APPROVE NCN")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("APPROVE NCN")
+      ])
     ])
   },
   function() {
@@ -93650,19 +93997,6 @@ var render = function() {
                             }
                           },
                           [_vm._v("View")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger",
-                            attrs: {
-                              "data-toggle": "modal",
-                              "data-target":
-                                "#deleteModal-" + ccirApprovedForm.id
-                            }
-                          },
-                          [_vm._v("Delete")]
                         )
                       ])
                     ])
@@ -94153,19 +94487,6 @@ var render = function() {
                             }
                           },
                           [_vm._v("View")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "btn btn-danger btn-round btn-fill mb-1",
-                            attrs: {
-                              "data-toggle": "modal",
-                              "data-target": "#deleteModal-" + ccirSubmitted.id
-                            }
-                          },
-                          [_vm._v("Delete")]
                         )
                       ])
                     ])
@@ -94852,7 +95173,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.complainant
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.complainant))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.complainant[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -94927,7 +95250,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.company
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.company))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.company[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -94970,7 +95295,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.commodity
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.commodity))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.commodity[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -95015,8 +95342,8 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.affected_quantity
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.affected_quantity))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.affected_quantity[0]))
                           ])
                         : _vm._e()
                     ])
@@ -95064,8 +95391,8 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.product_control_number
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.product_control_number))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.product_control_number[0]))
                           ])
                         : _vm._e()
                     ])
@@ -95111,8 +95438,8 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.affected_quantity
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.affected_quantity))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.affected_quantity[0]))
                           ])
                         : _vm._e()
                     ])
@@ -95151,8 +95478,8 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.errors.delivery_date
-                          ? _c("span", [
-                              _vm._v(_vm._s(_vm.errors.delivery_date))
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.delivery_date[0]))
                             ])
                           : _vm._e()
                       ],
@@ -95191,8 +95518,8 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _vm.errors.returned_date
-                          ? _c("span", [
-                              _vm._v(_vm._s(_vm.errors.returned_date))
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.returned_date[0]))
                             ])
                           : _vm._e()
                       ],
@@ -95283,8 +95610,8 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _vm.errors.nature_of_complaint
-                        ? _c("span", [
-                            _vm._v(_vm._s(_vm.errors.nature_of_complaint))
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.nature_of_complaint[0]))
                           ])
                         : _vm._e()
                     ])
@@ -95315,7 +95642,9 @@ var render = function() {
                       _c("br"),
                       _vm._v(" "),
                       _vm.errors.attachments
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.attachments))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.attachments[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -95362,7 +95691,9 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _vm.errors.other_details
-                        ? _c("span", [_vm._v(_vm._s(_vm.errors.other_details))])
+                        ? _c("span", { staticClass: "error" }, [
+                            _vm._v(_vm._s(_vm.errors.other_details[0]))
+                          ])
                         : _vm._e()
                     ])
                   ])
@@ -95403,7 +95734,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("ADD CCIR")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("ADD CCIR")
+      ])
     ])
   }
 ]
@@ -96444,7 +96777,9 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _vm.errors.action_taken
-                      ? _c("span", [_vm._v(_vm._s(_vm.errors.action_taken))])
+                      ? _c("span", { staticClass: "error" }, [
+                          _vm._v(_vm._s(_vm.errors.action_taken[0]))
+                        ])
                       : _vm._e()
                   ])
                 ]),

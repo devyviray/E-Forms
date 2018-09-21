@@ -14,7 +14,12 @@
                     </content-placeholders>
 
                     <div class="card-body table-full-width table-responsive" v-if="companies.length">
-                        <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+                        <div class="row mb-4 ml-2">
+                            <div class="col-md-12">
+                                <label for="name">Search by Company Name</label>
+                                <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                            </div>
+                        </div>
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -87,12 +92,12 @@
                     <div class="form-group">
                         <label for="company">Company name</label>
                         <input type="text" class="form-control" placeholder="Company name" v-model="company.name" id="company">
-                        <span v-if="errors.name">{{ errors.name }}</span>
+                        <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                     <div class="form-group">
                         <label for="address">City</label>
                         <input type="text" class="form-control" placeholder="Company address" v-model="company.address" id="address">
-                        <span v-if="errors.address">{{ errors.address }}</span>
+                        <span class="error" v-if="errors.address">{{ errors.address[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -118,12 +123,12 @@
                     <div class="form-group">
                         <label for="company">Company name</label>
                         <input type="text" class="form-control" placeholder="Name" v-model="company.name" id="company">
-                        <span v-if="errors.name">{{ errors.name }}</span>
+                        <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                     <div class="form-group">
                         <label for="address">City</label>
                         <input type="text" class="form-control" placeholder="Address" v-model="company.address">
-                        <span v-if="errors.address">{{ errors.address }}</span>
+                        <span class="error" v-if="errors.address">{{ errors.address[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">

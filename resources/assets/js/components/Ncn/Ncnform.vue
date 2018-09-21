@@ -6,7 +6,7 @@
                 <div class="card col-md-12">
                     <form>
                         <div class="form-group">
-                            <h1>ADD NCN</h1>
+                            <h1 style="color: #888888; text-align: center;">ADD NCN</h1>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
@@ -17,7 +17,7 @@
                                             <option value="" disabled selected>Select Company</option>
                                             <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
                                         </select>
-                                        <span v-if="errors.company_id">{{ errors.company_id }}</span>
+                                        <span class="error" v-if="errors.company_id">{{ errors.company_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -29,7 +29,7 @@
                                             <option value="" disabled selected>Select Department</option>
                                             <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
                                         </select>
-                                        <span v-if="errors.department_id">{{ errors.department_id }}</span>
+                                        <span class="error" v-if="errors.department_id">{{ errors.department_id[0] }}</span>
                                      </div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                             <option value="5">Contracted - Service</option>
                                             <option value="6">Others</option>
                                         </select>
-                                        <span v-if="errors.non_conformity_types">{{ errors.non_conformity_types }}</span>
+                                        <span class="error" v-if="errors.non_conformity_types">{{ errors.non_conformity_types[0] }}</span>
                                     </div>  
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                     <label for="notification_number" class="col-sm-2 col-form-label">Notification number</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ncn.notification_number" id="notification_number">
-                                        <span v-if="errors.notification_number">{{ errors.notification_number }}</span>
+                                        <span class="error" v-if="errors.notification_number">{{ errors.notification_number[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                                     <label for="recurrence_number" class="col-sm-2 col-form-label">Reccurrence number</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ncn.recurrence_number" id="recurrence_number">
-                                        <span v-if="errors.recurrence_number">{{ errors.recurrence_number }}</span>
+                                        <span class="error" v-if="errors.recurrence_number">{{ errors.recurrence_number[0] }}</span>
                                     </div>   
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                     <label for="issuance_date" class="col-sm-2 col-form-label">Issuance Date</label>
                                     <div class="col-sm-10">
                                         <datepicker placeholder="Select Issuance Date" v-model="ncn.issuance_date" id="issuance_date"></datepicker>
-                                        <span v-if="errors.issuance_date">{{ errors.issuance_date }}</span>
+                                        <span class="error" v-if="errors.issuance_date">{{ errors.issuance_date[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                             <option value="" disabled selected>Select Approver</option>
                                             <option v-for="(approver, a) in approvers" :value="approver.id" v-bind:key="a">{{ approver.name }}</option>
                                         </select>
-                                        <span v-if="errors.approver_id">{{ errors.approver_id }}</span>
+                                        <span class="error" v-if="errors.approver_id">{{ errors.approver_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                                     <label for="non_conformity_details" class="col-sm-2 col-form-label">Details of Non-Conformity</label>
                                     <div class="col-sm-10">
                                         <textarea class="form-control" v-model="ncn.non_conformity_details" id="non_conformity_details"></textarea>
-                                        <span v-if="errors.non_conformity_details">{{ errors.non_conformity_details }}</span>
+                                        <span class="error" v-if="errors.non_conformity_details">{{ errors.non_conformity_details[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                                     <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
                                     <div class="col-sm-10">
                                         <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
-                                        <span v-if="errors.attachments">{{ errors.attachments }}</span>
+                                        <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>
                                 </div>
                             </div>

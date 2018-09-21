@@ -4,7 +4,7 @@
         <div class="row">
             <div class="card col-md-12" v-if="drdrs.length">
                 <div class="form-group">
-                    <h1>REVIEW DRDR</h1>
+                    <h1 style="color: #888888; text-align: center;">REVIEW DRDR</h1>
                 </div>
                 <table class="table table-bordered">
                     <tr>
@@ -60,7 +60,7 @@
                                         <option value="1">Approved</option>
                                         <option value="2">Disapproved</option>
                                     </select>
-                                    <span v-if="errors.status">{{ errors.status }}</span>
+                                    <span class="error" v-if="errors.status">{{ errors.status[0] }}</span>
                                 </div>   
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                                     <label for="consider_documents" class="col-sm-2 col-form-label">Consider documents in reviewing</label>
                                     <div class="col-sm-10">
                                         <textarea class="form-control" v-model="drdr.consider_documents" id="consider_documents" cols="30" rows="10"></textarea>
-                                        <span v-if="errors.consider_documents">{{ errors.consider_documents }}</span>
+                                        <span class="error" v-if="errors.consider_documents">{{ errors.consider_documents[0] }}</span>
                                     </div>
                                 </div>     
                             </div>  
@@ -86,7 +86,7 @@
                                             <option value="" disabled selected>Select Approver</option>
                                             <option v-for="(approver, a) in approvers" :value="approver.id" v-bind:key="a">{{ approver.name }}</option>
                                         </select>
-                                        <span v-if="errors.approver">{{ errors.approver }}</span>
+                                        <span class="error" v-if="errors.approver">{{ errors.approver[0] }}</span>
                                     </div>
                                 </div>
                             </div>   
@@ -96,7 +96,8 @@
                                 <div class="form-group row">
                                     <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
                                     <div class="col-sm-10">
-                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange">
+                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange" >
+                                        <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>
                                 </div>
                             </div>   
@@ -108,7 +109,7 @@
                                 <label for="company" class="col-sm-2 col-form-label">Remarks</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" v-model="drdr.remarks" id="remarks" cols="30" rows="10"></textarea>
-                                    <span v-if="errors.remarks">{{ errors.remarks }}</span>
+                                    <span class="error" v-if="errors.remarks">{{ errors.remarks[0] }}</span>
                                 </div>
                             </div>
                         </div>   

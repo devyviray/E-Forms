@@ -14,11 +14,11 @@
                 <div class="col-md-3">
                     <label for="date">Search by date</label>
                     <datepicker v-model="startDate" placeholder="Select Start Date" id="date"></datepicker>
-                    <span v-if="errors.startDate">{{ errors.startDate }}</span>
+                    <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
                 </div>
                 <div class="col-md-3" style="margin-top: 29px">
                     <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
-                    <span v-if="errors.endDate">{{ errors.endDate }}</span>
+                    <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
                 </div>
                 <div class="col-md-2" style="margin-top: 29px">
                     <button @click="generateByDate" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>

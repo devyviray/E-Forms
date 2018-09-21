@@ -7,7 +7,7 @@
                 <div class="card col-md-12">
                     <form>
                         <div class="form-group">
-                            <h1>ADD CCIR</h1>
+                            <h1 style="color: #888888; text-align: center;">ADD CCIR</h1>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
@@ -15,7 +15,7 @@
                                     <label for="complainant" class="col-sm-2 col-form-label">Complainant</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ccir.complainant" id="complainant" placeholder="Complainant">
-                                        <span v-if="errors.complainant">{{ errors.complainant }}</span> 
+                                        <span class="error" v-if="errors.complainant">{{ errors.complainant[0] }}</span> 
                                     </div>
                                 </div>
                             </div>
@@ -27,7 +27,7 @@
                                             <option value="" disabled selected>Select Company</option>
                                             <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
                                         </select>
-                                        <span v-if="errors.company">{{ errors.company }}</span>
+                                        <span class="error" v-if="errors.company">{{ errors.company[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                                     <label for="commodity" class="col-sm-2 col-form-label">Commodity</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ccir.commodity" id="commodity">
-                                        <span v-if="errors.commodity">{{ errors.commodity }}</span>
+                                        <span class="error" v-if="errors.commodity">{{ errors.commodity[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                                     <label for="affected_quantity" class="col-sm-2 col-form-label">Affected Quantity</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ccir.affected_quantity" id="affected_quantity">
-                                        <span v-if="errors.affected_quantity">{{ errors.affected_quantity }}</span>
+                                        <span class="error" v-if="errors.affected_quantity">{{ errors.affected_quantity[0] }}</span>
                                     </div>   
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                                     <label for="product_control_number" class="col-sm-2 col-form-label">Product control number</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ccir.product_control_number" id="product_control_number">
-                                        <span v-if="errors.product_control_number">{{ errors.product_control_number }}</span>
+                                        <span class="error" v-if="errors.product_control_number">{{ errors.product_control_number[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                                     <label for="quality_of_sample" class="col-sm-2 col-form-label">Quantity of sample</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ccir.quality_of_sample" id="quality_of_sample">
-                                        <span v-if="errors.affected_quantity">{{ errors.affected_quantity }}</span>
+                                        <span class="error" v-if="errors.affected_quantity">{{ errors.affected_quantity[0] }}</span>
                                     </div>  
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                     <label for="delivery_date" class="col-sm-2 col-form-label">Delivery date</label>
                                     <div class="col-sm-10">
                                         <datepicker v-model="ccir.delivery_date" id="delivery_date" placeholder="Select delivery date"></datepicker>
-                                        <span v-if="errors.delivery_date">{{ errors.delivery_date }}</span>
+                                        <span class="error" v-if="errors.delivery_date">{{ errors.delivery_date[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
                                     <label for="returned_date" class="col-sm-2 col-form-label">Returned Date</label>
                                     <div class="col-sm-10">
                                         <datepicker v-model="ccir.returned_date" placeholder="Select returned date" id="returned_date"></datepicker>
-                                        <span v-if="errors.returned_date">{{ errors.returned_date }}</span>
+                                        <span class="error" v-if="errors.returned_date">{{ errors.returned_date[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                             <option value="5">Dirty packaging</option>
                                             <option value="6">Others</option>
                                         </select>
-                                        <span v-if="errors.nature_of_complaint">{{ errors.nature_of_complaint }}</span>
+                                        <span class="error"  v-if="errors.nature_of_complaint">{{ errors.nature_of_complaint[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                                     <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
                                     <div class="col-sm-10">
                                         <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
-                                        <span v-if="errors.attachments">{{ errors.attachments }}</span>
+                                        <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                                     <label for="other_details" class="col-sm-2 col-form-label">Other Details</label>
                                     <div class="col-sm-10">
                                         <textarea  class="form-control" v-model="ccir.other_details" id="other_details"></textarea>
-                                        <span v-if="errors.other_details">{{ errors.other_details }}</span>
+                                        <span class="error" v-if="errors.other_details">{{ errors.other_details[0] }}</span>
                                     </div>
                                 </div>
                             </div>

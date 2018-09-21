@@ -11,17 +11,17 @@
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" placeholder="Name"  v-model="users[0].name" id="name">
-                            <span v-if="errors.name">{{ errors.name }}</span>
+                            <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                         </div>
                         <div class="form-group">
                             <label for="email">Email address</label>
                             <input type="text" class="form-control" placeholder="Email" v-model="users[0].email" id="email">
-                            <span v-if="errors.email">{{ errors.email }}</span>
+                            <span class="error" v-if="errors.email">{{ errors.email[0] }}</span>
                         </div>
                         <div class="form-group">
                             <label for="position">Position</label>
                             <input type="position" class="form-control" placeholder="Position" v-model="users[0].position" id="position">
-                            <span v-if="errors.position">{{ errors.position }}</span>
+                            <span class="error" v-if="errors.position">{{ errors.position[0] }}</span>
                         </div>
                         <div class="form-group">
                             <label for="company">Company</label>
@@ -34,7 +34,7 @@
                                 id="company"
                                 >
                             </multiselect>
-                            <span v-if="errors.company">{{ errors.company }}</span>
+                            <span class="error" v-if="errors.company[0]">{{ errors.company[0] }}</span>
                         </div>
                         <div class="form-group">
                             <label for="department">Department</label>
@@ -44,7 +44,7 @@
                                     {{ department.name }}
                                 </option>
                             </select>
-                            <span v-if="errors.department">{{ errors.department }}</span>
+                            <span class="error" v-if="errors.department">{{ errors.department[0] }}</span>
                         </div>
                         <div class="form-group">
                             <label for="role">Role</label>
@@ -57,7 +57,7 @@
                                 id= role
                                 >
                             </multiselect>
-                            <span v-if="errors.roles">{{ errors.roles }}</span>
+                            <span class="error" v-if="errors.roles">{{ errors.roles[0] }}</span>
                         </div>
                         <button @click="editUser(users[0])" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
                     </form>

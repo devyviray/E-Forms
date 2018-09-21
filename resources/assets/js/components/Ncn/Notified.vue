@@ -84,7 +84,7 @@
                     <div class="form-group">
                         <label for="action">Immediate Action Taken</label>
                         <textarea style="height: 100px" v-model="ncn.action_taken" class="form-control" id="action"></textarea>
-                        <span v-if="errors.action_taken">{{ errors.action_taken }}</span>
+                        <span class="error" v-if="errors.action_taken">{{ errors.action_taken[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -4,7 +4,7 @@
         <div class="row" v-if="drdrs.length">
             <div class="card col-md-12">
                 <div class="form-group">
-                    <h1>APPROVE DRDR</h1>
+                    <h1 style="color: #888888; text-align: center;">APPROVE DRDR</h1>
                 </div>
                 <table class="table table-bordered">
                     <tr>
@@ -62,7 +62,7 @@
                                         <option value="1">Approved</option>
                                         <option value="2">Disapproved</option>
                                     </select>
-                                    <span v-if="errors.status">{{ errors.status }}</span>
+                                    <span class="error" v-if="errors.status">{{ errors.status[0] }}</span>
                                 </div>   
                             </div>
                         </div>       
@@ -73,7 +73,7 @@
                                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" v-model="drdr.remarks" id="remarks" cols="30" rows="10"></textarea>
-                                    <span v-if="errors.remarks">{{ errors.remarks }}</span>
+                                    <span class="error" v-if="errors.remarks">{{ errors.remarks[0] }}</span>
                                 </div>   
                             </div>
                         </div>       
@@ -85,7 +85,7 @@
                                     <label for="remarks" class="col-sm-2 col-form-label">Effective Date</label>
                                     <div class="col-sm-10">
                                         <datepicker placeholder="Select Date" v-model="drdrs[0].effective_date"></datepicker>
-                                        <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
+                                        <span class="error" v-if="errors.effective_date">{{ errors.effective_date[0] }}</span>
                                     </div>   
                                 </div>
                             </div>       
@@ -96,7 +96,7 @@
                                     <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
                                     <div class="col-sm-10">
                                         <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
-                                        <span v-if="errors.attachments"> {{ errors.attachments }}</span>
+                                        <span class="error" v-if="errors.attachments"> {{ errors.attachments[0] }}</span>
                                     </div>   
                                 </div>
                             </div>       
@@ -107,7 +107,7 @@
                                     <label for="copy_number" class="col-sm-2 col-form-label">Copy number</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" placeholder="Copy number" v-model="drdr.copy_number" id="copy_number">
-                                        <span v-if="errors.copy_number">{{ errors.copy_number }}</span>
+                                        <span class="error" v-if="errors.copy_number">{{ errors.copy_number[0] }}</span>
                                     </div>   
                                 </div>
                             </div>       
@@ -118,7 +118,7 @@
                                     <label for="copy_holder" class="col-sm-2 col-form-label">Copy holder</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" placeholder="Copy holder" v-model="drdr.copy_holder" id="copy_holder">
-                                        <span v-if="errors.copy_holder">{{ errors.copy_holder }}</span>
+                                        <span class="error" v-if="errors.copy_holder">{{ errors.copy_holder[0] }}</span>
                                     </div>   
                                 </div>
                             </div>       

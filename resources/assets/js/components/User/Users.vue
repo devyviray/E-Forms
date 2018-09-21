@@ -14,7 +14,13 @@
                     </content-placeholders>
 
                     <div class="card-body table-full-width table-responsive" v-if="users.length">
-                        <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+                        <div class="row mb-4 ml-2">
+                            <div class="col-md-12">
+                                <label for="name">Search by User Name</label>
+                                <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                            </div>
+                        </div>
+
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>

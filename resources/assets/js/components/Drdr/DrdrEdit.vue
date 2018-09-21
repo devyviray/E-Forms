@@ -6,7 +6,7 @@
                 <div class="card col-md-12">
                     <form v-if="drdrs.length">
                         <div class="form-group">
-                            <h1>EDIT DRDR</h1>
+                            <h1 style="color: #888888; text-align: center;">EDIT DRDR</h1>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
@@ -19,7 +19,7 @@
                                             <option value="2">Revision (For existing document)</option>
                                             <option value="3">Cancellation</option>
                                         </select>
-                                        <span v-if="errors.type">{{ errors.type }}</span>
+                                        <span class="error" v-if="errors.type">{{ errors.type[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -28,7 +28,7 @@
                                     <label for="rev_number" class="col-sm-2 col-form-label">Current Rev No.</label>
                                     <div class="col-sm-10">
                                         <input type="textrev_number" class="form-control" placeholder="Rev. No." v-if="drdrs.length" v-model="drdrs[0].rev_number" id="rev_number">
-                                        <span v-if="errors.rev_number">{{ errors.rev_number }}</span>
+                                        <span class="error" v-if="errors.rev_number">{{ errors.rev_number[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                                     <label for="effective_date" class="col-sm-2 col-form-label">Effective date</label>
                                     <div class="col-sm-10">
                                         <datepicker placeholder="Select Effective Date" v-if="drdrs.length" v-model="drdrs[0].effective_date" id="effective_date"></datepicker>
-                                        <span v-if="errors.effective_date">{{ errors.effective_date }}</span>
+                                        <span class="error" v-if="errors.effective_date">{{ errors.effective_date[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                             <option value="" disabled selected>Select Company</option>
                                             <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
                                         </select>
-                                        <span v-if="errors.company_id">{{ errors.company_id }}</span>
+                                        <span class="error" v-if="errors.company_id">{{ errors.company_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                                     <label for="document_title" class="col-sm-2 col-form-label">Document titlet</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" placeholder="Document Title" v-if="drdrs.length" v-model="drdrs[0].document_title" id="document_title">
-                                        <span v-if="errors.document_title">{{ errors.document_title }}</span>
+                                        <span class="error" v-if="errors.document_title">{{ errors.document_title[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +71,6 @@
                                     <label for="reason_request" class="col-sm-2 col-form-label">Reason</label>
                                     <div class="col-sm-10">
                                         <textarea class="form-control" v-if="drdrs.length" v-model="drdrs[0].reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
-                                        <span v-if="errors.reason_request">{{ errors.reason_request }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +84,7 @@
                                             <option value="" disabled selected>Select Reviewer</option>
                                             <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
                                         </select>
-                                        <span v-if="errors.reviewer_id">{{ errors.reviewer_id }}</span>
+                                        <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +93,7 @@
                                     <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
                                     <div class="col-sm-10">
                                         <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
-                                         <span v-if="errors.reviewer_id">{{ errors.reviewer_id }}</span>
+                                         <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>

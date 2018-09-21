@@ -42,7 +42,7 @@
                         <td style="display:inline-grid">
                             <button class="btn btn-primary btn-round btn-fill mb-1" @click="viewDrdr(drdrSubmitted.id)">View</button>
                             <button v-if="drdrSubmitted.status == 2" class="btn btn-warning btn-round btn-fill mb-1" @click="editDrdr(drdrSubmitted.id)">Edit</button>
-                            <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${drdrSubmitted.id}`">Delete</button>
+                            <!-- <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${drdrSubmitted.id}`">Delete</button> -->
                         </td>
                     </tr>  
                 </tbody>

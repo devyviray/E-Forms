@@ -38,7 +38,7 @@
                         </td>
                         <td style="display:inline-grid">
                             <button  class="btn btn-primary btn-round btn-fill mb-1" @click="viewSubmittedNcn(ncnSubmitted.id)">View</button>
-                            <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${ncnSubmitted.id}`">Delete</button>
+                            <!-- <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${ncnSubmitted.id}`">Delete</button> -->
                         </td>
                     </tr>    
                 </tbody>

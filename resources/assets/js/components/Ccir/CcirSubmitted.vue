@@ -45,7 +45,7 @@
                         <td style="display:inline-grid">
                             <button  class="btn btn-primary btn-round btn-fill mb-1" @click="viewSubmittedCcir(ccirSubmitted.id)">View</button>
                             <!-- <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ccirSubmitted.id}`">Edit</button> -->
-                            <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${ccirSubmitted.id}`">Delete</button>
+                            <!-- <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${ccirSubmitted.id}`">Delete</button> -->
                         </td>
                     </tr>    
                 </tbody>

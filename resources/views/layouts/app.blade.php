@@ -20,6 +20,10 @@
         .space-left{
             padding-left: 49px;
         }
+        .error{
+            color: #a94442;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>

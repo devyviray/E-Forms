@@ -6,7 +6,7 @@
                 <div class="card col-md-12">
                     <form>
                         <div class="form-group">
-                            <h1>ADD DDR</h1>
+                            <h1 style="color: #888888; text-align: center;">ADD DDR</h1>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
@@ -20,7 +20,7 @@
                                                 <option value="2">Customer Request (uncontrolled copy)</option>
                                                 <option value="3">Others (please specify)</option>
                                             </select>
-                                            <span v-if="errors.reason">{{ errors.reason }}</span>
+                                            <span class="error" v-if="errors.reason">{{ errors.reason[0] }}</span>
                                         </div>
                                     </div>
                                  </div>
@@ -28,7 +28,7 @@
                                     <label for="others" class="col-sm-2 col-form-label">Others (Please specify)</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ddr.others">
-                                        <span v-if="errors.type">{{ errors.type }}</span>
+                                        <span class="error" v-if="errors.type">{{ errors.type[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
                                     <label for="date_needed" class="col-sm-2 col-form-label">Date needed</label>
                                     <div class="col-sm-10">
                                         <datepicker placeholder="Select Date" v-model="ddr.date_needed" id="date_needed"></datepicker>
-                                        <span v-if="errors.date_needed">{{ errors.date_needed }}</span>
+                                        <span class="error" v-if="errors.date_needed">{{ errors.date_needed[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                             <option value="" disabled selected>Select Company</option>
                                             <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
                                         </select>
-                                        <span v-if="errors.company_id">{{ errors.company_id }}</span>
+                                        <span class="error" v-if="errors.company_id">{{ errors.company_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                             <option value="" disabled selected>Select Department</option>
                                             <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
                                         </select>
-                                        <span v-if="errors.department_id">{{ errors.department_id }}</span>
+                                        <span class="error" v-if="errors.department_id">{{ errors.department_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                                             <option value="" disabled selected>Select Approver</option>
                                             <option v-for="(approver, a) in approvers" v-bind:key="a" :value="approver.id">{{ approver.name }}</option>
                                         </select>
-                                        <span v-if="errors.approver_id">{{ errors.approver_id }}</span>
+                                        <span class="error" v-if="errors.approver_id">{{ errors.approver_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>

@@ -14,7 +14,13 @@
                     </content-placeholders>
 
                     <div class="card-body table-full-width table-responsive" v-if="permissions.length">
-                        <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
+                        <div class="row mb-4 ml-2">
+                            <div class="col-md-12">
+                                <label for="name">Search by Permission Name</label>
+                                <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                            </div>
+                        </div>
+
                         <table class="table table-hover table-striped">
                             <thead>
                                 <th>ID</th>
@@ -89,17 +95,17 @@
                     <div class="form-group">
                         <label for="permission_name">Permission name</label>
                         <input type="text" class="form-control" placeholder="Permission name" v-model="permission.name" id="permission_name">
-                        <span v-if="errors.name">{{ errors.name }}</span>
+                        <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                     <div class="form-group">
                         <label for="permission_slug">Permission slug</label>
                         <input type="text" class="form-control" placeholder="Permission slug" v-model="permission.slug" id="permission_slug">
-                         <span v-if="errors.slug">{{ errors.slug }}</span>
+                        <span class="error" v-if="errors.slug">{{ errors.slug[0] }}</span>
                     </div>
                     <div class="form-group">
                         <label for="permission_description">Permission description</label>
                         <input type="text" class="form-control" placeholder="Permission description" v-model="permission.description" id="permission_description">
-                         <span v-if="errors.description">{{ errors.description }}</span>
+                        <span class="error" v-if="errors.description">{{ errors.description[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -125,17 +131,17 @@
                    <div class="form-group">
                         <label for="permission_name">Permission name</label>
                         <input type="text" class="form-control" placeholder="Permission name" v-model="permission.name" id="permission_name">
-                        <span v-if="errors.name">{{ errors.name }}</span>
+                        <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                     <div class="form-group">
                         <label for="permission_slug">Permission name</label>
                         <input type="text" class="form-control" placeholder="Permission slug" v-model="permission.slug" id="permission_slug">
-                        <span v-if="errors.slug">{{ errors.slug }}</span>
+                        <span class="error" v-if="errors.slug">{{ errors.slug[0] }}</span>
                     </div>
                     <div class="form-group">
                          <label for="permission_description">Permission description</label>
                         <input type="text" class="form-control" placeholder="Permission description" v-model="permission.description" id="permission_description">
-                         <span v-if="errors.description">{{ errors.description }}</span>
+                         <span class="error" v-if="errors.description">{{ errors.description[0] }}</span>
                     </div>
                 </div>
                 <div class="modal-footer">
