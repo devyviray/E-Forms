@@ -8,10 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
     User,
-    Ddr
+    Ncn
 };
 
-class ApproverDisapprovedDdr extends Notification
+class ApproverDisapprovedNcn extends Notification
 {
     use Queueable;
 
@@ -20,12 +20,12 @@ class ApproverDisapprovedDdr extends Notification
      *
      * @return void
      */
-    protected $ddr;
-    protected $approver;
 
-    public function __construct(Ddr $ddr, User $approver)
+    protected $ncn;
+    protected $approver;
+    public function __construct(Ncn $ncn, User $approver)
     {
-        $this->ddr = $ddr;
+        $this->ncn = $ncn;
         $this->approver = $approver;
     }
 
@@ -49,8 +49,8 @@ class ApproverDisapprovedDdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Your Ddr filed in E-FORMS portal has been disapproved by '.$this->approver->name)
-                    ->action('Notification Action', url('/ddr-view/'.$this->ddr->id))
+                    ->line('Your Ncn filed in E-FORMS portal has been disapproved by '.$this->approver->name)
+                    ->action('Notification Action', url('/ncn-view/'.$this->ncn->id))
                     ->line('Thank you for using our application!');
     }
 

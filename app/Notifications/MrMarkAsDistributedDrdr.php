@@ -6,6 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\{
+    User,
+    Drdr
+};
 
 class MrMarkAsDistributedDrdr extends Notification
 {
@@ -16,9 +20,14 @@ class MrMarkAsDistributedDrdr extends Notification
      *
      * @return void
      */
-    public function __construct()
+    protected $drdr;
+    protected $requester;
+    protected $qm;
+    public function __construct(Drdr $drdr, User $requester, User $qm)
     {
-        //
+        $this->drdr = $drdr;
+        $this->requester = $requester;
+        $this->qm = $qm;
     }
 
     /**
@@ -41,7 +50,7 @@ class MrMarkAsDistributedDrdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Drdr file by REQUESTER NAME in E-FORMS portal has been verified by QM')
+                    ->line('Drdr filed by '.$this->requester->name.' in E-FORMS portal has been verified by '.$this->qm->name)
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }

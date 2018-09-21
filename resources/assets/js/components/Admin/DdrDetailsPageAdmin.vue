@@ -1,6 +1,6 @@
 <template>
     <div id="page-content-wrapper">
-        <div class="container-fluid">
+        <div class="container-fluid" v-if="ddrs.length">
             <a :href="hrefLink" target="_blank" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"> Print as PDF </a> 
             <hr>
 

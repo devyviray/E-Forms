@@ -104,8 +104,8 @@ class DdrController extends Controller
         $ddr->others = $request->input('reason') == 3 ? $request->input('others') : '';
         $ddr->status = StatusType::SUBMITTED;
 
-        $user = User::findOrFail($request->input('approver_id'));
-        $user->notify(new RequesterSubmitDdr($ddr));
+        $approver = User::findOrFail($request->input('approver_id'));
+        $approver->notify(new RequesterSubmitDdr($ddr, Auth::user()));
 
         if($ddr->save()){
             $ddrFormsLists = $request->input('ddrlists');
@@ -153,7 +153,6 @@ class DdrController extends Controller
 
         return $ddr;
     }
-
     
     /**
     * Approve specific DDR
@@ -180,13 +179,14 @@ class DdrController extends Controller
             $ddr->save();
             
             $company_id = $ddr->company_id;
+            $requester = User::findOrFail($ddr->requester_id);
             $mr = User::whereHas('roles', function($q) {
                 $q->where('role_id', RolesType::MR);
             })->whereHas('companies', function($q) use ($company_id) {
                 $q->where('company_id',$company_id);
             })->get();
 
-            \Notification::send($mr, new ApproverNotifyMrDdr($ddr));
+            \Notification::send($mr, new ApproverNotifyMrDdr($ddr,$requester, Auth::user()));
         }else {
 
             $ddr->status = StatusType::DISAPPROVED_APPROVER;
@@ -196,7 +196,7 @@ class DdrController extends Controller
             
             $requester = User::findOrFail($ddr->requester_id); 
             // Email sending to requester of disapproved ddr
-            $requester->notify(new ApproverDisapprovedDdr($ddr));
+            $requester->notify(new ApproverDisapprovedDdr($ddr, Auth::user()));
         }
         
 
@@ -454,8 +454,7 @@ class DdrController extends Controller
 
         return $ddrs;
     }
-
-      /**
+    /**
      * Mark DDR as distributed
      *
      * @return \Illuminate\Http\Response
@@ -477,8 +476,7 @@ class DdrController extends Controller
         $ddr->status = StatusType::MARK_AS_DISTRIBUTED;
         $ddr->distributed_date = $carbon::now();
         if($ddr->save()){
-
-            \Notification::send($emails , new MrMarkAsDistributedDdr($ddr));
+            \Notification::send($emails , new MrMarkAsDistributedDdr($ddr,$requester,Auth::user()));
             return ['redirect' => route('admin.ddrs')];
         }
     }

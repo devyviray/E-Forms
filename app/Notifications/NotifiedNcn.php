@@ -6,6 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\{
+    Ncn,
+    User
+};
 
 class NotifiedNcn extends Notification
 {
@@ -16,9 +20,14 @@ class NotifiedNcn extends Notification
      *
      * @return void
      */
-    public function __construct()
+    protected $ncn;
+    protected $requester;
+    protected $notified;
+    public function __construct(Ncn $ncn, User $requester, User $notified)
     {
-        //
+        $this->ncn = $ncn;
+        $this->requester = $requester;
+        $this->notified = $notified;
     }
 
     /**
@@ -41,8 +50,8 @@ class NotifiedNcn extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Ncn file by REQUESTER NAME in E-FORMS portal has been notified by QM')
-                    ->action('Notification Action', url('/'))
+                    ->line('Ncn filed by '.$this->requester->name.' in E-FORMS portal has been validate by '.$this->notified->name)
+                    ->action('Notification Action', url('/ncn-view/'.$this->ncn->id))
                     ->line('Thank you for using our application!');
     }
 

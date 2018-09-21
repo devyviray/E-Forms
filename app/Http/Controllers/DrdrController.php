@@ -12,10 +12,11 @@ use App\Types\RolesType;
 use Auth;
 use Carbon\Carbon;
 use App\Notifications\RequesterSubmitDrdr;
+use App\Notifications\ReviewerReviewedDrdr;
+use App\Notifications\ReviewerDisapprovedDrdr;
 use App\Notifications\ApproverNotifyMrDrdr;
 use App\Notifications\MrMarkAsDistributedDrdr;
 use App\Notifications\ApproverDisapprovedDrdr;
-use App\Notifications\ReviewerDisapprovedDrdr;
 use App\Notifications\SchedulingNotifyApproverDrdr;
 use App\Notifications\SchedulingNotifyReviewerDrdr;
 
@@ -158,8 +159,8 @@ class DrdrController extends Controller
         $drdr->reviewer_id = $request->input('reviewer_id');
         $drdr->status = StatusType::SUBMITTED;
 
-        $user = User::findOrFail($request->input('reviewer_id'));
-        $user->notify(new RequesterSubmitDrdr($drdr));
+        $reviewer = User::findOrFail($request->input('reviewer_id'));
+        $reviewer->notify(new RequesterSubmitDrdr($drdr, Auth::user()));
 
         if($drdr->save()){
             $attachments = $request->file('attachments');   
@@ -353,9 +354,10 @@ class DrdrController extends Controller
             $drdr->consider_documents = $request->input('consider_documents');
             $drdr->remarks = $request->input('remarks');
             $drdr->approver_id = $request->input('approver_id');
-    
+            
+            $requester = User::findOrFail($drdr->requester_id);
             $approver = User::findOrFail($request->input('approver_id'));
-            $approver->notify(new RequesterSubmitDrdr($drdr));
+            $approver->notify(new ReviewerReviewedDrdr($drdr, $requester ,Auth::user()));
     
             if($drdr->save()){
                 $attachments = $request->file('attachments');   
@@ -383,7 +385,7 @@ class DrdrController extends Controller
 
             $requester = User::findOrFail($drdr->requester_id);
             // Notification of disapproved drdr to requester
-            \Notification::send($requester, new ReviewerDisapprovedDrdr($drdr));
+            $requester->notify(new ReviewerDisapprovedDrdr($drdr,Auth::user()));
 
             if($drdr->save()){
                 return ['redirect' => route('drdr')];
@@ -428,8 +430,10 @@ class DrdrController extends Controller
             })->whereHas('companies', function($q) use ($company_id) {
                 $q->where('company_id',$company_id);
             })->get();
-    
-            \Notification::send($mr, new ApproverNotifyMrDrdr($drdr));
+            
+            $requester = User::findOrFail($drdr->requester_id);
+
+            \Notification::send($mr, new ApproverNotifyMrDrdr($drdr, $requester));
     
             if($drdr->save()){
                 $attachments = $request->file('attachments');   
@@ -458,7 +462,8 @@ class DrdrController extends Controller
 
             $requester = User::findOrFail($drdr->requester_id);
             // Notification of disapproved drdr to requester
-            \Notification::send($requester, new ApproverDisapprovedDrdr($drdr));
+            $requester->notify(new ApproverDisapprovedDrdr($drdr,Auth::user()));
+
             if($drdr->save()){
                 return ['redirect' => route('drdr')];
             }
@@ -658,15 +663,13 @@ class DrdrController extends Controller
         $drdr->status = StatusType::MARK_AS_DISTRIBUTED;
         $drdr->distributed_date = $carbon::now();
         if($drdr->save()){
-
-            \Notification::send($emails , new MrMarkAsDistributedDrdr($drdr));
+            $requester = User::findOrFail($drdr->requester_id);
+            \Notification::send($emails , new MrMarkAsDistributedDrdr($drdr, $requester, Auth::user()));
             return ['redirect' => route('admin.drdrs')];
         }
     }
 
     public function emailScheduling(){
-        // $reviewer = User::findOrFail(6);
-        // $reviewer->notify(new SchedulingNotifyReviewerDrdr($reviewer));
 
         $drdrSubmitted = Drdr::where('status', StatusType::SUBMITTED)->whereDate('effective_date','=', Carbon::today()->subDays(-1)->toDateTimeString())->get();
         $drdrReviewed = Drdr::where('status', StatusType::APPROVED_REVIEWER)->whereDate('effective_date','=', Carbon::today()->subDays(-1)->toDateTimeString())->get();

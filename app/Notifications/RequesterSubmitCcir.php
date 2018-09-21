@@ -6,6 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\{
+    User,
+    Ccir
+};
 
 class RequesterSubmitCcir extends Notification
 {
@@ -16,9 +20,13 @@ class RequesterSubmitCcir extends Notification
      *
      * @return void
      */
-    public function __construct()
+    protected $ccir;
+    protected $requester;
+
+    public function __construct(Ccir $ccir, User $requester)
     {
-        //
+        $this->ccir = $ccir;
+        $this->requester = $requester;
     }
 
     /**
@@ -41,8 +49,8 @@ class RequesterSubmitCcir extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Requester submit CCIR sample email.')
-                    ->action('Notification Action', url('/'))
+                    ->line($this->requester->name.' filed CCIR in E-FORMS Portal')
+                    ->action('Notification Action', url('/admin/ccirs'))
                     ->line('Thank you for using our application!');
     }
 

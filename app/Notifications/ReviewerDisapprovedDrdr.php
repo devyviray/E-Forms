@@ -6,6 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\{
+    User,
+    Drdr
+};
 
 class ReviewerDisapprovedDrdr extends Notification
 {
@@ -16,9 +20,12 @@ class ReviewerDisapprovedDrdr extends Notification
      *
      * @return void
      */
-    public function __construct()
+    protected $reviewer;
+    protected $drdr;
+    public function __construct(Drdr $drdr, User $reviewer)
     {
-        //
+        $this->drdr = $drdr;
+        $this->reviewer = $reviewer;
     }
 
     /**
@@ -36,13 +43,13 @@ class ReviewerDisapprovedDrdr extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage   
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Ddr filed REQUESTER NAME in E-FORMS portal has been disapproved by reviewer')
-                    ->action('Notification Action', url('/'))
+                    ->line('Your Ddr filed in E-FORMS portal has been disapproved by '. $this->reviewer->name)
+                    ->action('Notification Action', url('/drdr-view/'.$this->drdr->id))
                     ->line('Thank you for using our application!');
     }
 

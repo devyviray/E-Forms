@@ -6,6 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\{
+    Ncn,
+    User
+};
 
 class ApproverNotifyPersonNcn extends Notification
 {
@@ -16,9 +20,14 @@ class ApproverNotifyPersonNcn extends Notification
      *
      * @return void
      */
-    public function __construct()
+    protected $ncn;
+    protected $requester;
+    protected $approver;
+    public function __construct(Ncn $ncn, User $requester, User $approver)
     {
-        //
+        $this->ncn = $ncn;
+        $this->requester = $requester;
+        $this->approver = $approver;
     }
 
     /**
@@ -41,8 +50,8 @@ class ApproverNotifyPersonNcn extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Ncn filed REQUESTER NAME in E-FORMS portal has been approved for distribution. Date Needed______')
-                    ->action('Notification Action', url('/'))
+                    ->line('NCN filed by '.$this->requester->name.' in E-FORMS portal has been approved by '.$this->approver->name )
+                    ->action('Notification Action', url('/notified-page'))
                     ->line('Thank you for using our application!');
     }
 

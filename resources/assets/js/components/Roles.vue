@@ -161,7 +161,7 @@
 import VueContentPlaceholders from 'vue-content-placeholders';
 
 export default {
-    components(){
+    components:{
         VueContentPlaceholders
     },
     data(){

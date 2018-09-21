@@ -6,6 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\{
+    User,
+    Ddr
+};
 
 class RequesterSubmitDdr extends Notification
 {
@@ -16,9 +20,12 @@ class RequesterSubmitDdr extends Notification
      *
      * @return void
      */
-    public function __construct()
+    protected $ddr;
+    protected $requester;
+    public function __construct(Ddr $ddr, User $requester)
     {
-        //
+        $this->ddr = $ddr;
+        $this->requester = $requester;
     }
 
     /**
@@ -41,8 +48,8 @@ class RequesterSubmitDdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Requester submit DDR sample email.')
-                    ->action('Notification Action', url('/'))
+                    ->line($this->requester->name.' filed DDR in E-FORMS Portal')
+                    ->action('Notification Action', url('/ddr-approve/'.$this->ddr->id))
                     ->line('Thank you for using our application!');
     }
 

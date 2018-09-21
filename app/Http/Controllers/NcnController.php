@@ -13,6 +13,7 @@ use Auth;
 use PDF;
 use App\Notifications\RequesterSubmitNcn;
 use App\Notifications\ApproverNotifyPersonNcn;
+use App\Notifications\ApproverDisapprovedNcn;
 use App\Notifications\NotifiedNcn;
 
 class NcnController extends Controller
@@ -105,8 +106,8 @@ class NcnController extends Controller
 
 
         if($ncn->save()){
-            $user = User::findOrFail($request->input('approver_id'));
-            $user->notify(new RequesterSubmitNcn($ncn));
+            $approver = User::findOrFail($request->input('approver_id'));
+            $approver->notify(new RequesterSubmitNcn($ncn, Auth::user()));
             
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){
@@ -179,15 +180,17 @@ class NcnController extends Controller
             
             if($ncn->save()){
                 
+                $requester = User::findOrFail($ncn->requester_id);
                 $notified = User::findOrFail($request->input('notified'));
                 // Email sending to notified person
-                $notified->notify(new ApproverNotifyPersonNcn($ncn));
+                $notified->notify(new ApproverNotifyPersonNcn($ncn, $requester, Auth::user()));
                 
                 $attachments = $request->file('attachments');   
                 foreach($attachments as $attachment){
                     $filename = $attachment->getClientOriginalName();
                     $path = $attachment->store('ncn');
                     $role = 'approver';
+         
     
                     $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
                 } 
@@ -204,6 +207,9 @@ class NcnController extends Controller
             $ncn->remarks = $request->input('remarks');
             $ncn->disapproved_date = $carbon::now();
             $ncn->save();
+
+            $requester = User::findOrFail($ncn->requester_id);
+            $requester->notify(new ApproverDisapprovedNcn($ncn, Auth::user()));
         }
 
         return ['redirect' => route('ncn')];
@@ -466,7 +472,7 @@ class NcnController extends Controller
             $approver = User::findOrFail($ncn->approver_id);
             $emails = [$requester, $approver];
 
-            \Notification::send($emails , new NotifiedNcn($ncn));
+            \Notification::send($emails , new NotifiedNcn($ncn, $requester));
             return ['redirect' => route('notified')];
         }
     }

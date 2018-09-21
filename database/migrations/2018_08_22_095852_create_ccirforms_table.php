@@ -19,7 +19,7 @@ class CreateCcirformsTable extends Migration
             $table->integer('company_id');
             $table->string('complainant');
             $table->string('commodity');
-            $table->string('brand_name');
+            $table->string('brand_name')->nullable();
             $table->string('product_control_number');
             $table->datetime('date_request');
             $table->datetime('cancel_date')->nullable();

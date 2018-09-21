@@ -8,10 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
     User,
-    Ddr
+    Ccir
 };
 
-class ApproverDisapprovedDdr extends Notification
+class MrMarkAsValidCcir extends Notification
 {
     use Queueable;
 
@@ -20,13 +20,12 @@ class ApproverDisapprovedDdr extends Notification
      *
      * @return void
      */
-    protected $ddr;
-    protected $approver;
-
-    public function __construct(Ddr $ddr, User $approver)
+    protected $ccir;
+    protected $qm;
+    public function __construct(Ccir $ccir, User $qm)
     {
-        $this->ddr = $ddr;
-        $this->approver = $approver;
+        $this->ccir = $ccir;
+        $this->qm = $qm;
     }
 
     /**
@@ -49,8 +48,8 @@ class ApproverDisapprovedDdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Your Ddr filed in E-FORMS portal has been disapproved by '.$this->approver->name)
-                    ->action('Notification Action', url('/ddr-view/'.$this->ddr->id))
+                    ->line('Your CCIR filed in E-FORMS portal has been marked as Valid by '.$this->qm->name)
+                    ->action('Notification Action', url('/ccir-view/'.$this->ccir->id))
                     ->line('Thank you for using our application!');
     }
 

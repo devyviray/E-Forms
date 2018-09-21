@@ -10,7 +10,11 @@ use App\User;
 use Carbon\Carbon;
 use App\Setting;
 use PDF;
-use App\Notifications\RequesterSubmitCcir;
+use App\Notifications\{
+    RequesterSubmitCcir,
+    MrMarkAsValidCcir,
+    MrMarkAsInvalidCcir
+};
 use App\Types\StatusType;
 use App\Types\RolesType;
 
@@ -63,7 +67,7 @@ class CcirController extends Controller
 
         return $ccirs;
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -93,7 +97,7 @@ class CcirController extends Controller
         $ccirs->company_id = $request->input('company');
         $ccirs->complainant = $request->input('complainant');
         $ccirs->commodity = $request->input('commodity');
-        $ccirs->brand_name = 'Sample brand name';
+        // $ccirs->brand_name = 'Sample brand name';
         $ccirs->product_control_number = $request->input('product_control_number');
         $ccirs->date_request = $carbon::now();
         $ccirs->delivery_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('delivery_date'));   
@@ -112,8 +116,10 @@ class CcirController extends Controller
             })->whereHas('companies', function($q) use ($company_id) {
                 $q->where('company_id',$company_id);
             })->get();
-    
-            \Notification::send($mr, new RequesterSubmitCcir($ccirs));
+            
+            $requester = User::findOrFail($ccirs->requester_id);
+
+            \Notification::send($mr, new RequesterSubmitCcir($ccirs, $requester));
 
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){
@@ -336,13 +342,23 @@ class CcirController extends Controller
                 $ccir->status = StatusType::CCIR_VALID;
                 $ccir->verifier_id = Auth::user()->id;
                 $ccir->verified_date = $carbon::now();
+                $ccir->save();
+
+                $requester = User::findOrFail($ccir->requester_id);
+
+                $requester->notify(new MrMarkAsValidCcir($ccir, Auth::user()));
+                
             }else{ 
                 $ccir->status = StatusType::CCIR_INVALID;
                 $ccir->cancel_date = $carbon::now();
+                $ccir->save();
+
+                $requester = User::findOrFail($ccir->requester_id);
+
+                $requester->notify(new MrMarkAsInvalidCcir($ccir, Auth::user()));
             }
-            if($ccir->save()){
-                return ['redirect' => route('admin.ccirs')];   
-            }
+        
+            return ['redirect' => route('admin.ccirs')];   
         }
         return redirect()->back();
     
