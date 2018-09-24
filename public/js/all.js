@@ -5013,6 +5013,57 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(183)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(185)
+/* template */
+var __vue_template__ = __webpack_require__(187)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\SpinnerLoading.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2c8b7acc", Component.options)
+  } else {
+    hotAPI.reload("data-v-2c8b7acc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6493,57 +6544,6 @@ var Datepicker = {render: function(){var _vm=this;var _h=_vm.$createElement;var 
 ;
 
 /* harmony default export */ __webpack_exports__["a"] = (Datepicker);
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(183)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(185)
-/* template */
-var __vue_template__ = __webpack_require__(187)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\SpinnerLoading.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2c8b7acc", Component.options)
-  } else {
-    hotAPI.reload("data-v-2c8b7acc", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
 
 
 /***/ }),
@@ -62012,11 +62012,11 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_content_placeholders__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__SpinnerLoading__);
 //
 //
@@ -63782,12 +63782,16 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_content_placeholders__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__SpinnerLoading__);
+//
+//
+//
+//
 //
 //
 //
@@ -64281,6 +64285,12 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
+                !_vm.ddrs.length && !_vm.loading
+                  ? _c("tr", [
+                      _c("td", [_vm._v("No data available in the table")])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
                 _vm._l(_vm.filteredQueues, function(ddr) {
                   return _c("tr", { key: ddr.id }, [
                     _c("td", [_vm._v(_vm._s(ddr.id))]),
@@ -64447,50 +64457,52 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "row mb-3" }, [
-        _c("div", { staticClass: "col-6" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-default btn-sm btn-fill",
-              attrs: { disabled: !_vm.showPreviousLink() },
-              on: {
-                click: function($event) {
-                  _vm.setPage(_vm.currentPage - 1)
-                }
-              }
-            },
-            [_vm._v(" Previous ")]
-          ),
-          _vm._v(" "),
-          _c("span", { staticClass: "text-dark" }, [
-            _vm._v(
-              "Page " +
-                _vm._s(_vm.currentPage + 1) +
-                " of " +
-                _vm._s(_vm.totalPages)
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-default btn-sm btn-fill",
-              attrs: { disabled: !_vm.showNextLink() },
-              on: {
-                click: function($event) {
-                  _vm.setPage(_vm.currentPage + 1)
-                }
-              }
-            },
-            [_vm._v(" Next ")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-6 text-right" }, [
-          _c("span", [_vm._v(_vm._s(_vm.ddrs.length) + " Ddr form(s)")])
-        ])
-      ]),
+      _vm.ddrs.length
+        ? _c("div", { staticClass: "row mb-3" }, [
+            _c("div", { staticClass: "col-6" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default btn-sm btn-fill",
+                  attrs: { disabled: !_vm.showPreviousLink() },
+                  on: {
+                    click: function($event) {
+                      _vm.setPage(_vm.currentPage - 1)
+                    }
+                  }
+                },
+                [_vm._v(" Previous ")]
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-dark" }, [
+                _vm._v(
+                  "Page " +
+                    _vm._s(_vm.currentPage + 1) +
+                    " of " +
+                    _vm._s(_vm.totalPages)
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default btn-sm btn-fill",
+                  attrs: { disabled: !_vm.showNextLink() },
+                  on: {
+                    click: function($event) {
+                      _vm.setPage(_vm.currentPage + 1)
+                    }
+                  }
+                },
+                [_vm._v(" Next ")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-6 text-right" }, [
+              _c("span", [_vm._v(_vm._s(_vm.ddrs.length) + " Ddr form(s)")])
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",
@@ -65060,11 +65072,15 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SpinnerLoading__);
+//
+//
+//
+//
 //
 //
 //
@@ -65430,6 +65446,12 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
+                !_vm.ncns.length && !_vm.loading
+                  ? _c("tr", [
+                      _c("td", [_vm._v("No data available in the table")])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
                 _vm._l(_vm.filteredQueues, function(ncn) {
                   return _c("tr", { key: ncn.id }, [
                     _c("td", [_vm._v(_vm._s(ncn.id))]),
@@ -65721,12 +65743,16 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_content_placeholders__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__SpinnerLoading__);
+//
+//
+//
+//
 //
 //
 //
@@ -66229,6 +66255,12 @@ var render = function() {
                         ],
                         1
                       )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.ccirs.length && !_vm.loading
+                  ? _c("tr", [
+                      _c("td", [_vm._v("No data available in the table")])
                     ])
                   : _vm._e(),
                 _vm._v(" "),
@@ -70991,7 +71023,7 @@ exports.push([module.i, "\nfieldset[disabled] .multiselect{pointer-events:none\n
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_multiselect__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_multiselect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
 //
 //
@@ -71844,6 +71876,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -71952,254 +72012,338 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "col-md-12" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-2" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "col-md-12" }, [
           _vm.users.length
             ? _c("form", [
                 _vm._m(0),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.users[0].name,
-                        expression: "users[0].name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "Name", id: "name" },
-                    domProps: { value: _vm.users[0].name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.users[0], "name", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.errors.name
-                    ? _c("span", { staticClass: "error" }, [
-                        _vm._v(_vm._s(_vm.errors.name[0]))
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "email" } }, [
-                    _vm._v("Email address")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.users[0].email,
-                        expression: "users[0].email"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "Email", id: "email" },
-                    domProps: { value: _vm.users[0].email },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.users[0], "email", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.errors.email
-                    ? _c("span", { staticClass: "error" }, [
-                        _vm._v(_vm._s(_vm.errors.email[0]))
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "position" } }, [
-                    _vm._v("Position")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.users[0].position,
-                        expression: "users[0].position"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "position",
-                      placeholder: "Position",
-                      id: "position"
-                    },
-                    domProps: { value: _vm.users[0].position },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.users[0], "position", $event.target.value)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm.errors.position
-                    ? _c("span", { staticClass: "error" }, [
-                        _vm._v(_vm._s(_vm.errors.position[0]))
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", { attrs: { for: "company" } }, [
-                      _vm._v("Company")
-                    ]),
-                    _vm._v(" "),
-                    _c("multiselect", {
-                      attrs: {
-                        options: _vm.companies,
-                        multiple: true,
-                        "track-by": "id",
-                        "custom-label": _vm.customLabelCompany,
-                        id: "company"
-                      },
-                      model: {
-                        value: _vm.users[0].companies,
-                        callback: function($$v) {
-                          _vm.$set(_vm.users[0], "companies", $$v)
-                        },
-                        expression: "users[0].companies"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors.company[0]
-                      ? _c("span", { staticClass: "error" }, [
-                          _vm._v(_vm._s(_vm.errors.company[0]))
-                        ])
-                      : _vm._e()
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "department" } }, [
-                    _vm._v("Department")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.users[0].department.id,
-                          expression: "users[0].department.id"
-                        }
-                      ],
-                      staticClass: "form-control form-control-lg",
-                      attrs: { id: "department" },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.users[0].department,
-                            "id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    [
+                _c("div", { staticClass: "row mb-2" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group row" }, [
                       _c(
-                        "option",
-                        { attrs: { value: "", disabled: "", selected: "" } },
-                        [_vm._v("Select department")]
+                        "label",
+                        {
+                          staticClass: "col-sm-2 col-form-label",
+                          attrs: { for: "name" }
+                        },
+                        [_vm._v("Name")]
                       ),
                       _vm._v(" "),
-                      _vm._l(_vm.departments, function(department) {
-                        return _c(
-                          "option",
-                          {
-                            key: department.id,
-                            domProps: { value: department.id }
+                      _c("div", { staticClass: "col-sm-10" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.users[0].name,
+                              expression: "users[0].name"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Name",
+                            id: "name"
                           },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(department.name) +
-                                "\n                            "
-                            )
-                          ]
-                        )
-                      })
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _vm.errors.department
-                    ? _c("span", { staticClass: "error" }, [
-                        _vm._v(_vm._s(_vm.errors.department[0]))
+                          domProps: { value: _vm.users[0].name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.users[0],
+                                "name",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.name
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.name[0]))
+                            ])
+                          : _vm._e()
                       ])
-                    : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-2 col-form-label",
+                          attrs: { for: "name" }
+                        },
+                        [_vm._v("Email address")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-10" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.users[0].email,
+                              expression: "users[0].email"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Email",
+                            id: "email"
+                          },
+                          domProps: { value: _vm.users[0].email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.users[0],
+                                "email",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.email
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.email[0]))
+                            ])
+                          : _vm._e()
+                      ])
+                    ])
+                  ])
                 ]),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", { attrs: { for: "role" } }, [_vm._v("Role")]),
-                    _vm._v(" "),
-                    _c("multiselect", {
-                      attrs: {
-                        options: _vm.roles,
-                        multiple: true,
-                        "track-by": "id",
-                        "custom-label": _vm.customLabelRole,
-                        id: "role"
-                      },
-                      model: {
-                        value: _vm.users[0].roles,
-                        callback: function($$v) {
-                          _vm.$set(_vm.users[0], "roles", $$v)
+                _c("div", { staticClass: "row mb-2" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-2 col-form-label",
+                          attrs: { for: "name" }
                         },
-                        expression: "users[0].roles"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors.roles
-                      ? _c("span", { staticClass: "error" }, [
-                          _vm._v(_vm._s(_vm.errors.roles[0]))
-                        ])
-                      : _vm._e()
-                  ],
-                  1
-                ),
+                        [_vm._v("Position")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-10" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.users[0].position,
+                              expression: "users[0].position"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "position",
+                            placeholder: "Position",
+                            id: "position"
+                          },
+                          domProps: { value: _vm.users[0].position },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.users[0],
+                                "position",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.errors.position
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.position[0]))
+                            ])
+                          : _vm._e()
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-2 col-form-label",
+                          attrs: { for: "name" }
+                        },
+                        [_vm._v("Company")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-10" },
+                        [
+                          _c("multiselect", {
+                            attrs: {
+                              options: _vm.companies,
+                              multiple: true,
+                              "track-by": "id",
+                              "custom-label": _vm.customLabelCompany,
+                              id: "company"
+                            },
+                            model: {
+                              value: _vm.users[0].companies,
+                              callback: function($$v) {
+                                _vm.$set(_vm.users[0], "companies", $$v)
+                              },
+                              expression: "users[0].companies"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.company
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.company[0]))
+                              ])
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row mb-2" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-2 col-form-label",
+                          attrs: { for: "name" }
+                        },
+                        [_vm._v("Department")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-10" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.users[0].department.id,
+                                expression: "users[0].department.id"
+                              }
+                            ],
+                            staticClass: "form-control form-control-lg",
+                            attrs: { id: "department" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.users[0].department,
+                                  "id",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              {
+                                attrs: { value: "", disabled: "", selected: "" }
+                              },
+                              [_vm._v("Select department")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.departments, function(department) {
+                              return _c(
+                                "option",
+                                {
+                                  key: department.id,
+                                  domProps: { value: department.id }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                            " +
+                                      _vm._s(department.name) +
+                                      "\n                                        "
+                                  )
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _vm.errors.department
+                          ? _c("span", { staticClass: "error" }, [
+                              _vm._v(_vm._s(_vm.errors.department[0]))
+                            ])
+                          : _vm._e()
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-2 col-form-label",
+                          attrs: { for: "name" }
+                        },
+                        [_vm._v("Role")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-10" },
+                        [
+                          _c("multiselect", {
+                            attrs: {
+                              options: _vm.roles,
+                              multiple: true,
+                              "track-by": "id",
+                              "custom-label": _vm.customLabelRole,
+                              id: "role"
+                            },
+                            model: {
+                              value: _vm.users[0].roles,
+                              callback: function($$v) {
+                                _vm.$set(_vm.users[0], "roles", $$v)
+                              },
+                              expression: "users[0].roles"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.roles
+                            ? _c("span", { staticClass: "error" }, [
+                                _vm._v(_vm._s(_vm.errors.roles[0]))
+                              ])
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ])
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -72221,9 +72365,7 @@ var render = function() {
                 )
               ])
             : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-2" })
+        ])
       ])
     ])
   ])
@@ -72234,7 +72376,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("h1", [_vm._v("EDIT USER")])
+      _c("h1", { staticStyle: { color: "#888888", "text-align": "center" } }, [
+        _vm._v("EDIT USER")
+      ])
     ])
   }
 ]
@@ -79332,8 +79476,8 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
 //
 //
@@ -80242,8 +80386,8 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
 //
 //
@@ -81130,7 +81274,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
 //
 //
@@ -83010,8 +83154,8 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuejs_datepicker__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuejs_datepicker__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SpinnerLoading__);
 //
 //
@@ -83916,7 +84060,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__DdrPendingList__ = __webpack_require__(284);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__DdrPendingList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__DdrPendingList__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__DdrApprovedList__ = __webpack_require__(287);
@@ -85723,8 +85867,8 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
 //
 //
@@ -86828,8 +86972,8 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
 //
 //
@@ -88593,7 +88737,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__SpinnerLoading__);
 //
 //
@@ -89186,7 +89330,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NcnPendingApprovalList__ = __webpack_require__(312);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NcnPendingApprovalList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NcnPendingApprovalList__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__NcnApprovedList__ = __webpack_require__(315);
@@ -90965,8 +91109,8 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
 //
 //
@@ -93228,7 +93372,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CcirPendingList__ = __webpack_require__(335);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CcirPendingList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CcirPendingList__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CcirApprovedList__ = __webpack_require__(338);
@@ -94898,8 +95042,8 @@ exports.push([module.i, "\n.vdp-datepicker  input{\n    background-color: #FFFFF
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SpinnerLoading__);
 //
 //
@@ -96302,7 +96446,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_content_placeholders__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SpinnerLoading__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SpinnerLoading__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SpinnerLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SpinnerLoading__);
 //
 //

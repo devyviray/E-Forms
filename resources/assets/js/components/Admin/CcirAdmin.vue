@@ -42,6 +42,10 @@
                             </content-placeholders>
                         </td>
                     </tr>
+                    <tr v-if="!ccirs.length && !loading">
+                        <td>No data available in the table</td>
+                    </tr>
+
                     <tr v-for="ccir in filteredQueues" v-bind:key="ccir.id">
                         <td>{{ ccir.id }}</td>
                         <td>{{ ccir.requester.name }}</td>

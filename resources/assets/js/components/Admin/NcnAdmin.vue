@@ -43,6 +43,10 @@
                             </content-placeholders>
                         </td>
                     </tr>
+                    <tr v-if="!ncns.length && !loading">
+                        <td>No data available in the table</td>
+                    </tr>
+
                     <tr v-for="ncn in filteredQueues" v-bind:key="ncn.id">
                         <td>{{ ncn.id }}</td>
                         <td>{{ ncn.requester.name }}</td>

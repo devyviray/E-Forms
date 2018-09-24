@@ -2,67 +2,95 @@
     <div>
         <div class="col-md-12">
             <div class="row"> 
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <form v-if="users.length">
                         <div class="form-group">
-                            <h1>EDIT USER</h1>
+                            <h1 style="color: #888888; text-align: center;">EDIT USER</h1>
                         </div>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" placeholder="Name"  v-model="users[0].name" id="name">
-                            <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Name"  v-model="users[0].name" id="name">
+                                        <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>  
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Email address</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Email" v-model="users[0].email" id="email">
+                                        <span class="error" v-if="errors.email">{{ errors.email[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="text" class="form-control" placeholder="Email" v-model="users[0].email" id="email">
-                            <span class="error" v-if="errors.email">{{ errors.email[0] }}</span>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Position</label>
+                                    <div class="col-sm-10">
+                                        <input type="position" class="form-control" placeholder="Position" v-model="users[0].position" id="position">
+                                        <span class="error" v-if="errors.position">{{ errors.position[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Company</label>
+                                    <div class="col-sm-10">
+                                        <multiselect
+                                            v-model="users[0].companies"
+                                            :options="companies"
+                                            :multiple="true"
+                                            track-by="id"
+                                            :custom-label="customLabelCompany"
+                                            id="company"
+                                            >
+                                        </multiselect>
+                                        <span class="error" v-if="errors.company">{{ errors.company[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="position">Position</label>
-                            <input type="position" class="form-control" placeholder="Position" v-model="users[0].position" id="position">
-                            <span class="error" v-if="errors.position">{{ errors.position[0] }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="company">Company</label>
-                            <multiselect
-                                v-model="users[0].companies"
-                                :options="companies"
-                                :multiple="true"
-                                track-by="id"
-                                :custom-label="customLabelCompany"
-                                id="company"
-                                >
-                            </multiselect>
-                            <span class="error" v-if="errors.company[0]">{{ errors.company[0] }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="department">Department</label>
-                            <select v-model="users[0].department.id" class="form-control form-control-lg" id="department">
-                                <option value="" disabled selected>Select department</option>
-                                <option v-for="department in departments" v-bind:key="department.id" :value="department.id">
-                                    {{ department.name }}
-                                </option>
-                            </select>
-                            <span class="error" v-if="errors.department">{{ errors.department[0] }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="role">Role</label>
-                            <multiselect
-                                v-model="users[0].roles"
-                                :options="roles"
-                                :multiple="true"
-                                track-by="id"
-                                :custom-label="customLabelRole"
-                                id= role
-                                >
-                            </multiselect>
-                            <span class="error" v-if="errors.roles">{{ errors.roles[0] }}</span>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Department</label>
+                                    <div class="col-sm-10">
+                                        <select v-model="users[0].department.id" class="form-control form-control-lg" id="department">
+                                            <option value="" disabled selected>Select department</option>
+                                            <option v-for="department in departments" v-bind:key="department.id" :value="department.id">
+                                                {{ department.name }}
+                                            </option>
+                                        </select>
+                                        <span class="error" v-if="errors.department">{{ errors.department[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="name" class="col-sm-2 col-form-label">Role</label>
+                                    <div class="col-sm-10">
+                                        <multiselect
+                                            v-model="users[0].roles"
+                                            :options="roles"
+                                            :multiple="true"
+                                            track-by="id"
+                                            :custom-label="customLabelRole"
+                                            id= role
+                                            >
+                                        </multiselect>
+                                        <span class="error" v-if="errors.roles">{{ errors.roles[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <button @click="editUser(users[0])" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
                     </form>
                 </div>
-                <div class="col-md-2"></div>
             </div>
         </div>
     </div>

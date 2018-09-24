@@ -44,6 +44,9 @@
                             </content-placeholders>
                         </td>
                     </tr>
+                    <tr v-if="!ddrs.length && !loading">
+                        <td>No data available in the table</td>
+                    </tr>
                     <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
                         <td>{{ ddr.id }}</td>
                         <td>{{ ddr.requester.name }}</td>
@@ -77,7 +80,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-3" v-if="ddrs.length">
             <div class="col-6">
                 <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
                     <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
@@ -87,6 +90,7 @@
                 <span>{{ ddrs.length }} Ddr form(s)</span>
             </div>
         </div>
+
 
         <!-- Edit document Modal -->
         <div  class="modal fade bd-example-modal-lg" id="editDdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
