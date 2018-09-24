@@ -1,5 +1,6 @@
 <template>
     <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="row">
             <div class="col-md-12">
                 <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"  @click="addUserForm">Add user</button>
@@ -121,15 +122,21 @@
 </template>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 
 <script>
 import Multiselect from 'vue-multiselect';
 import VueContentPlaceholders from 'vue-content-placeholders';
+import CxltToastr from 'cxlt-vue2-toastr';
+import SpinnerLoading from '../SpinnerLoading';
+
+Vue.use(CxltToastr);
 
 export default {
     components: { 
         Multiselect,
-        VueContentPlaceholders
+        VueContentPlaceholders,
+        SpinnerLoading
     },
     data(){
         return{
@@ -141,7 +148,8 @@ export default {
             errors: [],
             currentPage: 0,
             itemsPerPage: 10,
-            loading: false
+            loading: false,
+            isLoading: false
 
          }
     },
@@ -166,10 +174,18 @@ export default {
                 .catch(error => console.log(errors));  
         },
         deleteUser(id){
+            let userIndex = this.users.findIndex(item => item.id == id);
+            $('#deleteModal-'+id).modal('hide');
+            this.isLoading = true;
             axios.delete(`/user/${id}`)
             .then(response => {
-                this.fetchUsers();
-                $('#deleteModal-'+id).modal('hide');
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'User Succesfully Deleted',
+                    position: 'top right'
+                });
+                this.users.splice(userIndex,1);
             })
             .catch(error => console.log(error));
         },

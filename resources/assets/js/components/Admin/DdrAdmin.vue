@@ -187,12 +187,15 @@
         line-height: 1.5;   
     }
 </style>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 
 <script>
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 
 export default {
     components:{
@@ -210,9 +213,9 @@ export default {
             selected_id: '',
             ddrlists: [],
             currentPage: 0,
-           itemsPerPage: 10,
-           loading: false,
-           isLoading: false
+            itemsPerPage: 10,
+            loading: false,
+            isLoading: false
         }
     },
     created(){
@@ -280,6 +283,12 @@ export default {
                 ddrlists: ddrlists
             })
             .then(response => {
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Document Succesfully Updated',
+                    position: 'top right'
+                });
                 window.location.href = response.data.redirect;
             })
             .catch(error => {
@@ -293,6 +302,13 @@ export default {
                 'id': id
             })
             .then(response=> {
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'DRDR Succesfully Distributed',
+                    position: 'top right'
+                });
+
                 this.selected_id = '';
                 window.location.href = response.data.redirect;
             })

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="col-md-12">
             <div class="row"> 
                 <div class="col-md-12">
@@ -96,11 +97,20 @@
     </div>
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
+
 
 <script>
-import Multiselect from 'vue-multiselect'
+import Multiselect from 'vue-multiselect';
+import CxltToastr from 'cxlt-vue2-toastr';
+import SpinnerLoading from '../SpinnerLoading';
+
+Vue.use(CxltToastr);
 export default {
-    components: { Multiselect },
+    components: { 
+        Multiselect,
+        SpinnerLoading
+    },
     data(){
         return{
             users: [],
@@ -114,6 +124,7 @@ export default {
             companies: [],
             departments: [],
             roles: [],
+            isLoading: false
          }
     },
     created(){  
@@ -161,7 +172,7 @@ export default {
             });
         },
         editUser(user){
-
+            this.isLoading = true;
             let comapanyids = [];
             let roleids = [];
             user.companies.forEach((company) => {
@@ -179,9 +190,17 @@ export default {
                 role: roleids
             })
             .then(response => {
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'User Succesfully Updated',
+                    position: 'top right'
+                });
+
                 window.location.href = response.data.redirect;
             })
             .catch(error => {
+                this.isLoading = false;
                 if(error.response.data) {
                     this.errors = error.response.data.errors;
                 }

@@ -26,7 +26,7 @@ class ApproverDisapprovedDrdr extends Notification
     public function __construct(Drdr $drdr, User $approver)
     {
         $this->drdr = $drdr;
-        $this->requester = $approver;
+        $this->approver = $approver;
     }
 
     /**

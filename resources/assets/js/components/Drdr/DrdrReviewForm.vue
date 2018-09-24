@@ -96,7 +96,7 @@
                                 <div class="form-group row">
                                     <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
                                     <div class="col-sm-10">
-                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange" >
+                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange" ><br>
                                         <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>
                                 </div>
@@ -122,10 +122,12 @@
     </div>
 </template>
 
-
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 <script>
 import moment from 'moment';
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 
 export default {
     components:{
@@ -225,13 +227,21 @@ export default {
             this.formData.append('consider_documents', drdr.consider_documents);
             this.formData.append('status', drdr.status);
             this.formData.append('remarks', drdr.remarks);
-            this.formData.append('approver_id', approver.id)
+            this.formData.append('approver', approver.id)
             axios.post('/drdr-reviewed',this.formData)
             .then(response => {
+                var message = drdr.status == 1 ? 'Approved' :  'Disapproved';
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'DRDR Succesfully '+message,
+                    position: 'top right'
+                });
                 this.resetData();
                 window.location.href = response.data.redirect;
             })
             .catch(error => {
+                this.isLoading = false;
                 this.errors = error.response.data.errors;
             });
         },

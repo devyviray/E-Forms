@@ -342,7 +342,7 @@ class DrdrController extends Controller
 
             $request->validate([
                 'consider_documents' => 'required',
-                'approver_id' => 'required',
+                'approver' => 'required',
                 'attachments' => 'required',
                 'status' => 'required',
                 'id' => 'required',
@@ -353,10 +353,10 @@ class DrdrController extends Controller
             $drdr->reviewed_date = $carbon::now();
             $drdr->consider_documents = $request->input('consider_documents');
             $drdr->remarks = $request->input('remarks');
-            $drdr->approver_id = $request->input('approver_id');
+            $drdr->approver_id = $request->input('approver');
             
             $requester = User::findOrFail($drdr->requester_id);
-            $approver = User::findOrFail($request->input('approver_id'));
+            $approver = User::findOrFail($request->input('approver'));
             $approver->notify(new ReviewerReviewedDrdr($drdr, $requester ,Auth::user()));
     
             if($drdr->save()){
@@ -422,7 +422,7 @@ class DrdrController extends Controller
             $drdr->copy_number = $request->input('copy_number');
             $drdr->copy_holder = $request->input('copy_holder');
             $drdr->remarks = $request->input('remarks');
-            $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
+            $drdr->effective_date =  Carbon::parse($request->input('effective_date'))->format('Y-m-d');
         
             $company_id = $drdr->company_id;
             $mr = User::whereHas('roles', function($q) {

@@ -130,12 +130,15 @@
         line-height: 1.5;   
     }
 </style>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 
 <script>
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 
 export default {
     components:{
@@ -214,6 +217,12 @@ export default {
                 'id': id
             })
             .then(response=> {
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'DRDR Succesfully Verified',
+                    position: 'top right'
+                });
                 this.selected_id = '';
                 window.location.href = response.data.redirect;
             })

@@ -98,8 +98,11 @@
     </div>
 </template>
 
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 <script>
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 
 export default {
     components:{
@@ -145,9 +148,14 @@ export default {
                 remarks: ddr.remarks
             })  
             .then(response => {
-
-                var redirect = response.data.redirect;
-                window.location.href = redirect;
+                var message = ddr.status == 1 ? 'Approved' :  'Disapproved';
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'DDR Succesfully '+message,
+                    position: 'top right'
+                });
+                window.location.href = response.data.redirect;
 
             })
             .catch(error => {

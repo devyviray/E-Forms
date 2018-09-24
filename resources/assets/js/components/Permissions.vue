@@ -1,5 +1,6 @@
 <template>
     <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="row">
             <div class="col-md-12">
                 <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" data-toggle="modal" data-target="#addModal"  style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));" @click="cleanData" >Add permissions</button>
@@ -175,12 +176,17 @@
         </div>
     </div>
 </template>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 <script>
 import VueContentPlaceholders from 'vue-content-placeholders';
+import CxltToastr from 'cxlt-vue2-toastr';
+import SpinnerLoading from './SpinnerLoading';
 
+Vue.use(CxltToastr);
 export default {
     components:{
-        VueContentPlaceholders
+        VueContentPlaceholders,
+        SpinnerLoading
     },
     data(){
         return{
@@ -197,9 +203,15 @@ export default {
             keywords: '',
             errors: [],
             currentPage: 0,
-            itemsPerPage: 5,
+            itemsPerPage: 10,
             loading: false,
-            copiedObject: []
+            copiedObject: [],
+            isLoading: false
+        }
+    },
+    watch:{
+        permissions: function(val, oldVal){
+
         }
     },
     created(){
@@ -230,22 +242,33 @@ export default {
                 description: permission.description
             })
             .then(response => {
+                $('#addModal').modal('hide');
                 this.permission.name = '';
                 this.permission.slug = '';
                 this.permission.description = '';
                 this.errors = [],
-                this.fetchPermissions();
-                $('#addModal').modal('hide');
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Permission Succesfully Added',
+                    position: 'top right'
+                });
+                this.permissions = response.data;
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
             });
         },
         deletePermission(id){
+            let permissionIndex = this.permissions.findIndex(item => item.id == id);
+            $('#deleteModal-'+id).modal('hide');
             axios.delete(`/permission/${id}`)
             .then(response => {
-                this.fetchPermissions();
-                $('#deleteModal-'+id).modal('hide');
+                this.permissions.splice(permissionIndex, 1);
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Permission Succesfully Deleted',
+                    position: 'top right'
+                });
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
@@ -266,6 +289,12 @@ export default {
                 this.errors = [],
                 this.permissions.splice(permissionIndex, 1, response.data);
                 $('#editModal-'+permission.id).modal('hide');
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Permission Succesfully Edited',
+                    position: 'top right'
+                });
+
             })
             .catch(error => {
                 this.errors = error.response.data.errors;

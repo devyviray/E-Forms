@@ -154,18 +154,21 @@
                     Are you sure you want to delete the company?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button  @click="deleteCompany(company.id)" type="button" class="btn btn-primary">Delete</button>
+                    <button type="button" class="btn btn-secondary btn-round btn-fill   " data-dismiss="modal">Close</button>
+                    <button  @click="deleteCompany(company.id)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Delete</button>
                 </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 
 <script>
 import VueContentPlaceholders from 'vue-content-placeholders';
+import CxltToastr from 'cxlt-vue2-toastr';
 
+Vue.use(CxltToastr);
 export default {
     components:{
         VueContentPlaceholders
@@ -216,10 +219,16 @@ export default {
                 .catch(err => console.log(err));  
         },
         deleteCompany(id){
+            let companyIndex = this.companies.findIndex(item => item.id == id);
             axios.delete(`/company/${id}`)
             .then(response => {
-                this.fetchCompanies();
-                $('#deleteModal-'+id).modal('hide')
+                $('#deleteModal-'+id).modal('hide');
+                this.companies.splice(companyIndex, 1);
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Company Succesfully Deleted',
+                    position: 'top right'
+                });
             })
             .catch(error => console.log(error))
         },
@@ -236,6 +245,11 @@ export default {
                 this.errors = [],
                 this.companies.splice(companyIndex,1,response.data);
                 $('#editModal-'+company.id).modal('hide');
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Company Succesfully Edited',
+                    position: 'top right'
+                });
             })
             .catch(error => {
                 if(error.response.data) {
@@ -255,6 +269,11 @@ export default {
                 this.errors = [],
                 this.companies = response.data;
                 $('#addModal').modal('hide');
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Company Succesfully Added',
+                    position: 'top right'
+                });
             })
             .catch(error => {
                 if(error.response.data){

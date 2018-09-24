@@ -146,12 +146,14 @@
         line-height: 1.5;   
     }
 </style>
-
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 
 <script>
 import moment from 'moment';
 import Datepicker from 'vuejs-datepicker';
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 
 export default {
     data(){
@@ -226,16 +228,24 @@ export default {
         },
         approvedDrdr(id,drdr,drdrs)
         {   
+            var effective_date = moment(drdrs.effective_date).format()
             this.isLoading = true;
             this.prepareFields();
             this.formData.append('id', id);
             this.formData.append('status', drdr.status);
             this.formData.append('remarks', drdr.remarks);
-            this.formData.append('effective_date', drdrs.effective_date);
+            this.formData.append('effective_date', effective_date);
             this.formData.append('copy_number', drdr.copy_number);
             this.formData.append('copy_holder', drdr.copy_holder);
             axios.post('/drdr-approved',this.formData)
             .then(response => {
+                var message = drdr.status == 1 ? 'Approved' :  'Disapproved';
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'DRDR Succesfully '+message,
+                    position: 'top right'
+                });
                 this.resetData();
                 window.location.href = response.data.redirect;
             })

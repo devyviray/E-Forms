@@ -142,10 +142,12 @@
         line-height: 1.5;   
     }
 </style>
-
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 <script>
 import Datepicker from 'vuejs-datepicker';
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 
 export default {
     data(){
@@ -266,6 +268,12 @@ export default {
                 ddrlists: ddrlists
             })
             .then(response => {
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'DDR Succesfully Added',
+                    position: 'top right'
+                });
                 window.location.href = response.data.redirect;
             })
             .catch(error => {
@@ -283,7 +291,7 @@ export default {
             })
         },
          deleteRow(index) {
-            this.ddrlists.length < 2 ? alert('Unable to delete row') : this.ddrlists.splice(index,1);
+            this.ddrlists.length < 2 ? alert('Unable to delete all row') : this.ddrlists.splice(index,1);
         },
         selectedReason(id){
            id == 3 ? this.others = 1 : this.others = 2; 

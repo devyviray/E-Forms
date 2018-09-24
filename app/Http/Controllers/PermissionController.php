@@ -52,7 +52,7 @@ class PermissionController extends Controller
         $permission->model = $request->input('model');
 
         if($permission->save()){
-            return $permission;
+            return Permission::orderBy('id', 'desc')->get();
         }
 
 

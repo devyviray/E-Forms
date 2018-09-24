@@ -1,5 +1,6 @@
 <template>
     <div>
+        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="row">
             <div class="col-md-12">
                 <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" data-toggle="modal" data-target="#addModal" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));" @click="cleanData">Add role</button>
@@ -163,12 +164,16 @@
         </div> -->
     </div>
 </template>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 <script>
 import VueContentPlaceholders from 'vue-content-placeholders';
+import CxltToastr from 'cxlt-vue2-toastr';
+import SpinnerLoading from './SpinnerLoading';
 
 export default {
     components:{
-        VueContentPlaceholders
+        VueContentPlaceholders,
+        SpinnerLoading
     },
     data(){
         return{
@@ -187,7 +192,8 @@ export default {
             errors: [],
             currentPage: 0,
             itemsPerPage: 10,
-            loading: false
+            loading: false,
+            isLoading: false
         }
     },
     created(){
@@ -210,21 +216,29 @@ export default {
             });
         },
         addRole(role){
+            this.isLoading = true;
             axios.post('/role',{
                 name: role.name,
                 description: role.description,
                 level: role.level
             })
             .then(response => {
+                this.isLoading = false;
+                $('#addModal').modal('hide');
                 this.role.name = '';
                 this.role.slug = '';
                 this.role.description = '';
                 this.role.level = '';
                 this.errors = [],
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Role Succesfully Added',
+                    position: 'top right'
+                });
                 this.fetchRoles();
-                $('#addModal').modal('hide');
             })
             .catch(error => {
+                this.isLoading = false;
                 this.errors = error.response.data.errors;
             });
         },

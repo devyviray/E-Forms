@@ -147,8 +147,11 @@
         </div>
     </div>
 </template>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 <script>
 import VueContentPlaceholders from 'vue-content-placeholders';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 export default {
     components:{
         VueContentPlaceholders
@@ -202,18 +205,29 @@ export default {
             .then(response => {
                 this.department.name = '';
                 this.errors = [];
-                this.departments = response.data;
                 $('#addModal').modal('hide');
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Department Succesfully Added',
+                    position: 'top right'
+                });
+                this.departments = response.data;
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
             });
         },
         deleteDepartment(id){
+            let departmentIndex = this.departments.findIndex(item => item.id == id);
+            $('#deleteModal-'+id).modal('hide');
             axios.delete(`/department/${id}`)
             .then(response => {
-                this.fetchDepartments();
-                $('#deleteModal-'+id).modal('hide');
+                this.departments.splice(departmentIndex, 1);
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Department Succesfully Deleted',
+                    position: 'top right'
+                });
             })
             .catch(error => {
                 this.errors = error.response.data.error;
@@ -230,6 +244,11 @@ export default {
                 this.errors = [];
                 this.departments.splice(departmentIndex, 1, response.data);
                 $('#editModal-'+deparment.id).modal('hide');
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'Department Succesfully Edited',
+                    position: 'top right'
+                });
             })
             .catch(error => {
                 this.errors = error.response.data.errors;

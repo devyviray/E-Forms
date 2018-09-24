@@ -109,9 +109,10 @@
                         <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
                         <select v-model="selected_status" class="form-control form-control-lg" @change="selectedStatus" id="selectedStatus">
                             <option value="" disabled selected>Select status</option>
-                            <option value="1">Approved</option>
-                            <option value="2">Disapproved</option>
+                            <option value="1">Valid</option>
+                            <option value="2">Invalid</option>
                         </select>
+                        <span class="error" v-if="errors.status">{{ errors.status[0] }}</span>
                     </div>
                     <div class="form-group" v-if="show">
                         <label for="car_number">Car No.</label>
@@ -216,12 +217,14 @@
         line-height: 1.5;   
     }
 </style>
-
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 <script>
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 
 export default {
     components:{
@@ -280,6 +283,13 @@ export default {
             })
             .then(response => {
                 $('#validateCcirModal').modal('hide');
+                var message = status == 1 ? 'Valid' : 'Invalid';
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'CCIR Succesfully marked as '+message,
+                    position: 'top right'
+                });
+
                 this.selected_id = ' ';
                 window.location.href = response.data.redirect;
             })

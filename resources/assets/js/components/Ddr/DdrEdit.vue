@@ -141,10 +141,13 @@
         line-height: 1.5;   
     }
 </style>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 
 <script>
 import Datepicker from 'vuejs-datepicker';
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 
 export default {
     data(){
@@ -286,6 +289,12 @@ export default {
                 ddrlists: ddrlists
             })
             .then(response => {
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'DDR Succesfully Edited',
+                    position: 'top right'
+                });
                 window.location.href = response.data.redirect;
             })
             .catch(error => {

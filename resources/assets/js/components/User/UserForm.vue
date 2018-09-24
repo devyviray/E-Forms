@@ -115,10 +115,13 @@
     </div>
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 
 <script>
 import Multiselect from 'vue-multiselect';
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
 export default {
     components: {
         Multiselect,
@@ -201,6 +204,12 @@ export default {
                 role: roleids
             })
             .then(response => {
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'User Succesfully Added',
+                    position: 'top right'
+                });
                 this.user.name = " ",
                 this.user.email = " ",
                 this.user.password = " ",
