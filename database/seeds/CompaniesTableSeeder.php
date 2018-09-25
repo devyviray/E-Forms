@@ -12,11 +12,10 @@ class CompaniesTableSeeder extends Seeder
      */
     public function run()
     {
-        if (Company::where('name', '=', 'Philippine Foremost Milling Corp.')->first() === null) {
+   
 	        $company = Company::create([
                 'name' => 'Philippine Foremost Milling Corp.',
                 'address' => 'Manila',
         	]);
-        }
     }
 }

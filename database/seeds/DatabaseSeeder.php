@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
         //  $this->call(UsersTableSeeder::class);
         Model::unguard();
 
-            $this->call('UsersTableSeeder');
             $this->call('PermissionsTableSeeder');
             $this->call('RolesTableSeeder');
             $this->call('ConnectRelationshipsSeeder');
+            $this->call('UsersTableSeeder');
             $this->call('DepartmentsTableSeeder');
             $this->call('CompaniesTableSeeder');
 
