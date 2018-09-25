@@ -11,7 +11,7 @@ class Ccir extends Model
      *
      * @var string
      */
-    protected $table = 'Ccirforms';
+    protected $table = 'ccirforms';
 
     
     /**
