@@ -44,11 +44,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="affected_quantity" class="col-sm-2 col-form-label">Affected Quantity</label>
+                                    <label for="brand_name" class="col-sm-2 col-form-label">Brand Name</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" v-model="ccir.affected_quantity" id="affected_quantity">
-                                        <span class="error" v-if="errors.affected_quantity">{{ errors.affected_quantity[0] }}</span>
-                                    </div>   
+                                        <input type="text" class="form-control" v-model="ccir.brand_name" id="brand_name">
+                                        <span class="error" v-if="errors.brand_name">{{ errors.brand_name[0] }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -64,11 +64,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="quality_of_sample" class="col-sm-2 col-form-label">Quantity of sample</label>
+                                    <label for="affected_quantity" class="col-sm-2 col-form-label">Affected Quantity</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" v-model="ccir.quality_of_sample" id="quality_of_sample">
+                                        <input type="text" class="form-control" v-model="ccir.affected_quantity" id="affected_quantity">
                                         <span class="error" v-if="errors.affected_quantity">{{ errors.affected_quantity[0] }}</span>
-                                    </div>  
+                                    </div>   
                                 </div>
                             </div>
                         </div>
@@ -84,11 +84,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="returned_date" class="col-sm-2 col-form-label">Returned Date</label>
+                                    <label for="quality_of_sample" class="col-sm-2 col-form-label">Quantity of sample</label>
                                     <div class="col-sm-10">
-                                        <datepicker v-model="ccir.returned_date" placeholder="Select returned date" id="returned_date"></datepicker>
-                                        <span class="error" v-if="errors.returned_date">{{ errors.returned_date[0] }}</span>
-                                    </div>
+                                        <input type="text" class="form-control" v-model="ccir.quality_of_sample" id="quality_of_sample">
+                                        <span class="error" v-if="errors.affected_quantity">{{ errors.affected_quantity[0] }}</span>
+                                    </div>  
                                 </div>
                             </div>
                         </div>
@@ -112,10 +112,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
+                                    <label for="returned_date" class="col-sm-2 col-form-label">Returned Date</label>
                                     <div class="col-sm-10">
-                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
-                                        <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
+                                        <datepicker v-model="ccir.returned_date" placeholder="Select returned date" id="returned_date"></datepicker>
+                                        <span class="error" v-if="errors.returned_date">{{ errors.returned_date[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +131,13 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                
+                                <div class="form-group row">
+                                    <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
+                                        <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <button @click="addCcir(ccir)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
@@ -238,6 +244,7 @@ export default {
             this.prepareFields();
             this.formData.append('complainant', ccir.complainant);
             this.formData.append('company', ccir.company_id);
+            this.formData.append('brand_name', ccir.brand_name);
             this.formData.append('commodity', ccir.commodity);
             this.formData.append('product_control_number', ccir.product_control_number);
             this.formData.append('delivery_date', ccir.delivery_date);

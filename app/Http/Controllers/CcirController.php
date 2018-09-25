@@ -79,6 +79,7 @@ class CcirController extends Controller
         $validator  = $request->validate([
             'complainant' => 'required',
             'company' => 'required',
+            'brand_name' => 'required',
             'commodity' => 'required',
             'product_control_number' => 'required',
             'delivery_date' => 'required',
@@ -97,7 +98,7 @@ class CcirController extends Controller
         $ccirs->company_id = $request->input('company');
         $ccirs->complainant = $request->input('complainant');
         $ccirs->commodity = $request->input('commodity');
-        // $ccirs->brand_name = 'Sample brand name';
+        $ccirs->brand_name = $request->input('brand_name');
         $ccirs->product_control_number = $request->input('product_control_number');
         $ccirs->date_request = $carbon::now();
         $ccirs->delivery_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('delivery_date'));   

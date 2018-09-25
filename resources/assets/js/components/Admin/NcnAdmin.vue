@@ -68,7 +68,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a @click="viewNcnDetails(ncn.id)" class="dropdown-item" href="javascript:void(0)">View</a>
-                                    <a @click="getNcnId(ncn.id)" class="dropdown-item" data-toggle="modal" data-target="#trashNcnModal" href="javascript:void(0)">Move to trash</a>
+                                    <!-- <a @click="getNcnId(ncn.id)" class="dropdown-item" data-toggle="modal" data-target="#trashNcnModal" href="javascript:void(0)">Move to trash</a> -->
                                 </div>
                             </div>
                         </td>

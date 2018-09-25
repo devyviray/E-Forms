@@ -670,7 +670,7 @@ class DrdrController extends Controller
     }
 
     public function emailScheduling(){
-
+        
         $drdrSubmitted = Drdr::where('status', StatusType::SUBMITTED)->whereDate('effective_date','=', Carbon::today()->subDays(-1)->toDateTimeString())->get();
         $drdrReviewed = Drdr::where('status', StatusType::APPROVED_REVIEWER)->whereDate('effective_date','=', Carbon::today()->subDays(-1)->toDateTimeString())->get();
         if($drdrSubmitted){

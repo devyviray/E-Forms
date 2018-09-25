@@ -70,9 +70,9 @@
                                     <a @click="viewDdrDetails(ddr.id)" class="dropdown-item" href="javascript:void(0)">View</a>
                                     <a v-if="ddr.status == 4" @click="getDdr(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#editDdrModal" href="javascript:void(0)">Edit Document</a>
                                     <a v-if="ddr.status == 4" @click="getDdrId(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDdrModal" href="javascript:void(0)">Mark as distributed</a>
-                                    <a class="dropdown-item" href="#">Move to trash</a>
+                                    <!-- <a class="dropdown-item" href="#">Move to trash</a>
                                     <a class="dropdown-item" href="#">Mark as archive</a>
-                                    <a class="dropdown-item" href="#">Cancel document</a>
+                                    <a class="dropdown-item" href="#">Cancel document</a> -->
                                 </div>
                             </div>
                         </td>
