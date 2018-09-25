@@ -2,44 +2,41 @@
 <html>
 <head>
 	<title>PDF Download</title>
-	<style>
-		table {
-			width:100%;
-		}
-		table, th, td {
-			border: 1px solid black;
-			border-collapse: collapse;
-		}
-		th, td {
-			padding: 15px;
-			text-align: left;
-		}
-		table#t01 tr:nth-child(even) {
-			background-color: #eee;
-		}
-		table#t01 tr:nth-child(odd) {
-		background-color: #fff;	
-		}
-		table#t01 th {
-			background-color: black;
-			color: white;
-		}
-	</style>
+		<link rel="stylesheet" href="{{ asset('/css/bootstrap.3.3.7.css') }}" />
+        <style>
+			body {
+			font-family: 'Miriam Libre', sans-serif;
+			font-size: 70%;
+			}
+
+			h1,h2,h3,h4,h5,h6{
+				font-family: 'Miriam Libre', sans-serif;
+			}
+
+			table, th, td {
+			border: 0.50px solid black ! important;
+			}
+
+			.borderless, .borderless th, .borderless td {
+				border: 0 ! important;
+				font-size: 12px;
+			}
+    	</style>
+
 </head>
 <body>
 
-	<table style="margin-bottom:10px">
+	<table class="table table-bordered">
 		<tr>
 			<td rowspan="3">
-				<img class="logo-logo" src="http://172.17.2.88/e-forms-test/public/image/lfug-logo.png" 
-				style="display:block;  width: 60px; height: auto; padding: 0; margin: 10px 10px 0 30px;">
+				<img class="logo-logo" src="{{asset('img/lfug-logo.png')}}"  style="display:block;  width: 60px; height: auto; padding: 0; margin: 10px 10px 0 30px;">
 			</td>
 			<td colspan="5" >La Filipina Uy Gongco Group of Companies</td>
 		</tr>
 		<tr>
-			<td><strong>Doc No.</strong> </td>
-			<td><strong>Rev No.</strong> </td>
-			<td> Effective Date </td>
+			<td> <strong> Doc No. </strong> </td>
+			<td> <strong> Rev No. </strong>  </td>
+			<td> <strong> Effective Date </strong> </td>
 			<td colspan="2"> {{  date('F j, Y', strtotime($ddr[0]->effective_date))  }} </td>
 		</tr>
 		<tr>
@@ -47,94 +44,105 @@
 		</tr>
 	</table>
 
-	<table style="margin-bottom:5px">
+	<table class="table borderless">
 		<tr>
-			<td> <strong> Reason for distribution: </strong> </td>
+			<td rowspan="3"> <strong> Reason for distribution: </strong> </td>
 			@if($ddr[0]->reason_of_distribution == 1)
-				<td>Relevant External Document (controlled copy)</td>
-			@elseif($ddr[0]->reason_of_distribution == 2)
-				<td>Customer Request (uncontrolled copy)</td>
+				<td colspan="2"> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Relevant external doc. (controll copy) </td>
 			@else
-			<td>Others (please specify)</td>
+				<td colspan="2"> <img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Relevant external doc. (controll copy) </td>
 			@endif
-			<td> <strong> Date Neeeded: </strong> </td> 
-			<td>{{  date('F j, Y', strtotime($ddr[0]->date_needed))  }}</td>
+		</tr>
+		<tr>
+			@if($ddr[0]->reason_of_distribution == 2)
+				<td colspan="3"> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Customer request (uncontroll copy) </td>
+			@else
+				<td colspan="3"> <img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Customer request (uncontroll copy) </td>
+			@endif
+		</tr>
+		<tr>
+			@if($ddr[0]->reason_of_distribution == 3)
+				<td colspan="3"> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Others: </td>
+			@else
+				<td colspan="3"> <img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Others: </td>
+			@endif
+		</tr>
+		<tr>
+			<td> <strong> Date Neeeded: </strong>  </td>
+			<td colspan="3"> {{  date('F j, Y', strtotime($ddr[0]->date_needed))  }} </td>
 		</tr>
 	</table>
 
-	<table style="margin-bottom:5px">
+	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<th>Document Title</th>
-				<th>Control Code</th>
-				<th>Rev No.</th>
-				<th>Copy No.</th>
-				<th>Copy holder</th>
+				<th  class="info">Document Title</th>
+				<th  class="info">Control Code</th>
+				<th  class="info">Rev No.</th>
+				<th  class="info">Copy No.</th>
+				<th  class="info">Copy holder</th>
+				<th  class="info">Received by:</th>
+				<th  class="info">Date</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($ddr[0]->ddrLists as $ddrlist )
+				@foreach($ddr[0]->ddrLists as $ddrlist )
 				<tr>
 					<td> {{ $ddrlist->document_title }} </td>
 					<td> {{ $ddrlist->control_code }} </td>
 					<td> {{ $ddrlist->rev_number }}</td>
 					<td> {{ $ddrlist->copy_number }} </td>
 					<td> {{ $ddrlist->copy_holder }} </td>
+					<td></td>
+					<td></td>
 				</tr>
 			@endforeach
 		</tbody>
 	</table>
 
-	<table style="margin-bottom:5px">
+	<table class="table" style="border: 0 ! important;">
 		<tr>
-			<td colspan="6">
-				<em> <strong> Total number of obsolete copy retrieved: {{ count($ddr[0]->ddrLists) }} </strong> </em>
-			</td>
+			<td class="info" colspan="6" style="border: 0 ! important;"> <em> <strong> Total number of obsolete copy retrieved </strong> </em> </td>
 		</tr>
 		<tr>
-			<td> <strong> Requested by:  <strong></td>
-			<td> {{ $ddr[0]->requester->name }} </td>
-			<td> <strong> Approved by: </strong> </td>
-			<td> {{ $ddr[0]->approver->name }} </td>
-			<td> <strong> Distributed by: </strong> </td>
+			<td style="border: 0 ! important;"> <strong> Requested by: <strong> </td>
+			<td style="border: 0 ! important;">{{ $ddr[0]->requester->name }}</td>
+			<td style="border: 0 ! important;"> <strong> Approved by: </strong> </td>
+			<td style="border: 0 ! important;"> {{ $ddr[0]->approver->name }} </td>
+			<td style="border: 0 ! important;"> <strong> Distributed by: </strong> </td>
 			@if($ddr[0]->distributed)
-			<td> {{ $ddr[0]->distributed->name }} </td>
+				<td style="border: 0 ! important;"> {{ $ddr[0]->distributed->name }} </td>
 			@else
-			<td></td>
+				<td style="border: 0 ! important;"></td>
 			@endif
 		</tr>
 		<tr>
-			<td> <strong> Position:  <strong> </td>
-			<td>  {{ $ddr[0]->requester->position }} </td>
-			<td> <strong> Position: </strong> </td>
-			<td>  {{ $ddr[0]->approver->position }} </td>
-			<td> <strong> Position: </strong> </td>
-			@if($ddr[0]->distributed)
-			<td> {{ $ddr[0]->distributed->position }} </td>
-			@else
-			<td></td>
-			@endif
+			<td style="border: 0 ! important;"> <strong> Position: <strong> </td>
+			<td style="border: 0 ! important;"> {{ $ddr[0]->requester->position }} </td>
+			<td style="border: 0 ! important;"> <strong> Position: </strong> </td>
+			<td style="border: 0 ! important;"> {{ $ddr[0]->approver->position }} </td>
+			<td style="border: 0 ! important;"> <strong> Position: </strong> </td>
+			<td style="border: 0 ! important;"> {{ $ddr[0]->distributed->position }} </td>
 		</tr>
 		<tr>
-			<td> <strong> Date </strong> </td>
-			<td>{{  date('F j, Y', strtotime($ddr[0]->date_request))  }}</td>
-			<td> <strong> Date </strong> </td>
-			@if($ddr[0]->approved_date)
-			<td>{{  date('F j, Y', strtotime($ddr[0]->approved_date))  }}</td>
-			@else
-			<td></td>
-			@endif
-			<td> <strong> Date </strong> </td>
+			<td style="border: 0 ! important;"> <strong> Date </strong> </td>
+			<td style="border: 0 ! important;">{{  date('F j, Y', strtotime($ddr[0]->date_request))  }}</td>
+			<td style="border: 0 ! important;"> <strong> Date </strong> </td>
+			<td style="border: 0 ! important;"> {{  date('F j, Y', strtotime($ddr[0]->approved_date))  }} </td>
+			<td style="border: 0 ! important;"> <strong> Date </strong> </td>
 			@if($ddr[0]->distributed_date)
-			<td>{{  date('F j, Y', strtotime($ddr[0]->distributed_date))  }}</td>
+				<td style="border: 0 ! important;">{{  date('F j, Y', strtotime($ddr[0]->distributed_date))  }}</td>
 			@else
-			<td></td>
+				<td style="border: 0 ! important;"></td>
 			@endif
 		</tr>
 	</table>
 
-	<p> <small> Disclaimer for uncontrolled document: </small> </p>
-	<p> 
+	<p>
+		<small> Disclaimer for uncrolled document: </small>
+	</p>
+
+	<p>
 		<small>
 			<ul>
 				<li>Documents are issued as requested and shall not be used for any other purpose</li>
@@ -144,5 +152,6 @@
 			</ul>
 		</small>
 	</p>
+
 </body>
 </html>
