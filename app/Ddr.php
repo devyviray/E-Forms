@@ -11,7 +11,7 @@ class Ddr extends Model
      *
      * @var string
      */
-    protected $table = 'Ddrforms';
+    protected $table = 'ddrforms';
 
     
     /**

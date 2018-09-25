@@ -11,7 +11,7 @@ class Ncn extends Model
      *
      * @var string
      */
-    protected $table = 'Ncnforms';
+    protected $table = 'ncnforms';
 
     
     /**

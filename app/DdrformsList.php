@@ -11,5 +11,5 @@ class DdrformsList extends Model
      *
      * @var string
      */
-    protected $table = 'Ddrforms_lists';
+    protected $table = 'ddrforms_lists';
 }

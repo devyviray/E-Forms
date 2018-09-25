@@ -11,7 +11,7 @@ class CompanyUser extends Model
      *
      * @var string
      */
-    protected $table = 'Company_user';
+    protected $table = 'company_user';
 
     
     /**

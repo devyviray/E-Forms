@@ -11,7 +11,7 @@ class Role extends Model
      *
      * @var string
      */
-    protected $table = 'Roles';
+    protected $table = 'roles';
 
     
     /**

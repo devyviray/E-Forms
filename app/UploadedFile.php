@@ -11,5 +11,5 @@ class UploadedFile extends Model
      *
      * @var string
      */
-    protected $table = 'Uploaded_files';
+    protected $table = 'uploaded_files';
 }

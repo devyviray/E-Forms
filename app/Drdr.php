@@ -11,7 +11,7 @@ class Drdr extends Model
      *
      * @var string
      */
-    protected $table = 'Drdrforms';
+    protected $table = 'drdrforms';
 
     
     /**
