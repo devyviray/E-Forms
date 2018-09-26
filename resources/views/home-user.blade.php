@@ -35,7 +35,7 @@
                         <div class="card-footer ">
                             <hr>
                             <div class="stats">
-                                <i class="fa fa-clock-o"></i>Is a process of requesting of control and uncontrol copy of internal or external document
+                                <i class="fa fa-clock-o"></i>Is a process of requesting of control and uncontrol copy of internal or external document.
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         <div class="card-footer ">
                             <hr>
                             <div class="stats">
-                                <i class="fa fa-clock-o"></i>  Is the process of providing initial investigation for customer complaint
+                                <i class="fa fa-clock-o"></i>  Is the process of providing initial investigation for customer complaint.
                             </div>
                         </div>
                     </div>

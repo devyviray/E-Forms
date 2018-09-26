@@ -24,7 +24,7 @@
                             <thead>
                                 <th>ID</th>
                                 <th>Company Name</th>
-                                <th>City</th>
+                                <th>Location</th>
                                 <th>Action</th>
                             </thead>
                             <tbody>
@@ -95,7 +95,7 @@
                         <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                     <div class="form-group">
-                        <label for="address">City</label>
+                        <label for="address">Location</label>
                         <input type="text" class="form-control" placeholder="Company address" v-model="company.address" id="address">
                         <span class="error" v-if="errors.city">{{ errors.city[0] }}</span>
                     </div>
@@ -126,7 +126,7 @@
                         <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                     </div>
                     <div class="form-group">
-                        <label for="address">City</label>
+                        <label for="address">Location</label>
                         <input type="text" class="form-control" placeholder="Address" v-model="copiedObject.address">
                         <span class="error" v-if="errors.address">{{ errors.address[0] }}</span>
                     </div>
