@@ -27,7 +27,7 @@
                 <tbody>
                     <tr>
                         <td rowspan="3" width="10%">
-                            <img class="img-responsive" src="http://172.17.2.88/e-forms-test/public/image/lfug-logo.png" style="padding: 10px; width: 100px; height: auto;">
+                            <img class="img-responsive" :src="logo" style="padding: 10px; width: 100px; height: auto;">
                         </td>
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
@@ -168,7 +168,14 @@ export default {
             var url = base_url+`/admin/ncn-pdf/${this.ncnId}`;
 
             return url;
+        },
+        logo(){
+            var base_url = window.location.origin;
+            var url = base_url+'/img/lfug-logo.png';
+
+            return url;
         }
+        
     }
 }
 </script>
