@@ -39,7 +39,7 @@
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
                     <tr>
-                        <td> <strong>  Doc No. </strong>  LFQM-F-001 </td>
+                        <td> <strong>  Doc No. </strong>   </td>
                         <td v-if="drdrs.length"><strong>  Rev No. </strong>  {{ drdrs[0].rev_number }} </td>
                         <td v-if="drdrs.length"><strong> Effective Date: </strong> {{ moment(drdrs[0].effective_date).format('LL') }} </td>
                     </tr>
@@ -181,13 +181,13 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="border-left: 0 ! important;"> DRDR NO: PFMC-I-08-2018-2678 </td>
+                                <td style="border-left: 0 ! important;"> DRDR NO:  </td>
                             </tr>
                             <tr>
                                 <td style="border-left: 0 ! important;"> Document Title: {{ drdrs[0].document_title }} </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Document Code: PRP-003-002c.1FD </td>
+                                <td style="border-left: 0 ! important;"> Document Code:  </td>
                             </tr>
                             <tr>
                                 <td style="border-left: 0 ! important;"> Revision No: {{ drdrs[0].rev_number }} </td>

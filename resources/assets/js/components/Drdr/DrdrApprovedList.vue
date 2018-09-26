@@ -54,7 +54,6 @@
         </div>
 
         <div class="card-body table-full-width table-responsive" v-if="!drdrsApprovedForms.length && !loading">
-            <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords">
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>

@@ -22,7 +22,7 @@
                         <td> {{ drdrs[0].document_title }} </td>
                     </tr>
                     <tr>
-                        <td> <strong> Reasong of Request </strong> </td>
+                        <td> <strong> Reason of Request </strong> </td>
                         <td> {{ drdrs[0].reason_request }} </td>
                     </tr>
                     <tr>

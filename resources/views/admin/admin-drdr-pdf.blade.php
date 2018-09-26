@@ -76,7 +76,11 @@
                 <td> <strong> Position: </strong> </td>
                 <td> {{ $drdr[0]->reviewer->position }} </td>
                 <td> <strong> Date: </strong> </td>
-                <td>{{ date('F j, Y', strtotime($drdr[0]->reviewed_date)) }}</td>
+                @if($drdr[0]->reviewed_date)
+                    <td>{{ date('F j, Y', strtotime($drdr[0]->reviewed_date)) }}</td>
+                @else
+                    <td> </td>
+                @endif
             </tr>
             <tr>
                 <td> <strong> Approved by: </strong> </td>

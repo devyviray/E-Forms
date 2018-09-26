@@ -66,7 +66,7 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a  @click="viewDrdrDetails(drdr.id)" class="dropdown-item">View</a>
+                                    <a  @click="viewDrdrDetails(drdr.id)" class="dropdown-item" href="javascript:void(0)">View</a>
                                     <a v-if="drdr.status == 4" @click="getDrdrId(drdr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDrdrModal" href="javascript:void(0)">Mark as verify</a>
                                     <!-- <a class="dropdown-item" href="#">Move to trash</a>
                                     <a class="dropdown-item" href="#">Mark as archive</a>
