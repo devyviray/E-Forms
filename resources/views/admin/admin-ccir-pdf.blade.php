@@ -49,8 +49,8 @@
                 <td colspan="6"> {{ $ccir[0]->requester->name }} </td>
             </tr>
             <tr>
-                <td class="info"> <strong> Brand Name: </strong> </td>
-                <td colspan="6"> {{ $ccir[0]->brand_name }} </td>
+                <td class="info"> <strong> Commodity: </strong> </td>
+                <td colspan="6"> {{ $ccir[0]->commodity }} </td>
             </tr>
             <tr>
                 <td class="info"> <strong> Affected Quantities </strong> </td>

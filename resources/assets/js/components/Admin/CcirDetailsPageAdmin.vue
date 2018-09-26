@@ -49,8 +49,8 @@
                     <td colspan="6">{{ moment(ccirs[0].date_request).format('LL') }} </td>
                 </tr>
                 <tr>
-                    <td><strong>Brand Name:</strong></td>
-                    <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].brand_name }} </td>
+                    <td><strong>Commodity:</strong></td>
+                    <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].commodity }} </td>
                 </tr>
                 <tr>
                     <td><strong>Affected Quantities</strong></td>

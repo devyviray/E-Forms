@@ -44,17 +44,6 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="brand_name" class="col-sm-2 col-form-label">Brand Name</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" v-model="ccir.brand_name" id="brand_name">
-                                        <span class="error" v-if="errors.brand_name">{{ errors.brand_name[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="form-group row">
                                     <label for="product_control_number" class="col-sm-2 col-form-label">Product control number</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ccir.product_control_number" id="product_control_number">
@@ -62,6 +51,9 @@
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="affected_quantity" class="col-sm-2 col-form-label">Affected Quantity</label>
@@ -71,8 +63,6 @@
                                     </div>   
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="delivery_date" class="col-sm-2 col-form-label">Delivery date</label>
@@ -82,6 +72,8 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="quality_of_sample" class="col-sm-2 col-form-label">Quantity of sample</label>
@@ -91,8 +83,6 @@
                                     </div>  
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="nature_of_complaint" class="col-sm-2 col-form-label">Nature of Complaint</label>
@@ -110,6 +100,9 @@
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="returned_date" class="col-sm-2 col-form-label">Returned Date</label>
@@ -119,8 +112,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="other_details" class="col-sm-2 col-form-label">Other Details</label>
@@ -130,6 +121,9 @@
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
@@ -139,6 +133,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6"></div>    
                         </div>
                         <button @click="addCcir(ccir)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                     </form>
@@ -244,7 +239,6 @@ export default {
             this.prepareFields();
             this.formData.append('complainant', ccir.complainant);
             this.formData.append('company', ccir.company_id);
-            this.formData.append('brand_name', ccir.brand_name);
             this.formData.append('commodity', ccir.commodity);
             this.formData.append('product_control_number', ccir.product_control_number);
             this.formData.append('delivery_date', ccir.delivery_date);
