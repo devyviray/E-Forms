@@ -13,7 +13,7 @@
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
                     <tr>
-                        <td> Doc No. <strong>LFQM-F-002</strong> </td>
+                        <td> <strong> Doc No. </strong> </td>
                     </tr>
                     <tr>
                         <td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>

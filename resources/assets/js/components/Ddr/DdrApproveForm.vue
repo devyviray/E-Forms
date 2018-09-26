@@ -24,11 +24,11 @@
                     </tr>
                     <tr>
                         <td> <strong> Date of Request </strong> </td>
-                        <td> {{ ddrs[0].date_request }} </td>
+                        <td> {{ moment(ddrs[0].date_request).format('LL') }} </td>
                     </tr>
                     <tr>
                         <td> <strong> Date Needed </strong> </td>
-                        <td> {{ ddrs[0].date_needed }} </td>
+                        <td> {{ moment(ddrs[0].date_needed).format('LL') }} </td>
                     </tr>
                     <tr>
                         <td> <strong> Request By </strong> </td>
@@ -102,6 +102,7 @@
 <script>
 import SpinnerLoading from '../SpinnerLoading';
 import CxltToastr from 'cxlt-vue2-toastr';
+import moment from 'moment';
 Vue.use(CxltToastr);
 
 export default {
@@ -124,6 +125,7 @@ export default {
         this.fetchDdr();
     },
     methods:{
+        moment,
        fetchDdr(){
             var url = window.location.href;
             var id = url.match(/[^\/]+$/)[0];

@@ -25,7 +25,9 @@
                     <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
                         <td>{{ ddr.id }}</td>
                         <td>{{ ddr.requester.name }}</td>
-                        <td>{{ ddr.reason_of_distribution }}</td>
+                        <td v-if="ddr.reason_of_distribution == 1"> Relevant external doc. (controll copy) </td>
+						<td v-if="ddr.reason_of_distribution == 2"> Customer request (uncontrolled copy) </td>
+						<td v-if="ddr.reason_of_distribution == 3"> Others: </td>
                         <td>{{ moment(ddr.date_request).format('LL') }}</td>
                         <td>
                             <span style="color: red" v-if="ddr.status == 2"> NOT YET APPROVED </span>

@@ -37,7 +37,11 @@
 			<td> <strong> Doc No. </strong> </td>
 			<td> <strong> Rev No. </strong>  </td>
 			<td> <strong> Effective Date </strong> </td>
-			<td colspan="2"> {{  date('F j, Y', strtotime($ddr[0]->effective_date))  }} </td>
+			@if($ddr[0]->effective_date))
+				<td colspan="2"> {{  date('F j, Y', strtotime($ddr[0]->effective_date))  }} </td>
+			@else
+				<td colspan="2"> </td>
+			@endif
 		</tr>
 		<tr>
 			<td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>
@@ -122,13 +126,21 @@
 			<td style="border: 0 ! important;"> <strong> Position: </strong> </td>
 			<td style="border: 0 ! important;"> {{ $ddr[0]->approver->position }} </td>
 			<td style="border: 0 ! important;"> <strong> Position: </strong> </td>
-			<td style="border: 0 ! important;"> {{ $ddr[0]->distributed->position }} </td>
+			@if($ddr[0]->distributed)
+				<td style="border: 0 ! important;"> {{ $ddr[0]->distributed->position }} </td>
+			@else
+				<td style="border: 0 ! important;"></td>
+			@endif
 		</tr>
 		<tr>
 			<td style="border: 0 ! important;"> <strong> Date </strong> </td>
 			<td style="border: 0 ! important;">{{  date('F j, Y', strtotime($ddr[0]->date_request))  }}</td>
 			<td style="border: 0 ! important;"> <strong> Date </strong> </td>
-			<td style="border: 0 ! important;"> {{  date('F j, Y', strtotime($ddr[0]->approved_date))  }} </td>
+			@if($ddr[0]->distributed_date)
+				<td style="border: 0 ! important;"> {{  date('F j, Y', strtotime($ddr[0]->approved_date))  }} </td>
+			@else
+				<td style="border: 0 ! important;"></td>
+			@endif
 			<td style="border: 0 ! important;"> <strong> Date </strong> </td>
 			@if($ddr[0]->distributed_date)
 				<td style="border: 0 ! important;">{{  date('F j, Y', strtotime($ddr[0]->distributed_date))  }}</td>
