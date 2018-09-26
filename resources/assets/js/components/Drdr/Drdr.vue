@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-                <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2"  style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));" @click="addDrdrForm" >Add Drdr</button>
+                <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2"  style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));" @click="addDrdrForm" >Add DRDR</button>
                 <div class="card strpied-tabled-with-hover">
                      <div class="card-header mb-3">
                         <h4 class="card-title">Document Review & Document Request</h4>   

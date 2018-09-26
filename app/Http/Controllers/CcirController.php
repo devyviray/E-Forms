@@ -86,7 +86,7 @@ class CcirController extends Controller
             'nature_of_complaint' => 'required',
             'other_details' => 'required',
             'delivery_date' => 'required',
-            'affected_quantity' => 'required',
+            'affected_quantity' => 'required|integer',
             'quality_of_sample' => 'required',
             'returned_date' => 'required',
             'attachments' => 'required'

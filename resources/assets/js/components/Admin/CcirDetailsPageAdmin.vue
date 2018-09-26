@@ -26,7 +26,7 @@
                     <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                 </tr>
                 <tr>
-                    <td><strong>Doc No.</strong> LFQM-F-029b </td>
+                    <td><strong>Doc No.</strong>  </td>
                 </tr>
                 <tr>
                     <td colspan="5"> CUSTOMER COMPLAINT REPORT</td>

@@ -7,7 +7,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <label for="name"> Search by name </label>
+                    <label for="name"> Search by Complainant </label>
                     <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords" id="name">
                 </div>
                 <div class="col-md-3">
