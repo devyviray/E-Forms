@@ -14,7 +14,7 @@
                     <td><strong>Doc No.</strong> LFQM-F-029b </td>
                 </tr>
                 <tr>
-                    <td colspan="5"> CUSTOMER COMPLAINT REPORT</td>
+                    <td colspan="5"> CUSTOMER COMPLAINT INVESTIGATION REPORT</td>
                 </tr>
             </tbody>
         </table>

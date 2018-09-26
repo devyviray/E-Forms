@@ -22,7 +22,7 @@
                 <div class="col-md-3"></div>
             </div>
             <hr>
-                NON CONFORMANCE NOTIFICATION
+                NON-CONFORMANCE NOTIFICATION
             <table class="table table-bordered">
                 <tbody>
                     <tr>

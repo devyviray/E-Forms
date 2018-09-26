@@ -29,7 +29,7 @@
                     <td><strong>Doc No.</strong>  </td>
                 </tr>
                 <tr>
-                    <td colspan="5"> CUSTOMER COMPLAINT REPORT</td>
+                    <td colspan="5"> CUSTOMER COMPLAINT INVESTIGATION REPORT</td>
                 </tr>
             </tbody>
         </table>

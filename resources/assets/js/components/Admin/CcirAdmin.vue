@@ -3,7 +3,7 @@
         <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="card-body table-full-width table-responsive">
             <div class="card-header mb-3">
-                <h4 class="card-title">Customer Complaint Inforamtion Report</h4>
+                <h4 class="card-title">Customer Complaint Investigation Report</h4>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -54,7 +54,7 @@
                             <span  v-if="ccir.nature_of_complaint == 1"> Wet/Lumpy </span>
                             <span  v-else-if="ccir.nature_of_complaint == 2"> Busted bag </span>
                             <span  v-else-if="ccir.nature_of_complaint == 3"> Under/Over weight </span>
-                            <span  v-else-if="ccir.nature_of_complaint == 4"> Interested </span>
+                            <span  v-else-if="ccir.nature_of_complaint == 4"> Infested </span>
                             <span  v-else-if="ccir.nature_of_complaint == 5"> Dirty packaging </span>
                             <span  v-else> Others </span>
                         </td>

@@ -36,7 +36,7 @@ class HomeController extends Controller
      */
     public function ccir_index()
     {
-        return view('ccir.index', ['location' => 'Customer Complaint Report']);
+        return view('ccir.index', ['location' => 'Customer Complaint Investigation Report']);
     }
     
     /**
@@ -86,7 +86,7 @@ class HomeController extends Controller
      */
     public function ncn_index()
     {
-        return view('ncn.index', ['location' => 'Non Conformance Notification']);
+        return view('ncn.index', ['location' => 'Non-Conformance Notification']);
     }
 
     /**

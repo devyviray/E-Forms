@@ -49,8 +49,8 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" @click="viewNcn(ncn.id)" href="javascript:void(0)">View</a>
                                     <a v-if="ncn.status == 4" @click="getNcnId(ncn.id)"  class="dropdown-item" data-toggle="modal" data-target="#validateNcnModal" href="javascript:void(0)">Validate</a>
-                                    <a class="dropdown-item" href="#">Mark as archive</a>
-                                    <a class="dropdown-item" href="#">Cancel document</a>
+                                    <!-- <a class="dropdown-item" href="#">Mark as archive</a>
+                                    <a class="dropdown-item" href="#">Cancel document</a> -->
                                 </div>
                             </div>
                         </td>

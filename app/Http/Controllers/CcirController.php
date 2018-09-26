@@ -40,7 +40,7 @@ class CcirController extends Controller
      */
     public function create()
     {
-        return view('ccir.form', ['location' => 'Customer Complaint Report'] );
+        return view('ccir.form', ['location' => 'Customer Complaint Investigation Report'] );
     }
 
      /**
@@ -170,7 +170,7 @@ class CcirController extends Controller
     */
     public function showDetailsCcir($ccir_id)
     {
-        return view('ccir.view', ['location' => 'Customer Complaint Report']);
+        return view('ccir.view', ['location' => 'Customer Complaint Investigation Report']);
     }
 
     /**
@@ -213,7 +213,7 @@ class CcirController extends Controller
      */
     public function ccirAdminPage()
     {
-        return view('admin.admin-ccir', ['location' => 'Customer Complaint Report']);
+        return view('admin.admin-ccir', ['location' => 'Customer Complaint Investigation Report']);
     }
 
     /**
@@ -235,7 +235,7 @@ class CcirController extends Controller
      */
     public function ccirDetails($id)
     {
-        $location = 'Customer Complaint Report';
+        $location = 'Customer Complaint Investigation Report';
         return view('admin.admin-ccir-details',  compact('id', 'location'));
     }
 

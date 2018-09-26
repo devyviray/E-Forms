@@ -31,7 +31,7 @@
                 <td colspan="2"> </td>
             </tr>
             <tr>
-                <td colspan="5"> CUSTOMER COMPLAINT REPORT </td>
+                <td colspan="5"> CUSTOMER COMPLAINT INVESTIGATION REPORT </td>
             </tr>
         </table>
 

@@ -27,7 +27,7 @@
                                         <td>{{ ncns }}</td>
                                     </tr>
                                     <tr>
-                                        <td><a :href="viewCcir"> Customer complaint information report </a> </td>
+                                        <td><a :href="viewCcir"> Customer complaint investigation report </a> </td>
                                         <td>{{ ccirs }}</td>
                                     </tr>
                                 </tbody>

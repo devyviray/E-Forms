@@ -2,7 +2,7 @@
     <div id="page-content-wrapper">
         <div class="container-fluid">
             <hr>
-            NON CONFORMANCE NOTIFICATION
+            NON-CONFORMANCE NOTIFICATION
             <table class="table table-bordered">
                 <tbody>
                     <tr>

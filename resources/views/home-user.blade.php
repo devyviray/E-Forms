@@ -45,7 +45,7 @@
                 <a href="{{route('ccir')}}">
                     <div class="card ">
                         <div class="card-header ">
-                            <h4 class="card-title">Customer Complaint Information Report</h4>
+                            <h4 class="card-title">Customer Complaint Investigation Report</h4>
                         </div>
                         <hr>
                         <div class="card-body text-center">

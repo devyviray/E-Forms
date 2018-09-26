@@ -32,7 +32,7 @@
                             <span  v-if="ccirSubmitted.nature_of_complaint == 1"> Wet/Lumpy </span>
                             <span  v-else-if="ccirSubmitted.nature_of_complaint == 2"> Busted bag </span>
                             <span  v-else-if="ccirSubmitted.nature_of_complaint == 3"> Under/Over weight </span>
-                            <span  v-else-if="ccirSubmitted.nature_of_complaint == 4"> Interested </span>
+                            <span  v-else-if="ccirSubmitted.nature_of_complaint == 4"> Infested </span>
                             <span  v-else-if="ccirSubmitted.nature_of_complaint == 5"> Dirty packaging </span>
                             <span  v-else> Others </span>
                         </td>
