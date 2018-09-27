@@ -77,10 +77,12 @@ class DdrController extends Controller
      */
     public function store(Request $request)
     {   
+        $rules = $request->input('reason') == 3 ? 'required' : '';
         $validator = $request->validate([
             'company_id' => 'required',
             'department_id' => 'required' ,
             'reason' => 'required',
+            'others' => $rules,
             'date_needed' => 'required',
             "ddrlists.*.document_title"  => "required",
             "ddrlists.*.control_code"  => "required",
@@ -89,7 +91,6 @@ class DdrController extends Controller
             "ddrlists.*.copy_holder"  => "required",
             'approver_id' => 'required' 
         ]);
-        $request->input('reason') == 3 ? $request->validate(['others' => 'required']) : '' ;
 
         $ddr = new Ddr;
         $carbon = new Carbon();

@@ -76,13 +76,15 @@ class CcirController extends Controller
      */
     public function store(Request $request)
     {
-        $validator  = $request->validate([
+        $rules = $request->input('nature_of_complaint') == 6 ? 'required' : '';
+        $request->validate([
             'complainant' => 'required',
             'company' => 'required',
             'commodity' => 'required',
             'product_control_number' => 'required',
             'delivery_date' => 'required',
             'nature_of_complaint' => 'required',
+            'others' =>  $rules,
             'other_details' => 'required',
             'delivery_date' => 'required',
             'affected_quantity' => 'required|integer',
@@ -90,7 +92,7 @@ class CcirController extends Controller
             'returned_date' => 'required',
             'attachments' => 'required'
         ]);
-
+        
         $ccirs  = new Ccir;
         $carbon = new Carbon();
         $ccirs->requester_id = Auth::user()->id;
@@ -101,6 +103,7 @@ class CcirController extends Controller
         $ccirs->date_request = $carbon::now();
         $ccirs->delivery_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('delivery_date'));   
         $ccirs->nature_of_complaint = $request->input('nature_of_complaint');
+        $ccirs->others = $request->input('nature_of_complaint') == 6 ? $request->input('others') : '';
         $ccirs->other_details = $request->input('other_details');
         $ccirs->affected_quantity = $request->input('affected_quantity');
         $ccirs->quality_of_sample = $request->input('quality_of_sample');

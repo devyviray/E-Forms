@@ -28,7 +28,7 @@
                                     <label for="others" class="col-sm-2 col-form-label">Others (Please specify)</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ddr.others">
-                                        <span class="error" v-if="errors.type">{{ errors.type[0] }}</span>
+                                        <span class="error" v-if="errors.others">{{ errors.others[0] }}</span>
                                     </div>
                                 </div>
                             </div>

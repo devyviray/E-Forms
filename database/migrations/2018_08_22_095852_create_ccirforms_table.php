@@ -25,6 +25,7 @@ class CreateCcirformsTable extends Migration
             $table->datetime('delivery_date');
             $table->datetime('returned_date')->nullable();
             $table->integer('nature_of_complaint');
+            $table->string('others')->nullable();
             $table->string('other_details');
             $table->integer('affected_quantity');
             $table->string('quality_of_sample');

@@ -67,6 +67,11 @@ Vue.component('ccir-view', require('./components/Ccir/CcirView.vue'));
 
 Vue.component('notified', require('./components/Ncn/Notified.vue'));
 
+
+Vue.prototype.$pendingsForReviewer = '12';
+Vue.prototype.$pendingsForApprover = 100;
+Vue.prototype.$http = "terter";
+
 const app = new Vue({
     el: '#app'
 });

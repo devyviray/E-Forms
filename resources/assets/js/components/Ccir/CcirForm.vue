@@ -87,7 +87,7 @@
                                 <div class="form-group row">
                                     <label for="nature_of_complaint" class="col-sm-2 col-form-label">Nature of Complaint</label>
                                     <div class="col-sm-10">
-                                        <select v-model="ccir.nature_of_complaint" class="form-control form-control-lg">
+                                        <select v-model="ccir.nature_of_complaint" @change="selectedReason(ccir.nature_of_complaint)" class="form-control form-control-lg">
                                             <option value="" disabled selected>Nature of Complaint</option>
                                             <option value="1">Wet/Lumpy</option>
                                             <option value="2">Busted bag</option>
@@ -97,6 +97,14 @@
                                             <option value="6">Others</option>
                                         </select>
                                         <span class="error"  v-if="errors.nature_of_complaint">{{ errors.nature_of_complaint[0] }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" v-if="others == 1">
+                                    <label for="others" class="col-sm-2 col-form-label">Others (Please specify)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ccir.others">
+                                        <span class="error" v-if="errors.others">{{ errors.others[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -184,6 +192,7 @@ export default {
                 delivery_date: '',
                 returned_date: '',
                 nature_of_complaint: '',
+                others: ' ',
                 other_details: '',
                 affected_quantity: '', 
                 quality_of_sample: '',
@@ -192,6 +201,7 @@ export default {
                 status: '',
                 remarks: '',
             },
+            others: '',
             companies: [],
             attachments: [],
             formData: new FormData(),
@@ -243,6 +253,7 @@ export default {
             this.formData.append('product_control_number', ccir.product_control_number);
             this.formData.append('delivery_date', ccir.delivery_date);
             this.formData.append('nature_of_complaint', ccir.nature_of_complaint);
+            this.formData.append('others', ccir.others);
             this.formData.append('other_details', ccir.other_details);
             this.formData.append('delivery_date', ccir.delivery_date);
             this.formData.append('affected_quantity', ccir.affected_quantity);
@@ -266,6 +277,9 @@ export default {
                 this.errors = error.response.data.errors;
             });
         },
+        selectedReason(id){
+           id == 6 ? this.others = 1 : this.others = 2; 
+        }
     },
      components: {
          Datepicker,

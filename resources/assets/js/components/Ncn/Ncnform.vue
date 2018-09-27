@@ -39,7 +39,7 @@
                                 <div class="form-group row">
                                     <label for="non_conformity_types" class="col-sm-2 col-form-label">Type of Non Conformity</label>
                                     <div class="col-sm-10">
-                                        <select v-model="ncn.non_conformity_types" class="form-control form-control-lg" id="non_conformity_types">
+                                        <select v-model="ncn.non_conformity_types" class="form-control form-control-lg" id="non_conformity_types" @change="selectedReason(ncn.non_conformity_types)">
                                             <option value="" disabled selected>Select type</option>
                                             <option value="1">Customer - Returns</option>
                                             <option value="2">Objective not Met</option>
@@ -49,8 +49,17 @@
                                             <option value="6">Others</option>
                                         </select>
                                         <span class="error" v-if="errors.non_conformity_types">{{ errors.non_conformity_types[0] }}</span>
-                                    </div>  
+                                    </div>
                                 </div>
+                                
+                                <div class="form-group row" v-if="others == 1">
+                                    <label for="others" class="col-sm-2 col-form-label">Others (Please specify)</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ncn.others">
+                                        <span class="error" v-if="errors.others">{{ errors.others[0] }}</span>
+                                    </div>
+                                </div>
+                                
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -172,8 +181,10 @@ export default {
                 non_conformity_details: '',
                 attached_files: '', 
                 status: '',
-                remarks: ''
+                remarks: '',
+                others: '',
             },
+            others: ' ',
             companies: [],
             company:{
                 id: '',
@@ -281,6 +292,7 @@ export default {
             this.formData.append('recurrence_number', ncn.recurrence_number);
             this.formData.append('approver_id', approver.id);
             this.formData.append('issuance_date', ncn.issuance_date);
+            this.formData.append('others', ncn.others);
             
             axios.post('/ncn', this.formData)
             .then(response => {
@@ -297,6 +309,9 @@ export default {
                 this.isLoading = false;
                 this.errors = error.response.data.errors;
             });
+        },
+        selectedReason(id){
+           id == 6 ? this.others = 1 : this.others = 2; 
         }
     },
      components: {

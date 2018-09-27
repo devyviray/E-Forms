@@ -76,6 +76,7 @@ class NcnController extends Controller
      */
     public function store(Request $request)
     {   
+        $rules = $request->input('non_conformity_types') == 6 ? 'required' : '';
         $request->validate([
             'company_id' => 'required',
             'department_id' => 'required',
@@ -87,6 +88,7 @@ class NcnController extends Controller
             'non_conformity_details' => 'required',
             'approver_id' => 'required',
             'attachments' => 'required',
+            'others' => $rules
         ]);
 
         $ncn = new Ncn;
@@ -103,6 +105,7 @@ class NcnController extends Controller
         $ncn->date_request = $carbon::now();
         $ncn->non_conformity_details = $request->input('non_conformity_details');
         $ncn->status = StatusType::SUBMITTED;
+        $ncn->others = $request->input('non_conformity_types') == 6 ? $request->input('others') : '';
 
 
         if($ncn->save()){

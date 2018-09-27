@@ -78,8 +78,11 @@ export default {
         }
     },
     created(){
+        console.log('global variable: ', this.$http)
         this.fetchDrdrsPendingReviews();
     },
+
+
     methods:{
         viewDrdr($id)
         {
