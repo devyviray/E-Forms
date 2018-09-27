@@ -165,7 +165,6 @@ class DdrController extends Controller
         $request->validate([
             'id' => 'required',
             'status' => 'required',
-            'remarks' => 'required'
         ]);
         
         $carbon = new Carbon();

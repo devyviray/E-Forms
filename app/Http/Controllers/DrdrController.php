@@ -346,7 +346,6 @@ class DrdrController extends Controller
                 'attachments' => 'required',
                 'status' => 'required',
                 'id' => 'required',
-                'remarks' => 'required',
             ]);
 
             $drdr->status = StatusType::APPROVED_REVIEWER;
@@ -376,7 +375,6 @@ class DrdrController extends Controller
             $request->validate([
                 'status' => 'required',
                 'id' => 'required',
-                'remarks' => 'required',
             ]);
 
             $drdr->status = StatusType::DISAPPROVED_REVIEWER;
@@ -409,7 +407,6 @@ class DrdrController extends Controller
 
         if($request->input('status') == 1){
             $request->validate([
-                'remarks' => 'required',
                 'attachments' => 'required',
                 'copy_number' => 'required',
                 'copy_holder' => 'required',
@@ -451,7 +448,6 @@ class DrdrController extends Controller
         }else{
 
             $request->validate([
-                'remarks' => 'required',
                 'status' => 'required',
                 'id' => 'required'
             ]);

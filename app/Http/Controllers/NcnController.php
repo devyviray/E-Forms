@@ -199,7 +199,6 @@ class NcnController extends Controller
 
             $request->validate([
                 'id' => 'required',
-                'remarks' => 'required',
                 'status' => 'required'
             ]);
 
