@@ -392,6 +392,22 @@ class NcnController extends Controller
         return $uploadedFile;
     }
 
+    /**
+     * Get notified upload files of ncn 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUploadedFilesNotified($drdrId,$notifiedId)
+    {
+        $uploadedFile =  UploadedFile::where('user_id', $notifiedId)
+            ->where('form_id', $drdrId)
+            ->where('role', 'notified')
+            ->where('model', 'App\Ncn')
+            ->get();
+
+        return $uploadedFile;
+    }
+
      /**
      * Download upload files/attachments of ncn 
      *

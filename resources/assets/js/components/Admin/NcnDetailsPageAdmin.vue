@@ -16,10 +16,16 @@
                         <option v-for="(approverAttachment, a) in approverAttachments" :value="approverAttachment.id" v-bind:key="a">{{ approverAttachment.file_name }}</option>
                     </select>
                 </div>
+                <div class="col-md-3" v-if="notifiedAttachments.length">
+                    <label for="approverAttachment">  Download Attachment - Notified </label>
+                    <select class="form-control" v-model="selectedAttachment" @change="downloadAttachment" id="norifiedAttachment">
+                        <option selected disabled> Download Attachment - Notified </option>
+                        <option v-for="(notifiedAttachment, n) in notifiedAttachments" :value="notifiedAttachment.id" v-bind:key="n">{{ notifiedAttachment.file_name }}</option>
+                    </select>
+                </div>
                 <div class="col-md-3" style="margin-top: 29px">
                     <a :href="hrefLink" target="_blank" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"> Print as PDF </a> 
                 </div>
-                <div class="col-md-3"></div>
             </div>
             <hr>
                 NON-CONFORMANCE NOTIFICATION
@@ -114,6 +120,7 @@ export default {
             ncns: [],
             requesterAttachments: [],
             approverAttachments: [],
+            notifiedAttachments: [],
             selectedAttachment: '',
             errors: '',
         }
@@ -130,6 +137,7 @@ export default {
                 this.ncns = response.data;
                 this.fetchUploadedFilesRequester();
                 this.fetchUploadedFilesApprover();
+                this.fetchUploadedFilesNotified();
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
@@ -150,6 +158,16 @@ export default {
             axios.get('/ncn-approver-attachments/'+this.ncns[0].id+'/'+this.ncns[0].approver_id)
             .then(response => {
                 this.approverAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
+        },
+        fetchUploadedFilesNotified(){
+
+            axios.get('/ncn-notified-attachments/'+this.ncns[0].id+'/'+this.ncns[0].notified_id)
+            .then(response => {
+                this.notifiedAttachments = response.data;
             })
             .catch(error => {
               this.errors = error.response.data.errors;

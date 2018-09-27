@@ -302,6 +302,8 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   Route::get('/ncn-requester-attachments/{ncnId}/{requesterId}', 'NcnController@getUploadedFilesRequester');
   // Get uploaded files of approver for ncn
   Route::get('/ncn-approver-attachments/{ncnId}/{approverId}', 'NcnController@getUploadedFilesApprover');
+  // Get uploaded files of notified for ncn
+  Route::get('/ncn-notified-attachments/{ncnId}/{notifiedId}', 'NcnController@getUploadedFilesNotified');
   // Generate ncns by date
   Route::post('/ncns-generate', 'NcnController@generate');
   // Get notified personnel for NCN 
