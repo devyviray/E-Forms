@@ -445,7 +445,7 @@ class NcnController extends Controller
 
     public function notifiedIndexData(){
 
-        $ncns = Ncn::with('requester')->whereNotIn('status', [StatusType::SUBMITTED, StatusType::DISAPPROVED_APPROVER])->where('notified_id', Auth::user()->id)->get();
+        $ncns = Ncn::with('requester')->whereNotIn('status', [StatusType::SUBMITTED, StatusType::DISAPPROVED_APPROVER])->where('notified_id', Auth::user()->id)->orderBy('id', 'desc')->get();
         
         return $ncns;
     }
@@ -460,7 +460,8 @@ class NcnController extends Controller
       
         $request->validate([
             'id' => 'required',
-            'action_taken' => 'required'
+            'action_taken' => 'required',
+            'attachments' => 'required',
         ]);
 
         $ncn = Ncn::findOrFail($request->input('id'));
@@ -475,6 +476,18 @@ class NcnController extends Controller
             $emails = [$requester, $approver];
 
             \Notification::send($emails , new NotifiedNcn($ncn, $requester, Auth::user()));
+
+            $attachments = $request->file('attachments');   
+            foreach($attachments as $attachment){
+                $filename = $attachment->getClientOriginalName();
+                $path = $attachment->store('ncn');
+                $role = 'notified';
+     
+
+                $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
+            } 
+
+
             return ['redirect' => route('notified')];
         }
     }

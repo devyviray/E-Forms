@@ -86,6 +86,13 @@
                         <textarea style="height: 100px" v-model="ncn.action_taken" class="form-control" id="action"></textarea>
                         <span class="error" v-if="errors.action_taken">{{ errors.action_taken[0] }}</span>
                     </div>
+                    <div class="form-group row">
+                        <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
+                        <div class="col-sm-9">
+                            <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
+                            <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-round btn-fill" data-dismiss="modal">Close</button>
@@ -96,11 +103,15 @@
         </div>
     </div>
 </template>
+<style src="cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css"></style>
 
 <script>
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import SpinnerLoading from '../SpinnerLoading';
+import CxltToastr from 'cxlt-vue2-toastr';
+Vue.use(CxltToastr);
+
 
 export default {
     components:{
@@ -114,6 +125,8 @@ export default {
                 id: ' ',
                 action_taken: ' ' 
             },
+            attachments: [],
+            formData: new FormData(),
             keywords: '',
             errors:[],
             currentPage: 0,
@@ -148,24 +161,51 @@ export default {
                 this.errors = error.response.data.errors;
             });
         },
+        prepareFields(){
+            if(this.attachments.length > 0){
+                    for(var i = 0; i < this.attachments.length; i++){
+                        let attachment = this.attachments[i];
+                        this.formData.append('attachments[]', attachment);
+                    }
+                } 
+            },
+        uploadFileChange(e){
+            var files = e.target.files || e.dataTransfer.files;
+
+            if(!files.length)
+                return;
+            
+            for (var i = files.length - 1; i >= 0; i--){
+                this.attachments.push(files[i]);
+            }
+        },
+        resetData(){
+            this.formData = new FormData();
+            this.attachments = [];  
+        },
         validateNcn(ncn){
             if(ncn.action_taken != ' '){
                 $('#validateNcnModal').modal('hide');
                 this.isLoading = true;
             }
-            axios.post('/notified/ncn-notified', { 
-                'id': ncn.id,
-                'action_taken': ncn.action_taken
-            })
+            this.prepareFields();
+            this.formData.append('id', ncn.id);
+            this.formData.append('action_taken', ncn.action_taken);
+            axios.post('/notified/ncn-notified', this.formData)
             .then(response=> {
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'NCN Succesfully Validated',
+                    position: 'top right'
+                });
+                this.resetData();
                 this.selected_id = ' ';
                 this.ncn.id = ' ';
                 this.ncn.action_taken =  ' ';
                 window.location.href = response.data.redirect;
-                this.isLoading = false;
             })
             .catch(error => { 
-                this.isLoading = false;
                 this.errors = error.response.data.errors;
             })
         },
