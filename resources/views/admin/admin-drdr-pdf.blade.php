@@ -129,10 +129,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td> {{ $drdr[0]->copy_number  }} </td>
-                    <td> {{ $drdr[0]->copy_holder  }} </td>		
-                </tr>
+                @if($drdr[0]->drdrCopyholders)
+                    @foreach($drdr[0]->drdrCopyholders as $drdr_copyholder)
+                        <tr>
+                            <td> {{ $drdr_copyholder->copy_number  }} </td>
+                            <td> {{ $drdr_copyholder->copy_holder  }} </td>		
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td>  </td>
+                        <td> </td>		
+                    </tr>
+                @endif
                 <tr>
                     <td></td>
                     <td></td>

@@ -163,10 +163,10 @@
                                 <td>Copyholder (Department)</td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-if="drdrs[0].copy_number" >
-                                <td> {{ drdrs[0].copy_number }} </td>
-                                <td> {{ drdrs[0].copy_holder }} </td>
+                        <tbody v-if="drdrs[0].drdr_copyholders">
+                            <tr v-for="(drdr, d) in drdrs[0].drdr_copyholders" v-bind:key="d">
+                                <td> {{ drdr.copy_number }} </td>
+                                <td> {{ drdr.copy_holder }} </td>
                             </tr>
                         </tbody>
                     </table>

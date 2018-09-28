@@ -46,4 +46,8 @@ class Drdr extends Model
     {
         return $this->belongsTO('App\Company');
     }
+
+    public function drdrCopyholders(){
+        return $this->hasMany('App\DrdrformsCopyholder', 'form_id');
+    }
 }

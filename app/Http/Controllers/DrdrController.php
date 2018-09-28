@@ -200,7 +200,7 @@ class DrdrController extends Controller
     */
     public function data($id)
     {
-        $drdr = Drdr::with(['company', 'requester', 'approver', 'reviewer', 'distributed'])
+        $drdr = Drdr::with(['company', 'requester', 'approver', 'reviewer', 'distributed', 'drdrCopyholders'])
                 ->where('id', $id)
                 ->get();
 
