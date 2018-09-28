@@ -11,8 +11,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="request_type" class="col-sm-2 col-form-label">Type of request</label>
-                                    <div class="col-sm-10">
+                                    <label for="request_type" class="col-sm-3 col-form-label">Type of request</label>
+                                    <div class="col-sm-9">
                                         <select v-model="drdr.type" class="form-control form-control-lg" @change="selectedType()" id="request_type">
                                             <option value="" disabled selected>Select Type</option>
                                             <option value="1">Proposal (For proposed)</option>
@@ -25,8 +25,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="rev_number" class="col-sm-2 col-form-label">Current Rev No.</label>
-                                    <div class="col-sm-10">
+                                    <label for="rev_number" class="col-sm-3 col-form-label">Current Rev No.</label>
+                                    <div class="col-sm-9">
                                         <input type="textrev_number" class="form-control" placeholder="Rev. No." v-model="drdr.rev_number" id="rev_number">
                                         <span class="error" v-if="errors.rev_number">{{ errors.rev_number[0] }}</span>
                                     </div>
@@ -36,8 +36,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="effective_date" class="col-sm-2 col-form-label">Effecttive date</label>
-                                    <div class="col-sm-10">
+                                    <label for="effective_date" class="col-sm-3 col-form-label">Effecttive date</label>
+                                    <div class="col-sm-9">
                                         <datepicker  placeholder="Select Effective Date" v-model="drdr.effective_date" id="effective_date"></datepicker>
                                         <span class="error" v-if="errors.effective_date">{{ errors.effective_date[0] }}</span>
                                     </div>
@@ -45,8 +45,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="effective_date" class="col-sm-2 col-form-label">Company</label>
-                                    <div class="col-sm-10">
+                                    <label for="effective_date" class="col-sm-3 col-form-label">Company</label>
+                                    <div class="col-sm-9">
                                         <select v-model="company.id" class="form-control form-control-lg" id="company">
                                             <option value="" disabled selected>Select Company</option>
                                             <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name }}</option>
@@ -59,8 +59,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="effective_date" class="col-sm-2 col-form-label">Location</label>
-                                    <div class="col-sm-10">
+                                    <label for="effective_date" class="col-sm-3 col-form-label">Location</label>
+                                    <div class="col-sm-9">
                                         <select v-model="company.location" class="form-control form-control-lg" @change="fetchReviewers(company.location)"  id="company">
                                             <option value="" disabled selected>Select  Company Location</option>
                                             <option v-for="(loc, c) in selectedLocation" :value="loc.id" v-bind:key="c">{{ loc.address }}</option>
@@ -71,8 +71,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="document_title" class="col-sm-2 col-form-label">Document title</label>
-                                    <div class="col-sm-10">
+                                    <label for="document_title" class="col-sm-3 col-form-label">Document title</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" placeholder="Document Title" v-model="drdr.document_title" id="document_title">
                                         <span class="error" v-if="errors.document_title">{{ errors.document_title[0] }}</span>
                                     </div>
@@ -82,8 +82,8 @@
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label for="reason_request" class="col-sm-2 col-form-label">Reason</label>
-                                        <div class="col-sm-10">
+                                        <label for="reason_request" class="col-sm3 col-form-label">Reason</label>
+                                        <div class="col-sm-9">
                                             <textarea class="form-control" v-model="drdr.reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
                                             <span class="error" v-if="errors.reason_request">{{ errors.reason_request[0] }}</span>
                                         </div>
@@ -91,8 +91,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label for="reviewer" class="col-sm-2 col-form-label">Reviewer</label>
-                                        <div class="col-sm-10">
+                                        <label for="reviewer" class="col-sm-3 col-form-label">Reviewer</label>
+                                        <div class="col-sm-9">
                                             <select v-model="reviewer.id" class="form-control form-control-lg" id="reviewer">
                                                 <option value="" disabled selected>Select Reviewer</option>
                                                 <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
@@ -105,8 +105,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
-                                    <div class="col-sm-10">
+                                    <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
+                                    <div class="col-sm-9">
                                         <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
                                         <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>

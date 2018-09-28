@@ -42,8 +42,8 @@
                     <div class="row mb-2">
                         <div class="col-md-12">
                             <div class="form-group row">
-                                <label for="selectedAttachment" class="col-sm-2 col-form-label">Download Attachment - Reviewer</label>
-                                <div class="col-sm-10">
+                                <label for="selectedAttachment" class="col-sm-3 col-form-label">Download Attachment - Reviewer</label>
+                                <div class="col-sm-9">
                                     <select class="form-control form-control-lg" v-if="reviewerAttachments.length" v-model="selectedAttachment" @change="downloadAttachment" id="selectedAttachment">
                                         <option selected disabled> Download Attachment - Reviewer </option>
                                         <option v-for="(reviewerAttachment, r) in reviewerAttachments" :value="reviewerAttachment.id" v-bind:key="r">{{ reviewerAttachment.file_name }}</option>
@@ -55,8 +55,8 @@
                     <div class="row mb-2">
                         <div class="col-md-12">
                             <div class="form-group row">
-                                <label for="status" class="col-sm-2 col-form-label">Status</label>
-                                <div class="col-sm-10">
+                                <label for="status" class="col-sm-3 col-form-label">Status</label>
+                                <div class="col-sm-9">
                                     <select v-model="drdr.status" class="form-control form-control-lg"  @change="selectedStatus" id="status">
                                         <option value="" disabled selected>Select Status</option>
                                         <option value="1">Approved</option>
@@ -70,8 +70,8 @@
                     <div class="row mb-2">
                         <div class="col-md-12">
                             <div class="form-group row">
-                                <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
-                                <div class="col-sm-10">
+                                <label for="remarks" class="col-sm-3 col-form-label">Remarks</label>
+                                <div class="col-sm-9">
                                     <textarea class="form-control" v-model="drdr.remarks" id="remarks" cols="30" rows="10"></textarea>
                                     <span class="error" v-if="errors.remarks">{{ errors.remarks[0] }}</span>
                                 </div>   
@@ -82,8 +82,8 @@
                         <div class="row mb-2">
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label for="remarks" class="col-sm-2 col-form-label">Effective Date</label>
-                                    <div class="col-sm-10">
+                                    <label for="remarks" class="col-sm-3 col-form-label">Effective Date</label>
+                                    <div class="col-sm-9">
                                         <datepicker placeholder="Select Date" v-model="drdrs[0].effective_date"></datepicker>
                                         <span class="error" v-if="errors.effective_date">{{ errors.effective_date[0] }}</span>
                                     </div>   
@@ -93,8 +93,8 @@
                         <div class="row mb-2">
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
-                                    <div class="col-sm-10">
+                                    <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
+                                    <div class="col-sm-9">
                                         <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
                                         <span class="error" v-if="errors.attachments"> {{ errors.attachments[0] }}</span>
                                     </div>   

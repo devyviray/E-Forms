@@ -68,8 +68,8 @@
                     <div class="row mb-2">
                         <div class="col-md-12">
                             <div class="form-group row">
-                                <label for="status" class="col-sm-2 col-form-label">Status</label>
-                                <div class="col-sm-10">
+                                <label for="status" class="col-sm-3 col-form-label">Status</label>
+                                <div class="col-sm-9">
                                     <select v-model="ddr.status" class="form-control form-control-lg" id=status>
                                         <option value="" disabled selected>Select Status</option>
                                         <option value="1">Approved</option>
@@ -83,8 +83,8 @@
                     <div class="row mb-2">
                         <div class="col-md-12">
                             <div class="form-group row">
-                                <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
-                                <div class="col-sm-10">
+                                <label for="remarks" class="col-sm-3 col-form-label">Remarks</label>
+                                <div class="col-sm-9">
                                     <textarea class="form-control" v-model="ddr.remarks" id="remarks" cols="30" rows="10"></textarea>
                                     <span class="error" v-if="errors.remarks">{{ errors.remarks[0] }}</span>
                                 </div>   

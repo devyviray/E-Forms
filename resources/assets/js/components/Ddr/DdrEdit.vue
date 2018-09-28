@@ -11,8 +11,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="reason_of_distribution" class="col-sm-2 col-form-label">Reason of distribution</label>
-                                    <div class="col-sm-10">
+                                    <label for="reason_of_distribution" class="col-sm-3 col-form-label">Reason of distribution</label>
+                                    <div class="col-sm-9">
                                         <div class="form-group mb-1">
                                             <select v-model="ddrs[0].reason_of_distribution" class="form-control form-control-lg" @change="selectedReason(ddrs[0].reason_of_distribution)" id="reason_of_distribution">
                                                 <option value="" disabled selected>Select Reason</option>
@@ -25,8 +25,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group row" v-if="ddrs[0].reason_of_distribution == 3 || others == 1">
-                                    <label for="others" class="col-sm-2 col-form-label">Others (Please specify)</label>
-                                    <div class="col-sm-10">
+                                    <label for="others" class="col-sm-3 col-form-label">Others (Please specify)</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ddrs[0].others" id="others">
                                         <span class="error" v-if="errors.others">{{ errors.others[0] }}</span>
                                     </div>
@@ -34,8 +34,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">                   
-                                    <label for="date_needed" class="col-sm-2 col-form-label">Date Needed</label>
-                                    <div class="col-sm-10">
+                                    <label for="date_needed" class="col-sm-3 col-form-label">Date Needed</label>
+                                    <div class="col-sm-9">
                                         <datepicker placeholder="Select Date Needed" v-model="ddrs[0].date_needed" id="date_needed"></datepicker>
                                         <span class="error" v-if="errors.date_needed">{{ errors.date_needed[0] }}</span>
                                     </div>    
@@ -45,8 +45,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="company" class="col-sm-2 col-form-label">Company</label>
-                                    <div class="col-sm-10">
+                                    <label for="company" class="col-sm-3 col-form-label">Company</label>
+                                    <div class="col-sm-9">
                                     <select v-model="ddrs[0].company.id" class="form-control form-control-lg" @change="getCompanyId(ddrs[0].company.id)" id="company">
                                         <option value="" disabled selected>Select Company</option>
                                         <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
@@ -57,8 +57,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="department" class="col-sm-2 col-form-label">Department</label>
-                                    <div class="col-sm-10">
+                                    <label for="department" class="col-sm-3 col-form-label">Department</label>
+                                    <div class="col-sm-9">
                                         <select v-model="ddrs[0].department.id" class="form-control form-control-lg"  @change="getDepartmentId(ddrs[0].department.id)" id="department">
                                             <option value="" disabled selected>Select Department</option>
                                             <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
@@ -108,8 +108,8 @@
                         <div class="row mb-2">
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label for="approver" class="col-sm-2 col-form-label">Approver</label>
-                                    <div class="col-sm-10">
+                                    <label for="approver" class="col-sm-3 col-form-label">Approver</label>
+                                    <div class="col-sm-9">
                                         <select v-model="ddrs[0].approver.id" class="form-control form-control-lg" id="approver">
                                             <option value="" disabled selected>Select Approver</option>
                                             <option v-for="(approver, a) in approvers" v-bind:key="a" :value="approver.id">{{ approver.name }}</option>

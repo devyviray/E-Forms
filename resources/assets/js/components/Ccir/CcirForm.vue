@@ -12,8 +12,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="complainant" class="col-sm-2 col-form-label">Complainant</label>
-                                    <div class="col-sm-10">
+                                    <label for="complainant" class="col-sm-3 col-form-label">Complainant</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" v-model="ccir.complainant" id="complainant" placeholder="Complainant">
                                         <span class="error" v-if="errors.complainant">{{ errors.complainant[0] }}</span> 
                                     </div>
@@ -21,8 +21,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="company" class="col-sm-2 col-form-label">Company</label>
-                                    <div class="col-sm-10">
+                                    <label for="company" class="col-sm-3 col-form-label">Company</label>
+                                    <div class="col-sm-9">
                                         <select v-model="ccir.company_id" class="form-control form-control-lg">
                                             <option value="" disabled selected>Select Company</option>
                                             <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name }}</option>
@@ -35,8 +35,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="companyLocation" class="col-sm-2 col-form-label">Location</label>
-                                    <div class="col-sm-10">
+                                    <label for="companyLocation" class="col-sm-3 col-form-label">Location</label>
+                                    <div class="col-sm-9">
                                         <select v-model="ccir.company_location" class="form-control form-control-lg"  id="companyLocation">
                                             <option value="" disabled selected>Select  Company Location</option>
                                             <option v-for="(loc, c) in selectedLocation" :value="loc.id" v-bind:key="c">{{ loc.address }}</option>
@@ -47,8 +47,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="commodity" class="col-sm-2 col-form-label">Commodity</label>
-                                    <div class="col-sm-10">
+                                    <label for="commodity" class="col-sm-3 col-form-label">Commodity</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" v-model="ccir.commodity" id="commodity">
                                         <span class="error" v-if="errors.commodity">{{ errors.commodity[0] }}</span>
                                     </div>
@@ -58,8 +58,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="product_control_number" class="col-sm-2 col-form-label">Product control number</label>
-                                    <div class="col-sm-10">
+                                    <label for="product_control_number" class="col-sm-3 col-form-label">Product control number</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" v-model="ccir.product_control_number" id="product_control_number">
                                         <span class="error" v-if="errors.product_control_number">{{ errors.product_control_number[0] }}</span>
                                     </div>
@@ -67,8 +67,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="affected_quantity" class="col-sm-2 col-form-label">Affected Quantity</label>
-                                    <div class="col-sm-10">
+                                    <label for="affected_quantity" class="col-sm-3 col-form-label">Affected Quantity</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" v-model="ccir.affected_quantity" id="affected_quantity">
                                         <span class="error" v-if="errors.affected_quantity">{{ errors.affected_quantity[0] }}</span>
                                     </div>   
@@ -78,8 +78,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="delivery_date" class="col-sm-2 col-form-label">Delivery date</label>
-                                    <div class="col-sm-10">
+                                    <label for="delivery_date" class="col-sm-3 col-form-label">Delivery date</label>
+                                    <div class="col-sm-9">
                                         <datepicker v-model="ccir.delivery_date" id="delivery_date" placeholder="Select delivery date"></datepicker>
                                         <span class="error" v-if="errors.delivery_date">{{ errors.delivery_date[0] }}</span>
                                     </div>
@@ -87,8 +87,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="quality_of_sample" class="col-sm-2 col-form-label">Quantity of sample</label>
-                                    <div class="col-sm-10">
+                                    <label for="quality_of_sample" class="col-sm-3 col-form-label">Quantity of sample</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" v-model="ccir.quality_of_sample" id="quality_of_sample">
                                         <span class="error" v-if="errors.affected_quantity">{{ errors.affected_quantity[0] }}</span>
                                     </div>  
@@ -98,8 +98,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="nature_of_complaint" class="col-sm-2 col-form-label">Nature of Complaint</label>
-                                    <div class="col-sm-10">
+                                    <label for="nature_of_complaint" class="col-sm-3 col-form-label">Nature of Complaint</label>
+                                    <div class="col-sm-9">
                                         <select v-model="ccir.nature_of_complaint" @change="selectedReason(ccir.nature_of_complaint)" class="form-control form-control-lg">
                                             <option value="" disabled selected>Nature of Complaint</option>
                                             <option value="1">Wet/Lumpy</option>
@@ -114,8 +114,8 @@
                                 </div>
 
                                 <div class="form-group row" v-if="others == 1">
-                                    <label for="others" class="col-sm-2 col-form-label">Others (Please specify)</label>
-                                    <div class="col-sm-10">
+                                    <label for="others" class="col-sm-3 col-form-label">Others (Please specify)</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ccir.others">
                                         <span class="error" v-if="errors.others">{{ errors.others[0] }}</span>
                                     </div>
@@ -124,8 +124,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="returned_date" class="col-sm-2 col-form-label">Returned Date</label>
-                                    <div class="col-sm-10">
+                                    <label for="returned_date" class="col-sm-3 col-form-label">Returned Date</label>
+                                    <div class="col-sm-9">
                                         <datepicker v-model="ccir.returned_date" placeholder="Select returned date" id="returned_date"></datepicker>
                                         <span class="error" v-if="errors.returned_date">{{ errors.returned_date[0] }}</span>
                                     </div>
@@ -135,8 +135,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="other_details" class="col-sm-2 col-form-label">Other Details</label>
-                                    <div class="col-sm-10">
+                                    <label for="other_details" class="col-sm-3 col-form-label">Other Details</label>
+                                    <div class="col-sm-9">
                                         <textarea  class="form-control" v-model="ccir.other_details" id="other_details"></textarea>
                                         <span class="error" v-if="errors.other_details">{{ errors.other_details[0] }}</span>
                                     </div>
@@ -144,8 +144,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
-                                    <div class="col-sm-10">
+                                    <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
+                                    <div class="col-sm-9">
                                         <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
                                         <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>

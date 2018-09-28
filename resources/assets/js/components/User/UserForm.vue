@@ -11,8 +11,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="name" class="col-sm-2 col-form-label">Name</label>
-                                    <div class="col-sm-10">
+                                    <label for="name" class="col-sm-3 col-form-label">Name</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" placeholder="Name" v-model="user.name" id="name">
                                         <span class="error" v-if="errors.name">{{ errors.name[0] }}</span>
                                     </div>
@@ -20,8 +20,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="email" class="col-sm-2 col-form-label">Email address</label>
-                                    <div class="col-sm-10">
+                                    <label for="email" class="col-sm-3 col-form-label">Email address</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" placeholder="Email" v-model="user.email" id="email">
                                         <span class="error" v-if="errors.email">{{ errors.email[0] }}</span>
                                     </div>
@@ -31,8 +31,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="password" class="col-sm-2 col-form-label">Password</label>
-                                    <div class="col-sm-10">
+                                    <label for="password" class="col-sm-3 col-form-label">Password</label>
+                                    <div class="col-sm-9">
                                         <input type="password" class="form-control"  v-model="user.password" id="password">
                                         <span class="error" v-if="errors.password">{{ errors.password[0] }}</span>
                                     </div>
@@ -40,8 +40,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="position" class="col-sm-2 col-form-label">Position</label>
-                                    <div class="col-sm-10">
+                                    <label for="position" class="col-sm-3 col-form-label">Position</label>
+                                    <div class="col-sm-9">
                                         <input type="position" class="form-control" placeholder="Position" v-model="user.position" id="position">
                                         <span class="error" v-if="errors.position">{{ errors.position[0] }}</span>
                                     </div>
@@ -51,8 +51,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="selected_company" class="col-sm-2 col-form-label">Company</label>
-                                    <div class="col-sm-10">
+                                    <label for="selected_company" class="col-sm-3 col-form-label">Company</label>
+                                    <div class="col-sm-9">
                                         <multiselect
                                             v-model="selected_company"
                                             :options="companies"
@@ -69,8 +69,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="selected_department" class="col-sm-2 col-form-label">Department</label>
-                                    <div class="col-sm-10">
+                                    <label for="selected_department" class="col-sm-3 col-form-label">Department</label>
+                                    <div class="col-sm-9">
                                         <select v-model="selected_department" class="form-control form-control-lg" id="selected_department">
                                             <option value="" disabled selected>Select department</option>
                                             <option v-for="department in departments" v-bind:key="department.id" :value="department.id">
@@ -85,8 +85,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="selected_role" class="col-sm-2 col-form-label">Role</label>
-                                    <div class="col-sm-10">
+                                    <label for="selected_role" class="col-sm-3 col-form-label">Role</label>
+                                    <div class="col-sm-9">
                                         <multiselect
                                             v-model="selected_role"
                                             :options="roles"
