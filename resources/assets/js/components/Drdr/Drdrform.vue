@@ -47,9 +47,9 @@
                                 <div class="form-group row">
                                     <label for="effective_date" class="col-sm-2 col-form-label">Company</label>
                                     <div class="col-sm-10">
-                                        <select v-model="company.id" class="form-control form-control-lg" @change="fetchReviewers(company.id)"  id="company">
+                                        <select v-model="company.id" class="form-control form-control-lg" id="company">
                                             <option value="" disabled selected>Select Company</option>
-                                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
+                                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name }}</option>
                                         </select>
                                         <span class="error" v-if="errors.company_id">{{ errors.company_id[0] }}</span>
                                     </div>
@@ -59,6 +59,18 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
+                                    <label for="effective_date" class="col-sm-2 col-form-label">Location</label>
+                                    <div class="col-sm-10">
+                                        <select v-model="company.location" class="form-control form-control-lg" @change="fetchReviewers(company.location)"  id="company">
+                                            <option value="" disabled selected>Select  Company Location</option>
+                                            <option v-for="(loc, c) in selectedLocation" :value="loc.id" v-bind:key="c">{{ loc.address }}</option>
+                                        </select>
+                                        <span class="error" v-if="errors.company_location">{{ errors.company_location[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
                                     <label for="document_title" class="col-sm-2 col-form-label">Document title</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" placeholder="Document Title" v-model="drdr.document_title" id="document_title">
@@ -66,29 +78,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="reason_request" class="col-sm-2 col-form-label">Reason</label>
-                                    <div class="col-sm-10">
-                                        <textarea class="form-control" v-model="drdr.reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
-                                        <span class="error" v-if="errors.reason_request">{{ errors.reason_request[0] }}</span>
-                                    </div>
-                                </div>
-                             </div>
                         </div>
                             <div class="row mb-2">
                                 <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="reviewer" class="col-sm-2 col-form-label">Reviewer</label>
-                                    <div class="col-sm-10">
-                                        <select v-model="reviewer.id" class="form-control form-control-lg" id="reviewer">
-                                            <option value="" disabled selected>Select Reviewer</option>
-                                            <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
-                                        </select>
-                                        <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
+                                    <div class="form-group row">
+                                        <label for="reason_request" class="col-sm-2 col-form-label">Reason</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" v-model="drdr.reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
+                                            <span class="error" v-if="errors.reason_request">{{ errors.reason_request[0] }}</span>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="reviewer" class="col-sm-2 col-form-label">Reviewer</label>
+                                        <div class="col-sm-10">
+                                            <select v-model="reviewer.id" class="form-control form-control-lg" id="reviewer">
+                                                <option value="" disabled selected>Select Reviewer</option>
+                                                <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
+                                            </select>
+                                            <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
+                                        </div>
+                                    </div>
                             </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
@@ -97,11 +111,6 @@
                                         <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>
                                 </div>
-                             </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="form-group row"></div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row"></div>
@@ -156,10 +165,12 @@ export default {
             attachments: [],
             formData: new FormData(),
             companies: [],
+            locations: [],
             company:{
                 id: '',
                 name: '',
-                address: ''
+                address: '',
+                location: ''
             },
             reviewers: [],
             reviewer: {
@@ -177,7 +188,19 @@ export default {
     },
     created(){
         this.fetchCompanies();
+        this.fetchLocations();
     },
+    computed: {
+        selectedLocation() {
+            var findCompany = this.companies.find(item => item.id === this.company.id)
+            if(findCompany) {
+                return this.locations.filter(item => {
+                    return item.name === findCompany.name
+                })
+            }
+        }
+    },
+
     methods: {
         selectedType()
         {
@@ -209,6 +232,15 @@ export default {
           this.formData = new FormData();
           this.attachments = [];  
         },
+        fetchLocations() {
+            axios.get('/companyLocation')
+            .then(response => {
+                this.locations = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
         fetchCompanies(){
             axios.get('/companies')
             .then(response => {
@@ -229,12 +261,14 @@ export default {
         },
         addDrdr(drdr,company,reviewer){
             this.isLoading = true;
+            this.errors = [];
             this.prepareFields();
             this.formData.append('type', drdr.type);
             this.formData.append('document_title', drdr.document_title);
             this.formData.append('rev_number', drdr.rev_number);
             this.formData.append('reason_request', drdr.reason_request);
-            this.formData.append('company_id', company.id);
+            this.formData.append('company_id', company.location);
+            this.formData.append('company_location', company.location);
             this.formData.append('reviewer_id', reviewer.id);
             this.formData.append('effective_date', drdr.effective_date);
             axios.post('/drdr',this.formData)

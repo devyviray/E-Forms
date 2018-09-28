@@ -17,7 +17,7 @@
                 <thead>
                     <th>ID</th>
                     <th>Requester</th>
-                    <th>Brand Name</th>
+                    <th>Commodity</th>
                     <th>Nature of Complaint</th>
                     <th>Date of Issuance</th>
                     <th>Validity</th>
@@ -27,7 +27,7 @@
                     <tr v-for="ccirSubmitted in filteredQueues" v-bind:key="ccirSubmitted.id">
                         <td>{{ ccirSubmitted.id }}</td>
                         <td>{{ ccirSubmitted.requester.name }}</td>
-                        <td>{{ ccirSubmitted.brand_name }}</td>
+                        <td>{{ ccirSubmitted.commodity }}</td>
                         <td>
                             <span  v-if="ccirSubmitted.nature_of_complaint == 1"> Wet/Lumpy </span>
                             <span  v-else-if="ccirSubmitted.nature_of_complaint == 2"> Busted bag </span>

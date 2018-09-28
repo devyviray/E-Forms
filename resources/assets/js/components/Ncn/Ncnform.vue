@@ -13,14 +13,28 @@
                                 <div class="form-group row">
                                     <label for="company" class="col-sm-2 col-form-label">Company</label>
                                     <div class="col-sm-10">
-                                        <select v-model="company.id" class="form-control form-control-lg" @change="getCompanyId(company.id)" id="company">
+                                        <select v-model="company.id" class="form-control form-control-lg" id="company">
                                             <option value="" disabled selected>Select Company</option>
-                                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
+                                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name }}</option>
                                         </select>
-                                        <span class="error" v-if="errors.company_id">{{ errors.company_id[0] }}</span>
+                                        <span class="error" v-if="errors.company">{{ errors.company[0] }}</span>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="companyLocation" class="col-sm-2 col-form-label">Location</label>
+                                    <div class="col-sm-10">
+                                        <select v-model="company.location" class="form-control form-control-lg" @change="getCompanyId(company.location)" id="companyLocation">
+                                            <option value="" disabled selected>Select  Company Location</option>
+                                            <option v-for="(loc, c) in selectedLocation" :value="loc.id" v-bind:key="c">{{ loc.address }}</option>
+                                        </select>
+                                        <span class="error" v-if="errors.company_location">{{ errors.company_location[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="department" class="col-sm-2 col-form-label">Department</label>
@@ -29,12 +43,10 @@
                                             <option value="" disabled selected>Select Department</option>
                                             <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
                                         </select>
-                                        <span class="error" v-if="errors.department_id">{{ errors.department_id[0] }}</span>
+                                        <span class="error" v-if="errors.department">{{ errors.department[0] }}</span>
                                      </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="non_conformity_types" class="col-sm-2 col-form-label">Type of Non Conformity</label>
@@ -59,8 +71,9 @@
                                         <span class="error" v-if="errors.others">{{ errors.others[0] }}</span>
                                     </div>
                                 </div>
-                                
                             </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="notification_number" class="col-sm-2 col-form-label">Notification number</label>
@@ -70,8 +83,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="recurrence_number" class="col-sm-2 col-form-label">Reccurrence number</label>
@@ -81,6 +92,8 @@
                                     </div>   
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="issuance_date" class="col-sm-2 col-form-label">Issuance Date</label>
@@ -90,8 +103,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="approver" class="col-sm-2 col-form-label">Approver</label>
@@ -100,35 +111,30 @@
                                             <option value="" disabled selected>Select Approver</option>
                                             <option v-for="(approver, a) in approvers" :value="approver.id" v-bind:key="a">{{ approver.name }}</option>
                                         </select>
-                                        <span class="error" v-if="errors.approver_id">{{ errors.approver_id[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="non_conformity_details" class="col-sm-2 col-form-label">Details of Non-Conformity</label>
-                                    <div class="col-sm-10">
-                                        <textarea class="form-control" v-model="ncn.non_conformity_details" id="non_conformity_details"></textarea>
-                                        <span class="error" v-if="errors.non_conformity_details">{{ errors.non_conformity_details[0] }}</span>
+                                        <span class="error" v-if="errors.approver">{{ errors.approver[0] }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                             <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
-                                    <div class="col-sm-10">
-                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
-                                        <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="non_conformity_details" class="col-sm-2 col-form-label">Details of Non-Conformity</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" v-model="ncn.non_conformity_details" id="non_conformity_details"></textarea>
+                                            <span class="error" v-if="errors.non_conformity_details">{{ errors.non_conformity_details[0] }}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
+                                        <div class="col-sm-10">
+                                            <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
+                                            <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                         <button @click="addNcn(ncn, company, department, approver)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                     </form>
@@ -185,11 +191,13 @@ export default {
                 others: '',
             },
             others: ' ',
+            locations: [],
             companies: [],
             company:{
                 id: '',
                 name: '',
-                address: ''
+                address: '',
+                location: ''
             },
             departments: [],
             department:{
@@ -214,13 +222,33 @@ export default {
     },
     created(){
         this.fetchCompanies();
-        this.fetchDepartments();    
+        this.fetchDepartments();
+        this.fetchLocations();
+    },
+    computed: {
+        selectedLocation() {
+            var findCompany = this.companies.find(item => item.id === this.company.id)
+            if(findCompany) {
+                return this.locations.filter(item => {
+                    return item.name === findCompany.name
+                })
+            }
+        }
     },
     methods: {
         fetchDepartments(){
             axios.get('/departments')
             .then(response => {
                 this.departments = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
+        fetchLocations() {
+            axios.get('/companyLocation')
+            .then(response => {
+                this.locations = response.data;
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
@@ -283,14 +311,16 @@ export default {
         },
         addNcn(ncn , company, department, approver){
             this.isLoading = true;
+            this.errors = [];
             this.prepareFields();
             this.formData.append('non_conformity_details', ncn.non_conformity_details);
-            this.formData.append('company_id', company.id);
-            this.formData.append('department_id', department.id);
+            this.formData.append('company', company.location);
+            this.formData.append('company_location', company.location);
+            this.formData.append('department', department.id);
             this.formData.append('non_conformity_types', ncn.non_conformity_types);
             this.formData.append('notification_number', ncn.notification_number);
             this.formData.append('recurrence_number', ncn.recurrence_number);
-            this.formData.append('approver_id', approver.id);
+            this.formData.append('approver', approver.id);
             this.formData.append('issuance_date', ncn.issuance_date);
             this.formData.append('others', ncn.others);
             

@@ -25,7 +25,7 @@
                                     <div class="col-sm-10">
                                         <select v-model="ccir.company_id" class="form-control form-control-lg">
                                             <option value="" disabled selected>Select Company</option>
-                                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
+                                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name }}</option>
                                         </select>
                                         <span class="error" v-if="errors.company">{{ errors.company[0] }}</span>
                                     </div>
@@ -35,6 +35,18 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
+                                    <label for="companyLocation" class="col-sm-2 col-form-label">Location</label>
+                                    <div class="col-sm-10">
+                                        <select v-model="ccir.company_location" class="form-control form-control-lg"  id="companyLocation">
+                                            <option value="" disabled selected>Select  Company Location</option>
+                                            <option v-for="(loc, c) in selectedLocation" :value="loc.id" v-bind:key="c">{{ loc.address }}</option>
+                                        </select>
+                                        <span class="error" v-if="errors.company_location">{{ errors.company_location[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
                                     <label for="commodity" class="col-sm-2 col-form-label">Commodity</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ccir.commodity" id="commodity">
@@ -42,6 +54,8 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="product_control_number" class="col-sm-2 col-form-label">Product control number</label>
@@ -51,9 +65,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="affected_quantity" class="col-sm-2 col-form-label">Affected Quantity</label>
@@ -63,6 +74,8 @@
                                     </div>   
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="delivery_date" class="col-sm-2 col-form-label">Delivery date</label>
@@ -72,8 +85,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="quality_of_sample" class="col-sm-2 col-form-label">Quantity of sample</label>
@@ -83,6 +94,8 @@
                                     </div>  
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="nature_of_complaint" class="col-sm-2 col-form-label">Nature of Complaint</label>
@@ -109,8 +122,6 @@
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="returned_date" class="col-sm-2 col-form-label">Returned Date</label>
@@ -120,6 +131,8 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="other_details" class="col-sm-2 col-form-label">Other Details</label>
@@ -129,9 +142,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
@@ -146,7 +156,6 @@
                         <button @click="addCcir(ccir)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                     </form>
                 </div>
-                <!-- <div class="col-md-2"></div> -->
             </div>
         </div>
     </div>
@@ -183,6 +192,7 @@ export default {
                 id: '',
                 issuer_id: '',
                 company_id: '',
+                company_location: '',
                 complainant: '',
                 commodity: '',
                 brand_name: '',
@@ -203,6 +213,7 @@ export default {
             },
             others: '',
             companies: [],
+            locations: [],
             attachments: [],
             formData: new FormData(),
             errors: '',
@@ -210,9 +221,29 @@ export default {
         }
     },
     created(){
-         this.fetchCompanies();
+        this.fetchCompanies();
+        this.fetchLocations();
+    },
+    computed: {
+        selectedLocation() {
+            var findCompany = this.companies.find(item => item.id === this.ccir.company_id)
+            if(findCompany) {
+                return this.locations.filter(item => {
+                    return item.name === findCompany.name
+                })
+            }
+        }
     },
     methods: {
+        fetchLocations() {
+            axios.get('/companyLocation')
+            .then(response => {
+                this.locations = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
         fetchCompanies(){
             axios.get('/companies')
             .then(response => {
@@ -246,9 +277,11 @@ export default {
         },
         addCcir(ccir){
             this.isLoading = true;
+            this.errors = [];
             this.prepareFields();
             this.formData.append('complainant', ccir.complainant);
-            this.formData.append('company', ccir.company_id);
+            this.formData.append('company', ccir.company_location);
+            this.formData.append('company_location', ccir.company_location);
             this.formData.append('commodity', ccir.commodity);
             this.formData.append('product_control_number', ccir.product_control_number);
             this.formData.append('delivery_date', ccir.delivery_date);

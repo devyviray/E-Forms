@@ -80,6 +80,7 @@ class DdrController extends Controller
         $rules = $request->input('reason') == 3 ? 'required' : '';
         $validator = $request->validate([
             'company_id' => 'required',
+            'company_location' => 'required',
             'department_id' => 'required' ,
             'reason' => 'required',
             'others' => $rules,

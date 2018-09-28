@@ -80,6 +80,7 @@ class CcirController extends Controller
         $request->validate([
             'complainant' => 'required',
             'company' => 'required',
+            'company_location' => 'required',
             'commodity' => 'required',
             'product_control_number' => 'required',
             'delivery_date' => 'required',

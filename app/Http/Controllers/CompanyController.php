@@ -8,15 +8,33 @@ use App\Company;
 class CompanyController extends Controller
 {
     /**
-    * Display a listing of the resource.
+    * Display a listing of company with the unique name.
     *
     * @return \Illuminate\Http\Response
     */
     public function index()
     {
-        $companies = Company::orderBy('id', 'desc')->get();
+
+        $companies = Company::orderBy('id', 'desc')
+        ->get()
+        ->unique('name')
+        ->values()
+        ->all();
+
         return $companies;
     }
+
+     /**
+    * Display a listing of company.
+    *
+    * @return \Illuminate\Http\Response
+    */
+
+    public function companyLocation()
+    {
+        return  $companies = Company::orderBy('id', 'desc')->get();
+    }
+
     
     /**
     * Show the form for creating a new resource.

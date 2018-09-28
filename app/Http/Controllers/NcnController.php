@@ -78,15 +78,15 @@ class NcnController extends Controller
     {   
         $rules = $request->input('non_conformity_types') == 6 ? 'required' : '';
         $request->validate([
-            'company_id' => 'required',
-            'department_id' => 'required',
-            'approver_id' => 'required',
+            'company' => 'required',
+            'company_location' => 'required',
+            'department' => 'required',
+            'approver' => 'required',
             'non_conformity_types' => 'required',
             'notification_number' => 'required|integer',
             'recurrence_number' => 'required|integer',
             'issuance_date' => 'required',
             'non_conformity_details' => 'required',
-            'approver_id' => 'required',
             'attachments' => 'required',
             'others' => $rules
         ]);
@@ -95,9 +95,9 @@ class NcnController extends Controller
         $carbon = new Carbon();
 
         $ncn->requester_id = Auth::user()->id;
-        $ncn->company_id = $request->input('company_id');
-        $ncn->department_id = $request->input('department_id');
-        $ncn->approver_id = $request->input('approver_id');
+        $ncn->company_id = $request->input('company');
+        $ncn->department_id = $request->input('department');
+        $ncn->approver_id = $request->input('approver');
         $ncn->non_conformity_types = $request->input('non_conformity_types');
         $ncn->notification_number = $request->input('notification_number');
         $ncn->recurrence_number = $request->input('recurrence_number');
@@ -109,7 +109,7 @@ class NcnController extends Controller
 
 
         if($ncn->save()){
-            $approver = User::findOrFail($request->input('approver_id'));
+            $approver = User::findOrFail($request->input('approver'));
             $approver->notify(new RequesterSubmitNcn($ncn, Auth::user()));
             
             $attachments = $request->file('attachments');   
