@@ -25,10 +25,9 @@
                 <td colspan="5" >La Filipina Uy Gongco Group of Companies</td>
             </tr>
             <tr>
-                <td><strong> Doc No.</strong></td>
-                <td><strong> Rev No.</strong> </td>
-                <td><strong> Effective Date </strong></td>
-                <td colspan="2"> </td>
+                <td> <strong> Doc No. </strong> LFQM-F-029b </td>
+                <td><strong>  Rev No. </strong>  00 </td>
+                <td colspan="3"><strong> Effective Date: </strong>February 25, 2017 </td>
             </tr>
             <tr>
                 <td colspan="5"> CUSTOMER COMPLAINT INVESTIGATION REPORT </td>

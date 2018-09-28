@@ -11,10 +11,10 @@
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
                     <tr>
-                        <td> <strong>  Doc No. </strong>  </td>
-                        <td v-if="drdrs.length"> <strong> Rev No. </strong> {{ drdrs[0].rev_number }}</td>
+                        <td> <strong>  Doc No. </strong>  LFQM-F-001 </td>
+                        <td v-if="drdrs.length"> <strong> Rev No. </strong> 04 </td>
                         <td> <strong>  Effective Date </strong> </td>
-                        <td v-if="drdrs.length"> {{ moment(drdrs[0].effective_date).format('LL') }} </td>
+                        <td v-if="drdrs.length"> February 27, 2017 </td>
                     </tr>
                     <tr>
                         <td colspan="5"> DOCUMENT REVIEW and DISTRIBUTION REQUEST </td>

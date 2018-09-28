@@ -12,9 +12,13 @@
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
                     <tr>
-                        <td><strong>Doc No.</strong> LFQM-F-019 </td>
+                        <td> <strong> Doc No. </strong> LFQM-F-019  </td>
+                        <td><strong>  Rev No. </strong>  02 </td>
+                        <td><strong> Effective Date: </strong>June 26, 2016 </td>
                     </tr>
-                    <tr> </tr>
+                    <tr>
+                        <td colspan="5"> NON-CONFORMANCE NOTIFICATION</td>
+                    </tr>
                 </tbody>
             </table>
 

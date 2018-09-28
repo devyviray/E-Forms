@@ -13,7 +13,9 @@
                         <td colspan="4">La Filipina Uy Gongco Group of Companies</td>
                     </tr>
                     <tr>
-                        <td> <strong> Doc No. </strong> </td>
+                        <td> <strong> Doc No. </strong> LFQM-F-002 </td>
+                        <td><strong>  Rev No. </strong>  03 </td>
+                        <td><strong> Effective Date: </strong>February 27, 2017 </td>
                     </tr>
                     <tr>
                         <td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>

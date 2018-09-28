@@ -27,15 +27,14 @@
 			<td rowspan="3"> <img class="logo-logo" src="{{asset('img/lfug-logo.png')}}" style="display:block;  width: 60px; height: auto; padding: 0; margin: 10px 10px 0 30px;"> </td>
 			<td colspan="4">La Filipina Uy Gongco Group of Companies</td>
 		</tr>
-		<tr>
-			<td> <strong> Doc No. </strong> </td>
-			<td> <strong> Rev No. </strong> </td>
-			<td> <strong> Effective Date </strong></td>
-			<td> </td>
-		</tr>
-		<tr>
-			<td colspan="4"> NONCONFORMANCE NOTIFICATION </td>
-		</tr>
+		    <tr>
+				<td> <strong> Doc No. </strong> LFQM-F-019  </td>
+				<td><strong>  Rev No. </strong>  02 </td>
+				<td colspan="3"><strong> Effective Date: </strong>June 26, 2016 </td>
+			</tr>
+			<tr>
+				<td colspan="5"> NON-CONFORMANCE NOTIFICATION</td>
+			</tr>
 	</table>
 
 	<table class="table">

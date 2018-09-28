@@ -34,14 +34,9 @@
 			<td colspan="5" >La Filipina Uy Gongco Group of Companies</td>
 		</tr>
 		<tr>
-			<td> <strong> Doc No. </strong> </td>
-			<td> <strong> Rev No. </strong>  </td>
-			<td> <strong> Effective Date </strong> </td>
-			@if($ddr[0]->effective_date))
-				<td colspan="2"> {{  date('F j, Y', strtotime($ddr[0]->effective_date))  }} </td>
-			@else
-				<td colspan="2"> </td>
-			@endif
+			<td> <strong> Doc No. </strong> LFQM-F-002 </td>
+			<td><strong>  Rev No. </strong>  03 </td>
+			<td  colspan="3"><strong> Effective Date: </strong>February 27, 2017 </td>colspan="2"> </td>
 		</tr>
 		<tr>
 			<td colspan="5"> DOCUMENT DISTRIBUTION REQUEST </td>
