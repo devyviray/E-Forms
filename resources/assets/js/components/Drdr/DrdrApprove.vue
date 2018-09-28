@@ -101,28 +101,6 @@
                                 </div>
                             </div>       
                         </div> 
-                        <div class="row mb-2">
-                            <div class="col-md-12">
-                                <div class="form-group row">
-                                    <label for="copy_number" class="col-sm-2 col-form-label">Copy number</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" placeholder="Copy number" v-model="drdr.copy_number" id="copy_number">
-                                        <span class="error" v-if="errors.copy_number">{{ errors.copy_number[0] }}</span>
-                                    </div>   
-                                </div>
-                            </div>       
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-12">
-                                <div class="form-group row">
-                                    <label for="copy_holder" class="col-sm-2 col-form-label">Copy holder</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" placeholder="Copy holder" v-model="drdr.copy_holder" id="copy_holder">
-                                        <span class="error" v-if="errors.copy_holder">{{ errors.copy_holder[0] }}</span>
-                                    </div>   
-                                </div>
-                            </div>       
-                        </div> 
                     </div>
                     <button @click="approvedDrdr(drdrs[0].id, drdr,drdrs[0])" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                 </form>
@@ -235,8 +213,6 @@ export default {
             this.formData.append('status', drdr.status);
             this.formData.append('remarks', drdr.remarks);
             this.formData.append('effective_date', effective_date);
-            this.formData.append('copy_number', drdr.copy_number);
-            this.formData.append('copy_holder', drdr.copy_holder);
             axios.post('/drdr-approved',this.formData)
             .then(response => {
                 var message = drdr.status == 1 ? 'Approved' :  'Disapproved';

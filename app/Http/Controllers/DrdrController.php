@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Drdr;
 use App\User;
 use App\UploadedFile;
+use App\DrdrformsCopyholder;
 use App\Types\RequestType;
 use App\Types\StatusType;
 use App\Types\RolesType;
@@ -409,16 +410,12 @@ class DrdrController extends Controller
         if($request->input('status') == 1){
             $request->validate([
                 'attachments' => 'required',
-                'copy_number' => 'required',
-                'copy_holder' => 'required',
                 'status' => 'required',
                 'id' => 'required'
             ]);
     
             $drdr->status = StatusType::APPROVED_APPROVER ;
             $drdr->approved_date = $carbon::now();
-            $drdr->copy_number = $request->input('copy_number');
-            $drdr->copy_holder = $request->input('copy_holder');
             $drdr->remarks = $request->input('remarks');
             $drdr->effective_date =  Carbon::parse($request->input('effective_date'))->format('Y-m-d');
         
@@ -638,6 +635,21 @@ class DrdrController extends Controller
     }
 
     /**
+     * Return drdr details page for admin
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function drdrDistributedPage($id)
+    {
+        $drdr = Drdr::findOrFail($id);
+
+        if($drdr->status == StatusType::APPROVED_APPROVER){
+            $location = 'Document Review & Distribution Request';
+            return view('admin.admin-drdr-verify', compact('id', 'location'));
+        } else{ return redirect()->back(); }
+    }
+
+    /**
      * Mark DRDR as distributed
      *
      * @return \Illuminate\Http\Response
@@ -645,25 +657,47 @@ class DrdrController extends Controller
 
     public function distributed(Request $request)
     {
-        $request->validate([
-            'id' => 'required'
-        ]);
-        $carbon = new Carbon();
+
         $drdr = Drdr::findOrFail($request->id);
-        $approver = User::findOrFail($drdr->approver_id);
-        $reviewer = User::findOrFail($drdr->reviewer_id);
-        $requester = User::findOrFail($drdr->requester_id);
 
-        $emails = [$approver, $reviewer, $requester];
-
-        $drdr->distributed_id = Auth::user()->id;
-        $drdr->status = StatusType::MARK_AS_DISTRIBUTED;
-        $drdr->distributed_date = $carbon::now();
-        if($drdr->save()){
+        if($drdr->status == StatusType::APPROVED_APPROVER){
+            $request->validate([
+                'id' => 'required',
+                'drdr_number' => 'required',
+                'document_code' => 'required',
+                "drdrcopyholders.*.copy_number"  => "required",
+                "drdrcopyholders.*.copy_holder"  => "required",
+            ]);
+            $carbon = new Carbon();
+            $approver = User::findOrFail($drdr->approver_id);
+            $reviewer = User::findOrFail($drdr->reviewer_id);
             $requester = User::findOrFail($drdr->requester_id);
-            \Notification::send($emails , new MrMarkAsDistributedDrdr($drdr, $requester, Auth::user()));
-            return ['redirect' => route('admin.drdrs')];
-        }
+    
+            $emails = [$approver, $reviewer, $requester];
+
+            $drdr->drdr_no = $request->drdr_number;
+            $drdr->document_code = $request->document_code;
+            $drdr->distributed_id = Auth::user()->id;
+            $drdr->status = StatusType::MARK_AS_DISTRIBUTED;
+            $drdr->distributed_date = $carbon::now();
+            if($drdr->save()){
+    
+                $DrdrformsCopyholders = $request->input('drdrcopyholders');
+                foreach($DrdrformsCopyholders as $list){
+                    $DrdrformsCopyholder = new DrdrformsCopyholder;
+    
+                    $DrdrformsCopyholder->form_id = $request->input('id');
+                    $DrdrformsCopyholder->copy_number = $list['copy_number'];
+                    $DrdrformsCopyholder->copy_holder = $list['copy_holder'];
+                    $DrdrformsCopyholder->save();
+    
+                }
+    
+                $requester = User::findOrFail($drdr->requester_id);
+                \Notification::send($emails , new MrMarkAsDistributedDrdr($drdr, $requester, Auth::user()));
+                return ['redirect' => route('admin.drdrs')];
+            }
+        }else { return redirect()->back(); }
     }
 
     public function emailScheduling(){

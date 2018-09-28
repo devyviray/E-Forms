@@ -66,8 +66,9 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a  @click="viewDrdrDetails(drdr.id)" class="dropdown-item" href="javascript:void(0)">View</a>
-                                    <a v-if="drdr.status == 4" @click="getDrdrId(drdr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDrdrModal" href="javascript:void(0)">Mark as verify</a>
+                                    <a  @click="viewDrdrDetails(drdr.id)" class="dropdown-item"  href="javascript:void(0)">View</a>
+                                    <a v-if="drdr.status == 4" class="dropdown-item"  :href="verifyLink+drdr.id">Mark as verify</a>
+                                    <!-- <a v-if="drdr.status == 4" @click="getDrdrId(drdr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDrdrModal" href="javascript:void(0)">Mark as verify</a> -->
                                     <!-- <a class="dropdown-item" href="#">Move to trash</a>
                                     <a class="dropdown-item" href="#">Mark as archive</a>
                                     <a class="dropdown-item" href="#">Cancel document</a> -->
@@ -206,30 +207,6 @@ export default {
                 this.errors = error.response.data.errors;
             })
         },
-        getDrdrId(id)
-        {
-            this.selected_id = id;
-        },
-        distributeDrdr(id){
-            $('#distributedDrdrModal').modal('hide');
-            this.isLoading = true;
-            axios.post('/admin/drdr-distributed', { 
-                'id': id
-            })
-            .then(response=> {
-                this.isLoading = false;
-                this.$toast.success({
-                    title:'SUCCESS',
-                    message:'DRDR Succesfully Verified',
-                    position: 'top right'
-                });
-                this.selected_id = '';
-                window.location.href = response.data.redirect;
-            })
-            .catch(error => { 
-                this.errors = response.data.errors;
-            })
-        },
         setPage(pageNumber) {
             this.currentPage = pageNumber;
         },
@@ -270,6 +247,9 @@ export default {
             }
 
             return queues_array;
+        },
+        verifyLink(){
+            return window.location.origin+'/admin/drdr-verify/';
         }
     }
 }

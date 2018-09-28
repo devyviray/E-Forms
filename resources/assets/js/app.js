@@ -23,6 +23,7 @@ Vue.component('ddr-admin', require('./components/Admin/DdrAdmin.vue'));
 Vue.component('ncn-admin', require('./components/Admin/NcnAdmin.vue'));
 Vue.component('ccir-admin', require('./components/Admin/CcirAdmin.vue'));
 Vue.component('drdr-details-page-admin', require('./components/Admin/DrdrDetailsPageAdmin.vue'));
+Vue.component('drdr-verify-page-admin', require('./components/Admin/DrdrVerifyPageAdmin.vue'));
 Vue.component('ddr-details-page-admin', require('./components/Admin/DdrDetailsPageAdmin.vue'));
 Vue.component('ncn-details-page-admin', require('./components/Admin/NcnDetailsPageAdmin.vue'));
 Vue.component('ccir-details-page-admin', require('./components/Admin/CcirDetailsPageAdmin.vue'));
