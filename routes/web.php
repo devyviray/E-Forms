@@ -139,6 +139,14 @@ Route::group(['middleware' => 'auth'], function (){
 
   // DEPARTMENT ROUTES
   Route::get('/departments', 'DepartmentController@index');
+
+  // CHANGE PASSWORD ROUTES
+
+  // Return change password page
+  Route::get('/change-password', 'HomeController@changePass_index')->name('user.changePassword');
+  // Process for changing of password
+  Route::post('/user/change-password', 'UserController@changePassword');
+
 });
 
 

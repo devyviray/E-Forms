@@ -150,5 +150,18 @@ class UserController extends Controller
             ->where('id', $id)->get();
         
         return $user;
-    }   
+    }
+    
+    public function changePassword(Request $request){
+        $validator = $request->validate([
+            'new_password' => 'required|confirmed',
+            'new_password_confirmation' => 'required'
+        ]);
+    
+        $user = Auth::user();
+        $user->password = bcrypt($request->input('new_password'));
+        $user->save();
+
+        return $user;
+    }
 }   

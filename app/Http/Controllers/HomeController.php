@@ -118,4 +118,15 @@ class HomeController extends Controller
     {
         return view('users.index', ['location' => 'User']);
     }
+
+    /**
+     * Show the application users.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function changePass_index()
+    {
+        return view('users.change_password', ['location' => 'User']);
+    }
+
 }

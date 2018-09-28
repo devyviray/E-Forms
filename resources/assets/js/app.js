@@ -31,7 +31,7 @@ Vue.component('ccir-details-page-admin', require('./components/Admin/CcirDetails
 Vue.component('users', require('./components/User/Users.vue'));
 Vue.component('user-form', require('./components/User/UserForm.vue'));
 Vue.component('user-edit', require('./components/User/UserEdit.vue'));
-
+Vue.component('change-password', require('./components/User/ChangePassword.vue'));
 
 Vue.component('companies', require('./components/Companies.vue'));
 Vue.component('departments', require('./components/Departments.vue'));
@@ -63,8 +63,6 @@ Vue.component('ncn-approve-form', require('./components/Ncn/NcnApproveForm.vue')
 Vue.component('ccir', require('./components/Ccir/Ccir.vue'));
 Vue.component('ccir-form', require('./components/Ccir/CcirForm.vue'));
 Vue.component('ccir-view', require('./components/Ccir/CcirView.vue'));
-
-
 Vue.component('notified', require('./components/Ncn/Notified.vue'));
 
 
