@@ -123,7 +123,7 @@ class DrdrController extends Controller
      */
     public function create()
     {
-        return view('drdr.form',['location' => 'Document Review & Document Request']);
+        return view('drdr.form',['location' => 'Document Review & Distribution Request']);
     }
 
     /**
@@ -188,7 +188,7 @@ class DrdrController extends Controller
     {
         $drdr = Drdr::findOrFail($id);
         if($drdr->status == StatusType::SUBMITTED){
-            return view('drdr.review',['location' => 'Document Review & Document Request']);
+            return view('drdr.review',['location' => 'Document Review & Distribution Request']);
         } return redirect()->back();
     }
 
@@ -216,7 +216,7 @@ class DrdrController extends Controller
     {
         $drdr = Drdr::findOrFail($id);
         if($drdr->status == StatusType::APPROVED_REVIEWER){
-            return view('drdr.approve-form',['location' => 'Document Review & Document Request']);
+            return view('drdr.approve-form',['location' => 'Document Review & Distribution Request']);
         } return redirect()->back();
     }
 
@@ -227,7 +227,7 @@ class DrdrController extends Controller
     */
     public function showDetailsDrdr($drdr_id)
     {
-        return view('drdr.view',['location' => 'Document Review & Document Request']);
+        return view('drdr.view',['location' => 'Document Review & Distribution Request']);
     }
 
     /**
@@ -240,7 +240,7 @@ class DrdrController extends Controller
         $drdr = Drdr::findOrfail($id);
      
         if($drdr->status == StatusType::SUBMITTED){
-            return view('drdr.edit',['location' => 'Document Review & Document Request']);
+            return view('drdr.edit',['location' => 'Document Review & Distribution Request']);
         } return redirect()->back();
     }
 
@@ -489,7 +489,7 @@ class DrdrController extends Controller
     */
     public function drdrAdminPage()
     {
-        return view('admin.admin-drdr',['location' => 'Document Review & Document Request']);
+        return view('admin.admin-drdr',['location' => 'Document Review & Distribution Request']);
     }
 
     /**
@@ -516,7 +516,7 @@ class DrdrController extends Controller
      */
     public function drdrDetails($id)
     {
-        $location = 'Document Review & Document Request';
+        $location = 'Document Review & Distribution Request';
         return view('admin.admin-drdr-details', compact('id', 'location'));
     }
     

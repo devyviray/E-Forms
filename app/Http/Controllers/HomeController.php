@@ -76,7 +76,7 @@ class HomeController extends Controller
      */
     public function drdr_index()
     {
-        return view('drdr.index', ['location' => 'Document Review & Document Request'] );
+        return view('drdr.index', ['location' => 'Document Review & Distribution Request'] );
     }
 
     /**

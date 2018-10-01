@@ -90,7 +90,7 @@
                                     <label for="quality_of_sample" class="col-sm-3 col-form-label">Quantity of sample</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" v-model="ccir.quality_of_sample" id="quality_of_sample">
-                                        <span class="error" v-if="errors.affected_quantity">{{ errors.affected_quantity[0] }}</span>
+                                        <span class="error" v-if="errors.quality_of_sample">{{ errors.quality_of_sample[0] }}</span>
                                     </div>  
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                                             <option value="1">Wet/Lumpy</option>
                                             <option value="2">Busted bag</option>
                                             <option value="3">Under/Over weight</option>
-                                            <option value="4">Infested</option>
+                                            <option value="4">Infestation</option>
                                             <option value="5">Dirty packaging</option>
                                             <option value="6">Others</option>
                                         </select>
@@ -124,7 +124,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="returned_date" class="col-sm-3 col-form-label">Returned Date</label>
+                                    <label for="returned_date" class="col-sm-3 col-form-label">Date Returned</label>
                                     <div class="col-sm-9">
                                         <datepicker v-model="ccir.returned_date" placeholder="Select returned date" id="returned_date"></datepicker>
                                         <span class="error" v-if="errors.returned_date">{{ errors.returned_date[0] }}</span>

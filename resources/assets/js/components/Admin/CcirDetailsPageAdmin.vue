@@ -79,7 +79,7 @@
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 1">Wet/Lumpy</td>
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 2">Busted Bag</td>
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 3">Under / Over Weight</td>
-                    <td colspan="6" v-if="ccirs[0].nature_of_complaint == 4">Infested</td>
+                    <td colspan="6" v-if="ccirs[0].nature_of_complaint == 4">Infestation</td>
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 5">Dirty Packaging</td>
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 6">Others</td>
                 </tr>

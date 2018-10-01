@@ -90,7 +90,7 @@
                 @endif
             </tr>
             <tr>
-                <td class="info"> <strong> Infested </strong> </td>
+                <td class="info"> <strong> Infestation </strong> </td>
                 @if($ccir[0]->nature_of_complaint == 4)
                     <td> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> </td>
                 @else

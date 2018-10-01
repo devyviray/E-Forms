@@ -38,7 +38,7 @@
                                 <div class="form-group row">
                                     <label for="effective_date" class="col-sm-3 col-form-label">Effecttive date</label>
                                     <div class="col-sm-9">
-                                        <datepicker  placeholder="Select Effective Date" v-model="drdr.effective_date" id="effective_date"></datepicker>
+                                        <datepicker  placeholder="Select Effective Date" v-model="drdr.effective_date" id="effective_date" :disabledDates="disabledDates"></datepicker>
                                         <span class="error" v-if="errors.effective_date">{{ errors.effective_date[0] }}</span>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label for="reason_request" class="col-sm3 col-form-label">Reason</label>
+                                        <label for="reason_request" class="col-sm-3 col-form-label">Reason</label>
                                         <div class="col-sm-9">
                                             <textarea class="form-control" v-model="drdr.reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
                                             <span class="error" v-if="errors.reason_request">{{ errors.reason_request[0] }}</span>
@@ -183,7 +183,10 @@ export default {
             errors: '',
             currentPage: 0,
            itemsPerPage: 10,
-           isLoading: false
+           isLoading: false,
+           disabledDates: {
+            to: new Date(Date.now() - 8640000)
+            }
         }
     },
     created(){

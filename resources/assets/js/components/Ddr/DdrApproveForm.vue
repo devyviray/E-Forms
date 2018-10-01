@@ -14,7 +14,7 @@
                     <tr>
                         <td> <strong> Reason of Distribution: </strong> </td>
 						<td v-if="ddrs[0].reason_of_distribution == 1">
-							 Relevant external doc. (controll copy)
+							 Relevant external doc. (controlled copy)
 						</td>
 						<td v-if="ddrs[0].reason_of_distribution == 2">
 							 Customer request (uncontrolled copy)			

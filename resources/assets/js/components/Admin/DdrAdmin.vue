@@ -51,7 +51,7 @@
                         <td>{{ ddr.id }}</td>
                         <td>{{ ddr.requester.name }}</td>
                         <td>{{ ddr.company.name }}</td>
-                       	<td v-if="ddr.reason_of_distribution == 1"> Relevant external doc. (controll copy) </td>
+                       	<td v-if="ddr.reason_of_distribution == 1"> Relevant external doc. (controlled copy) </td>
 						<td v-if="ddr.reason_of_distribution == 2"> Customer request (uncontrolled copy) </td>
 						<td v-if="ddr.reason_of_distribution == 3"> Others: </td>
                         <td>{{ moment(ddr.date_request).format('LL') }}</td>

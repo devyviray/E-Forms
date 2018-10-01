@@ -36,7 +36,7 @@
                                 <div class="form-group row">
                                     <label for="date_needed" class="col-sm-3 col-form-label">Date needed</label>
                                     <div class="col-sm-9">
-                                        <datepicker placeholder="Select Date" v-model="ddr.date_needed" id="date_needed"></datepicker>
+                                        <datepicker placeholder="Select Date" v-model="ddr.date_needed" id="date_needed" :disabledDates="disabledDates"></datepicker>
                                         <span class="error" v-if="errors.date_needed">{{ errors.date_needed[0] }}</span>
                                     </div>
                                 </div>
@@ -220,7 +220,10 @@ export default {
                 copy_number: '',
                 copy_holder: ''
             }],
-            isLoading: false
+            isLoading: false,
+            disabledDates: {
+                to: new Date(Date.now() - 8640000)
+            }
         }
     },
     created(){

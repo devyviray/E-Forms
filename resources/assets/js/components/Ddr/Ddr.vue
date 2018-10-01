@@ -5,7 +5,7 @@
                 <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2"  style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));" @click="addDdrForm" >ADD DDR</button>
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header mb-3">
-                        <h4 class="card-title">Document Review & Document Request</h4>   
+                        <h4 class="card-title">Document Distribution Request</h4>   
                     </div>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">

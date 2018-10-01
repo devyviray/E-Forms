@@ -17,8 +17,8 @@
                     <th>ID</th>
                     <th>Approver</th>
                     <th>Reason</th>
-                    <th>date_requested</th>
-                    <th>Approver status</th>
+                    <th>Date Requested</th>
+                    <th>Approver Status</th>
                     <th>Distributed</th>
                     <th>Option</th>
                 </thead>    
@@ -26,7 +26,7 @@
                     <tr v-for="ddrSubmitted in filteredQueues" v-bind:key="ddrSubmitted.id">
                         <td>{{ ddrSubmitted.id }}</td>
                         <td>{{ ddrSubmitted.approver.name }}</td>
-						<td v-if="ddrSubmitted.reason_of_distribution == 1"> Relevant external doc. (controll copy) </td>
+						<td v-if="ddrSubmitted.reason_of_distribution == 1"> Relevant external doc. (controlled copy) </td>
 						<td v-if="ddrSubmitted.reason_of_distribution == 2"> Customer request (uncontrolled copy) </td>
 						<td v-if="ddrSubmitted.reason_of_distribution == 3"> Others: </td>
                         <td>{{ moment(ddrSubmitted.date_request).format('LL') }}</td>

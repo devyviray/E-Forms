@@ -32,7 +32,7 @@
                             <td> <strong> Type of Non-conformity: </strong> </td>
                             <td v-if="ncns[0].non_conformity_types == 1">{{ 'Customer - Returns' }}</td>
                             <td v-if="ncns[0].non_conformity_types == 2">{{ 'Objective not Met' }}</td> 
-                            <td v-if="ncns[0].non_conformity_types == 3">{{ 'Project Related' }}</td>
+                            <td v-if="ncns[0].non_conformity_types == 3">{{ 'Process Related' }}</td>
                             <td v-if="ncns[0].non_conformity_types == 4">{{ 'Vendor' }}</td>
                             <td v-if="ncns[0].non_conformity_types == 5">{{ 'Contracted - Service' }}</td>
                             <td v-if="ncns[0].non_conformity_types == 6">{{ 'Others' }}</td>

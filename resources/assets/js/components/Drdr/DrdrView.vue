@@ -179,7 +179,7 @@
                 </h4>
             </em>
 
-            <p>Yellow stamp with "Obsolete" and use as reference </p>
+            <p> Red Stamp with “Obsolete” and use as reference. </p>
 
             <table></table>
 

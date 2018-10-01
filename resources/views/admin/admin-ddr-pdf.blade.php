@@ -47,16 +47,16 @@
 		<tr>
 			<td rowspan="3"> <strong> Reason for distribution: </strong> </td>
 			@if($ddr[0]->reason_of_distribution == 1)
-				<td colspan="2"> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Relevant external doc. (controll copy) </td>
+				<td colspan="2"> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Relevant external doc. (controlled copy) </td>
 			@else
-				<td colspan="2"> <img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Relevant external doc. (controll copy) </td>
+				<td colspan="2"> <img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Relevant external doc. (controlled copy) </td>
 			@endif
 		</tr>
 		<tr>
 			@if($ddr[0]->reason_of_distribution == 2)
-				<td colspan="3"> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Customer request (uncontroll copy) </td>
+				<td colspan="3"> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Customer request (uncontrolled copy) </td>
 			@else
-				<td colspan="3"> <img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Customer request (uncontroll copy) </td>
+				<td colspan="3"> <img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Customer request (uncontrolled copy) </td>
 			@endif
 		</tr>
 		<tr>

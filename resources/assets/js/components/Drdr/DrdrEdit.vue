@@ -59,7 +59,7 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="document_title" class="col-sm-3 col-form-label">Document titlet</label>
+                                    <label for="document_title" class="col-sm-3 col-form-label">Document title</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" placeholder="Document Title" v-if="drdrs.length" v-model="drdrs[0].document_title" id="document_title">
                                         <span class="error" v-if="errors.document_title">{{ errors.document_title[0] }}</span>

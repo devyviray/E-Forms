@@ -55,7 +55,7 @@
                                             <option value="" disabled selected>Select type</option>
                                             <option value="1">Customer - Returns</option>
                                             <option value="2">Objective not Met</option>
-                                            <option value="3">Project Related</option>
+                                            <option value="3">Process Related</option>
                                             <option value="4">Vendor</option>
                                             <option value="5">Contracted - Service</option>
                                             <option value="6">Others</option>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="recurrence_number" class="col-sm-2 col-form-label">Reccurrence number</label>
+                                    <label for="recurrence_number" class="col-sm-2 col-form-label">Recurrence number</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" v-model="ncn.recurrence_number" id="recurrence_number">
                                         <span class="error" v-if="errors.recurrence_number">{{ errors.recurrence_number[0] }}</span>
@@ -98,7 +98,7 @@
                                 <div class="form-group row">
                                     <label for="issuance_date" class="col-sm-2 col-form-label">Issuance Date</label>
                                     <div class="col-sm-10">
-                                        <datepicker placeholder="Select Issuance Date" v-model="ncn.issuance_date" id="issuance_date"></datepicker>
+                                        <datepicker placeholder="Select Issuance Date" v-model="ncn.issuance_date" id="issuance_date" :disabledDates="disabledDates"></datepicker>
                                         <span class="error" v-if="errors.issuance_date">{{ errors.issuance_date[0] }}</span>
                                     </div>
                                 </div>
@@ -217,7 +217,10 @@ export default {
             selected_department: ' ',
             keywords: '',
             errors: '',
-            isLoading: false
+            isLoading: false,
+            disabledDates: {
+                to: new Date(Date.now() - 8640000)
+            }
         }
     },
     created(){
