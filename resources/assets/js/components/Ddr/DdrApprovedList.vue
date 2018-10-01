@@ -18,7 +18,7 @@
                     <th>ID</th>
                     <th>Requester</th>
                     <th>Reason</th>
-                    <th>date_requested</th>
+                    <th>Date Requested</th>
                     <th>Status</th>
                     <th>Option</th>
                 </thead>    
@@ -57,7 +57,7 @@
                     <th>ID</th>
                     <th>Requester</th>
                     <th>Reason</th>
-                    <th>date_requested</th>
+                    <th>Date Requested</th>
                     <th>Status</th>
                     <th>Option</th>
                 </thead>    

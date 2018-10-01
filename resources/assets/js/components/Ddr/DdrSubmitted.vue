@@ -66,7 +66,7 @@
                     <th>ID</th>
                     <th>Approver</th>
                     <th>Reason</th>
-                    <th>date_requested</th>
+                    <th>Date Requested</th>
                     <th>Approver status</th>
                     <th>Distributed</th>
                     <th>Option</th>

@@ -28,11 +28,9 @@
                 <thead>
                     <th>ID</th>
                     <th>Requester</th>
-                    <th>Company</th>
                     <th>Reason</th>
-                    <th>Date request</th>
-                    <th>Approver</th>
-                    <th>Status</th>
+                    <th>Date Requested</th>
+                    <th>Approver Status</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
@@ -50,13 +48,11 @@
                     <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
                         <td>{{ ddr.id }}</td>
                         <td>{{ ddr.requester.name }}</td>
-                        <td>{{ ddr.company.name }}</td>
                        	<td v-if="ddr.reason_of_distribution == 1"> Relevant external doc. (controlled copy) </td>
 						<td v-if="ddr.reason_of_distribution == 2"> Customer request (uncontrolled copy) </td>
 						<td v-if="ddr.reason_of_distribution == 3"> Others: </td>
                         <td>{{ moment(ddr.date_request).format('LL') }}</td>
-                        <td>{{ ddr.approver.name }}</td>
-                        <td>
+                        <td>{{ ddr.approver.name }}<br>
                             <span style="color: red" v-if="ddr.status == 2"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="ddr.status == 6"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>

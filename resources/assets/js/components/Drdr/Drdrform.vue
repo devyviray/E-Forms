@@ -25,16 +25,33 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="rev_number" class="col-sm-3 col-form-label">Current Rev No.</label>
+                                    <label for="reason_request" class="col-sm-3 col-form-label">Reason</label>
                                     <div class="col-sm-9">
-                                        <input type="textrev_number" class="form-control" placeholder="Rev. No." v-model="drdr.rev_number" id="rev_number">
-                                        <span class="error" v-if="errors.rev_number">{{ errors.rev_number[0] }}</span>
+                                        <textarea class="form-control" v-model="drdr.reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
+                                        <span class="error" v-if="errors.reason_request">{{ errors.reason_request[0] }}</span>
                                     </div>
                                 </div>
-                             </div>
+                            </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="document_title" class="col-sm-3 col-form-label">Document title</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Document Title" v-model="drdr.document_title" id="document_title" style="height: 100px;">
+                                        <span class="error" v-if="errors.document_title">{{ errors.document_title[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="rev_number" class="col-sm-3 col-form-label">Current Rev No.</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Rev. No." v-model="drdr.rev_number" id="rev_number">
+                                        <span class="error" v-if="errors.rev_number">{{ errors.rev_number[0] }}</span>
+                                    </div>
+                                </div>
+
                                 <div class="form-group row">
                                     <label for="effective_date" class="col-sm-3 col-form-label">Effecttive date</label>
                                     <div class="col-sm-9">
@@ -42,7 +59,9 @@
                                         <span class="error" v-if="errors.effective_date">{{ errors.effective_date[0] }}</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div>  
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="effective_date" class="col-sm-3 col-form-label">Company</label>
@@ -54,9 +73,7 @@
                                         <span class="error" v-if="errors.company_id">{{ errors.company_id[0] }}</span>
                                     </div>
                                 </div>
-                             </div>
-                        </div>
-                        <div class="row mb-2">
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="effective_date" class="col-sm-3 col-form-label">Location</label>
@@ -68,41 +85,21 @@
                                         <span class="error" v-if="errors.company_location">{{ errors.company_location[0] }}</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="document_title" class="col-sm-3 col-form-label">Document title</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Document Title" v-model="drdr.document_title" id="document_title">
-                                        <span class="error" v-if="errors.document_title">{{ errors.document_title[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                            <div class="row mb-2">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="reason_request" class="col-sm-3 col-form-label">Reason</label>
-                                        <div class="col-sm-9">
-                                            <textarea class="form-control" v-model="drdr.reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
-                                            <span class="error" v-if="errors.reason_request">{{ errors.reason_request[0] }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="reviewer" class="col-sm-3 col-form-label">Reviewer</label>
-                                        <div class="col-sm-9">
-                                            <select v-model="reviewer.id" class="form-control form-control-lg" id="reviewer">
-                                                <option value="" disabled selected>Select Reviewer</option>
-                                                <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
-                                            </select>
-                                            <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
-                                        </div>
-                                    </div>
-                            </div>
+                            </div>      
                         </div>
                         <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="reviewer" class="col-sm-3 col-form-label">Reviewer</label>
+                                    <div class="col-sm-9">
+                                        <select v-model="reviewer.id" class="form-control form-control-lg" id="reviewer">
+                                            <option value="" disabled selected>Select Reviewer</option>
+                                            <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
+                                        </select>
+                                        <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
@@ -111,11 +108,8 @@
                                         <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row"></div>
-                             </div>
-                        </div>
+                            </div>    
+                        </div>        
                         <button @click="addDrdr(drdr,company,reviewer)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                     </form>
                 </div>

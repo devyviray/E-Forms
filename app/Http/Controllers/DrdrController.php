@@ -134,10 +134,11 @@ class DrdrController extends Controller
      */
     public function store(Request $request)
     {
+        $rule = $request->type == 1 ? '' : 'required';
         $request->validate([
             'type'=> 'required',
             'document_title' => 'required',
-            'rev_number' => 'required',
+            'rev_number' => $rule,
             'company_id' => 'required',
             'company_location' => 'required',
             'reviewer_id' => 'required',
@@ -253,10 +254,11 @@ class DrdrController extends Controller
      */
     public function update(Request $request,Drdr $drdr)
     {
+        $rule = $request->type == 1 ? '' : 'required';
         $request->validate([
             'type'=> 'required',
             'document_title' => 'required',
-            'rev_number' => 'required',
+            'rev_number' => $rule,
             'company_id' => 'required',
             'reviewer_id' => 'required',
             'reason_request' => 'required',
