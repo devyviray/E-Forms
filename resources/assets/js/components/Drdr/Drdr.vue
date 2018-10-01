@@ -110,6 +110,8 @@ export default {
             errors: '',
             currentPage: 0,
            itemsPerPage: 10,
+            fileSize: 0,
+            maximumSize: 5000000,
         }
     },
     created(){
@@ -136,6 +138,13 @@ export default {
             
             for (var i = files.length - 1; i >= 0; i--){
                 this.attachments.push(files[i]);
+                this.fileSize = this.fileSize+files[i].size / 1024 / 1024;
+            }
+            if(this.fileSize > 5){
+                alert('File size exceeds 5 MB');
+                document.getElementById('attachments').value = "";
+                this.attachments = [];
+                this.fileSize = 0;
             }
         },
         resetData(){
