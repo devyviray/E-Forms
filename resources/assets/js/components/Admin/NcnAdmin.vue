@@ -83,7 +83,7 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ ncns.length }} Ncn form(s)</span>
+                <span>{{ ncns.length }} NCN form(s)</span>
             </div>
         </div>
     </div>

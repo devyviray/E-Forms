@@ -23,11 +23,7 @@
             </table>
 
             <!-- step 1 -->
-            <em>
-                <h4 style="margin-bottom: 20px;">
-                    <strong>Step 1</strong> Request fills out necessary details.
-                </h4>
-            </em>
+            <em> <h4 style="margin-bottom: 20px; font-weight: bolder;">  Step 1: Submission of request  </h4> </em>
 
             <!-- table start -->
             <table class="table" width="100%">
@@ -44,18 +40,14 @@
                     </tr>
                     <!-- second set -->
                     <tr>
-                        <td colspan="6">
-                            <strong> Reason for proposal / change / cancellation: </strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7" v-if="drdrs.length"> {{ drdrs[0].reason_request }} </td>
+                        <td> <strong> Reason of Request: </strong> </td>
+                        <td colspan="5" v-if="drdrs.length"> {{ drdrs[0].reason_request }} </td>
                     </tr>
                     <!-- third set -->
                     <tr>
                         <td><strong>Requested By:</strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].requester.name }} </td>
-                        <td><strong>Position:</strong></td>
+                        <td ><strong>Position:</strong></td>
                         <td v-if="drdrs.length"> {{ drdrs[0].requester.position }} </td>
                         <td><strong>Date:</strong></td>
                         <td v-if="drdrs.length"> {{ moment(drdrs[0].date_request).format('LL') }} </td>
@@ -65,11 +57,7 @@
             <!-- table end -->
 
             <!-- step 2 -->
-            <em>
-                <h4 style="margin-bottom: 20px;">
-                    <strong>Step 2</strong> Requester obtains approval from reviewer and approver. If requester is also the reviewer or approver, disregard this step and proceed to step 3. 
-                </h4>
-            </em>
+            <em>    <em> <h4 style="margin-bottom: 20px; font-weight: bold;"> Step 2: Review of request </h4> </em> </em>
 
             <table class="table" width="100%">
                 <tbody>
@@ -116,18 +104,10 @@
             </table>
 
             <!-- step 3 -->
-            <em>
-                <h4 style="margin-bottom: 20px;">
-                    <strong>Step 3</strong> Approver defines copyholder and effective date. Requester submits this form to QM with the final draft  <small> (*required attachment: draft of new/ revised document with highlights on changes made).</small>
-                </h4>
-            </em>
+            <em> <h4 style="margin-bottom: 20px; font-weight: bold;"> Step 3: Approval of request </h4> </em>
 
             <!-- step 4 -->
-            <em>
-                <h4 style="margin-bottom: 20px;">
-                    <strong>Step 4</strong> QM to compare to previous distribution (if any), fill out required data and distribute prior effective date acknowledged by the area document controller, dept. head or supervisor.
-                </h4>
-            </em>
+             <em> <h4 style="margin-bottom: 20px; font-weight: bold;"> Step 4: Control and distribution </h4> </em>
 
             <div class="row">
                 <div class="col-md-8" style="padding-right: 0 ! important; margin-right: 0 ! important">

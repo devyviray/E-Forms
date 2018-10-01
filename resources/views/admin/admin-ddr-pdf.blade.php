@@ -101,9 +101,6 @@
 
 	<table class="table" style="border: 0 ! important;">
 		<tr>
-			<td class="info" colspan="6" style="border: 0 ! important;"> <em> <strong> Total number of obsolete copy retrieved </strong> </em> </td>
-		</tr>
-		<tr>
 			<td style="border: 0 ! important;"> <strong> Requested by: <strong> </td>
 			<td style="border: 0 ! important;">{{ $ddr[0]->requester->name }}</td>
 			<td style="border: 0 ! important;"> <strong> Approved by: </strong> </td>
@@ -146,7 +143,7 @@
 	</table>
 
 	<p>
-		<small> Disclaimer for uncrolled document: </small>
+		<small> Disclaimer for uncontrolled document: </small>
 	</p>
 
 	<p>

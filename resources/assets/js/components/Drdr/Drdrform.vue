@@ -53,7 +53,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="effective_date" class="col-sm-3 col-form-label">Effecttive date</label>
+                                    <label for="effective_date" class="col-sm-3 col-form-label">Effective date</label>
                                     <div class="col-sm-9">
                                         <datepicker  placeholder="Select Effective Date" v-model="drdr.effective_date" id="effective_date" :disabledDates="disabledDates"></datepicker>
                                         <span class="error" v-if="errors.effective_date">{{ errors.effective_date[0] }}</span>
@@ -90,6 +90,15 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
+                                    <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
+                                        <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
                                     <label for="reviewer" class="col-sm-3 col-form-label">Reviewer</label>
                                     <div class="col-sm-9">
                                         <select v-model="reviewer.id" class="form-control form-control-lg" id="reviewer">
@@ -97,15 +106,6 @@
                                             <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
                                         </select>
                                         <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
-                                    <div class="col-sm-9">
-                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
-                                        <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>
                                 </div>
                             </div>    

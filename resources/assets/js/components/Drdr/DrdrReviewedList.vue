@@ -56,7 +56,7 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ drdrsReviewedForms.length }} Drdr form(s)</span>
+                <span>{{ drdrsReviewedForms.length }} DRDR form(s)</span>
             </div>
         </div>
 

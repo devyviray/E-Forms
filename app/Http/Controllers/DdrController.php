@@ -433,6 +433,8 @@ class DdrController extends Controller
         $pdf = PDF::loadView('admin.admin-ddr-pdf', ['ddr' => $ddr]);
 
         return $pdf->stream('ddr.pdf');
+
+        // return view('admin.admin-ddr-pdf', ['ddr' => $ddr]);
     }
 
     /**

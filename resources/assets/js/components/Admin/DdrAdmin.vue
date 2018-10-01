@@ -83,7 +83,7 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ ddrs.length }} Ddr form(s)</span>
+                <span>{{ ddrs.length }} DDR form(s)</span>
             </div>
         </div>
 

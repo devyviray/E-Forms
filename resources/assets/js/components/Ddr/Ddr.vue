@@ -15,7 +15,7 @@
                             <a class="nav-link" id="pending-tab" data-toggle="tab" @click="selected=2" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pending Forms</a>
                         </li>
                         <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2) || roleId.includes(3)">
-                            <a class="nav-link" id="approve-tab" data-toggle="tab"  @click="selected=3" href="#approve" role="tab" aria-controls="approve" aria-selected="false">Approve Forms</a>
+                            <a class="nav-link" id="approve-tab" data-toggle="tab"  @click="selected=3" href="#approve" role="tab" aria-controls="approve" aria-selected="false">Approved Forms</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">

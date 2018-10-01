@@ -6,7 +6,7 @@
             <div class="col-md-3 div-hover">
                     <a href="{{route('drdr')}}">
                     <div class="card ">
-                        <div class="card-header ">
+                        <div class="card-header text-center">
                             <h4 class="card-title">Document Review & Distribution Request</h4>
                         </div>
                         <hr>
@@ -15,8 +15,8 @@
                         </div>
                         <div class="card-footer mb-4">
                             <hr>
-                            <div class="stats">
-                                <i class="fa fa-clock-o"></i> Is a process of requesting for propose, revise and cancel of internal documents.
+                            <div class="stats text-center">
+                                <i class="fa fa-clock-o"></i> Process of requesting for proposal, revision and cancellation of internal documents
                             </div>
                         </div>
                     </a>
@@ -25,7 +25,7 @@
             <div class="col-md-3 div-hover">
                 <a href="{{route('ddr')}}">
                     <div class="card ">
-                        <div class="card-header">
+                        <div class="card-header text-center">
                             <h4 class="card-title">Document Distribution Request</h4>
                         </div>
                         <hr>
@@ -34,8 +34,8 @@
                         </div>
                         <div class="card-footer mb-4">
                             <hr>
-                            <div class="stats">
-                                <i class="fa fa-clock-o"></i>Is a process of requesting of control and uncontrol copy of internal or external document.
+                            <div class="stats text-center">
+                                <i class="fa fa-clock-o"></i>Process of requesting for control and distribution of external and internal documents
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
             <div class="col-md-3 div-hover">
                 <a href="{{route('ccir')}}">
                     <div class="card ">
-                        <div class="card-header ">
+                        <div class="card-header text-center">
                             <h4 class="card-title">Customer Complaint Investigation Report</h4>
                         </div>
                         <hr>
@@ -53,8 +53,8 @@
                         </div>
                         <div class="card-footer mb-4">
                             <hr>
-                            <div class="stats">
-                                <i class="fa fa-clock-o"></i>  Is the process of providing initial investigation for customer complaint.
+                            <div class="stats text-center">
+                                <i class="fa fa-clock-o"></i>Process of providing initial investigation for customer complaint
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
             <div class="col-md-3 div-hover">
                 <a href="{{route('ncn')}}">
                     <div class="card ">
-                        <div class="card-header">
+                        <div class="card-header text-center">
                             <h4 class="card-title">Non-conformance Notification</h4>
                         </div>
                         <hr>
@@ -72,8 +72,8 @@
                         </div>
                         <div class="card-footer ">
                             <hr>
-                            <div class="stats">
-                                <i class="fa fa-clock-o"></i>Is the issuance of notice to responsible office / person due to non-fulfillment of a requirement/s.
+                            <div class="stats text-center">
+                                <i class="fa fa-clock-o"></i>Issuance of notification to responsible office/person due to non-fulfilment of requirement/s
                             </div>
                         </div>
                     </div>
