@@ -68,7 +68,7 @@
                 </tr>
                 <tr>
                     <td><strong>Quantity of sample</strong></td>
-                    <td colspan="6" v-if="ccirs.length">{{ ccirs[0].quality_of_sample }}  </td>
+                    <td colspan="6" v-if="ccirs.length">{{ ccirs[0].quantity_of_sample }}  </td>
                 </tr>
                 <tr>
                     <td><strong>Return Date</strong></td> 

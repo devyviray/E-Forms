@@ -87,10 +87,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="quality_of_sample" class="col-sm-3 col-form-label">Quantity of sample</label>
+                                    <label for="quantity_of_sample" class="col-sm-3 col-form-label">Quantity of sample</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" v-model="ccir.quality_of_sample" id="quality_of_sample">
-                                        <span class="error" v-if="errors.quality_of_sample">{{ errors.quality_of_sample[0] }}</span>
+                                        <input type="text" class="form-control" v-model="ccir.quantity_of_sample" id="quantity_of_sample">
+                                        <span class="error" v-if="errors.quantity_of_sample">{{ errors.quantity_of_sample[0] }}</span>
                                     </div>  
                                 </div>
                             </div>
@@ -205,7 +205,7 @@ export default {
                 others: ' ',
                 other_details: '',
                 affected_quantity: '', 
-                quality_of_sample: '',
+                quantity_of_sample: '',
                 attached_file: '',
                 verifier_id: '',
                 status: '',
@@ -300,7 +300,7 @@ export default {
             this.formData.append('other_details', ccir.other_details);
             this.formData.append('delivery_date', ccir.delivery_date);
             this.formData.append('affected_quantity', ccir.affected_quantity);
-            this.formData.append('quality_of_sample', ccir.quality_of_sample);
+            this.formData.append('quantity_of_sample', ccir.quantity_of_sample);
             this.formData.append('request_date',ccir.request_date);
             this.formData.append('returned_date', ccir.returned_date);
 

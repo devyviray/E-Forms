@@ -25,7 +25,8 @@
                     <tr v-for="drdrSubmitted in filteredQueues  " v-bind:key="drdrSubmitted.id">
                         <td>{{ drdrSubmitted.id }}</td>
                         <td>{{ drdrSubmitted.document_title }}</td>
-                        <td>{{ drdrSubmitted.rev_number  }}</td>
+                        <td v-if="drdrSubmitted.rev_number !== 'null'">{{ drdrSubmitted.rev_number  }}</td>
+                        <td style="padding-left: 30px" v-else>{{ "-" }}</td>  
                         <td>
                             {{ drdrSubmitted.reviewer.name }}<br>
                             <span style="color: red" v-if="drdrSubmitted.status == 2"> NOT YET APPROVED </span>

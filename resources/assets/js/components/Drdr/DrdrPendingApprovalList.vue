@@ -28,7 +28,8 @@
                         <td>{{ drdrsPendingApprovalForm.id }}</td>
                         <td>{{ drdrsPendingApprovalForm.document_title }}</td>
                         <td>{{ drdrsPendingApprovalForm.company.name  }}</td>
-                        <td>{{ drdrsPendingApprovalForm.rev_number }}</td>  
+                        <td v-if="drdrsPendingApprovalForm.rev_number !== 'null'">{{ drdrsPendingApprovalForm.rev_number }}</td>
+                        <td style="padding-left: 30px" v-else>{{ "-" }}</td> 
                         <td>
                             {{ drdrsPendingApprovalForm.reviewer.name }}<br>
                             <span style="color: red" v-if="drdrsPendingApprovalForm.status == 2"> NOT YET APPROVED </span>

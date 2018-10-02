@@ -88,8 +88,8 @@ class CcirController extends Controller
             'others' =>  $rules,
             'other_details' => 'required',
             'delivery_date' => 'required',
-            'affected_quantity' => 'required|integer',
-            'quality_of_sample' => 'required',
+            'affected_quantity' => 'required',
+            'quantity_of_sample' => 'required',
             'returned_date' => 'required',
             'attachments' => 'required'
         ]);
@@ -107,7 +107,7 @@ class CcirController extends Controller
         $ccirs->others = $request->input('nature_of_complaint') == 6 ? $request->input('others') : '';
         $ccirs->other_details = $request->input('other_details');
         $ccirs->affected_quantity = $request->input('affected_quantity');
-        $ccirs->quality_of_sample = $request->input('quality_of_sample');
+        $ccirs->quantity_of_sample = $request->input('quantity_of_sample');
         $ccirs->returned_date =  \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('returned_date'));
         $ccirs->status = StatusType::SUBMITTED;
 

@@ -27,7 +27,8 @@
                         <td>{{ drdrsApprovedForm.id }}</td>
                         <td>{{ drdrsApprovedForm.document_title }}</td>
                         <td>{{ drdrsApprovedForm.company.name  }}</td>
-                        <td>{{ drdrsApprovedForm.rev_number }}</td>
+                        <td v-if="drdrsApprovedForm.rev_number !== 'null'">{{ drdrsApprovedForm.rev_number }}</td>
+                        <td style="padding-left: 30px" v-else>{{ "-" }}</td> 
                         <td>
                             {{ drdrsApprovedForm.reviewer.name }}<br>
                             <span style="color: red" v-if="drdrsApprovedForm.status == 2"> NOT YET APPROVED </span>

@@ -27,8 +27,8 @@ class CreateCcirformsTable extends Migration
             $table->integer('nature_of_complaint');
             $table->string('others')->nullable();
             $table->string('other_details');
-            $table->integer('affected_quantity');
-            $table->string('quality_of_sample');
+            $table->string('affected_quantity');
+            $table->string('quantity_of_sample');
             $table->string('car_number')->nullable();
             $table->integer('verifier_id')->nullable();
             $table->datetime('verified_date')->nullable();

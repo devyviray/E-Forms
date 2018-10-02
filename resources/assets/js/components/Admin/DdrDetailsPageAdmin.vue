@@ -1,6 +1,8 @@
 <template>
     <div id="page-content-wrapper">
-        <div class="container-fluid" v-if="ddrs.length">
+        <spinner-loading v-if="isLoading"></spinner-loading>
+        <div class="container-fluid" v-if="ddrs.length">          
+            <a v-if="ddrs[0].status == 4" href="javascript:void(0)"  @click="getDdrId(ddrs[0].id)" data-toggle="modal" data-target="#distributedDdrModal" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"> Mark As Distributed </a> 
             <a :href="hrefLink" target="_blank" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"> Print as PDF </a> 
             <hr>
 
@@ -144,17 +146,47 @@
             <small></small>
             <p></p>
         </div>
+          <!-- Mark as distributed Modal -->
+        <div  class="modal fade" id="distributedDdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="editCompanyLabel">Mark as distributed</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>   
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
+                    <div class="form-group">
+                        <span> Are you sure to mark this document as distributed?</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                <button @click="distributeDdr(selected_id)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
+                </div>
+            </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import moment from 'moment';
+import SpinnerLoading from '../SpinnerLoading';
+
 export default {
+    components:{
+        SpinnerLoading
+    },
     props:['ddrId'],
     data(){
         return{
             ddrs: [],
-            errors: ''
+            errors: '',
+            selected_id:'',
+            isLoading: false
         }
     },
     created(){
@@ -171,7 +203,33 @@ export default {
             .catch(error => {
                 this.errors = error.response.data.errors;
             })
-        }
+        },
+        getDdrId(id)
+        {
+            this.selected_id = id;
+        },
+        distributeDdr(id){
+            $('#distributedDdrModal').modal('hide');
+            this.isLoading = true;
+            axios.post('/admin/ddr-distributed', { 
+                'id': id
+            })
+            .then(response=> {
+                this.isLoading = false;
+                this.$toast.success({
+                    title:'SUCCESS',
+                    message:'DRDR Succesfully Distributed',
+                    position: 'top right'
+                });
+
+                this.selected_id = '';
+                location.reload();
+            })
+            .catch(error => {
+                this.isLoading = false; 
+                this.errors = response.data.errors;
+            })
+        },
     },
     computed:{
         hrefLink()

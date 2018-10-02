@@ -308,7 +308,8 @@ export default {
                 this.selected_id = '';
                 window.location.href = response.data.redirect;
             })
-            .catch(error => { 
+            .catch(error => {
+                this.isLoading = false; 
                 this.errors = response.data.errors;
             })
         },

@@ -63,7 +63,7 @@
             </tr>
             <tr>
                 <td class="info"> <strong> Quantity of sample </strong> </td>
-                <td colspan="2"> {{ $ccir[0]->quality_of_sample }} </td>
+                <td colspan="2"> {{ $ccir[0]->quantity_of_sample }} </td>
                 <td class="info"> <strong> Return Date </strong> </td>
                 <td colspan="3"> {{  date('F j, Y', strtotime($ccir[0]->returned_date ))  }} </td>
             </tr>
