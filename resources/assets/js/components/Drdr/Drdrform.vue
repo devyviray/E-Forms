@@ -1,9 +1,9 @@
 <template>
     <div>
         <spinner-loading v-if="isLoading"></spinner-loading>
-        <div class="col-md-12">
+        <div class="card col-md-12">
             <div class="row">
-                <div class="card col-md-12">
+                <div class="col-md-12 mb-5">
                     <form>
                         <div class="form-group">
                             <h1 style="color: #888888; text-align: center;">ADD DRDR</h1>
@@ -112,6 +112,84 @@
                         </div>        
                         <button @click="addDrdr(drdr,company,reviewer)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                     </form>
+                </div>
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <th>Type of Document</th>
+                            <th>Proposing Authority</th>
+                            <th>Reviewing Authority</th>
+                            <th class="d-block">Approving Authority</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>FSMS / HACCP / QMS Manual</td>
+                                <td>Management Representative or Team Member</td>
+                                <td>Regional TQM Manager or Assistant Team Leader or equivalent position</td>
+                                <td class="d-block">VP for Corporate QA or Team Leader</td>
+                            </tr>
+                            <tr>
+                                <td>PRP programs / GMP Manual</td>
+                                <td>MR Supervisor or User of the program</td>
+                                <td>Regional QM Manager or Department head</td>
+                                <td class="d-block">QM Manager or equivalent position</td>
+                            </tr>
+                            <tr>
+                                <td>CMP Manual</td>
+                                <td>Chief Security Officer</td>
+                                <td>Safety Coordinator</td>
+                                <td class="d-block">VP for group Admin and General Services</td>
+                            </tr>
+                            <tr>
+                                <td>KPI</td>
+                                <td>Manager or equivalent position</td>
+                                <td>Vice President or equivalent position</td>
+                                <td class="d-block">President or equivalent position</td>
+                            </tr>
+                            <tr>
+                                <td>Policy</td>
+                                <td>Supervisor or equivalent position</td>
+                                <td>Administrator or Department Head</td>
+                                <td class="d-block">Vice President or equivalent position</td>
+                            </tr>
+                            <tr>
+                                <td>Procedure</td>
+                                <td>MR or Supervisor</td>
+                                <td>Manager</td>
+                                <td class="d-block">Section Head or Department Head</td>
+                            </tr>
+                            <tr>
+                                <td>Guidelines</td>
+                                <td>Immediate User</td>
+                                <td>Supervisor or equivalent position</td>
+                                <td class="d-block">Manager or equivalent position</td>
+                            </tr>
+                            <tr>
+                                <td>Work Instruction</td>
+                                <td>Immediate User</td>
+                                <td>Supervisor</td>
+                                <td class="d-block">Department Head or equivalent position</td>
+                            </tr>
+                            <tr>
+                                <td>Forms</td>
+                                <td>Immediate User</td>
+                                <td>Supervisor</td>
+                                <td class="d-block">Manager</td>
+                            </tr>
+                            <tr>
+                                <td>Operator Standard Work</td>
+                                <td>Technical Group/Supervisor</td>
+                                <td>Manager</td>
+                                <td class="d-block">Vice President or equivalent position</td>
+                            </tr>
+                            <tr>
+                                <td>Externally generated documented</td>
+                                <td>End-user</td>
+                                <td>None</td>
+                                <td class="d-block">Department Head</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
