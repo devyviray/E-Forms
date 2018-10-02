@@ -12,6 +12,7 @@
     
     <!-- Styles -->
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         .sidebar:after, body>.navbar-collapse:after{
             background: none;

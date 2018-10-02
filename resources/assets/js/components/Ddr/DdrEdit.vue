@@ -95,7 +95,6 @@
                         </div>    
                         <div class="form-group">
                             <table class="table table-hover table-striped">
-                                <button @click="addRow()" type="button" class="btn btn-warning btn-round btn-fill mb-2 mt-2">Add Row</button>
                                 <thead>
                                     <th>ID</th>
                                     <th>Document Title</th>
@@ -110,21 +109,27 @@
                                         <td>{{ d + 1 }}</td>
                                         <td>
                                             <input type="text" class="form-control" placeholder="Document title" v-model="ddrlist.document_title">
+                                            <span class="error" v-if="errors['ddrlists.'+d+'.document_title']"> This field is required </span>  
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" placeholder="Control Code" v-model="ddrlist.control_code">
+                                            <span class="error" v-if="errors['ddrlists.'+d+'.control_code']"> This field is required </span>  
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" placeholder="Rev No." v-model="ddrlist.rev_number">
+                                            <span class="error" v-if="errors['ddrlists.'+d+'.rev_number']"> This field is required </span> 
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" placeholder="Copy No." v-model="ddrlist.copy_number">
+                                            <span class="error" v-if="errors['ddrlists.'+d+'.copy_number']"> This field is required </span> 
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" placeholder="Copy Holder" v-model="ddrlist.copy_holder">
+                                            <span class="error" v-if="errors['ddrlists.'+d+'.copy_holder']"> This field is required </span> 
                                         </td>
                                         <td>
-                                            <button @click="deleteRow(d, ddrlist.id)" type="button" class="btn btn-danger btn-round btn-fill">Delete Row</button>
+                                            <i @click="addRow(d)" class="material-icons mr-2" style="font-size:40px;color:green;cursor:pointer">add_circle_outline</i>
+                                            <i @click="deleteRow(d)" class="material-icons ml-2" style="font-size:40px;color:red;cursor:pointer">delete_forever</i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -283,8 +288,8 @@ export default {
                 })
             }
         },
-        addRow(){
-            this.ddrlists.push({
+        addRow(d){
+            this.ddrlists.splice(d + 1, 0,{
                 document_title: '',
                 control_code: '',
                 rev_number: '',

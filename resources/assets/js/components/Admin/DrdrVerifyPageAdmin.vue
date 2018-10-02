@@ -62,7 +62,6 @@
             </div>
             <div class="form-group">
                 <table class="table table-hover table-striped">
-                    <button @click="addRow()" type="button" class="btn btn-warning btn-round btn-fill mb-2 mt-2">Add Row</button>
                     <thead>
                         <th>ID</th>
                         <th>Copy No.</th>
@@ -81,7 +80,8 @@
                                 <span class="error" v-if="errors['drdrcopyholders.'+d+'.copy_holder']">This field is required</span>
                             </td>
                             <td>
-                                <button @click="deleteRow(d)" type="button" class="btn btn-danger btn-round btn-fill">Delete Row</button>
+                                <i @click="addRow(d)" class="material-icons mr-2" style="font-size:40px;color:green;cursor:pointer">add_circle_outline</i>
+                                <i @click="deleteRow(d)" class="material-icons ml-2" style="font-size:40px;color:red;cursor:pointer">delete_forever</i>
                             </td>
                         </tr>
                     </tbody>
@@ -196,11 +196,15 @@ export default {
             var base_url = window.location.origin;
             window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
         },
-        addRow(){
-            this.drdrcopyholders.push({
+        addRow(d){
+            this.drdrcopyholders.splice(d + 1, 0,{
                 copy_number: '',
                 copy_holder: ''
             })
+            // this.drdrcopyholders.push({
+            //     copy_number: '',
+            //     copy_holder: ''
+            // })
         },
         deleteRow(index) {
             this.drdrcopyholders.length < 2 ? alert('Unable to delete all row') : this.drdrcopyholders.splice(index,1);

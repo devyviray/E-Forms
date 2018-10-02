@@ -96,7 +96,6 @@
                         </div>  
                         <div class="form-group">
                             <table class="table table-hover table-striped">
-                                <button @click="addRow()" type="button" class="btn btn-warning btn-round btn-fill mb-2 mt-2">Add Row</button>
                                 <thead>
                                     <th>ID</th>
                                     <th>Document Title</th>
@@ -130,7 +129,8 @@
                                             <span class="error" v-if="errors['ddrlists.'+d+'.copy_holder']"> This field is required </span>  
                                         </td>
                                         <td>
-                                            <button @click="deleteRow(d)" type="button" class="btn btn-danger btn-round btn-fill">Delete Row</button>
+                                            <i @click="addRow(d)" class="material-icons mr-2" style="font-size:40px;color:green;cursor:pointer">add_circle_outline</i>
+                                            <i @click="deleteRow(d)" class="material-icons ml-2" style="font-size:40px;color:red;cursor:pointer">delete_forever</i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -325,8 +325,8 @@ export default {
                 this.errors = error.response.data.errors;
             });
         },
-        addRow(){
-            this.ddrlists.push({
+        addRow(d){   
+            this.ddrlists.splice(d + 1, 0,{
                 document_title: '',
                 control_code: '',
                 rev_number: '',
