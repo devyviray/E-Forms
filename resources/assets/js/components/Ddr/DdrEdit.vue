@@ -47,14 +47,28 @@
                                 <div class="form-group row">
                                     <label for="company" class="col-sm-3 col-form-label">Company</label>
                                     <div class="col-sm-9">
-                                    <select v-model="ddrs[0].company.id" class="form-control form-control-lg" @change="getCompanyId(ddrs[0].company.id)" id="company">
+                                    <select v-model="ddrs[0].company.name" class="form-control form-control-lg" id="company">
                                         <option value="" disabled selected>Select Company</option>
-                                        <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
+                                        <option v-for="(company, c) in companies" :value="company.name" v-bind:key="c">{{ company.name }}</option>
                                     </select>
                                     <span class="error" v-if="errors.company">{{ errors.company[0] }}</span>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                               <div class="form-group row">
+                                    <label for="companyLocation" class="col-sm-3 col-form-label">Location</label>
+                                    <div class="col-sm-9">
+                                        <select v-model="ddrs[0].company.id" class="form-control form-control-lg" @change="getCompanyId(ddrs[0].company.id)"  id="companyLocation">
+                                            <option value="" disabled selected>Select  Company Location</option>
+                                            <option v-for="(loc, c) in selectedLocation" :value="loc.id" v-bind:key="c">{{ loc.address }}</option>
+                                        </select>
+                                        <span class="error" v-if="errors.company_location">{{ errors.company_location[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="department" class="col-sm-3 col-form-label">Department</label>
@@ -67,7 +81,18 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="approver" class="col-sm-3 col-form-label">Approver</label>
+                                    <div class="col-sm-9">
+                                        <select v-model="ddrs[0].approver.id" class="form-control form-control-lg" id="approver">
+                                            <option value="" disabled selected>Select Approver</option>
+                                            <option v-for="(approver, a) in approvers" v-bind:key="a" :value="approver.id">{{ approver.name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
                         <div class="form-group">
                             <table class="table table-hover table-striped">
                                 <button @click="addRow()" type="button" class="btn btn-warning btn-round btn-fill mb-2 mt-2">Add Row</button>
@@ -105,19 +130,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-md-12">
-                                <div class="form-group row">
-                                    <label for="approver" class="col-sm-3 col-form-label">Approver</label>
-                                    <div class="col-sm-9">
-                                        <select v-model="ddrs[0].approver.id" class="form-control form-control-lg" id="approver">
-                                            <option value="" disabled selected>Select Approver</option>
-                                            <option v-for="(approver, a) in approvers" v-bind:key="a" :value="approver.id">{{ approver.name }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <button @click="updateDdr(ddrs[0], ddrlists)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right mb-4" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Submit</button>
                     </form>
                 </div>
@@ -153,6 +165,7 @@ export default {
     data(){
         return{
             ddrs: [],
+            locations: [],
             companies: [],
             company:{
                 id: '',
@@ -192,6 +205,14 @@ export default {
         this.fetchDrdrs();
         this.fetchDepartments();
         this.fetchCompanies();
+        this.fetchLocations();
+    },
+    computed: {
+        selectedLocation() {
+            return this.locations.filter(item => {
+                return  item.name === this.ddrs[0].company.name;
+            })
+        }
     },
     methods: {
         fetchDrdrs(){
@@ -215,6 +236,15 @@ export default {
             axios.get('/departments')
             .then(response => {
                 this.departments = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
+        fetchLocations() {
+            axios.get('/companyLocation')
+            .then(response => {
+                this.locations = response.data;
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
@@ -283,6 +313,7 @@ export default {
                 reason: ddr.reason_of_distribution,
                 date_needed: ddr.date_needed,
                 company: ddr.company.id,
+                company_location: ddr.company.id,
                 approver: ddr.approver.id,
                 department: ddr.department.id,
                 others: ddr.others,

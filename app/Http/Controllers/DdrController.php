@@ -79,9 +79,9 @@ class DdrController extends Controller
     {   
         $rules = $request->input('reason') == 3 ? 'required' : '';
         $validator = $request->validate([
-            'company_id' => 'required',
+            'company' => 'required',
             'company_location' => 'required',
-            'department_id' => 'required' ,
+            'department' => 'required' ,
             'reason' => 'required',
             'others' => $rules,
             'date_needed' => 'required',
@@ -90,23 +90,23 @@ class DdrController extends Controller
             "ddrlists.*.rev_number"  => "required",
             "ddrlists.*.copy_number"  => "required",
             "ddrlists.*.copy_holder"  => "required",
-            'approver_id' => 'required' 
+            'approver' => 'required' 
         ]);
 
         $ddr = new Ddr;
         $carbon = new Carbon();
  
-        $ddr->company_id = $request->input('company_id');
-        $ddr->department_id = $request->input('department_id');
+        $ddr->company_id = $request->input('company');
+        $ddr->department_id = $request->input('department');
         $ddr->reason_of_distribution = $request->input('reason');
         $ddr->date_needed = Carbon::parse($request->input('date_needed'));
         $ddr->date_request = $carbon::now();
         $ddr->requester_id  = Auth::user()->id;
-        $ddr->approver_id = $request->input('approver_id');
+        $ddr->approver_id = $request->input('approver');
         $ddr->others = $request->input('reason') == 3 ? $request->input('others') : '';
         $ddr->status = StatusType::SUBMITTED;
 
-        $approver = User::findOrFail($request->input('approver_id'));
+        $approver = User::findOrFail($request->input('approver'));
         $approver->notify(new RequesterSubmitDdr($ddr, Auth::user()));
 
         if($ddr->save()){
@@ -240,6 +240,7 @@ class DdrController extends Controller
     {
         $validator = $request->validate([
             'company' => 'required',
+            'company_location' => 'required',
             'approver' => 'required' ,
             'department' => 'required' ,
             'reason' => 'required',

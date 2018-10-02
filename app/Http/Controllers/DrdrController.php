@@ -260,6 +260,7 @@ class DrdrController extends Controller
             'document_title' => 'required',
             'rev_number' => $rule,
             'company_id' => 'required',
+            'company_location' => 'required',
             'reviewer_id' => 'required',
             'reason_request' => 'required',
             'company_id' => 'required',

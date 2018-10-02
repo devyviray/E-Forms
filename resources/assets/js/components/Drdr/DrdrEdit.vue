@@ -25,49 +25,6 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="rev_number" class="col-sm-3 col-form-label">Current Rev No.</label>
-                                    <div class="col-sm-9">
-                                        <input type="textrev_number" class="form-control" placeholder="Rev. No." v-if="drdrs.length" v-model="drdrs[0].rev_number" id="rev_number">
-                                        <span class="error" v-if="errors.rev_number">{{ errors.rev_number[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="effective_date" class="col-sm-3 col-form-label">Effective date</label>
-                                    <div class="col-sm-9">
-                                        <datepicker placeholder="Select Effective Date" v-if="drdrs.length" v-model="drdrs[0].effective_date" id="effective_date"></datepicker>
-                                        <span class="error" v-if="errors.effective_date">{{ errors.effective_date[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="company" class="col-sm-3 col-form-label">Company</label>
-                                    <div class="col-sm-9">
-                                        <select v-model="drdrs[0].company.id" class="form-control form-control-lg" @change="fetchReviewers(drdrs[0].company.id)">
-                                            <option value="" disabled selected>Select Company</option>
-                                            <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name + ' - ' + company.address }}</option>
-                                        </select>
-                                        <span class="error" v-if="errors.company_id">{{ errors.company_id[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="document_title" class="col-sm-3 col-form-label">Document title</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Document Title" v-if="drdrs.length" v-model="drdrs[0].document_title" id="document_title">
-                                        <span class="error" v-if="errors.document_title">{{ errors.document_title[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
                                     <label for="reason_request" class="col-sm-3 col-form-label">Reason</label>
                                     <div class="col-sm-9">
                                         <textarea class="form-control" v-if="drdrs.length" v-model="drdrs[0].reason_request" id="reason_request" cols="30" rows="10" placeholder="Reason"></textarea>
@@ -78,6 +35,69 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
+                                    <label for="document_title" class="col-sm-3 col-form-label">Document title</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Document Title" v-if="drdrs.length" v-model="drdrs[0].document_title" id="document_title" style="height: 100px;">
+                                        <span class="error" v-if="errors.document_title">{{ errors.document_title[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="rev_number" class="col-sm-3 col-form-label">Current Rev No.</label>
+                                    <div class="col-sm-9">
+                                        <input type="textrev_number" class="form-control" placeholder="Rev. No." v-if="drdrs.length" v-model="drdrs[0].rev_number" id="rev_number">
+                                        <span class="error" v-if="errors.rev_number">{{ errors.rev_number[0] }}</span>
+                                    </div>
+                                </div>
+
+                                 <div class="form-group row">
+                                    <label for="effective_date" class="col-sm-3 col-form-label">Effective date</label>
+                                    <div class="col-sm-9">
+                                        <datepicker placeholder="Select Effective Date" v-if="drdrs.length" v-model="drdrs[0].effective_date" id="effective_date"></datepicker>
+                                        <span class="error" v-if="errors.effective_date">{{ errors.effective_date[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="company" class="col-sm-3 col-form-label">Company</label>
+                                    <div class="col-sm-9">
+                                        <select v-model="drdrs[0].company.name" class="form-control form-control-lg">
+                                            <option value="" disabled selected>Select Company</option>
+                                            <option v-for="(company, c) in companies" :value="company.name" v-bind:key="c">{{ company.name  }}</option>
+                                        </select>
+                                        <span class="error" v-if="errors.company_id">{{ errors.company_id[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="effective_date" class="col-sm-3 col-form-label">Location</label>
+                                    <div class="col-sm-9">
+                                        <select v-model="drdrs[0].company.id" class="form-control form-control-lg" @change="fetchReviewers(drdrs[0].company.id)"  id="company">
+                                            <option value="" disabled selected>Select  Company Location</option>
+                                            <option v-for="(loc, c) in selectedLocation" :value="loc.id" v-bind:key="c">{{ loc.address }}</option>
+                                        </select>
+                                        <span class="error" v-if="errors.company_location">{{ errors.company_location[0] }}</span>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
+                                         <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
                                     <label for="reviewer" class="col-sm-3 col-form-label">Reviewer</label>
                                     <div class="col-sm-9">
                                         <select v-model="drdrs[0].reviewer.id" class="form-control form-control-lg" id="reviewer">
@@ -85,15 +105,6 @@
                                             <option v-for="(reviewer, r) in reviewers" v-bind:key="r" :value="reviewer.id">{{ reviewer.name }}</option>
                                         </select>
                                         <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
-                                    <div class="col-sm-9">
-                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
-                                         <span class="error" v-if="errors.reviewer_id">{{ errors.reviewer_id[0] }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -172,6 +183,14 @@ export default {
     created(){
         this.fetchDrdrs();
         this.fetchCompanies();
+        this.fetchLocations();
+    },
+    computed: {
+        selectedLocation() {
+            return this.locations.filter(item => {
+                return  item.name === this.drdrs[0].company.name;
+            })
+        }
     },
     methods: {
         selectedType()
@@ -226,6 +245,15 @@ export default {
                 this.errors = error.response.data.errors;
             });
         },
+        fetchLocations() {
+            axios.get('/companyLocation')
+            .then(response => {
+                this.locations = response.data;
+            })
+            .catch(error => {
+                this.errors = error.response.data.errors;
+            });
+        },
         fetchCompanies(){
             axios.get('/companies')
             .then(response => {
@@ -252,6 +280,7 @@ export default {
             this.formData.append('rev_number', drdrs.rev_number);
             this.formData.append('reason_request', drdrs.reason_request);
             this.formData.append('company_id', drdrs.company.id);
+            this.formData.append('company_location', drdrs.company.id);
             this.formData.append('reviewer_id', drdrs.reviewer.id);
             this.formData.append('effective_date', drdrs.effective_date);
             axios.post(`/drdr/${this.drdr_id}`,this.formData)
