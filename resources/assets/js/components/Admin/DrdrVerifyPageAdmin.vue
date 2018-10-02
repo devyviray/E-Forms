@@ -74,9 +74,11 @@
                             <td>{{ d + 1 }}</td>
                             <td>
                                 <input type="text" class="form-control" placeholder="Copy No." v-model="drdrcopyholder.copy_number">
+                                <span class="error" v-if="errors['drdrcopyholders.'+d+'.copy_number']">This field is required</span>
                             </td>
                             <td>
                                 <input type="text" class="form-control" placeholder="Copy Holder" v-model="drdrcopyholder.copy_holder">
+                                <span class="error" v-if="errors['drdrcopyholders.'+d+'.copy_holder']">This field is required</span>
                             </td>
                             <td>
                                 <button @click="deleteRow(d)" type="button" class="btn btn-danger btn-round btn-fill">Delete Row</button>
