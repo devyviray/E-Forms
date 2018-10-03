@@ -68,6 +68,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a @click="viewNcnDetails(ncn.id)" class="dropdown-item" href="javascript:void(0)">View</a>
+                                    <a  v-if="roleId.includes(3) && ncn.status == 2 && ncn.approver_id == userId" class="dropdown-item" :href="approvalLnik+ncn.id">Approve</a>
                                     <!-- <a @click="getNcnId(ncn.id)" class="dropdown-item" data-toggle="modal" data-target="#trashNcnModal" href="javascript:void(0)">Move to trash</a> -->
                                 </div>
                             </div>
@@ -111,6 +112,10 @@ import moment from 'moment';
 import SpinnerLoading from '../SpinnerLoading';
 
 export default {
+    props: [
+        'roleId',
+        'userId'
+    ],
     components:{
       Datepicker,
       SpinnerLoading  
@@ -211,6 +216,9 @@ export default {
 
             return queues_array;
         },
+        approvalLnik(){
+            return window.location.origin+'/ncn-approve/';
+        }
     }
 }
 </script>

@@ -66,9 +66,7 @@
                                     <a @click="viewDdrDetails(ddr.id)" class="dropdown-item" href="javascript:void(0)">View</a>
                                     <a v-if="ddr.status == 4" @click="getDdr(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#editDdrModal" href="javascript:void(0)">Edit Document</a>
                                     <a v-if="ddr.status == 4" @click="getDdrId(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDdrModal" href="javascript:void(0)">Mark as distributed</a>
-                                    <!-- <a class="dropdown-item" href="#">Move to trash</a>
-                                    <a class="dropdown-item" href="#">Mark as archive</a>
-                                    <a class="dropdown-item" href="#">Cancel document</a> -->
+                                    <a  v-if="roleId.includes(3) && ddr.status == 2 && ddr.approver_id == userId" class="dropdown-item" :href="approvalLnik+ddr.id">Approve</a>
                                 </div>
                             </div>
                         </td>
@@ -194,6 +192,10 @@ import CxltToastr from 'cxlt-vue2-toastr';
 Vue.use(CxltToastr);
 
 export default {
+    props: [
+        'roleId',
+        'userId'
+    ],
     components:{
       Datepicker,
       VueContentPlaceholders,
@@ -354,6 +356,9 @@ export default {
 
             return queues_array;
         },
+        approvalLnik(){
+            return window.location.origin+'/ddr-approve/';
+        }
     }
 }
 </script>
