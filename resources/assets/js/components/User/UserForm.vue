@@ -173,7 +173,7 @@ export default {
     },
     methods: {
         customLabelCompany (company) {
-            return `${company.name}`
+            return `${company.name + ' - ' + company.address }`
         },
         customLabelRole (role) {
             return `${role.name}`
@@ -224,7 +224,7 @@ export default {
             });
         },
         fetchCompanies(){
-            axios.get('/companies')
+            axios.get('/companyLocation')
             .then(response => {
                 this.companies = response.data;
             })

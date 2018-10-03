@@ -57,7 +57,8 @@
                 </tr>
                 <tr>
                     <td><strong>Return Date</strong></td> 
-                    <td colspan="6" v-if="ccirs.length">{{ moment(ccirs[0].returned_date).format('LL') }}</td>
+                    <td colspan="6" v-if="ccirs.length && ccirs[0].returned_date">{{ moment(ccirs[0].returned_date).format('LL') }}</td>
+                    <td colspan="6" v-else></td>
                 </tr>
                 <tr>
                     <td><strong>Nature of Complaint</strong></td>

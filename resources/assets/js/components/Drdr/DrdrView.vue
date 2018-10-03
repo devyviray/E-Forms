@@ -136,13 +136,15 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="border-left: 0 ! important;"> DRDR NO:  </td>
+                                <td v-if="drdrs.length && drdrs[0].drdr_no" style="border-left: 0 ! important;"> DRDR NO:  {{ drdrs[0].drdr_no }} </td>
+                                <td v-else style="border-left: 0 ! important;"> DRDR NO:  </td>
                             </tr>
                             <tr>
                                 <td style="border-left: 0 ! important;" v-if="drdrs.length && drdrs[0].document_title"> Document Title:  {{ drdrs[0].document_title }}  </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Document Code: </td>
+                                <td v-if="drdrs.length && drdrs[0].document_code" style="border-left: 0 ! important;"> Document Code: {{ drdrs[0].document_code }} </td>
+                                <td v-else style="border-left: 0 ! important;"> Document Code:  </td>
                             </tr>
                             <tr>
                                 <td style="border-left: 0 ! important;" v-if="drdrs.length && drdrs[0].rev_number"> Revision No: {{ drdrs[0].rev_number }} </td>

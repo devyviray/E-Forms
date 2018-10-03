@@ -68,10 +68,7 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a  @click="viewDrdrDetails(drdr.id)" class="dropdown-item"  href="javascript:void(0)">View</a>
                                     <a v-if="drdr.status == 4" class="dropdown-item"  :href="verifyLink+drdr.id">Mark as verify</a>
-                                    <!-- <a v-if="drdr.status == 4" @click="getDrdrId(drdr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDrdrModal" href="javascript:void(0)">Mark as verify</a> -->
-                                    <!-- <a class="dropdown-item" href="#">Move to trash</a>
-                                    <a class="dropdown-item" href="#">Mark as archive</a>
-                                    <a class="dropdown-item" href="#">Cancel document</a> -->
+                                    <a  v-if="roleId.includes(3) && drdr.status == 3 && drdr.approver_id == userId" class="dropdown-item" :href="approvalLnik+drdr.id">Approve</a>
                                 </div>
                             </div>
                         </td>
@@ -142,6 +139,10 @@ import CxltToastr from 'cxlt-vue2-toastr';
 Vue.use(CxltToastr);
 
 export default {
+    props: [
+        'roleId',
+        'userId'
+        ],
     components:{
       Datepicker,
       VueContentPlaceholders,
@@ -250,6 +251,9 @@ export default {
         },
         verifyLink(){
             return window.location.origin+'/admin/drdr-verify/';
+        },
+        approvalLnik(){
+            return window.location.origin+'/drdr-approve/';
         }
     }
 }

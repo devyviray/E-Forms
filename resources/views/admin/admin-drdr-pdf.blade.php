@@ -121,9 +121,17 @@
                     <td class="info"> <strong> Copyholder (Department) </strong></td>
                     <td rowspan="1"> 
                         <strong>Effective date: </strong> {{  date('F j, Y', strtotime($drdr[0]->effective_date))  }}  <br/>
-                        <strong style="margin-top: 10px;">DRDR NO:</strong>  <br/>
+                        @if($drdr[0]->drdr_no)
+                            <strong style="margin-top: 10px;">DRDR NO:</strong>{{ $drdr[0]->drdr_no }} <br/>
+                        @else
+                            <strong style="margin-top: 10px;">DRDR NO:</strong> <br/>
+                        @endif
                         <strong style="margin-top: 10px;">Document Title:</strong> {{ $drdr[0]->document_title }} <br/>
-                        <strong style="margin-top: 10px;">Document Code:</strong>  <br/>
+                        @if($drdr[0]->document_code)
+                            <strong style="margin-top: 10px;">DRDR NO:</strong>{{ $drdr[0]->document_code }} <br/>
+                        @else
+                            <strong style="margin-top: 10px;">Document Code:</strong>  <br/>
+                        @endif
                         <strong style="margin-top: 10px;">Revision No:</strong> {{ $drdr[0]->rev_number }}
                     </td>
                 </tr>

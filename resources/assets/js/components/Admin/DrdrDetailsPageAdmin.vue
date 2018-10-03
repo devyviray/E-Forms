@@ -73,8 +73,10 @@
                     <tr>
                         <td> <strong> Requested By: </strong> </td>
                         <td v-if="drdrs.length"> {{ drdrs[0].requester.name }}</td>
-                        <td> <strong> Position: </strong> </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].requester.position }} </td>
+                        <td> <strong> Position: </strong> &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
+                            {{ drdrs[0].requester.position }}
+                        </td>
+                        <td v-if="drdrs.length">  </td>
                         <td><strong>Date:</strong></td>
                         <td v-if="drdrs.length"> {{ moment(drdrs[0].date_request).format('LL') }} </td>
                     </tr>
@@ -163,13 +165,15 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="border-left: 0 ! important;"> DRDR NO:  </td>
+                                <td v-if="drdrs[0].drdr_no" style="border-left: 0 ! important;"> DRDR NO:  {{ drdrs[0].drdr_no }} </td>
+                                <td v-else style="border-left: 0 ! important;"> DRDR NO:  </td>
                             </tr>
                             <tr>
                                 <td style="border-left: 0 ! important;"> Document Title: {{ drdrs[0].document_title }} </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Document Code:  </td>
+                                <td v-if="drdrs[0].document_code" style="border-left: 0 ! important;"> Document Code: {{ drdrs[0].document_code }} </td>
+                                <td v-else style="border-left: 0 ! important;"> Document Code:  </td>
                             </tr>
                             <tr>
                                 <td style="border-left: 0 ! important;"> Revision No: {{ drdrs[0].rev_number }} </td>
