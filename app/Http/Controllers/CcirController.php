@@ -75,7 +75,8 @@ class CcirController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $rule =  $request->input('with_return') == 1 ? 'required' : '';
         $rules = $request->input('nature_of_complaint') == 6 ? 'required' : '';
         $request->validate([
             'complainant' => 'required',
@@ -90,8 +91,9 @@ class CcirController extends Controller
             'delivery_date' => 'required',
             'affected_quantity' => 'required',
             'quantity_of_sample' => 'required',
-            'returned_date' => 'required',
-            'attachments' => 'required'
+            'attachments' => 'required',
+            'with_return' => 'required',
+             'returned_date' => $rule,
         ]);
         
         $ccirs  = new Ccir;
@@ -104,11 +106,15 @@ class CcirController extends Controller
         $ccirs->date_request = $carbon::now();
         $ccirs->delivery_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('delivery_date'));   
         $ccirs->nature_of_complaint = $request->input('nature_of_complaint');
-        $ccirs->others = $request->input('nature_of_complaint') == 6 ? $request->input('others') : '';
+        if($request->input('nature_of_complaint') == 6){
+            $ccirs->others =  $request->input('others');
+        }
+        if($request->input('with_return') == 1){
+            $ccirs->returned_date =  \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('returned_date'));
+        }
         $ccirs->other_details = $request->input('other_details');
         $ccirs->affected_quantity = $request->input('affected_quantity');
         $ccirs->quantity_of_sample = $request->input('quantity_of_sample');
-        $ccirs->returned_date =  \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('returned_date'));
         $ccirs->status = StatusType::SUBMITTED;
 
         if($ccirs->save()){

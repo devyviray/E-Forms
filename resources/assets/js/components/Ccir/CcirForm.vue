@@ -125,7 +125,22 @@
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="returned_date" class="col-sm-3 col-form-label">Date Returned</label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" v-model="ccir.with_return" name="returns" id="with_returns" value="1">
+                                            <label class="form-check-label" for="with_returns" style="padding-left: 0px">
+                                                With Return
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" v-model="ccir.with_return" name="returns" id="without_returns" value="2">
+                                            <label class="form-check-label" for="without_returns" style="padding-left: 0px">
+                                                Without Return
+                                            </label>
+                                        </div>
+                                        <span class="error" v-if="errors.with_return">This field is required</span>
+                                    </div>
+                                    <div class="col-sm-6" v-show="selectedRadio == 1">
                                         <datepicker v-model="ccir.returned_date" placeholder="Select returned date" id="returned_date"></datepicker>
                                         <span class="error" v-if="errors.returned_date">{{ errors.returned_date[0] }}</span>
                                     </div>
@@ -201,6 +216,7 @@ export default {
                 cancel_date: '',
                 delivery_date: '',
                 returned_date: '',
+                with_return: '',
                 nature_of_complaint: '',
                 others: ' ',
                 other_details: '',
@@ -234,6 +250,10 @@ export default {
                     return item.name === findCompany.name
                 })
             }
+        },
+        selectedRadio()
+        {
+            return this.ccir.with_return == 1  ? 1 : 2;
         }
     },
     methods: {
@@ -303,6 +323,7 @@ export default {
             this.formData.append('quantity_of_sample', ccir.quantity_of_sample);
             this.formData.append('request_date',ccir.request_date);
             this.formData.append('returned_date', ccir.returned_date);
+            this.formData.append('with_return', ccir.with_return);
 
             axios.post('/ccir', this.formData)
             .then(response => {
