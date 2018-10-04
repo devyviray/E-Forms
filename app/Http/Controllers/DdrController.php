@@ -458,6 +458,73 @@ class DdrController extends Controller
 
         return $ddrs;
     }
+
+    /**
+     *  Search submitted DDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generateSubmitted(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        
+        $drdrs = Ddr::with(['approver', 'company'])
+                ->where('requester_id', Auth::user()->id)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+
+    /**
+     *  Search approved DDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generateApproved(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        $drdrs = Ddr::with(['requester','approver', 'company'])
+                ->where('approver_id', Auth::user()->id)
+                ->where('status', '!=' , StatusType::SUBMITTED)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+
+    /**
+     *  Search pending approval DDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generatePendingApproval(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        $drdrs = Ddr::with(['requester', 'approver', 'company'])
+                ->where('approver_id',Auth::user()->id)
+                ->where('status', StatusType::SUBMITTED)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+
     /**
      * Mark DDR as distributed
      *

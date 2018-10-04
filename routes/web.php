@@ -110,6 +110,12 @@ Route::group(['middleware' => 'auth'], function (){
   Route::get('/ddr-view/{ddr_id}', 'DdrController@showDetailsDdr');
   // Get the specified drdr by id
   Route::get('/ddr-data/{id}', 'DdrController@data');
+  // Generate ddrs submitted by date
+  Route::post('/ddrs-submitted-generate', 'DdrController@generateSubmitted');
+  // Generate drs pending approval by date
+  Route::post('/ddrs-pending-approval-generate', 'DdrController@generatePendingApproval');
+  // Generate ddrs approvaed by date
+  Route::post('/ddrs-approved-generate', 'DdrController@generateApproved');
 
   // CCIR ROUTES
   // Fetch Submitted CCIR by user

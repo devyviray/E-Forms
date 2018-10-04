@@ -1,16 +1,29 @@
 <template>
    <div>
-
         <content-placeholders v-if="loading">
             <content-placeholders-heading :img="true" />
             <content-placeholders-text :lines="3" />
         </content-placeholders>
 
+        <spinner-loading v-if="isLoading"></spinner-loading>
+
         <div class="card-body table-full-width table-responsive" v-if="ddrs.length">
             <div class="row mb-4 ml-2">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <label for="name">Search by Requester name</label>
                     <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                </div>
+                <div class="col-md-3">
+                    <label for="date">Search by date</label>    
+                    <datepicker v-model="startDate" placeholder="Select Start Date" id="date"></datepicker>
+                    <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
+                </div>
+                <div class="col-md-3" style="margin-top: 29px">
+                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                    <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
+                </div>
+                <div class="col-md-2" style="margin-top: 29px">
+                    <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
                 </div>
             </div>
             <table class="table table-hover table-striped">
@@ -74,9 +87,13 @@
 <script>
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
+import SpinnerLoading from '../SpinnerLoading';
+import Datepicker from 'vuejs-datepicker';
 export default {
     components:{
-        VueContentPlaceholders
+        VueContentPlaceholders,
+        SpinnerLoading,
+        Datepicker
     },
     data(){
         return{
@@ -86,7 +103,10 @@ export default {
             errors: '',
             currentPage: 0,
            itemsPerPage: 10,
-           loading: false
+           loading: false,
+           isLoading: false,
+           startDate: '',
+           endDate: ''
         }
     },
     created(){
@@ -110,6 +130,24 @@ export default {
             .catch(error =>{
                 this.errors = error.response.data.errors;
             });
+        },
+        generateByDate(){
+           this.isLoading = true;
+           var startDate  =  this.startDate ? moment(this.startDate).format() : '';
+           var endDate = this.endDate ? moment(this.endDate).format() : '';
+           
+            axios.post('/ddrs-approved-generate', {
+                'startDate': startDate,
+                'endDate': endDate
+            })
+            .then(response => { 
+                this.isLoading = false;
+                this.ddrs = response.data;
+            })
+            .catch(error => {
+                this.isLoading = false;
+                this.errors = error.response.data.errors;
+            })
         },
         setPage(pageNumber) {
             this.currentPage = pageNumber;
