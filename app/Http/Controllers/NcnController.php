@@ -443,6 +443,94 @@ class NcnController extends Controller
     }
 
     /**
+     *  Search submitted CCIR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generateSubmitted(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        
+        $ncns = Ncn::with(['requester', 'company'])
+                ->where('requester_id', Auth::user()->id)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $ncns;
+    }
+
+    /**
+     *  Search pending approval NCN by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generatePendingApproval(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        $ncns = Ncn::with(['requester', 'approver', 'company'])
+                ->where('approver_id',Auth::user()->id)
+                ->where('status', StatusType::SUBMITTED)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $ncns;
+    }
+
+    /**
+     *  Search approved NCN by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generateApproved(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        $ddrs = Ncn::with(['requester','approver', 'company'])
+                ->where('approver_id', Auth::user()->id)
+                ->where('status', '!=' , StatusType::SUBMITTED)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $ddrs;
+    }
+        
+     /**
+     *  Search notified NCN by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generateNotified(Request $request){
+
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+
+        $ncns = Ncn::with('requester')->whereNotIn('status', [StatusType::SUBMITTED, StatusType::DISAPPROVED_APPROVER])
+                ->where('notified_id', Auth::user()->id)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $ncns;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

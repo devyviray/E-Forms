@@ -472,13 +472,13 @@ class DdrController extends Controller
             'endDate' => 'required|after_or_equal:startDate'
         ]);
         
-        $drdrs = Ddr::with(['approver', 'company'])
+        $ddrs = Ddr::with(['approver', 'company'])
                 ->where('requester_id', Auth::user()->id)
                 ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
                 ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
                 ->orderBy('id', 'desc')->get();
 
-        return $drdrs;
+        return $ddrs;
     }
 
     /**
@@ -493,14 +493,14 @@ class DdrController extends Controller
             'startDate' => 'required',
             'endDate' => 'required|after_or_equal:startDate'
         ]);
-        $drdrs = Ddr::with(['requester','approver', 'company'])
+        $ddrs = Ddr::with(['requester','approver', 'company'])
                 ->where('approver_id', Auth::user()->id)
                 ->where('status', '!=' , StatusType::SUBMITTED)
                 ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
                 ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
                 ->orderBy('id', 'desc')->get();
 
-        return $drdrs;
+        return $ddrs;
     }
 
     /**
@@ -515,14 +515,14 @@ class DdrController extends Controller
             'startDate' => 'required',
             'endDate' => 'required|after_or_equal:startDate'
         ]);
-        $drdrs = Ddr::with(['requester', 'approver', 'company'])
+        $ddrs = Ddr::with(['requester', 'approver', 'company'])
                 ->where('approver_id',Auth::user()->id)
                 ->where('status', StatusType::SUBMITTED)
                 ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
                 ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
                 ->orderBy('id', 'desc')->get();
 
-        return $drdrs;
+        return $ddrs;
     }
 
     /**

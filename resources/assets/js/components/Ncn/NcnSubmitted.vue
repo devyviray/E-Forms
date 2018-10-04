@@ -5,11 +5,25 @@
             <content-placeholders-text :lines="3" />
         </content-placeholders>
 
+        <spinner-loading v-if="isLoading"></spinner-loading>
+
         <div class="card-body table-full-width table-responsive" v-if="ncnSubmitteds.length">
             <div class="row mb-4 ml-2">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <label for="name">Search by Requester Name</label>
                     <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                </div>
+                <div class="col-md-3">
+                    <label for="date">Search by date</label>    
+                    <datepicker v-model="startDate" placeholder="Select Start Date" id="date"></datepicker>
+                    <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
+                </div>
+                <div class="col-md-3" style="margin-top: 29px">
+                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
+                    <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
+                </div>
+                <div class="col-md-2" style="margin-top: 29px">
+                    <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
                 </div>
             </div>
             <table class="table table-hover table-striped">
@@ -77,12 +91,32 @@
     </div>
 </template>
 
+<style>
+    .vdp-datepicker  input{
+        background-color: #FFFFFF;
+        border: 1px solid #E3E3E3;
+        border-radius: 4px;
+        color: #565656;
+        padding: 8px 12px;
+        height: 40px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        display: block;
+        width: 100%;
+        line-height: 1.5;   
+    }
+</style>
+
 <script>
 import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
+import SpinnerLoading from '../SpinnerLoading';
+import Datepicker from 'vuejs-datepicker';
 export default {
     components:{
-        VueContentPlaceholders
+        VueContentPlaceholders,
+        SpinnerLoading,
+        Datepicker
     },
     data(){
         return{
@@ -90,7 +124,11 @@ export default {
             keywords: '',
             currentPage: 0,
             itemsPerPage: 10,
-            loading: false
+            loading: false,
+            isLoading: false,
+            startDate: '',
+            endDate: '',
+            errors: ''
         }
     },
     created(){
@@ -115,10 +153,27 @@ export default {
                 this.errors = error.response.data.errors;
             });
         },
+        generateByDate(){
+           this.isLoading = true;
+           var startDate  =  this.startDate ? moment(this.startDate).format() : '';
+           var endDate = this.endDate ? moment(this.endDate).format() : '';
+           
+            axios.post('/ncns-submitted-generate', {
+                'startDate': startDate,
+                'endDate': endDate
+            })
+            .then(response => { 
+                this.isLoading = false;
+                this.ncnSubmitteds = response.data;
+            })
+            .catch(error => {
+                this.isLoading = false;
+                this.errors = error.response.data.errors;
+            })
+        },
         setPage(pageNumber) {
             this.currentPage = pageNumber;
         },
-
         resetStartRow() {
             this.currentPage = 0;
         },

@@ -347,13 +347,13 @@ class CcirController extends Controller
             'endDate' => 'required|after_or_equal:startDate'
         ]);
         
-        $drdrs = Ccir::with(['requester', 'company'])
+        $ccirs = Ccir::with(['requester', 'company'])
                 ->where('requester_id', Auth::user()->id)
                 ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
                 ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
                 ->orderBy('id', 'desc')->get();
 
-        return $drdrs;
+        return $ccirs;
     }
 
     /**

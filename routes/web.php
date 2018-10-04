@@ -148,6 +148,14 @@ Route::group(['middleware' => 'auth'], function (){
   Route::get('/ncn-data/{id}', 'NcnController@data');
   // Get Approvers base in the company and department
   Route::get('/getNcnApprovers/{company}/{department}', 'NcnController@getNcnApprovers');
+  // Generate ncns submitted by date
+  Route::post('/ncns-submitted-generate', 'NcnController@generateSubmitted');
+  // Generate ncns pending approval by date
+  Route::post('/ncns-pending-approval-generate', 'NcnController@generatePendingApproval');
+  // Generate ncns approvaed by date
+  Route::post('/ncns-approved-generate', 'NcnController@generateApproved');
+  // Generate ncns approvaed by date
+  Route::post('/ncns-notified-generate', 'NcnController@generateNotified');
 
 
   // COMPANY ROUTES 
