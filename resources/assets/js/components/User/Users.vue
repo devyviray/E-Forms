@@ -39,7 +39,7 @@
                                     <td>{{ user.email }}</td>
                                     <td>
                                         <span v-for="(company, c) in user.companies" :key="c">
-                                             {{ company.name }} <br/>
+                                             {{ company.name+' - '+company.address }} <br/>
                                         </span>
                                     </td>
                                     <td>{{ user.department.name }}</td>

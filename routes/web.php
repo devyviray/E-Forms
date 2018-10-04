@@ -74,11 +74,21 @@ Route::group(['middleware' => 'auth'], function (){
   Route::get('/drdr-submitted', 'DrdrController@submitted');
   // Viewing of DRDR
   Route::get('/drdr-view/{drdr_id}', 'DrdrController@showDetailsDrdr');
-   // Get the specified drdr by id
-   Route::get('/drdr-data/{id}', 'DrdrController@data');
-   //Get reviewer base in the company
-   Route::get('/getReviewer/{id}', 'DrdrController@getCompanyReviewers');
-  
+  // Get the specified drdr by id
+  Route::get('/drdr-data/{id}', 'DrdrController@data');
+  //Get reviewer base in the company
+  Route::get('/getReviewer/{id}', 'DrdrController@getCompanyReviewers');
+  // Generate drdrs submitted by date
+  Route::post('/drdrs-submitted-generate', 'DrdrController@generateSubmitted');
+  // Generate drdrs pending review by date
+  Route::post('/drdrs-pending-reviews-generate', 'DrdrController@generatePendingReview');
+  // Generate drdrs reviewed by date
+  Route::post('/drdrs-reviewed-generate', 'DrdrController@generateReviewed');
+  // Generate drdrs pending approval by date
+  Route::post('/drdrs-pending-approval-generate', 'DrdrController@generatePendingApproval');
+  // Generate drdrs approvaed by date
+  Route::post('/drdrs-approved-generate', 'DrdrController@generateApproved');
+
   // DDR routes
   // Show Add form ddr
   Route::get('/add-ddr', 'DdrController@create');
@@ -276,7 +286,6 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|reviewer|approver'
   Route::get('/drdr-approver-attachments/{drdrId}/{approverId}', 'DrdrController@getUploadedFilesApprover');
   // Generate drdrs by date
   Route::post('/drdrs-generate', 'DrdrController@generate');
-
 
   // DDR routes
   Route::get('/ddrs', 'DdrController@index');

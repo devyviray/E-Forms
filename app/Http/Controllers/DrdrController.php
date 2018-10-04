@@ -637,6 +637,118 @@ class DrdrController extends Controller
         return $drdrs;
     }
 
+    
+    /**
+     *  Search submitted DRDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generateSubmitted(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        
+        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])
+                ->where('requester_id', Auth::user()->id)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+
+    /**
+     *  Search pending review DRDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generatePendingReview(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        
+        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])
+                ->where('reviewer_id', Auth::user()->id)
+                ->where('status', StatusType::SUBMITTED)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+
+    /**
+     *  Search reviewed DRDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generateReviewed(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])
+                ->where('reviewer_id', Auth::user()->id)
+                ->where('status', '!=', StatusType::SUBMITTED)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+
+    /**
+     *  Search pending approval DRDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generatePendingApproval(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])
+                ->where('approver_id',Auth::user()->id)
+                ->where('status', StatusType::APPROVED_REVIEWER)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+
+    /**
+     *  Search approved DRDR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generateApproved(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        $drdrs = Drdr::with(['reviewer', 'approver', 'company'])
+                ->where('approver_id',Auth::user()->id)
+                ->where('status', '!=', StatusType::APPROVED_REVIEWER)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+    
     /**
      * Return drdr details page for admin
      *

@@ -7,7 +7,7 @@
                     <a href="{{route('drdr')}}">
                     <div class="card ">
                         <div class="card-header text-center">
-                            <h4 class="card-title">Document Review & Distribution Request</h4>
+                            <h5 class="card-title">Document Review & Distribution Request</h5>
                         </div>
                         <hr>
                         <div class="card-body text-center">
@@ -26,7 +26,7 @@
                 <a href="{{route('ddr')}}">
                     <div class="card ">
                         <div class="card-header text-center">
-                            <h4 class="card-title">Document Distribution Request</h4>
+                            <h5 class="card-title">Document Distribution Request</h5>
                         </div>
                         <hr>
                         <div class="card-body text-center">
@@ -45,7 +45,7 @@
                 <a href="{{route('ccir')}}">
                     <div class="card ">
                         <div class="card-header text-center">
-                            <h4 class="card-title">Customer Complaint Investigation Report</h4>
+                            <h5 class="card-title">Customer Complaint Investigation Report</h5>
                         </div>
                         <hr>
                         <div class="card-body text-center">
@@ -64,7 +64,7 @@
                 <a href="{{route('ncn')}}">
                     <div class="card ">
                         <div class="card-header text-center">
-                            <h4 class="card-title">Non-conformance Notification</h4>
+                            <h5 class="card-title">Non-conformance Notification</h5>
                         </div>
                         <hr>
                         <div class="card-body text-center">

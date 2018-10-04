@@ -211,7 +211,7 @@ export default {
         },
         fetchCompanies(){
             this.loading = true;
-            axios.get('/companies')
+            axios.get('/companyLocation')
                 .then(response => {
                     this.companies = response.data;
                     this.loading = false;

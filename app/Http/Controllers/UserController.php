@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::with('roles:name', 'companies:name', 'department:id,name')->orderBy('id', 'desc')->get();
+        $users = User::with('roles:name', 'companies:name,address', 'department:id,name')->orderBy('id', 'desc')->get();
         return $users;
 
     }

@@ -232,7 +232,11 @@ class CcirController extends Controller
      */
     public function getAllCcirs()
     {
-        $ccirs = Ccir::with(['company', 'requester'])->orderBy('id', 'desc')->get();
+        if(Auth::user()->hasRole('administrator')){
+            $ccirs = Ccir::with(['company', 'requester'])->orderBy('id', 'desc')->get();
+        }else{
+            $ccirs = Ccir::with(['company', 'requester'])->whereIn('company_id', Auth::user()->companies->pluck('id'))->orderBy('id', 'desc')->get(); 
+        }
 
         return $ccirs;
     }
