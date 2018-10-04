@@ -130,7 +130,8 @@ Route::group(['middleware' => 'auth'], function (){
   Route::get('/ccir-view/{ccir_id}', 'CcirController@showDetailsCcir');
   // Get the specified ccir by id
   Route::get('/ccir-data/{id}', 'CcirController@data');
-   
+  // Generate ddrs submitted by date
+  Route::post('/ccirs-submitted-generate', 'CcirController@generateSubmitted');
 
   // NCN ROUTES
   // Fetch Submitted NCN by user

@@ -335,6 +335,28 @@ class CcirController extends Controller
     }
 
     /**
+     *  Search submitted CCIR by start date and end date
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function generateSubmitted(Request $request)
+    {
+        $request->validate([
+            'startDate' => 'required',
+            'endDate' => 'required|after_or_equal:startDate'
+        ]);
+        
+        $drdrs = Ccir::with(['requester', 'company'])
+                ->where('requester_id', Auth::user()->id)
+                ->whereDate('date_request', '>=',  Carbon::parse($request->input('startDate'))->format('Y-m-d'))
+                ->whereDate('date_request' ,'<=', Carbon::parse($request->input('endDate'))->format('Y-m-d'))
+                ->orderBy('id', 'desc')->get();
+
+        return $drdrs;
+    }
+
+    /**
      *  Validate submitted CCIR
      *
      * @return \Illuminate\Http\Response
