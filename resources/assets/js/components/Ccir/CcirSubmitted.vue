@@ -196,7 +196,9 @@ export default {
         filteredCcirs(){
             let self = this;
             return self.ccirSubmitteds.filter(ccirSubmitted => {
-                return ccirSubmitted.complainant.toLowerCase().includes(this.keywords.toLowerCase())
+                return ccirSubmitted.complainant.toLowerCase().includes(this.keywords.toLowerCase()) || 
+                       ccirSubmitted.commodity.toLowerCase().includes(this.keywords.toLowerCase()) || 
+                       ccirSubmitted.requester.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
