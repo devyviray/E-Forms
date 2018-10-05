@@ -7,7 +7,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <label for="name"> Search by Complainant </label>
+                    <label for="name"> Search</label>
                     <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords" id="name">
                 </div>
                 <div class="col-md-3">
@@ -342,7 +342,8 @@ export default {
         filteredCcirs(){
             let self = this;
             return self.ccirs.filter(ccir => {
-                return ccir.complainant.toLowerCase().includes(this.keywords.toLowerCase())
+                return ccir.requester.name.toLowerCase().includes(this.keywords.toLowerCase()) ||
+                       ccir.commodity.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {

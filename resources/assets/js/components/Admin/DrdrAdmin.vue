@@ -7,7 +7,7 @@
             </div>
             <div class="row mb-4">
                 <div class="col-md-4">
-                    <label for="name">Search by name</label>
+                    <label for="name">Search</label>
                     <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
                 </div> 
                 <div class="col-md-3">
@@ -46,7 +46,8 @@
                         <td>{{ drdr.id }}</td>
                         <td>{{ drdr.document_title }}</td>
                         <td>{{ drdr.company.name  }}</td>
-                        <td>{{ drdr.rev_number }}</td>
+                        <td v-if="drdr.rev_number !== 'null'">{{ drdr.rev_number }}</td>
+                        <td v-else style="padding-left:30px"> - </td>
                         <td>
                             {{ drdr.reviewer.name }}<br>
                             <span style="color: red" v-if="drdr.status == 2"> NOT YET APPROVED </span>
@@ -83,7 +84,7 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ drdrs.length }} DRDR form(s)</span>
+                <span>{{ filteredQueues.length }} DRDR form(s)</span>
             </div>
         </div>
 
@@ -228,13 +229,15 @@ export default {
         filteredDrdrs(){
             let self = this;
             return self.drdrs.filter(drdr => {
-                return drdr.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+                return drdr.document_title.toLowerCase().includes(this.keywords.toLowerCase()) || 
+                       drdr.company.name.toLowerCase().includes(this.keywords.toLowerCase()) || 
+                       drdr.rev_number.toLowerCase().includes(this.keywords.toLowerCase()) || 
+                       drdr.reviewer.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
             return Math.ceil(this.filteredDrdrs.length / this.itemsPerPage)
         },
-
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
             var queues_array = this.filteredDrdrs.slice(index, index + this.itemsPerPage);

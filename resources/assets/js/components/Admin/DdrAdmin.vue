@@ -8,7 +8,7 @@
             </div>
             <div class="row mb-4">
                 <div class="col-md-4">
-                    <label for="name">Search by name</label>
+                    <label for="name">Search</label>
                     <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
                 </div>
                 <div class="col-md-3">
@@ -81,7 +81,7 @@
                 <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
             </div>
             <div class="col-6 text-right">
-                <span>{{ ddrs.length }} DDR form(s)</span>
+                <span>{{ filteredQueues.length }} DDR form(s)</span>
             </div>
         </div>
 
@@ -335,13 +335,13 @@ export default {
         filteredDdrs(){
             let self = this;
             return self.ddrs.filter(ddr => {
-                return ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())   
+                return ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())  ||
+                       ddr.approver.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
             return Math.ceil(this.filteredDdrs.length / this.itemsPerPage)
         },
-
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
             var queues_array = this.filteredDdrs.slice(index, index + this.itemsPerPage);
