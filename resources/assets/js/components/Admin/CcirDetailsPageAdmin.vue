@@ -122,7 +122,6 @@ export default {
                 this.fetchUploadedFilesVerifier();
             })
             .catch(error => {
-                this.errors = error.response.data.errors;
             })
         },
         fetchUploadedFilesRequester()

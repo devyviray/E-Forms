@@ -9,7 +9,7 @@
                 <table class="table table-bordered">
                     <tr>
                         <td> <strong> Company: </strong> </td>
-                        <td> {{ drdrs[0].company.name }} </td>
+                        <td> {{ drdrs[0].company.name +  ' - ' + drdrs[0].company.address }} </td>
                     </tr>
                     <tr>
                         <td> <strong> Type of Request </strong> </td>

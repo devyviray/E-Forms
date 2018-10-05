@@ -124,7 +124,8 @@
                         <td v-if="ddrs.length">{{ moment(ddrs[0].date_request).format('LL') }}</td>
                         <td> <strong> Date </strong> </td>
 						<td v-if="ddrs.length && ddrs[0].status == 6"> {{ moment(ddrs[0].dispproved_date).format('LL') }} </td>
-                        <td v-else> {{ moment(ddrs[0].approved_date).format('LL') }} </td>
+                        <td v-else-if="ddrs.length && ddrs[0].status == 4"> {{ moment(ddrs[0].approved_date).format('LL') }} </td>
+                        <td v-else>  </td>
                         <td> <strong> Date </strong> </td>
                         <td v-if="ddrs.length && ddrs[0].distributed"> {{ moment(ddrs[0].distributed_date).format('LL') }} </td>
                     </tr>

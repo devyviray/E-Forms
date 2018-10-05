@@ -46,8 +46,8 @@
                         <td>{{ drdr.id }}</td>
                         <td>{{ drdr.document_title }}</td>
                         <td>{{ drdr.company.name  }}</td>
-                        <td v-if="drdr.rev_number !== 'null'">{{ drdr.rev_number }}</td>
-                        <td v-else style="padding-left:30px"> - </td>
+                        <td v-if="drdr.rev_number !== null">{{ drdr.rev_number }}</td>
+                        <td style="padding-left: 30px" v-else> - </td>
                         <td>
                             {{ drdr.reviewer.name }}<br>
                             <span style="color: red" v-if="drdr.status == 2"> NOT YET APPROVED </span>
