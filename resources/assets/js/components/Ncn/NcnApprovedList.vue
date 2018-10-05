@@ -11,7 +11,7 @@
         <div class="card-body table-full-width table-responsive" v-if="ncnApprovedForms.length">
             <div class="row mb-4 ml-2">
                 <div class="col-md-4">
-                    <label for="name">Search by Requester name</label>
+                    <label for="name">Search</label>
                     <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
                 </div>
                 <div class="col-md-3">
@@ -194,7 +194,9 @@ export default {
         filteredNcns(){
             let self = this;
             return self.ncnApprovedForms.filter(ncnApprovedForm => {
-                return ncnApprovedForm.requester.name.toLowerCase().includes(this.keywords.toLowerCase())
+                return ncnApprovedForm.requester.name.toLowerCase().includes(this.keywords.toLowerCase()) || 
+                       ncnApprovedForm.requester.position.toLowerCase().includes(this.keywords.toLowerCase()) ||
+                       ncnApprovedForm.notification_number.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
