@@ -76,7 +76,7 @@
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="effective_date" class="col-sm-3 col-form-label">Location</label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-9" v-if="locations">
                                         <select v-model="drdrs[0].company.id" class="form-control form-control-lg" @change="fetchReviewers(drdrs[0].company.id)"  id="company">
                                             <option value="" disabled selected>Select  Company Location</option>
                                             <option v-for="(loc, c) in selectedLocation" :value="loc.id" v-bind:key="c">{{ loc.address }}</option>

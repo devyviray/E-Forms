@@ -11,7 +11,7 @@
         <div class="card-body table-full-width table-responsive" v-if="drdrsPendingApprovalForms.length">
             <div class="row mb-4 ml-2">
                 <div class="col-md-4">
-                    <label for="name">Search by Document title</label>
+                    <label for="name">Search</label>
                     <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
                 </div>
                 <div class="col-md-3">
@@ -38,7 +38,7 @@
                     <th>Option</th>
                 </thead>    
                 <tbody>
-                    <tr v-for="drdrsPendingApprovalForm in drdrsPendingApprovalForms" v-bind:key="drdrsPendingApprovalForm.id">
+                    <tr v-for="drdrsPendingApprovalForm in filteredQueues" v-bind:key="drdrsPendingApprovalForm.id">
                         <td>{{ drdrsPendingApprovalForm.id }}</td>
                         <td>{{ drdrsPendingApprovalForm.document_title }}</td>
                         <td>{{ drdrsPendingApprovalForm.company.name  }}</td>
@@ -192,7 +192,10 @@ export default {
         filteredDrdrs(){
             let self = this;
             return self.drdrsPendingApprovalForms.filter(drdrsPendingApprovalForm => {
-                return drdrsPendingApprovalForm.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+                return drdrsPendingApprovalForm.document_title.toLowerCase().includes(this.keywords.toLowerCase()) || 
+                       drdrsPendingApprovalForm.company.name.toLowerCase().includes(this.keywords.toLowerCase()) ||
+                       drdrsPendingApprovalForm.rev_number.toLowerCase().includes(this.keywords.toLowerCase()) ||
+                       drdrsPendingApprovalForm.reviewer.name.toLowerCase().includes(this.keywords.toLowerCase()) 
             });
         },
         totalPages() {

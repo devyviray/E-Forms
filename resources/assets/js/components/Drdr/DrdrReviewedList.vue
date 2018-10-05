@@ -10,7 +10,7 @@
         <div class="card-body table-full-width table-responsive" v-if="drdrsReviewedForms.length">
             <div class="row mb-4 ml-2">
                 <div class="col-md-4">
-                    <label for="name">Search by Document title</label>
+                    <label for="name">Search</label>
                     <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
                 </div>
                 <div class="col-md-3">
@@ -195,7 +195,11 @@ export default {
         filteredDrdrs(){
             let self = this;
             return self.drdrsReviewedForms.filter(drdrsReviewedForm => {
-                return drdrsReviewedForm.document_title.toLowerCase().includes(this.keywords.toLowerCase())
+                return drdrsReviewedForm.document_title.toLowerCase().includes(this.keywords.toLowerCase()) ||
+                        drdrsReviewedForm.company.name.toLowerCase().includes(this.keywords.toLowerCase()) || 
+                        drdrsReviewedForm.rev_number.toLowerCase().includes(this.keywords.toLowerCase()) || 
+                        drdrsReviewedForm.reviewer.name.toLowerCase().includes(this.keywords.toLowerCase()) ||
+                        drdrsReviewedForm.approver.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
