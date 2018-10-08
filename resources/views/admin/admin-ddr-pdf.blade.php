@@ -128,7 +128,7 @@
 			<td style="border: 0 ! important;"> <strong> Date </strong> </td>
 			<td style="border: 0 ! important;">{{  date('F j, Y', strtotime($ddr[0]->date_request))  }}</td>
 			<td style="border: 0 ! important;"> <strong> Date </strong> </td>
-			@if($ddr[0]->distributed_date)
+			@if($ddr[0]->status != 6  && $ddr[0]->status != 2)
 				<td style="border: 0 ! important;"> {{  date('F j, Y', strtotime($ddr[0]->approved_date))  }} </td>
 			@else
 				<td style="border: 0 ! important;"></td>

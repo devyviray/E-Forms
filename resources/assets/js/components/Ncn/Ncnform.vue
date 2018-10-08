@@ -11,8 +11,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="company" class="col-sm-2 col-form-label">Company</label>
-                                    <div class="col-sm-10">
+                                    <label for="company" class="col-sm-3 col-form-label">Company</label>
+                                    <div class="col-sm-9">
                                         <select v-model="company.id" class="form-control form-control-lg" id="company">
                                             <option value="" disabled selected>Select Company</option>
                                             <option v-for="(company, c) in companies" :value="company.id" v-bind:key="c">{{ company.name }}</option>
@@ -23,8 +23,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="companyLocation" class="col-sm-2 col-form-label">Location</label>
-                                    <div class="col-sm-10">
+                                    <label for="companyLocation" class="col-sm-3 col-form-label">Location</label>
+                                    <div class="col-sm-9">
                                         <select v-model="company.location" class="form-control form-control-lg" @change="getCompanyId(company.location)" id="companyLocation">
                                             <option value="" disabled selected>Select  Company Location</option>
                                             <option v-for="(loc, c) in selectedLocation" :value="loc.id" v-bind:key="c">{{ loc.address }}</option>
@@ -37,8 +37,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="department" class="col-sm-2 col-form-label">Department</label>
-                                     <div class="col-sm-10">
+                                    <label for="department" class="col-sm-3 col-form-label">Department</label>
+                                     <div class="col-sm-9">
                                         <select v-model="department.id" class="form-control form-control-lg" @change="getDepartmentId(department.id)" id="department">
                                             <option value="" disabled selected>Select Department</option>
                                             <option v-for="(department, d) in departments" :value="department.id" v-bind:key="d">{{ department.name }}</option>
@@ -49,8 +49,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="non_conformity_types" class="col-sm-2 col-form-label">Type of Non Conformity</label>
-                                    <div class="col-sm-10">
+                                    <label for="non_conformity_types" class="col-sm-3 col-form-label">Type of Non Conformity</label>
+                                    <div class="col-sm-9">
                                         <select v-model="ncn.non_conformity_types" class="form-control form-control-lg" id="non_conformity_types" @change="selectedReason(ncn.non_conformity_types)">
                                             <option value="" disabled selected>Select type</option>
                                             <option value="1">Customer - Returns</option>
@@ -65,8 +65,8 @@
                                 </div>
                                 
                                 <div class="form-group row" v-if="others == 1">
-                                    <label for="others" class="col-sm-2 col-form-label">Others (Please specify)</label>
-                                    <div class="col-sm-10">
+                                    <label for="others" class="col-sm-3 col-form-label">Others (Please specify)</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" placeholder="Others (Please specify)" v-model="ncn.others">
                                         <span class="error" v-if="errors.others">{{ errors.others[0] }}</span>
                                     </div>
@@ -76,8 +76,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="notification_number" class="col-sm-2 col-form-label">Notification number</label>
-                                    <div class="col-sm-10">
+                                    <label for="notification_number" class="col-sm-3 col-form-label">Notification number</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" v-model="ncn.notification_number" id="notification_number">
                                         <span class="error" v-if="errors.notification_number">{{ errors.notification_number[0] }}</span>
                                     </div>
@@ -85,8 +85,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="recurrence_number" class="col-sm-2 col-form-label">Recurrence number</label>
-                                    <div class="col-sm-10">
+                                    <label for="recurrence_number" class="col-sm-3 col-form-label">Recurrence number</label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" v-model="ncn.recurrence_number" id="recurrence_number">
                                         <span class="error" v-if="errors.recurrence_number">{{ errors.recurrence_number[0] }}</span>
                                     </div>   
@@ -96,8 +96,8 @@
                         <div class="row mb-2">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="issuance_date" class="col-sm-2 col-form-label">Issuance Date</label>
-                                    <div class="col-sm-10">
+                                    <label for="issuance_date" class="col-sm-3 col-form-label">Issuance Date</label>
+                                    <div class="col-sm-9">
                                         <datepicker placeholder="Select Issuance Date" v-model="ncn.issuance_date" id="issuance_date" :disabledDates="disabledDates"></datepicker>
                                         <span class="error" v-if="errors.issuance_date">{{ errors.issuance_date[0] }}</span>
                                     </div>
@@ -105,8 +105,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="approver" class="col-sm-2 col-form-label">Approver</label>
-                                    <div class="col-sm-10">
+                                    <label for="approver" class="col-sm-3 col-form-label">Approver</label>
+                                    <div class="col-sm-9">
                                         <select v-model="approver.id" class="form-control form-control-lg" id="approver">
                                             <option value="" disabled selected>Select Approver</option>
                                             <option v-for="(approver, a) in approvers" :value="approver.id" v-bind:key="a">{{ approver.name }}</option>
@@ -119,8 +119,8 @@
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label for="non_conformity_details" class="col-sm-2 col-form-label">Details of Non-Conformity</label>
-                                        <div class="col-sm-10">
+                                        <label for="non_conformity_details" class="col-sm-3 col-form-label">Details of Non-Conformity</label>
+                                        <div class="col-sm-9">
                                             <textarea class="form-control" v-model="ncn.non_conformity_details" id="non_conformity_details"></textarea>
                                             <span class="error" v-if="errors.non_conformity_details">{{ errors.non_conformity_details[0] }}</span>
                                         </div>
@@ -128,8 +128,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group row">
-                                        <label for="attachments" class="col-sm-2 col-form-label">Attach File</label>
-                                        <div class="col-sm-10">
+                                        <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
+                                        <div class="col-sm-9">
                                             <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
                                             <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                         </div>
