@@ -296,6 +296,7 @@ export default {
             } 
         },
         uploadFileChange(e){
+            this.attachments = [];  
             var files = e.target.files || e.dataTransfer.files;
 
             if(!files.length)

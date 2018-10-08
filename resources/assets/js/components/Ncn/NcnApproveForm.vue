@@ -246,6 +246,7 @@ export default {
             window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
         },
         uploadFileChange(e){
+            this.attachments = [];
             var files = e.target.files || e.dataTransfer.files;
 
             if(!files.length)
