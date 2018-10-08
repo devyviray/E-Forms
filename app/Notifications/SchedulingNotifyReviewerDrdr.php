@@ -6,6 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\{
+    User,
+    Drdr
+};
 
 class SchedulingNotifyReviewerDrdr extends Notification
 {
@@ -16,9 +20,12 @@ class SchedulingNotifyReviewerDrdr extends Notification
      *
      * @return void
      */
-    public function __construct()
+    protected $drdr;
+    protected $reviewer;
+    public function __construct(Drdr $drdr, User $reviewer)
     {
-        //
+        $this->drdr = $drdr;
+        $this->reviewer = $reviewer;
     }
 
     /**
@@ -41,8 +48,9 @@ class SchedulingNotifyReviewerDrdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Hi REVIEWER NAME, There are DRDR filed in E-FORMS that has effective date tomorrow. please review')
-                    ->action('Notification Action', url('/'))
+                    ->greeting('Good day!')
+                    ->line($this->reviewer->name .' There are DRDR filed in E-FORMS that has effective date tomorrow. please review')
+                    ->action('Please visit E-Forms Portal', url('/drdr-review/'. $this->drdr->id))
                     ->line('Thank you for using our application!');
     }
 

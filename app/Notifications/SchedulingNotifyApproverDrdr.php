@@ -6,6 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\{
+    User,
+    Drdr
+};
 
 class SchedulingNotifyApproverDrdr extends Notification
 {
@@ -16,9 +20,12 @@ class SchedulingNotifyApproverDrdr extends Notification
      *
      * @return void
      */
-    public function __construct()
+    protected $drdr;
+    protected $approver;
+    public function __construct(Drdr $drdr, User $approver)
     {
-        //
+        $this->drdr = $drdr;
+        $this->approver = $approver;
     }
 
     /**
@@ -41,8 +48,9 @@ class SchedulingNotifyApproverDrdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Hi APPROVER NAME, There are DRDR filed in E-FORMS that has effective date tomorrow. please review')
-                    ->action('Notification Action', url('/'))
+                    ->greeting('Good day!')
+                    ->line($this->approver->name.' There are DRDR filed in E-FORMS that has effective date tomorrow. please review')
+                    ->action('Please visit E-Forms Portal', url('/drdr-approve/'.$this->drdr->id))
                     ->line('Thank you for using our application!');
     }
 

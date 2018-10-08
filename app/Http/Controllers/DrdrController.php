@@ -823,7 +823,7 @@ class DrdrController extends Controller
             $reviewerId = $drdrSubmitted->pluck('reviewer_id');
             foreach($reviewerId as $key => $id){
                 $reviewer = User::findOrFail($id);
-                $reviewer->notify(new SchedulingNotifyReviewerDrdr($drdrSubmitted[$key]));
+                $reviewer->notify(new SchedulingNotifyReviewerDrdr($drdrSubmitted[$key], $drdrSubmitted[$key]->requester_id));
             }
         }
 
@@ -831,7 +831,7 @@ class DrdrController extends Controller
             $approverId = $drdrReviewed->pluck('approver_id');
             foreach($approverId as $key => $id){
                 $approver = User::findOrFail($id);
-                $approver->notify(new SchedulingNotifyApproverDrdr($drdrReviewed[$key]));
+                $approver->notify(new SchedulingNotifyApproverDrdr($drdrReviewed[$key],$drdrReviewed[$key]->requester_id));
             }
         }
     }

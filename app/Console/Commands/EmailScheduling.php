@@ -3,6 +3,12 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Drdr;
+use App\User;
+use App\Types\StatusType;
+use Carbon\Carbon;
+use App\Notifications\SchedulingNotifyApproverDrdr;
+use App\Notifications\SchedulingNotifyReviewerDrdr;
 
 class EmailScheduling extends Command
 {
@@ -44,7 +50,7 @@ class EmailScheduling extends Command
             $reviewerId = $drdrSubmitted->pluck('reviewer_id');
             foreach($reviewerId as $key => $id){
                 $reviewer = User::findOrFail($id);
-                $reviewer->notify(new SchedulingNotifyReviewerDrdr($drdrSubmitted[$key]));
+                $reviewer->notify(new SchedulingNotifyReviewerDrdr($drdrSubmitted[$key], $drdrSubmitted[$key]->reviewer_id));
             }
         }
 
@@ -52,7 +58,7 @@ class EmailScheduling extends Command
             $approverId = $drdrReviewed->pluck('approver_id');
             foreach($approverId as $key => $id){
                 $approver = User::findOrFail($id);
-                $approver->notify(new SchedulingNotifyApproverDrdr($drdrReviewed[$key]));
+                $approver->notify(new SchedulingNotifyApproverDrdr($drdrReviewed[$key], $drdrReviewed[$key]->approver_id));
             }
         }
         
