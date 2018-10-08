@@ -38,7 +38,7 @@
                                 <div class="form-group row">
                                     <label for="document_title" class="col-sm-3 col-form-label">Document title</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Document Title" v-model="drdr.document_title" id="document_title" style="height: 100px;">
+                                        <textarea  class="form-control" placeholder="Document Title" v-model="drdr.document_title" id="document_title" style="height: 100px;"></textarea>
                                         <span class="error" v-if="errors.document_title">{{ errors.document_title[0] }}</span>
                                     </div>
                                 </div>

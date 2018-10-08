@@ -190,7 +190,7 @@
                         <ul class="footer-menu">
                         </ul>
                         <p class="copyright text-center">
-                            ©
+                            La Filipina Uy Gonco Group of Companies ©
                         </p>
                     </nav>
                 </div>
