@@ -50,8 +50,9 @@ class ApproverNotifyMrDdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line('Ddr filed by '.$this->requester->name.' in E-FORMS portal has been approved by '.$this->approver->name)
-                    ->action('Notification Action', url('/admin/ddr-details/'.$this->ddr->id))
+                    ->action('Please visit E-Forms Portal', url('/admin/ddr-details/'.$this->ddr->id))
                     ->line('Thank you for using our application!');
     }
 

@@ -50,8 +50,9 @@ class MrMarkAsDistributedDrdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line('Drdr filed by '.$this->requester->name.' in E-FORMS portal has been verified by '.$this->qm->name)
-                    ->action('Notification Action', url('/'))
+                    ->action('Please visit E-Forms Portal', url('/'))
                     ->line('Thank you for using our application!');
     }
 

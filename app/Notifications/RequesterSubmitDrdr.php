@@ -51,8 +51,9 @@ class RequesterSubmitDrdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line( $this->requester->name . ' submit DRDR in E-Forms portal')
-                    ->action('Notification Action', url('/drdr-review/'. $this->drdr->id))
+                    ->action('Please visit E-Forms Portal', url('/drdr-review/'. $this->drdr->id))
                     ->line('Thank you for using our application!');
     }
 

@@ -49,8 +49,9 @@ class RequesterSubmitNcn extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line($this->requester->name.' Filed NCN in E-FORMS Portal')
-                    ->action('Notification Action', url('/ncn-approve/'.$this->ncn->id))
+                    ->action('Please visit E-Forms Portal', url('/ncn-approve/'.$this->ncn->id))
                     ->line('Thank you for using our application!');
     }
 

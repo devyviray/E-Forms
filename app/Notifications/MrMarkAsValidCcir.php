@@ -48,8 +48,9 @@ class MrMarkAsValidCcir extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line('Your CCIR filed in E-FORMS portal has been marked as Valid by '.$this->qm->name)
-                    ->action('Notification Action', url('/ccir-view/'.$this->ccir->id))
+                    ->action('Please visit E-Forms Portal', url('/ccir-view/'.$this->ccir->id))
                     ->line('Thank you for using our application!');
     }
 

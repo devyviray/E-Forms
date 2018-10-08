@@ -50,8 +50,9 @@ class ApproverNotifyPersonNcn extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line('NCN filed by '.$this->requester->name.' in E-FORMS portal has been approved by '.$this->approver->name )
-                    ->action('Notification Action', url('/notified-page'))
+                    ->action('Please visit E-Forms Portal', url('/notified-page'))
                     ->line('Thank you for using our application!');
     }
 

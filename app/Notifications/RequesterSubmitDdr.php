@@ -48,8 +48,9 @@ class RequesterSubmitDdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line($this->requester->name.' filed DDR in E-FORMS Portal')
-                    ->action('Notification Action', url('/ddr-approve/'.$this->ddr->id))
+                    ->action('Please visit E-Forms Portal', url('/ddr-approve/'.$this->ddr->id))
                     ->line('Thank you for using our application!');
     }
 

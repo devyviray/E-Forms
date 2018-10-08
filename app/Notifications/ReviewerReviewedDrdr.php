@@ -51,8 +51,9 @@ class ReviewerReviewedDrdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line('Ddr filed by '.$this->requester->name.' in E-FORMS portal has been reviewed by '.$this->reviewer->name )
-                    ->action('Notification Action', url('/drdr-approve/'.$this->drdr->id))
+                    ->action('Please visit E-Forms Portal', url('/drdr-approve/'.$this->drdr->id))
                     ->line('Thank you for using our application!');
     }
 

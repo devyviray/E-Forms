@@ -48,8 +48,9 @@ class ReviewerDisapprovedDrdr extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line('Your Ddr filed in E-FORMS portal has been disapproved by '. $this->reviewer->name)
-                    ->action('Notification Action', url('/drdr-view/'.$this->drdr->id))
+                    ->action('Please visit E-Forms Portal', url('/drdr-view/'.$this->drdr->id))
                     ->line('Thank you for using our application!');
     }
 

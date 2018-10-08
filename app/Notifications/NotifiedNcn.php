@@ -50,8 +50,9 @@ class NotifiedNcn extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line('Ncn filed by '.$this->requester->name.' in E-FORMS portal has been validate by '.$this->notified->name)
-                    ->action('Notification Action', url('/ncn-view/'.$this->ncn->id))
+                    ->action('Please visit E-Forms Portal', url('/ncn-view/'.$this->ncn->id))
                     ->line('Thank you for using our application!');
     }
 

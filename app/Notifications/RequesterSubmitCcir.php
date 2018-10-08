@@ -49,8 +49,9 @@ class RequesterSubmitCcir extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->greeting('Good day!')
                     ->line($this->requester->name.' filed CCIR in E-FORMS Portal')
-                    ->action('Notification Action', url('/admin/ccirs'))
+                    ->action('Please visit E-Forms Portal', url('/admin/ccirs'))
                     ->line('Thank you for using our application!');
     }
 
