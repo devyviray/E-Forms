@@ -17,14 +17,14 @@ class EmailScheduling extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'EmailScheduling:emailscheduling';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Sending of email via schedule';
 
     /**
      * Create a new command instance.
@@ -50,7 +50,8 @@ class EmailScheduling extends Command
             $reviewerId = $drdrSubmitted->pluck('reviewer_id');
             foreach($reviewerId as $key => $id){
                 $reviewer = User::findOrFail($id);
-                $reviewer->notify(new SchedulingNotifyReviewerDrdr($drdrSubmitted[$key], $drdrSubmitted[$key]->reviewer_id));
+                $requester = User::findOrFail($drdrSubmitted[$key]->requester_id);
+                $reviewer->notify(new SchedulingNotifyReviewerDrdr($drdrSubmitted[$key], $requester));
             }
         }
 
@@ -58,9 +59,13 @@ class EmailScheduling extends Command
             $approverId = $drdrReviewed->pluck('approver_id');
             foreach($approverId as $key => $id){
                 $approver = User::findOrFail($id);
-                $approver->notify(new SchedulingNotifyApproverDrdr($drdrReviewed[$key], $drdrReviewed[$key]->approver_id));
+                $requester = User::findOrFail($drdrReviewed[$key]->requester_id);
+                $reviewer = User::findOrFail($drdrReviewed[$key]->reviewer_id);
+                $approver->notify(new SchedulingNotifyApproverDrdr($drdrReviewed[$key], $requester , $reviewer));
             }
         }
+
+        $this->info('Email Successfully Sent!');
         
     }
 }

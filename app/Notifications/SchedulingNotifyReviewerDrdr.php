@@ -21,11 +21,11 @@ class SchedulingNotifyReviewerDrdr extends Notification
      * @return void
      */
     protected $drdr;
-    protected $reviewer;
-    public function __construct(Drdr $drdr, User $reviewer)
+    protected $requester;
+    public function __construct(Drdr $drdr, User $requester)
     {
         $this->drdr = $drdr;
-        $this->reviewer = $reviewer;
+        $this->requester = $requester;
     }
 
     /**
@@ -49,7 +49,7 @@ class SchedulingNotifyReviewerDrdr extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line($this->reviewer->name .' There are DRDR filed in E-FORMS that has effective date tomorrow. please review')
+                    ->line($this->requester->name .' filed DRDR in E-FORMS that has effective date tomorrow. please review')
                     ->action('Please visit E-Forms Portal', url('/drdr-review/'. $this->drdr->id))
                     ->line('Thank you for using our application!');
     }
