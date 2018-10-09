@@ -43,8 +43,9 @@
                                         </span>
                                     </td>
                                     <td v-else></td>  
-                                    <td v-if="user.department">{{ user.department.name }}</td>
-                                    <td v-else></td>  
+                                    <td></td>
+                                    <!-- <td v-if="user.department">{{ user.department.name }}</td>
+                                    <td v-else></td>   -->
                                     <td v-if="user.role">
                                         <span v-for="(role, r) in user.roles" :key="r">
                                             {{ role.name }} <br/>
