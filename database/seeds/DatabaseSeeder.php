@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             $this->call('ConnectRelationshipsSeeder');
             // $this->call('UsersTableSeeder');
             // $this->call('DepartmentsTableSeeder');
-            $this->call('CompaniesTableSeeder');
+            // $this->call('CompaniesTableSeeder');
 
         Model::reguard();
     }
