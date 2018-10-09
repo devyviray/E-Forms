@@ -37,17 +37,20 @@
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.name }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td>
+                                    <td v-if="user.companies">
                                         <span v-for="(company, c) in user.companies" :key="c">
                                              {{ company.name+' - '+company.address }} <br/>
                                         </span>
                                     </td>
-                                    <td>{{ user.department.name }}</td>
-                                    <td>
+                                    <td v-else></td>  
+                                    <td v-if="user.department">{{ user.department.name }}</td>
+                                    <td v-else></td>  
+                                    <td v-if="user.role">
                                         <span v-for="(role, r) in user.roles" :key="r">
                                             {{ role.name }} <br/>
                                         </span>
                                     </td>
+                                    <td v-else></td>  
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
