@@ -33,7 +33,7 @@
                                 <th>Action</th>
                             </thead>
                             <tbody>
-                                <tr v-for="user in users" v-bind:key="user.id">
+                                <tr v-for="user in filteredUsers" v-bind:key="user.id">
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.name }}</td>
                                     <td>{{ user.email }}</td>
@@ -42,7 +42,7 @@
                                              {{ company.name+' - '+company.address }} <br/>
                                         </span>
                                     </td>
-                                    <!-- <td>{{ user.department.name }}</td> -->
+                                    <td>{{ user.department.name }}</td>
                                     <td v-if="user.role">
                                         <span v-for="(role, r) in user.roles" :key="r">
                                             {{ role.name }} <br/>
@@ -219,7 +219,8 @@ export default {
         filteredUsers(){
             let self = this;
             return self.users.filter(user => {
-                return user.name.toLowerCase().includes(this.keywords.toLowerCase())
+                // return user.name.toLowerCase().includes(this.keywords.toLowerCase())
+                return user.updated_at.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
