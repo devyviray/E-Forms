@@ -36,7 +36,7 @@
                                 <tr v-for="user in filteredQueues" v-bind:key="user.id">
                                     <td>{{ user.id }}</td>
                                     <td v-if="user.name">{{ user.name }}</td>
-                                    <td v-else style="padding-left: 10px"> - </td>
+                                    <td v-else style="padding-left: 40px"> - </td>
                                     <td>{{ user.email }}</td>
                                     <td>
                                         <span v-for="(company, c) in user.companies" :key="c">
@@ -222,8 +222,7 @@ export default {
         filteredUsers(){
             let self = this;
             return self.users.filter(user => {
-                // return user.name.toLowerCase().includes(this.keywords.toLowerCase())
-                return user.updated_at.toLowerCase().includes(this.keywords.toLowerCase())
+                return user.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
