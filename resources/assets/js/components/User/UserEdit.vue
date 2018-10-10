@@ -60,8 +60,18 @@
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="name" class="col-sm-3 col-form-label">Department</label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-9" v-if="users[0].department">
                                         <select v-model="users[0].department.id" class="form-control form-control-lg" id="department">
+                                            <option value="" disabled selected>Select department</option>
+                                            <option v-for="department in departments" v-bind:key="department.id" :value="department.id">
+                                                {{ department.name }}
+                                            </option>
+                                        </select>
+                                        <span class="error" v-if="errors.department">{{ errors.department[0] }}</span>
+                                    </div>
+                                    <!-- Delete after all user was updated -->
+                                    <div class="col-sm-9" v-else>
+                                        <select v-model="department_delete" class="form-control form-control-lg" id="department">
                                             <option value="" disabled selected>Select department</option>
                                             <option v-for="department in departments" v-bind:key="department.id" :value="department.id">
                                                 {{ department.name }}
@@ -89,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button @click="editUser(users[0])" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
+                        <button @click="editUser(users[0],department_delete)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round float-right" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Update</button>
                     </form>
                 </div>
             </div>
@@ -124,7 +134,8 @@ export default {
             companies: [],
             departments: [],
             roles: [],
-            isLoading: false
+            isLoading: false,
+            department_delete: ''
          }
     },
     created(){  
@@ -171,7 +182,7 @@ export default {
                 this.roles = response.data;
             });
         },
-        editUser(user){
+        editUser(user, department_delete){
             this.isLoading = true;
             let comapanyids = [];
             let roleids = [];
@@ -186,7 +197,7 @@ export default {
                 name: user.name,
                 email: user.email,
                 company: comapanyids,
-                department: user.department.id,
+                department: user.department.id ? user.department.id : department_delete,
                 role: roleids
             })
             .then(response => {
