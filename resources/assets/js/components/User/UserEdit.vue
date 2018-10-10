@@ -197,7 +197,7 @@ export default {
                 name: user.name,
                 email: user.email,
                 company: comapanyids,
-                department: user.department.id ? user.department.id : department_delete,
+                department: user.department ? user.department.id : department_delete,
                 role: roleids
             })
             .then(response => {
