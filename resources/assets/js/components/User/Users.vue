@@ -6,7 +6,7 @@
                 <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"  @click="addUserForm">Add user</button>
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
-                        <h4 class="card-title">Usersssss</h4>   
+                        <h4 class="card-title">Users</h4>   
                     </div>
 
                     <content-placeholders v-if="loading">
@@ -35,19 +35,22 @@
                             <tbody>
                                 <tr v-for="user in filteredUsers" v-bind:key="user.id">
                                     <td>{{ user.id }}</td>
-                                    <!-- <td>{{ user.name }}</td> -->
+                                    <td v-if="user.name">{{ user.name }}</td>
+                                    <td v-else> - </td>
                                     <td>{{ user.email }}</td>
                                     <td>
                                         <span v-for="(company, c) in user.companies" :key="c">
                                              {{ company.name+' - '+company.address }} <br/>
                                         </span>
                                     </td>
-                                    <!-- <td>{{ user.department.name }}</td> -->
-                                    <td v-if="user.role">
+                                    <td v-if="user.department">{{ user.department.name }}</td>
+                                    <td v-else> -</td>
+                                    <td v-if="user.roles">
                                         <span v-for="(role, r) in user.roles" :key="r">
                                             {{ role.name }} <br/>
                                         </span>
                                     </td>
+                                    <td v-else> - </td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
