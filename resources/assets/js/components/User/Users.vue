@@ -35,14 +35,14 @@
                             <tbody>
                                 <tr v-for="user in users" v-bind:key="user.id">
                                     <td>{{ user.id }}</td>
-                                    <!-- <td>{{ user.name }}</td> -->
+                                    <td>{{ user.name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>
                                         <span v-for="(company, c) in user.companies" :key="c">
                                              {{ company.name+' - '+company.address }} <br/>
                                         </span>
                                     </td>
-                                    <td>{{ user.department.name }}</td>
+                                    <!-- <td>{{ user.department.name }}</td> -->
                                     <td v-if="user.role">
                                         <span v-for="(role, r) in user.roles" :key="r">
                                             {{ role.name }} <br/>
