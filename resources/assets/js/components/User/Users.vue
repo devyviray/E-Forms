@@ -28,7 +28,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Company</th>
-                                <th>department</th>
+                                <th>Department</th>
                                 <th>Role</th>
                                 <th>Action</th>
                             </thead>

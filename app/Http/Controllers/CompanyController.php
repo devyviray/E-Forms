@@ -15,7 +15,7 @@ class CompanyController extends Controller
     public function index()
     {
 
-        $companies = Company::orderBy('id', 'desc')
+        $companies = Company::orderBy('name', 'asc')
         ->get()
         ->unique('name')
         ->values()
@@ -32,7 +32,7 @@ class CompanyController extends Controller
 
     public function companyLocation()
     {
-        return  $companies = Company::orderBy('id', 'desc')->get();
+        return  $companies = Company::orderBy('name', 'asc')->get();
     }
 
     
