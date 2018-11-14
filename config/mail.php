@@ -56,10 +56,9 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'eforms@lafilgroup.com'),
-        'name' => env('MAIL_FROM_NAME', 'QMD E-Forms'),
+        'address' => env('MAIL_FROM_ADDRESS', 'tqmmnl-ilogroup@lafiladmin.com'),
+        'name' => env('MAIL_FROM_NAME', 'QMD-EFORMS'),
     ],
-
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol
