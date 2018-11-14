@@ -162,10 +162,10 @@ class DrdrController extends Controller
         $drdr->reviewer_id = $request->input('reviewer_id');
         $drdr->status = StatusType::SUBMITTED;
 
-        $reviewer = User::findOrFail($request->input('reviewer_id'));
-        $reviewer->notify(new RequesterSubmitDrdr($drdr, Auth::user()));
-
         if($drdr->save()){
+            $reviewer = User::findOrFail($request->input('reviewer_id'));
+            $reviewer->notify(new RequesterSubmitDrdr($drdr, Auth::user()));
+            
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){
                 $filename = $attachment->getClientOriginalName();
