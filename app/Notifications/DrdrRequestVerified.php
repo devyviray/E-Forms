@@ -8,10 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
     User,
-    Ddr
+    Drdr
 };
 
-class ApproverDisapprovedDdr extends Notification
+class DrdrRequestVerified extends Notification
 {
     use Queueable;
 
@@ -20,13 +20,14 @@ class ApproverDisapprovedDdr extends Notification
      *
      * @return void
      */
-    protected $ddr;
-    protected $approver;
-
-    public function __construct(Ddr $ddr, User $approver)
+    protected $drdr;
+    protected $requester;
+    protected $qm;
+    public function __construct(Drdr $drdr, User $requester, User $qm)
     {
-        $this->ddr = $ddr;
-        $this->approver = $approver;
+        $this->drdr = $drdr;
+        $this->requester = $requester;
+        $this->qm = $qm;
     }
 
     /**
@@ -50,8 +51,8 @@ class ApproverDisapprovedDdr extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line('Your Ddr filed in E-FORMS portal has been disapproved by '.$this->approver->name)
-                    ->action('Please visit E-Forms Portal', url('/ddr-view/'.$this->ddr->id))
+                    ->line('DRDR requested by  '.$this->requester->name.' has been verified by the QMD Department. An MR will be in contact with you to finalize the distribution of the document. You can view your request by clicking the link below. ')
+                    ->action('Please visit E-Forms Portal', url('/drdr-view/'. $this->drdr->id))
                     ->line('Thank you for using our application!');
     }
 

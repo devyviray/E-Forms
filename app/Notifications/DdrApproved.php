@@ -7,11 +7,11 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
-    User,
-    Drdr
+    Ddr,
+    User
 };
 
-class RequesterSubmitDrdr extends Notification
+class DdrApproved extends Notification
 {
     use Queueable;
 
@@ -20,15 +20,14 @@ class RequesterSubmitDrdr extends Notification
      *
      * @return void
      */
-
+    protected $ddr;
     protected $requester;
-    protected $drdr;
-
-    public function __construct(Drdr $drdr, User $requester)
+    protected $approver;
+    public function __construct(Ddr $ddr, User $requester, User $approver)
     {
-        //
+        $this->ddr = $ddr;
         $this->requester = $requester;
-        $this->drdr = $drdr;
+        $this->approver = $approver;
     }
 
     /**
@@ -52,8 +51,8 @@ class RequesterSubmitDrdr extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line( $this->requester->name . ' submit DRDR in E-Forms portal')
-                    ->action('Please visit E-Forms Portal', url('/drdr-review/'. $this->drdr->id))
+                    ->line($this->requester->name.' has filed a DRDR at QMD E-forms portal. It has been approved by  '.$this->approver->name.'. Please proceed to e-forms portal to verify the request. ')
+                    ->action('Please visit E-Forms Portal', url('/admin/ddr-details/'.$this->ddr->id))
                     ->line('Thank you for using our application!');
     }
 

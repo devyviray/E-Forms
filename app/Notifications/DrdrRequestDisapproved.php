@@ -8,10 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
     User,
-    Ccir
+    Drdr
 };
 
-class MrMarkAsValidCcir extends Notification
+class DrdrRequestDisapproved extends Notification
 {
     use Queueable;
 
@@ -20,12 +20,14 @@ class MrMarkAsValidCcir extends Notification
      *
      * @return void
      */
-    protected $ccir;
-    protected $qm;
-    public function __construct(Ccir $ccir, User $qm)
+    protected $reviewer;
+    protected $requester;
+    protected $drdr;
+    public function __construct(Drdr $drdr,User $requester,  User $reviewer)
     {
-        $this->ccir = $ccir;
-        $this->qm = $qm;
+        $this->drdr = $drdr;
+        $this->requester = $requester;
+        $this->reviewer = $reviewer;
     }
 
     /**
@@ -43,14 +45,14 @@ class MrMarkAsValidCcir extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage   
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line('Your CCIR filed in E-FORMS portal has been marked as Valid by '.$this->qm->name)
-                    ->action('Please visit E-Forms Portal', url('/ccir-view/'.$this->ccir->id))
+                    ->line('DRDR requested by  '. $this->requester->name.' has been disapproved by '.$this->reviewer->name.'). Please contact them for the details.' )
+                    ->action('Please visit E-Forms Portal', url('/drdr-view/'.$this->drdr->id))
                     ->line('Thank you for using our application!');
     }
 

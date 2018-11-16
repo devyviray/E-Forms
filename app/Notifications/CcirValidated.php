@@ -7,11 +7,11 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
-    Ddr,
-    User
+    User,
+    Ccir
 };
 
-class ApproverNotifyMrDdr extends Notification
+class CcirValidated extends Notification
 {
     use Queueable;
 
@@ -20,14 +20,16 @@ class ApproverNotifyMrDdr extends Notification
      *
      * @return void
      */
-    protected $ddr;
+    protected $ccir;
     protected $requester;
-    protected $approver;
-    public function __construct(Ddr $ddr, User $requester, User $approver)
+    protected $status;
+    protected $qm;
+    public function __construct(Ccir $ccir,User $requester, $status, User $qm)
     {
-        $this->ddr = $ddr;
+        $this->ccir = $ccir;
         $this->requester = $requester;
-        $this->approver = $approver;
+        $this->status = $status;
+        $this->qm = $qm;
     }
 
     /**
@@ -51,8 +53,8 @@ class ApproverNotifyMrDdr extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line('Ddr filed by '.$this->requester->name.' in E-FORMS portal has been approved by '.$this->approver->name)
-                    ->action('Please visit E-Forms Portal', url('/admin/ddr-details/'.$this->ddr->id))
+                    ->line('CCIR requested by '.$this->requester->name . ' was marked '.$this->status. ' by ' .$this->qm->name.'. Please await contact from QM for details. ')
+                    ->action('Please visit E-Forms Portal', url('/ccir-view/'.$this->ccir->id))
                     ->line('Thank you for using our application!');
     }
 

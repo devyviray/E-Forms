@@ -8,10 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
     User,
-    Ccir
+    Drdr
 };
 
-class MrMarkAsInvalidCcir extends Notification
+class DrdrRequestApproval extends Notification
 {
     use Queueable;
 
@@ -20,12 +20,15 @@ class MrMarkAsInvalidCcir extends Notification
      *
      * @return void
      */
-    protected $ccir;
-    protected $qm;
-    public function __construct(Ccir $ccir, User $qm)
+    protected $requester;
+    protected $reviewer;
+    protected $drdr;
+
+    public function __construct(Drdr $drdr, User $requester, User $reviewer)
     {
-        $this->ccir = $ccir;
-        $this->qm = $qm;
+        $this->drdr = $drdr;
+        $this->requester = $requester;
+        $this->reviewer = $reviewer;
     }
 
     /**
@@ -49,8 +52,8 @@ class MrMarkAsInvalidCcir extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line('Your CCIR filed in E-FORMS portal has been marked as Invalid by '.$this->qm->name)
-                    ->action('Please visit E-Forms Portal', url('/ccir-view/'.$this->ccir->id))
+                    ->line($this->requester->name.' has filed a DRDR at QMD E-forms portal and was reviewed by  '.$this->reviewer->name.'. We are requesting your assistance in reviewing and approving the requests for distribution.' )
+                    ->action('Please visit E-Forms Portal', url('/drdr-approve/'.$this->drdr->id))
                     ->line('Thank you for using our application!');
     }
 

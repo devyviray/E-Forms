@@ -11,10 +11,10 @@ use App\Types\RolesType;
 use Auth;
 use PDF;
 use Carbon\Carbon;
-use App\Notifications\RequesterSubmitDdr;
-use App\Notifications\ApproverNotifyMrDdr;
-use App\Notifications\MrMarkAsDistributedDdr;
-use App\Notifications\ApproverDisapprovedDdr;
+use App\Notifications\DdrRequestApproval;
+use App\Notifications\DdrApproved;
+use App\Notifications\DdrRequestVerified;
+use App\Notifications\DdrRequestDisapproved;
 
 class DdrController extends Controller
 {
@@ -107,7 +107,7 @@ class DdrController extends Controller
         $ddr->status = StatusType::SUBMITTED;
 
         $approver = User::findOrFail($request->input('approver'));
-        $approver->notify(new RequesterSubmitDdr($ddr, Auth::user()));
+        $approver->notify(new DdrRequestApproval($ddr, Auth::user()));
 
         if($ddr->save()){
             $ddrFormsLists = $request->input('ddrlists');
@@ -187,7 +187,7 @@ class DdrController extends Controller
                 $q->where('company_id',$company_id);
             })->get();
 
-            \Notification::send($mr, new ApproverNotifyMrDdr($ddr,$requester, Auth::user()));
+            \Notification::send($mr, new DdrApproved($ddr,$requester, Auth::user()));
         }else {
 
             $ddr->status = StatusType::DISAPPROVED_APPROVER;
@@ -197,7 +197,7 @@ class DdrController extends Controller
             
             $requester = User::findOrFail($ddr->requester_id); 
             // Email sending to requester of disapproved ddr
-            $requester->notify(new ApproverDisapprovedDdr($ddr, Auth::user()));
+            $requester->notify(new DdrRequestDisapproved($ddr,$requester, Auth::user()));
         }
         
 
@@ -224,7 +224,7 @@ class DdrController extends Controller
     {
         $ddr = Ddr::findOrfail($id);
      
-        if($ddr->status == StatusType::SUBMITTED){
+        if($ddr->status == StatusType::SUBMITTED && $ddr->requester_id == Auth::user()->id){
             return view('ddr.edit', ['location' => 'Document Distribution Request']);
         } return redirect()->back();
     }
@@ -547,7 +547,9 @@ class DdrController extends Controller
         $ddr->status = StatusType::MARK_AS_DISTRIBUTED;
         $ddr->distributed_date = $carbon::now();
         if($ddr->save()){
-            \Notification::send($emails , new MrMarkAsDistributedDdr($ddr,$requester,Auth::user()));
+            // \Notification::send($emails , new DdrRequestVerified($ddr,$requester,Auth::user()));
+            $requester->notify(new DdrRequestVerified($ddr,$requester, Auth::user()));
+            
             return ['redirect' => route('admin.ddrs')];
         }
     }

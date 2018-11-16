@@ -11,7 +11,7 @@ use App\{
     User
 };
 
-class RequesterSubmitNcn extends Notification
+class NcnImmediateAction extends Notification
 {
     use Queueable;
 
@@ -20,13 +20,14 @@ class RequesterSubmitNcn extends Notification
      *
      * @return void
      */
-
     protected $ncn;
-    protected $requester; 
-    public function __construct(Ncn $ncn, User $requester)
+    protected $requester;
+    protected $approver;
+    public function __construct(Ncn $ncn, User $requester, User $approver)
     {
         $this->ncn = $ncn;
         $this->requester = $requester;
+        $this->approver = $approver;
     }
 
     /**
@@ -50,8 +51,8 @@ class RequesterSubmitNcn extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line($this->requester->name.' Filed NCN in E-FORMS Portal')
-                    ->action('Please visit E-Forms Portal', url('/ncn-approve/'.$this->ncn->id))
+                    ->line($this->approver->name.' has validated '.$this->requester->name. ' NCN. An immediate action was given. Please proceed to e-forms portal to view immediate action.')
+                    ->action('Please visit E-Forms Portal', url('/notified-page'))
                     ->line('Thank you for using our application!');
     }
 

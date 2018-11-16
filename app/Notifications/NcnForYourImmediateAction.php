@@ -7,11 +7,11 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
-    User,
-    Drdr
+    Ncn,
+    User
 };
 
-class ApproverNotifyMrDrdr extends Notification
+class NcnForYourImmediateAction extends Notification
 {
     use Queueable;
 
@@ -20,14 +20,17 @@ class ApproverNotifyMrDrdr extends Notification
      *
      * @return void
      */
-
-    protected $drdr;
+    protected $ncn;
     protected $requester;
-
-    public function __construct(Drdr $drdr, User $requester)
+    protected $notified;
+    protected $approver;
+    public function __construct(Ncn $ncn, User $requester, User $approver, User $notified)
     {
-        $this->drdr = $drdr;
+        $this->ncn = $ncn;
         $this->requester = $requester;
+        $this->approver = $approver;
+        $this->notified = $notified;
+
     }
 
     /**
@@ -51,8 +54,8 @@ class ApproverNotifyMrDrdr extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line('Drdr filed by '.$this->requester->name.'  in E-FORMS portal has been reviewed and approved for distribution. Effective date '.$this->drdr->effective_date)
-                    ->action('Please visit E-Forms Portal', url('/admin/drdr-verify/'.$this->drdr->id ))
+                    ->line('NCN requested by  '.$this->requester->name.' has been approved by '.$this->approver->name .'. Please validate the NCN and input the immediate action.')
+                    ->action('Please visit E-Forms Portal', url('/ncn-view/'.$this->ncn->id))
                     ->line('Thank you for using our application!');
     }
 

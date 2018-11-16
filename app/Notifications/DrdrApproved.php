@@ -8,10 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
     User,
-    Ddr
+    Drdr
 };
 
-class MrMarkAsDistributedDdr extends Notification
+class DrdrApproved extends Notification
 {
     use Queueable;
 
@@ -20,14 +20,14 @@ class MrMarkAsDistributedDdr extends Notification
      *
      * @return void
      */
-    protected $ddr;
+
+    protected $drdr;
     protected $requester;
-    protected $qm;
-    public function __construct(Ddr $ddr, User $requester, User $qm)
+
+    public function __construct(Drdr $drdr, User $requester)
     {
-        $this->ddr = $ddr;
+        $this->drdr = $drdr;
         $this->requester = $requester;
-        $this->qm = $qm;
     }
 
     /**
@@ -51,8 +51,8 @@ class MrMarkAsDistributedDdr extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line('Ddr file '.$this->requester->name.' in E-FORMS portal has been verified by '.$this->qm->name)
-                    ->action('Please visit E-Forms Portal', url('/'))
+                    ->line('Drdr filed by '.$this->requester->name.'  in E-FORMS portal has been reviewed and approved for distribution. Effective date '.$this->drdr->effective_date)
+                    ->action('Please visit E-Forms Portal', url('/admin/drdr-verify/'.$this->drdr->id ))
                     ->line('Thank you for using our application!');
     }
 

@@ -7,11 +7,11 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
-    User,
-    Drdr
+    Ncn,
+    User
 };
 
-class MrMarkAsDistributedDrdr extends Notification
+class NcnRequestApproval extends Notification
 {
     use Queueable;
 
@@ -20,14 +20,13 @@ class MrMarkAsDistributedDrdr extends Notification
      *
      * @return void
      */
-    protected $drdr;
-    protected $requester;
-    protected $qm;
-    public function __construct(Drdr $drdr, User $requester, User $qm)
+
+    protected $ncn;
+    protected $requester; 
+    public function __construct(Ncn $ncn, User $requester)
     {
-        $this->drdr = $drdr;
+        $this->ncn = $ncn;
         $this->requester = $requester;
-        $this->qm = $qm;
     }
 
     /**
@@ -51,8 +50,8 @@ class MrMarkAsDistributedDrdr extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line('Drdr filed by '.$this->requester->name.' in E-FORMS portal has been verified by '.$this->qm->name)
-                    ->action('Please visit E-Forms Portal', url('/'))
+                    ->line($this->requester->name.' has filed a NCN at QM E-forms portal. We are seeking your approval of the request.')
+                    ->action('Please visit E-Forms Portal', url('/ncn-approve/'.$this->ncn->id))
                     ->line('Thank you for using our application!');
     }
 

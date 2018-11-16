@@ -12,12 +12,11 @@ use App\Types\StatusType;
 use App\Types\RolesType;
 use Auth;
 use Carbon\Carbon;
-use App\Notifications\RequesterSubmitDrdr;
-use App\Notifications\ReviewerReviewedDrdr;
-use App\Notifications\ReviewerDisapprovedDrdr;
-use App\Notifications\ApproverNotifyMrDrdr;
-use App\Notifications\MrMarkAsDistributedDrdr;
-use App\Notifications\ApproverDisapprovedDrdr;
+use App\Notifications\DrdrRequestReview;
+use App\Notifications\DrdrRequestApproval;
+use App\Notifications\DrdrRequestDisapproved;
+use App\Notifications\DrdrApproved;
+use App\Notifications\DrdrRequestVerified;
 use App\Notifications\SchedulingNotifyApproverDrdr;
 use App\Notifications\SchedulingNotifyReviewerDrdr;
 
@@ -164,7 +163,7 @@ class DrdrController extends Controller
 
         if($drdr->save()){
             $reviewer = User::findOrFail($request->input('reviewer_id'));
-            $reviewer->notify(new RequesterSubmitDrdr($drdr, Auth::user()));
+            $reviewer->notify(new DrdrRequestReview($drdr, Auth::user()));
             
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){
@@ -240,7 +239,7 @@ class DrdrController extends Controller
     {
         $drdr = Drdr::findOrfail($id);
      
-        if($drdr->status == StatusType::SUBMITTED){
+        if($drdr->status == StatusType::SUBMITTED && $drdr->requester_id == Auth::user()->id){
             return view('drdr.edit',['location' => 'Document Review & Distribution Request']);
         } return redirect()->back();
     }
@@ -361,7 +360,7 @@ class DrdrController extends Controller
             
             $requester = User::findOrFail($drdr->requester_id);
             $approver = User::findOrFail($request->input('approver'));
-            $approver->notify(new ReviewerReviewedDrdr($drdr, $requester ,Auth::user()));
+            $approver->notify(new DrdrRequestApproval($drdr, $requester ,Auth::user()));
     
             if($drdr->save()){
                 $attachments = $request->file('attachments');   
@@ -388,7 +387,7 @@ class DrdrController extends Controller
 
             $requester = User::findOrFail($drdr->requester_id);
             // Notification of disapproved drdr to requester
-            $requester->notify(new ReviewerDisapprovedDrdr($drdr,Auth::user()));
+            $requester->notify(new DrdrRequestDisapproved($drdr,$requester ,Auth::user()));
 
             if($drdr->save()){
                 return ['redirect' => route('drdr')];
@@ -431,7 +430,7 @@ class DrdrController extends Controller
             
             $requester = User::findOrFail($drdr->requester_id);
 
-            \Notification::send($mr, new ApproverNotifyMrDrdr($drdr, $requester));
+            \Notification::send($mr, new DrdrApproved($drdr, $requester));
     
             if($drdr->save()){
                 $attachments = $request->file('attachments');   
@@ -459,7 +458,7 @@ class DrdrController extends Controller
 
             $requester = User::findOrFail($drdr->requester_id);
             // Notification of disapproved drdr to requester
-            $requester->notify(new ApproverDisapprovedDrdr($drdr,Auth::user()));
+            $requester->notify(new DrdrRequestDisapproved($drdr,$requester ,Auth::user()));
 
             if($drdr->save()){
                 return ['redirect' => route('drdr')];
@@ -809,7 +808,9 @@ class DrdrController extends Controller
                 }
     
                 $requester = User::findOrFail($drdr->requester_id);
-                \Notification::send($emails , new MrMarkAsDistributedDrdr($drdr, $requester, Auth::user()));
+                // \Notification::send($emails , new DrdrRequestVerified($drdr, $requester, Auth::user()));
+                $requester->notify(new DrdrRequestVerified($drdr,$requester, Auth::user()));
+                
                 return ['redirect' => route('admin.drdrs')];
             }
         }else { return redirect()->back(); }

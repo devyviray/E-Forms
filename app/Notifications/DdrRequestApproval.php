@@ -8,10 +8,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\{
     User,
-    Drdr
+    Ddr
 };
 
-class ReviewerDisapprovedDrdr extends Notification
+class DdrRequestApproval extends Notification
 {
     use Queueable;
 
@@ -20,12 +20,12 @@ class ReviewerDisapprovedDrdr extends Notification
      *
      * @return void
      */
-    protected $reviewer;
-    protected $drdr;
-    public function __construct(Drdr $drdr, User $reviewer)
+    protected $ddr;
+    protected $requester;
+    public function __construct(Ddr $ddr, User $requester)
     {
-        $this->drdr = $drdr;
-        $this->reviewer = $reviewer;
+        $this->ddr = $ddr;
+        $this->requester = $requester;
     }
 
     /**
@@ -43,14 +43,14 @@ class ReviewerDisapprovedDrdr extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage   
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line('Your Ddr filed in E-FORMS portal has been disapproved by '. $this->reviewer->name)
-                    ->action('Please visit E-Forms Portal', url('/drdr-view/'.$this->drdr->id))
+                    ->line($this->requester->name.' has filed a DDR at QM E-forms portal. We are seeking your approval to distribute the documents.  ')
+                    ->action('Please visit E-Forms Portal', url('/ddr-approve/'.$this->ddr->id))
                     ->line('Thank you for using our application!');
     }
 

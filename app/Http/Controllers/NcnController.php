@@ -11,10 +11,10 @@ use App\Types\RolesType;
 use Carbon\Carbon;
 use Auth;
 use PDF;
-use App\Notifications\RequesterSubmitNcn;
-use App\Notifications\ApproverNotifyPersonNcn;
-use App\Notifications\ApproverDisapprovedNcn;
-use App\Notifications\NotifiedNcn;
+use App\Notifications\NcnRequestApproval;
+use App\Notifications\NcnImmediateAction;
+use App\Notifications\NcnRequestDisapproved;
+use App\Notifications\NcnForYourImmediateAction;
 
 class NcnController extends Controller
 {
@@ -110,7 +110,7 @@ class NcnController extends Controller
 
         if($ncn->save()){
             $approver = User::findOrFail($request->input('approver'));
-            $approver->notify(new RequesterSubmitNcn($ncn, Auth::user()));
+            $approver->notify(new NcnRequestApproval($ncn, Auth::user()));
             
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){
@@ -186,7 +186,7 @@ class NcnController extends Controller
                 $requester = User::findOrFail($ncn->requester_id);
                 $notified = User::findOrFail($request->input('notified'));
                 // Email sending to notified person
-                $notified->notify(new ApproverNotifyPersonNcn($ncn, $requester, Auth::user()));
+                $notified->notify(new NcnImmediateAction($ncn, $requester, Auth::user()));
                 
                 $attachments = $request->file('attachments');   
                 foreach($attachments as $attachment){
@@ -211,7 +211,7 @@ class NcnController extends Controller
             $ncn->save();
 
             $requester = User::findOrFail($ncn->requester_id);
-            $requester->notify(new ApproverDisapprovedNcn($ncn, Auth::user()));
+            $requester->notify(new NcnRequestDisapproved($ncn, $requester, Auth::user()));
         }
 
         return ['redirect' => route('ncn')];
@@ -579,7 +579,9 @@ class NcnController extends Controller
             $approver = User::findOrFail($ncn->approver_id);
             $emails = [$requester, $approver];
 
-            \Notification::send($emails , new NotifiedNcn($ncn, $requester, Auth::user()));
+            // \Notification::send($emails , new NcnForYourImmediateAction($ncn, $requester,  $approver, Auth::user()));
+
+            $requester->notify(new NcnForYourImmediateAction($ncn,$requester, $approver ,Auth::user()));
 
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){

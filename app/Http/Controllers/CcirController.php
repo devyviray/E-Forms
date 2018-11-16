@@ -12,8 +12,7 @@ use App\Setting;
 use PDF;
 use App\Notifications\{
     RequesterSubmitCcir,
-    MrMarkAsValidCcir,
-    MrMarkAsInvalidCcir
+    CcirValidated
 };
 use App\Types\StatusType;
 use App\Types\RolesType;
@@ -381,7 +380,7 @@ class CcirController extends Controller
 
                 $requester = User::findOrFail($ccir->requester_id);
 
-                $requester->notify(new MrMarkAsValidCcir($ccir, Auth::user()));
+                $requester->notify(new CcirValidated($ccir,$requester ,'Valid', Auth::user()));
                 
             }else{ 
                 $ccir->status = StatusType::CCIR_INVALID;
@@ -390,7 +389,7 @@ class CcirController extends Controller
 
                 $requester = User::findOrFail($ccir->requester_id);
 
-                $requester->notify(new MrMarkAsInvalidCcir($ccir, Auth::user()));
+                $requester->notify(new CcirValidated($ccir, $requester , 'Invalid', Auth::user()));
             }
         
             return ['redirect' => route('admin.ccirs')];   
