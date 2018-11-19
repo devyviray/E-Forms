@@ -51,7 +51,7 @@ class DrdrRequestVerified extends Notification
     {
         return (new MailMessage)
                     ->greeting('Good day!')
-                    ->line('DRDR requested by  '.$this->requester->name.' has been verified by the QMD Department. An MR will be in contact with you to finalize the distribution of the document. You can view your request by clicking the link below. ')
+                    ->line('DRDR requested by  '.$this->requester->name.' has been verified by the QM Section. An MR will be in contact with you to finalize the distribution of the document. You can view your request by clicking the link below. ')
                     ->action('Please visit E-Forms Portal', url('/drdr-view/'. $this->drdr->id))
                     ->line('Thank you for using our application!');
     }
