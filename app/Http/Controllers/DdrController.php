@@ -106,10 +106,10 @@ class DdrController extends Controller
         $ddr->others = $request->input('reason') == 3 ? $request->input('others') : '';
         $ddr->status = StatusType::SUBMITTED;
 
-        $approver = User::findOrFail($request->input('approver'));
-        $approver->notify(new DdrRequestApproval($ddr, Auth::user()));
-
         if($ddr->save()){
+            $approver = User::findOrFail($request->input('approver'));
+            $approver->notify(new DdrRequestApproval($ddr, Auth::user()));
+
             $ddrFormsLists = $request->input('ddrlists');
             foreach($ddrFormsLists as $list){
                 $ddrFormsList = new DdrformsList;
