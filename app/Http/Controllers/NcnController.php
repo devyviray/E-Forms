@@ -186,7 +186,7 @@ class NcnController extends Controller
                 $requester = User::findOrFail($ncn->requester_id);
                 $notified = User::findOrFail($request->input('notified'));
                 // Email sending to notified person
-                $notified->notify(new NcnImmediateAction($ncn, $requester, Auth::user()));
+                $notified->notify(new NcnForYourImmediateAction($ncn,$requester,Auth::user(), $notified));
                 
                 $attachments = $request->file('attachments');   
                 foreach($attachments as $attachment){
@@ -579,9 +579,7 @@ class NcnController extends Controller
             $approver = User::findOrFail($ncn->approver_id);
             $emails = [$requester, $approver];
 
-            // \Notification::send($emails , new NcnForYourImmediateAction($ncn, $requester,  $approver, Auth::user()));
-
-            $requester->notify(new NcnForYourImmediateAction($ncn,$requester, $approver ,Auth::user()));
+            $requester->notify(new NcnImmediateAction($ncn, $requester, Auth::user()));
 
             $attachments = $request->file('attachments');   
             foreach($attachments as $attachment){
