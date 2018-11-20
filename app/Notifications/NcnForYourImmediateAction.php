@@ -55,7 +55,7 @@ class NcnForYourImmediateAction extends Notification
         return (new MailMessage)
                     ->greeting('Good day!')
                     ->line('NCN requested by  '.$this->requester->name.' has been approved by '.$this->approver->name .'. Please validate the NCN and input the immediate action.')
-                    ->action('Please visit E-Forms Portal', url('/ncn-view/'.$this->ncn->id))
+                    ->action('Please visit E-Forms Portal', url('/notified-page'))
                     ->line('Thank you for using our application!');
     }
 
