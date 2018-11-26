@@ -50,7 +50,7 @@
                             <span  v-else-if="ccirSubmitted.nature_of_complaint == 5"> Dirty packaging </span>
                             <span  v-else> Others </span>
                         </td>
-                        <td>{{ moment(ccirSubmitted.delivery_date).format('LL') }}</td>
+                        <td>{{ moment(ccirSubmitted.date_request).format('LL') }}</td>
                         <td>
                             <span  v-if="ccirSubmitted.status == 2"> PENDING </span>
                             <span  v-else-if="ccirSubmitted.status == 9"> {{ ccirSubmitted.car_number }}</span>

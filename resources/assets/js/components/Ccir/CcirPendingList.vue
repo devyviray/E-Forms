@@ -24,7 +24,7 @@
                         <td>{{ ccir.requester.name }}</td>
                         <td>{{ ccir.brand_name }}</td>
                         <td>{{ ccir.nature_of_complaint }}</td>
-                        <td>{{ moment(ccir.delivery_date ).format('LL') }}</td>
+                        <td>{{ moment(ccir.date_request ).format('LL') }}</td>
                         <td>{{ ccir.status }}</td>
                         <td>
                            <button  class="btn btn-warning btn-round btn-fill" @click="approveCcir(ccir.id)">Click for approval</button>

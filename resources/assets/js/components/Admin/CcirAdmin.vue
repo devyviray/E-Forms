@@ -58,7 +58,7 @@
                             <span  v-else-if="ccir.nature_of_complaint == 5"> Dirty packaging </span>
                             <span  v-else> Others </span>
                         </td>
-                        <td>{{ moment(ccir.delivery_date).format('LL') }} </td>
+                        <td>{{ moment(ccir.date_request).format('LL') }} </td>
                         <td>
                             <span  v-if="ccir.status == 2"> PENDING </span>
                             <span  v-else-if="ccir.status == 9"> {{ ccir.car_number }}</span>

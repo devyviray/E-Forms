@@ -23,7 +23,7 @@
                         <td>{{ ccirApprovedForm.requester.name }}</td>
                         <td>{{ ccirApprovedForm.brand_name }}</td>
                         <td>{{ ccirApprovedForm.nature_of_complaint }}</td>
-                        <td>{{ ccirApprovedForm.delivery_date }}</td>
+                        <td>{{ ccirApprovedForm.date_request }}</td>
                         <td>{{ ccirApprovedForm.status }}</td>
                         <td>
                            <button  class="btn btn-warning" @click="viewApprovedCcir(ccirApprovedForm.id)">View</button>
