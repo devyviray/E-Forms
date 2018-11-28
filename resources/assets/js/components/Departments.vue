@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-                <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"  @click="cleanData" data-toggle="modal" data-target="#addModal" >Add departments</button>
+                <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"  @click="cleanData" data-toggle="modal" data-target="#addModal" >Add department</button>
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
                         <h4 class="card-title">Departments</h4>
@@ -52,7 +52,7 @@
                             <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
                         </div>
                         <div class="col-6 text-right">
-                            <span>{{ departments.length }} Company(s)</span>
+                            <span>{{ departments.length }} Department(s)</span>
                         </div>
                     </div>
                     <div class="card-body table-full-width table-responsive" v-if="!departments.length && !loading">

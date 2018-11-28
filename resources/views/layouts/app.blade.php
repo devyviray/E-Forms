@@ -113,11 +113,11 @@
                                             <p>Roles</p>
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a class="nav-link" href="{{ route('permissions') }}">
                                             <p>Permisions</p>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </li>

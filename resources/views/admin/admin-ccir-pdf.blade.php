@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td class="info"> <strong> Complainant's Name: </strong> </td>
-                <td colspan="6"> {{ $ccir[0]->requester->name }} </td>
+                <td colspan="6"> {{ $ccir[0]->complainant }} </td>
             </tr>
             <tr>
                 <td class="info"> <strong> Commodity: </strong> </td>

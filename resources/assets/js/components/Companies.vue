@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-                <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" data-toggle="modal" data-target="#addModal" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));" @click="cleanData">Add companies</button>
+                <button class="hidden-xs btn btn-new btn-wd btn-neutral btn-round mb-2" data-toggle="modal" data-target="#addModal" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));" @click="cleanData">Add company</button>
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
                         <h4 class="card-title">Companies</h4>
