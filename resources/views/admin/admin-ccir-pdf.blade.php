@@ -115,7 +115,11 @@
             </tr>
             <tr>
                 <td class="info"> <strong> For others, please specify </strong> </td>
-                <td colspan="5"> </td>
+                @if($ccir[0]->others)
+                    <td colspan="5"> {{ $ccir[0]->others  }} </td>
+                @else
+                    <td colspan="5"> </td>
+                @endif
             </tr>
             <tr>
                 <td class="info"> <strong> Other Details: </strong> </td>

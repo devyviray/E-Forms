@@ -25,4 +25,4 @@ mix.styles([
 	'node_modules/bootstrap/dist/js/bootstrap.min.js',
 	'resources/assets/js/light-bootstrap-dashboard.js'
 ], 'public/js/all.js')
-.browserSync('http://localhost/home');
+.browserSync('http://eforms.local');

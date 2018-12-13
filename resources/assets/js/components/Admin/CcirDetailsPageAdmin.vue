@@ -82,7 +82,7 @@
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 3">Under / Over Weight</td>
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 4">Infestation</td>
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 5">Dirty Packaging</td>
-                    <td colspan="6" v-if="ccirs[0].nature_of_complaint == 6">Others</td>
+                    <td colspan="6" v-if="ccirs[0].nature_of_complaint == 6">{{ ccirs[0].others }}</td>
                 </tr>
                 <tr v-if="ccirs[0].verifier">
                     <td> <strong> Verified By: </strong></td>
