@@ -231,7 +231,6 @@ export default {
             return self.drdrs.filter(drdr => {
                 return drdr.document_title.toLowerCase().includes(this.keywords.toLowerCase()) || 
                        drdr.company.name.toLowerCase().includes(this.keywords.toLowerCase()) || 
-                       drdr.rev_number.toLowerCase().includes(this.keywords.toLowerCase()) || 
                        drdr.reviewer.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
