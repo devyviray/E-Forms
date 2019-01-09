@@ -266,12 +266,13 @@ class NcnController extends Controller
      */
     public function getNotifiedPersonnel($company, $department)
     {
-        $approvers = User::whereHas('roles', function($q) {
+        $notified = User::whereHas('roles', function($q) {
             $q->where('role_id', RolesType::NOTIFIED);
         })->whereHas('companies', function($q) use ($company){
             $q->where('company_id',$company);
-        })->where('department_id', $department)->get();
-        return $approvers;
+        })->get();
+        // ->where('department_id', $department)->get();
+        return $notified;
     }
 
 
