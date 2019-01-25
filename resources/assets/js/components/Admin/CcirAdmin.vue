@@ -56,7 +56,7 @@
                             <span  v-else-if="ccir.nature_of_complaint == 3"> Under/Over weight </span>
                             <span  v-else-if="ccir.nature_of_complaint == 4"> Infestation </span>
                             <span  v-else-if="ccir.nature_of_complaint == 5"> Dirty packaging </span>
-                            <span  v-else> Others </span>
+                            <span  v-else>{{ ccir.others }} </span>
                         </td>
                         <td> {{ moment(ccir.date_request).format('LL') }} </td>
                         <td>
