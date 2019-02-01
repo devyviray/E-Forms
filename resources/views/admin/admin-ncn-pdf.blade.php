@@ -62,32 +62,32 @@
 			</td>
 			<td>
 				@if($ncn[0]->non_conformity_types ==2)
-					<img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Process-related
+					<img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Objective not Met
 				@else
-					<img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Process-related
+					<img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Objective not Met
 				@endif
 			</td>
 			<td>
 				@if($ncn[0]->non_conformity_types ==3)
-					<img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Contracted-service
+					<img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Process Related
 				@else
-					<img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Contracted-service
+					<img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Process Related
 				@endif
 			</td>
 		</tr>
 		<tr>
 			<td>
 				@if($ncn[0]->non_conformity_types ==4)
-					<img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Objectives not met
+					<img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Vendor
 				@else
-					<img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Objectives not met
+					<img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Vendor
 				@endif
 			</td>
 			<td>
 				@if($ncn[0]->non_conformity_types ==5)
-					<img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Vendor
+					<img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Contracted - Service
 				@else
-					<img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Vendor
+					<img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;">Contracted - Service
 				@endif
 			</td>
 			<td>

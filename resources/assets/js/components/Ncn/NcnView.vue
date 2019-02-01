@@ -35,11 +35,11 @@
                     </tr>
                     <tr v-if="ncns.length">
                         <td> <strong> TYPE OF NON CONFORMITY: </strong> </td>
-                        <td v-if="ncns[0].non_conformity_types == 1">Customer-returns</td>
-                        <td v-else-if="ncns[0].non_conformity_types == 2">Process-related</td>
-                        <td v-else-if="ncns[0].non_conformity_types == 3">Contracted-service</td>
-                        <td v-else-if="ncns[0].non_conformity_types == 4">Objectives not met</td>
-                        <td v-else-if="ncns[0].non_conformity_types == 5">Vendor</td>
+                        <td v-if="ncns[0].non_conformity_types == 1">Customer - Returns</td>
+                        <td v-else-if="ncns[0].non_conformity_types == 2">Objective not Met</td>
+                        <td v-else-if="ncns[0].non_conformity_types == 3">Process Related</td>
+                        <td v-else-if="ncns[0].non_conformity_types == 4">Vendor</td>
+                        <td v-else-if="ncns[0].non_conformity_types == 5">Contracted - Service</td>
                         <td colspan="2"  v-else>Others:</td>
                     </tr>
                 </tbody>
