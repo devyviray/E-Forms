@@ -20,7 +20,7 @@ class Ddr extends Model
      * @var array
      */
     protected $fillable = [
-        'requester', 'position', 'date_needed', 'date_requester', 'status'
+        'requester', 'position', 'date_needed', 'date_requester', 'status', 'approver_id'
     ];
 
     public function requester(){
