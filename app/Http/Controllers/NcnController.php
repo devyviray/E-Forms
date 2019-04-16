@@ -172,7 +172,7 @@ class NcnController extends Controller
                 'id' => 'required',
                 'remarks' => 'required',
                 'status' => 'required',
-                'attachments' => 'required',
+                // 'attachments' => 'required',
                 'notified' => 'required'
             ]);
 
@@ -188,15 +188,17 @@ class NcnController extends Controller
                 // Email sending to notified person
                 $notified->notify(new NcnForYourImmediateAction($ncn,$requester,Auth::user(), $notified));
                 
-                $attachments = $request->file('attachments');   
-                foreach($attachments as $attachment){
-                    $filename = $attachment->getClientOriginalName();
-                    $path = $attachment->store('ncn');
-                    $role = 'approver';
-         
-    
-                    $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
-                } 
+                $attachments = $request->file('attachments');
+                if($attachments){
+                    foreach($attachments as $attachment){
+                        $filename = $attachment->getClientOriginalName();
+                        $path = $attachment->store('ncn');
+                        $role = 'approver';
+             
+        
+                        $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
+                    } 
+                }
             }
         }else{
 
@@ -566,7 +568,7 @@ class NcnController extends Controller
         $request->validate([
             'id' => 'required',
             'action_taken' => 'required',
-            'attachments' => 'required',
+            // 'attachments' => 'required',
         ]);
 
         $ncn = Ncn::findOrFail($request->input('id'));
@@ -582,16 +584,16 @@ class NcnController extends Controller
 
             $requester->notify(new NcnImmediateAction($ncn, $requester, Auth::user()));
 
-            $attachments = $request->file('attachments');   
-            foreach($attachments as $attachment){
-                $filename = $attachment->getClientOriginalName();
-                $path = $attachment->store('ncn');
-                $role = 'notified';
-     
-
-                $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
-            } 
-
+            $attachments = $request->file('attachments');
+            if($attachments){
+                foreach($attachments as $attachment){
+                    $filename = $attachment->getClientOriginalName();
+                    $path = $attachment->store('ncn');
+                    $role = 'notified';
+                    
+                    $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
+                } 
+            }   
 
             return ['redirect' => route('notified')];
         }
