@@ -1,6 +1,32 @@
 <template>
     <div id="page-content-wrapper">
         <div class="container-fluid">
+             <div class="row">
+                <div class="col-md-3">
+                    <label for="reviewerAttachment">  Download Attachment - Requester </label>
+                     <select class="form-control" v-model="selectedAttachment" @change="downloadAttachment" id="reviewerAttachment">
+                        <option selected disabled> Download Attachment - Requester </option>
+                        <option v-for="(requesterAttachment, r) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="r">{{ requesterAttachment.file_name }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3" v-if="approverAttachments.length">
+                    <label for="approverAttachment">  Download Attachment - Approver </label>
+                    <select class="form-control" v-model="selectedAttachment" @change="downloadAttachment" id="approverAttachment">
+                        <option selected disabled> Download Attachment - Approver </option>
+                        <option v-for="(approverAttachment, a) in approverAttachments" :value="approverAttachment.id" v-bind:key="a">{{ approverAttachment.file_name }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3" v-if="notifiedAttachments.length">
+                    <label for="approverAttachment">  Download Attachment - Notified </label>
+                    <select class="form-control" v-model="selectedAttachment" @change="downloadAttachment" id="norifiedAttachment">
+                        <option selected disabled> Download Attachment - Notified </option>
+                        <option v-for="(notifiedAttachment, n) in notifiedAttachments" :value="notifiedAttachment.id" v-bind:key="n">{{ notifiedAttachment.file_name }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3" style="margin-top: 29px">
+ 
+                </div>
+            </div>
             <hr>
             NON-CONFORMANCE NOTIFICATION
             <table class="table table-bordered">
@@ -93,6 +119,10 @@ export default {
     data(){
         return{
             ncns: [],
+            requesterAttachments: [],
+            approverAttachments: [],
+            notifiedAttachments: [],
+            selectedAttachment: '',
             errors: ''
         }
     },
@@ -109,11 +139,49 @@ export default {
             axios.get(`/ncn-data/${id}`)
             .then(response => { 
                 this.ncns = response.data;
+                this.fetchUploadedFilesRequester();
+                this.fetchUploadedFilesApprover();
+                this.fetchUploadedFilesNotified();
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
             })
-        }
+        },
+        fetchUploadedFilesRequester()
+        {
+            axios.get('/ncn-requester-attachments/'+this.ncns[0].id+'/'+this.ncns[0].requester_id)
+            .then(response => {
+                this.requesterAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })   
+        },
+        fetchUploadedFilesApprover()
+        {
+            axios.get('/ncn-approver-attachments/'+this.ncns[0].id+'/'+this.ncns[0].approver_id)
+            .then(response => {
+                this.approverAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
+        },
+        fetchUploadedFilesNotified(){
+
+            axios.get('/ncn-notified-attachments/'+this.ncns[0].id+'/'+this.ncns[0].notified_id)
+            .then(response => {
+                this.notifiedAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
+        },
+        downloadAttachment()
+        {
+            var base_url = window.location.origin;
+            window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
+        },
     },
     computed:{
         logo(){

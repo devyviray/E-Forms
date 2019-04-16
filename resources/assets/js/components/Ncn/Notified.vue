@@ -60,7 +60,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" @click="viewNcn(ncn.id)" href="javascript:void(0)">View</a>
-                                    <a v-if="ncn.status == 4" @click="getNcnId(ncn.id)"  class="dropdown-item" data-toggle="modal" data-target="#validateNcnModal" href="javascript:void(0)">Validate</a>
+                                    <a v-if="ncn.status == 4" @click="getNcnId(ncn.id, ncn.requester_id, ncn.approver_id)"  class="dropdown-item" data-toggle="modal" data-target="#validateNcnModal" href="javascript:void(0)">Validate</a>
                                     <!-- <a class="dropdown-item" href="#">Mark as archive</a>
                                     <a class="dropdown-item" href="#">Cancel document</a> -->
                                 </div>
@@ -93,6 +93,20 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" class="form-control" placeholder="Id" v-model="ncn.id">
+                    <div class="form-group">
+                        <label for="reviewerAttachment">  Download Attachment - Requester </label>
+                        <select class="form-control" v-model="selectedAttachment" @change="downloadAttachment" id="reviewerAttachment">
+                            <option selected disabled> Download Attachment - Requester </option>
+                            <option v-for="(requesterAttachment, r) in requesterAttachments" :value="requesterAttachment.id" v-bind:key="r">{{ requesterAttachment.file_name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group" v-if="approverAttachments.length">
+                        <label for="approverAttachment">  Download Attachment - Approver </label>
+                        <select class="form-control" v-model="selectedAttachment" @change="downloadAttachment" id="approverAttachment">
+                            <option selected disabled> Download Attachment - Approver </option>
+                            <option v-for="(approverAttachment, a) in approverAttachments" :value="approverAttachment.id" v-bind:key="a">{{ approverAttachment.file_name }}</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="action">Immediate Action Taken</label>
                         <textarea style="height: 100px" v-model="ncn.action_taken" class="form-control" id="action"></textarea>
@@ -152,9 +166,14 @@ export default {
             ncns: [],
             ncn:{
                 id: ' ',
-                action_taken: ' ' 
+                action_taken: ' ',
+                requester_id: '',
+                approver_id: '' 
             },
             attachments: [],
+            requesterAttachments: [],
+            approverAttachments: [],
+            selectedAttachment: '',
             formData: new FormData(),
             keywords: '',
             errors:[],
@@ -179,9 +198,33 @@ export default {
             var base_url = window.location.origin;
             window.location.href = base_url+`/ncn-view/${id}`;
         },
-        getNcnId(id)
+        getNcnId(id,requester_id, approver_id)
         {
             this.ncn.id = id;
+            this.ncn.requester_id = requester_id;
+            this.ncn.approver_id = approver_id;
+            this.fetchUploadedFilesRequester();
+            this.fetchUploadedFilesApprover();
+        },
+        fetchUploadedFilesRequester()
+        {
+            axios.get('/ncn-requester-attachments/'+this.ncn.id+'/'+this.ncn.requester_id)
+            .then(response => {
+                this.requesterAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })   
+        },
+        fetchUploadedFilesApprover()
+        {
+            axios.get('/ncn-approver-attachments/'+this.ncn.id+'/'+this.ncn.approver_id)
+            .then(response => {
+                this.approverAttachments = response.data;
+            })
+            .catch(error => {
+              this.errors = error.response.data.errors;
+            })
         },
         fetchNcns()
         {
@@ -284,7 +327,12 @@ export default {
 
         showNextLink() {
             return this.currentPage == (this.totalPages - 1) ? false : true;
-        }
+        },
+        downloadAttachment()
+        {
+            var base_url = window.location.origin;
+            window.location = base_url+`/download-attachment/${this.selectedAttachment}`;
+        },
     },
     computed: {
         filteredNcns(){
