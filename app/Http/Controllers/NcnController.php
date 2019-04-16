@@ -83,7 +83,7 @@ class NcnController extends Controller
             'department' => 'required',
             'approver' => 'required',
             'non_conformity_types' => 'required',
-            'notification_number' => 'required|alpha_num',
+            'notification_number' => 'required',
             'recurrence_number' => 'required|integer',
             'issuance_date' => 'required',
             'non_conformity_details' => 'required',
