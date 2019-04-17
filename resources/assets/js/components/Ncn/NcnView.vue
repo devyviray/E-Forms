@@ -66,7 +66,7 @@
                         <td v-else-if="ncns[0].non_conformity_types == 3">Process Related</td>
                         <td v-else-if="ncns[0].non_conformity_types == 4">Vendor</td>
                         <td v-else-if="ncns[0].non_conformity_types == 5">Contracted - Service</td>
-                        <td colspan="2"  v-else>Others:</td>
+                        <td colspan="2"  v-else> <strong> Others: </strong> {{ ncns[0].others }} </td>
                     </tr>
                 </tbody>
             </table>
