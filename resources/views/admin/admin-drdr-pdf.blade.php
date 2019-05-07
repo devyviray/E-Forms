@@ -128,7 +128,7 @@
                         @endif
                         <strong style="margin-top: 10px;">Document Title:</strong> {{ $drdr[0]->document_title }} <br/>
                         @if($drdr[0]->document_code)
-                            <strong style="margin-top: 10px;">DRDR NO:</strong>{{ $drdr[0]->document_code }} <br/>
+                            <strong style="margin-top: 10px;">Document Code:</strong>{{ $drdr[0]->document_code }} <br/>
                         @else
                             <strong style="margin-top: 10px;">Document Code:</strong>  <br/>
                         @endif
