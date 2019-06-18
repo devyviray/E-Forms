@@ -23,8 +23,8 @@
                         <option v-for="(notifiedAttachment, n) in notifiedAttachments" :value="notifiedAttachment.id" v-bind:key="n">{{ notifiedAttachment.file_name }}</option>
                     </select>
                 </div>
-                <div class="col-md-3" style="margin-top: 29px">
- 
+                <div class="col-md-3" style="margin-top: 29px" v-if="userRole == 6">
+                    <a :href="hrefLink" target="_blank" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));"> Print as PDF </a> 
                 </div>
             </div>
             <hr>
@@ -116,6 +116,7 @@
 <script>
 import moment from 'moment';
 export default {
+    props: ['userRole'], 
     data(){
         return{
             ncns: [],
@@ -123,7 +124,8 @@ export default {
             approverAttachments: [],
             notifiedAttachments: [],
             selectedAttachment: '',
-            errors: ''
+            errors: '',
+            ncnId: ''
         }
     },
     created(){
@@ -134,9 +136,9 @@ export default {
         fetchNcns()
         {
             var url = window.location.href;
-            var id = url.match(/[^\/]+$/)[0];
+            this.ncnId = url.match(/[^\/]+$/)[0];
 
-            axios.get(`/ncn-data/${id}`)
+            axios.get(`/ncn-data/${this.ncnId}`)
             .then(response => { 
                 this.ncns = response.data;
                 this.fetchUploadedFilesRequester();
@@ -189,6 +191,10 @@ export default {
             var url = base_url+'/img/lfug-logo.png';
 
             return url;
+        },
+        hrefLink()
+        {
+            return window.location.origin+`/admin/ncn-pdf/${this.ncnId}`;
         }
     }
 }

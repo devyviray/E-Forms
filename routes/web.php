@@ -176,7 +176,7 @@ Route::group(['middleware' => 'auth'], function (){
 
 
 // Accessible route only by admin 
-Route::group(['middleware' => ['auth', 'role:administrator|mr']], function(){ 
+Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], function(){ 
 
   // User routes
   // Show add user form
