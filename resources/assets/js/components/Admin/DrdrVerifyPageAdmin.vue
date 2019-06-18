@@ -63,14 +63,12 @@
             <div class="form-group">
                 <table class="table table-hover table-striped">
                     <thead>
-                        <th>ID</th>
                         <th>Copy No.</th>
                         <th>Copy Holder</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
                         <tr v-for="(drdrcopyholder, d) in drdrcopyholders" v-bind:key="d">
-                            <td>{{ d + 1 }}</td>
                             <td>
                                 <input type="text" class="form-control" placeholder="Copy No." v-model="drdrcopyholder.copy_number">
                                 <span class="error" v-if="errors['drdrcopyholders.'+d+'.copy_number']">This field is required</span>

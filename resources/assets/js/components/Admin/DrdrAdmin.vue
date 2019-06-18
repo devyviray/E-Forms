@@ -31,7 +31,7 @@
                     <th>Rev.</th>
                     <th>Reviewer</th>
                     <th>Approver</th>
-                    <th>MR</th>
+                    <th>Status</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
