@@ -57,7 +57,9 @@
                 <!-- first set -->
                 <tbody>
                     <tr>
-                        <td> <strong> Existing Document </strong> </td>
+                        <td v-if="drdrs[0].request_type == 1"><strong> {{ 'Proposal (For proposed)' }} </strong></td>
+                        <td v-else-if="drdrs[0].request_type == 2"><strong> {{ 'Revision (For existing document)' }} </strong></td>
+                        <td v-else-if="drdrs[0].request_type == 3"><strong> {{ 'Cancellation' }} </strong></td>
                         <td> <strong> Document Title: </strong> </td>
                         <td v-if="drdrs.length">{{ drdrs[0].document_title }}</td>
                         <td> <strong> Rev. No: </strong> </td>

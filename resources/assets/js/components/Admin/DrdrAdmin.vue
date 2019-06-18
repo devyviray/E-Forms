@@ -31,11 +31,12 @@
                     <th>Rev.</th>
                     <th>Reviewer</th>
                     <th>Approver</th>
+                    <th>MR</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
                     <tr v-if="loading">
-                        <td colspan="7">
+                        <td colspan="8">
                         <content-placeholders>
                             <content-placeholders-heading :img="true" />
                             <content-placeholders-text :lines="3" />
@@ -62,12 +63,17 @@
                         </td>
                         <td style="padding-left: 30px" v-else>{{ ' - '  }}</td>
                         <td>
+                            <span style="color: red" v-if="drdr.status == 4"> NOT YET VERIFIED </span>
+                            <span style="color: green" v-else-if="drdr.status == 14"> VERIFIED </span>
+                            <span style="padding-left: 15px" v-else>{{ ' - '  }}</span>
+                        </td>
+                        <td>
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button  class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a  @click="viewDrdrDetails(drdr.id)" class="dropdown-item"  href="javascript:void(0)">View</a>
+                                    <a target="_blank" :href="viewDrdrDetails+drdr.id" class="dropdown-item">View</a>
                                     <a v-if="drdr.status == 4" class="dropdown-item"  :href="verifyLink+drdr.id">Mark as verify</a>
                                     <a  v-if="roleId.includes(3) && drdr.status == 3 && drdr.approver_id == userId" class="dropdown-item" :href="approvalLnik+drdr.id">Approve</a>
                                 </div>
@@ -185,12 +191,6 @@ export default {
                 this.errors = error.response.data.errors;
             });
         },
-        viewDrdrDetails(id)
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/admin/drdr-details/${id}`;
-            
-        },
         generateByDate(){
            this.isLoading = true;
            var startDate  =  this.startDate ? moment(this.startDate).format() : '';
@@ -256,7 +256,11 @@ export default {
         },
         approvalLnik(){
             return window.location.origin+'/drdr-approve/';
-        }
+        },
+        viewDrdrDetails()
+        {
+            return window.location.origin+'/admin/drdr-details/';
+        },
     }
 }
 </script>

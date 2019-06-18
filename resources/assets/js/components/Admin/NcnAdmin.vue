@@ -51,8 +51,6 @@
                         <td>{{ ncn.id }}</td>
                         <td>{{ ncn.requester.name }}</td>
                         <td>{{ ncn.requester.position }}</td>
-                        <!-- <td>{{ ncn.attached_files }}</td>
-                        <td>{{ ncn.non_conformity_details }}</td> -->
                         <td>{{ ncn.notification_number }}</td>
                         <td>{{ moment(ncn.issuance_date).format('LL') }}</td>   
                         <td>{{ ncn.approver.name }}</td>
@@ -67,9 +65,8 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a @click="viewNcnDetails(ncn.id)" class="dropdown-item" href="javascript:void(0)">View</a>
+                                    <a target="_blank" :href="viewNcnDetails+ncn.id" class="dropdown-item">View</a>
                                     <a  v-if="roleId.includes(3) && ncn.status == 2 && ncn.approver_id == userId" class="dropdown-item" :href="approvalLnik+ncn.id">Approve</a>
-                                    <!-- <a @click="getNcnId(ncn.id)" class="dropdown-item" data-toggle="modal" data-target="#trashNcnModal" href="javascript:void(0)">Move to trash</a> -->
                                 </div>
                             </div>
                         </td>
@@ -150,12 +147,6 @@ export default {
                 this.errors = error.response.data.errors;
             });
         },
-        viewNcnDetails(id)
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/admin/ncn-details/${id}`;
-            
-        },
         generateByDate(){
 
             this.isLoading = true;
@@ -221,7 +212,11 @@ export default {
         },
         approvalLnik(){
             return window.location.origin+'/ncn-approve/';
-        }
+        },
+         viewNcnDetails()
+        {
+            return window.location.origin+'/admin/ncn-details/';
+        },
     }
 }
 </script>
