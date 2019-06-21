@@ -223,7 +223,7 @@ export default {
                     position: 'top right'
                 });
                 this.selected_id = '';
-                window.location.href = response.data.redirect;
+                window.location.href =  window.location.origin+'/admin/drdr-details/'+response.data.id;
             })
             .catch(error => { 
                 this.isLoading = false;

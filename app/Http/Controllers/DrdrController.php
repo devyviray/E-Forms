@@ -811,7 +811,7 @@ class DrdrController extends Controller
                 // \Notification::send($emails , new DrdrRequestVerified($drdr, $requester, Auth::user()));
                 $requester->notify(new DrdrRequestVerified($drdr,$requester, Auth::user()));
                 
-                return ['redirect' => route('admin.drdrs')];
+                return $drdr;
             }
         }else { return redirect()->back(); }
     }

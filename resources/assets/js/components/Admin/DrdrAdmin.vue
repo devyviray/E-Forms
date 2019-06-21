@@ -74,8 +74,8 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a target="_blank" :href="viewDrdrDetails+drdr.id" class="dropdown-item">View</a>
-                                    <a v-if="drdr.status == 4" class="dropdown-item"  :href="verifyLink+drdr.id">Mark as verify</a>
-                                    <a  v-if="roleId.includes(3) && drdr.status == 3 && drdr.approver_id == userId" class="dropdown-item" :href="approvalLnik+drdr.id">Approve</a>
+                                    <a target="_blank" v-if="drdr.status == 4" class="dropdown-item"  :href="verifyLink+drdr.id">Mark as verify</a>
+                                    <a target="_blank" v-if="roleId.includes(3) && drdr.status == 3 && drdr.approver_id == userId" class="dropdown-item" :href="approvalLnik+drdr.id">Approve</a>
                                 </div>
                             </div>
                         </td>
