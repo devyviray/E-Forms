@@ -36,6 +36,7 @@ class CreateDrdrformsTable extends Migration
             $table->string('consider_documents')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
