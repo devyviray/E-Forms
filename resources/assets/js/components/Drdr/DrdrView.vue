@@ -204,9 +204,15 @@ export default {
                 }else{
                     return rev;
                 }
-
-            }else{
-                return form.rev_number;
+            }else if (form.request_type == 3){
+                return 'N/A'
+            }
+            else{
+                if(form.rev_number.trim() === 'N/A'){
+                    return '00'
+                }else {
+                    return form.rev_number;
+                }
             }
         },
         fetchDrdrs()

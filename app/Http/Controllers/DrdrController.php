@@ -540,8 +540,15 @@ class DrdrController extends Controller
             }else{
                 $rev_number = $rev;
             }
-        }else{
-            $rev_number = $drdr[0]->rev_number;
+        }else if($drdr[0]->request_type == 3){
+            $rev_number = 'N/A';
+        }
+        else{
+            if(strcmp($drdr[0]->rev_number, 'N/A') !== 0){
+                $rev_number = $drdr[0]->rev_number;
+            }else {
+                $rev_number  = '00';
+            }
         }
 
         $pdf = PDF::loadView('admin.admin-drdr-pdf', ['drdr' => $drdr, 'rev_number' => $rev_number]);
