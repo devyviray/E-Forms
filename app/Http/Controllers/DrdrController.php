@@ -531,7 +531,20 @@ class DrdrController extends Controller
     public function drdrPdf($id)
     {
         $drdr = $this->data($id);
-        $pdf = PDF::loadView('admin.admin-drdr-pdf', ['drdr' => $drdr]);
+
+        $rev_number = '';
+        if($drdr[0]->request_type == 2){
+            $rev = $drdr[0]->rev_number + 1;
+            if(strlen($rev) == 1){
+                $rev_number = '0' . $rev;
+            }else{
+                $rev_number = $rev;
+            }
+        }else{
+            $rev_number = $drdr[0]->rev_number;
+        }
+
+        $pdf = PDF::loadView('admin.admin-drdr-pdf', ['drdr' => $drdr, 'rev_number' => $rev_number]);
 
         return $pdf->stream('drdr.pdf');
     }

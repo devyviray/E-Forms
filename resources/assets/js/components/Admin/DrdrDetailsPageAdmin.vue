@@ -178,7 +178,7 @@
                                 <td v-else style="border-left: 0 ! important;"> Document Code:  </td>
                             </tr>
                             <tr>
-                                <td style="border-left: 0 ! important;"> Revision No: {{ drdrs[0].rev_number }} </td>
+                                <td style="border-left: 0 ! important;"> Revision No: {{ incrementRevNumber(drdrs[0]) }} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -229,6 +229,19 @@ export default {
     },
     methods:{
         moment,
+         incrementRevNumber(form){
+            if(form.request_type == 2){
+                var rev = parseInt(form.rev_number) + 1;
+                if(rev.toString().length == 1){
+                    return '0' + rev;
+                }else{
+                    return rev;
+                }
+
+            }else{
+                return form.rev_number;
+            }
+        },
         fetchDrdrs()
         {
             axios.get(`/drdr-data/${this.drdrId}`)

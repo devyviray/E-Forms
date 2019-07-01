@@ -132,7 +132,7 @@
                         @else
                             <strong style="margin-top: 10px;">Document Code:</strong>  <br/>
                         @endif
-                        <strong style="margin-top: 10px;">Revision No:</strong> {{ $drdr[0]->rev_number }}
+                        <strong style="margin-top: 10px;">Revision No:</strong> {{ $rev_number }}
                     </td>
                 </tr>
             </thead>

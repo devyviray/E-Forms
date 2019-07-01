@@ -47,7 +47,7 @@
                                 <div class="form-group row">
                                     <label for="rev_number" class="col-sm-3 col-form-label">Current Rev No.</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Rev. No." v-model="drdr.rev_number" id="rev_number">
+                                        <input type="text" @keypress="isNumber($event)" class="form-control" placeholder="Rev. No." v-model="drdr.rev_number" id="rev_number">
                                         <span class="error" v-if="errors.rev_number">{{ errors.rev_number[0] }}</span>
                                     </div>
                                 </div>
@@ -279,13 +279,25 @@ export default {
     },
 
     methods: {
+        isNumber(evt)
+        {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if((charCode > 31 && (charCode < 48 || charCode > 57))){
+              evt.preventDefault();
+            }
+            return true;
+        },
         selectedType()
         {
             var revNumber = document.getElementById('rev_number');
             if(this.drdr.type == 1){
                 revNumber.disabled = true;
+                this.drdr.rev_number = "N/A"; 
+            }else{
                 this.drdr.rev_number = " "; 
-            }else{ revNumber.disabled = false; }
+                revNumber.disabled = false;
+            }
         },
         prepareFields(){
             if(this.attachments.length > 0){
