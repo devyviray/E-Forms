@@ -208,10 +208,14 @@ export default {
                 return 'N/A'
             }
             else{
-                if(form.rev_number.trim() === 'N/A'){
-                    return '00'
-                }else {
-                    return form.rev_number;
+                if(form.rev_number){
+                    if(form.rev_number.trim() === 'N/A'){
+                        return '00'
+                    }else {
+                        return form.rev_number;
+                    }
+                }else{
+                    return form.rev_number; 
                 }
             }
         },
