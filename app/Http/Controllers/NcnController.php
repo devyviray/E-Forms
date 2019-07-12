@@ -9,12 +9,13 @@ use App\UploadedFile;
 use App\Types\StatusType;
 use App\Types\RolesType;
 use Carbon\Carbon;
-use Auth;
-use PDF;
 use App\Notifications\NcnRequestApproval;
 use App\Notifications\NcnImmediateAction;
 use App\Notifications\NcnRequestDisapproved;
 use App\Notifications\NcnForYourImmediateAction;
+use Auth;
+use PDF;
+use DB;
 
 class NcnController extends Controller
 {
@@ -76,6 +77,7 @@ class NcnController extends Controller
      */
     public function store(Request $request)
     {   
+
         $rules = $request->input('non_conformity_types') == 6 ? 'required' : '';
         $request->validate([
             'company' => 'required',
@@ -91,37 +93,47 @@ class NcnController extends Controller
             'others' => $rules
         ]);
 
-        $ncn = new Ncn;
-        $carbon = new Carbon();
 
-        $ncn->requester_id = Auth::user()->id;
-        $ncn->company_id = $request->input('company');
-        $ncn->department_id = $request->input('department');
-        $ncn->approver_id = $request->input('approver');
-        $ncn->non_conformity_types = $request->input('non_conformity_types');
-        $ncn->notification_number = $request->input('notification_number');
-        $ncn->recurrence_number = $request->input('recurrence_number');
-        $ncn->issuance_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('issuance_date'));
-        $ncn->date_request = $carbon::now();
-        $ncn->non_conformity_details = $request->input('non_conformity_details');
-        $ncn->status = StatusType::SUBMITTED;
-        $ncn->others = $request->input('non_conformity_types') == 6 ? $request->input('others') : '';
-
-
-        if($ncn->save()){
-            $approver = User::findOrFail($request->input('approver'));
-            $approver->notify(new NcnRequestApproval($ncn, Auth::user()));
+        DB::beginTransaction();
+        try {
             
-            $attachments = $request->file('attachments');   
-            foreach($attachments as $attachment){
-                $filename = $attachment->getClientOriginalName();
-                $path = $attachment->store('ncn');
-                $role = 'requester';
+            $ncn = new Ncn;
+            $carbon = new Carbon();
+    
+            $ncn->requester_id = Auth::user()->id;
+            $ncn->company_id = $request->input('company');
+            $ncn->department_id = $request->input('department');
+            $ncn->approver_id = $request->input('approver');
+            $ncn->non_conformity_types = $request->input('non_conformity_types');
+            $ncn->notification_number = $request->input('notification_number');
+            $ncn->recurrence_number = $request->input('recurrence_number');
+            $ncn->issuance_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('issuance_date'));
+            $ncn->date_request = $carbon::now();
+            $ncn->non_conformity_details = $request->input('non_conformity_details');
+            $ncn->status = StatusType::SUBMITTED;
+            $ncn->others = $request->input('non_conformity_types') == 6 ? $request->input('others') : '';
+    
+    
+            if($ncn->save()){
+                $approver = User::findOrFail($request->input('approver'));
+                $approver->notify(new NcnRequestApproval($ncn, Auth::user()));
+                
+                $attachments = $request->file('attachments');   
+                foreach($attachments as $attachment){
+                    $filename = $attachment->getClientOriginalName();
+                    $path = $attachment->store('ncn');
+                    $role = 'requester';
+    
+                    $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
+                } 
+                
+                DB::commit();
 
-                $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
-            } 
-        
-            return ['redirect' => route('ncn')];
+                return ['redirect' => route('ncn')];
+            }
+
+        } catch (Exception $e) {
+            DB::rollBack();
         }
     }
 
@@ -571,31 +583,42 @@ class NcnController extends Controller
             // 'attachments' => 'required',
         ]);
 
-        $ncn = Ncn::findOrFail($request->input('id'));
+        DB::beginTransaction();
+        try {
 
-        $ncn->action_taken = $request->input('action_taken');
-        $ncn->action_date = Carbon::now();
-        $ncn->status = StatusType::NOTIFIED;
+            $ncn = Ncn::findOrFail($request->input('id'));
 
-        if($ncn->save()){
-            $requester = User::findOrFail($ncn->requester_id);
-            $approver = User::findOrFail($ncn->approver_id);
-            $emails = [$requester, $approver];
+            $ncn->action_taken = $request->input('action_taken');
+            $ncn->action_date = Carbon::now();
+            $ncn->status = StatusType::NOTIFIED;
+    
+            if($ncn->save()){
+                $requester = User::findOrFail($ncn->requester_id);
+                $approver = User::findOrFail($ncn->approver_id);
+                $emails = [$requester, $approver];
+    
+                $requester->notify(new NcnImmediateAction($ncn, $requester, Auth::user()));
+    
+                $attachments = $request->file('attachments');
+                if($attachments){
+                    foreach($attachments as $attachment){
+                        $filename = $attachment->getClientOriginalName();
+                        $path = $attachment->store('ncn');
+                        $role = 'notified';
+                        
+                        $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
+                    } 
+                }   
+                
+                DB::commit();
 
-            $requester->notify(new NcnImmediateAction($ncn, $requester, Auth::user()));
+                return ['redirect' => route('notified')];
+            }
 
-            $attachments = $request->file('attachments');
-            if($attachments){
-                foreach($attachments as $attachment){
-                    $filename = $attachment->getClientOriginalName();
-                    $path = $attachment->store('ncn');
-                    $role = 'notified';
-                    
-                    $uploadedFile = $this->uploadFiles(Auth::user()->id, $ncn->id, $path, $role,$filename);
-                } 
-            }   
+        } catch (Exception $e) {
 
-            return ['redirect' => route('notified')];
+            DB::rollBack();
+
         }
     }
 

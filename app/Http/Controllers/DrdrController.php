@@ -10,7 +10,6 @@ use App\DrdrformsCopyholder;
 use App\Types\RequestType;
 use App\Types\StatusType;
 use App\Types\RolesType;
-use Auth;
 use Carbon\Carbon;
 use App\Notifications\DrdrRequestReview;
 use App\Notifications\DrdrRequestApproval;
@@ -21,6 +20,8 @@ use App\Notifications\SchedulingNotifyApproverDrdr;
 use App\Notifications\SchedulingNotifyReviewerDrdr;
 
 use PDF;
+use Auth;
+use DB;
 use Response;
 
 class DrdrController extends Controller
@@ -145,36 +146,48 @@ class DrdrController extends Controller
             'attachments' => 'required',
             'effective_date' => 'required'
         ]);
-        
-        $drdr = new Drdr;
-        $carbon = new Carbon();
-        $path = '';
 
-        $drdr->request_type = $request->input('type');
-        $drdr->document_title = $request->input('document_title');
-        $drdr->reason_request = $request->input('reason_request');
-        $drdr->rev_number = $request->input('rev_number');
-        $drdr->company_id = $request->input('company_id');
-        $drdr->date_request =  $carbon::now();
-        $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
-        $drdr->requester_id = Auth::user()->id;
-        $drdr->reviewer_id = $request->input('reviewer_id');
-        $drdr->status = StatusType::SUBMITTED;
+        DB::beginTransaction();
+        try {
 
-        if($drdr->save()){
-            $reviewer = User::findOrFail($request->input('reviewer_id'));
-            $reviewer->notify(new DrdrRequestReview($drdr, Auth::user()));
+            $drdr = new Drdr;
+            $carbon = new Carbon();
+            $path = '';
+    
+            $drdr->request_type = $request->input('type');
+            $drdr->document_title = $request->input('document_title');
+            $drdr->reason_request = $request->input('reason_request');
+            $drdr->rev_number = $request->input('rev_number');
+            $drdr->company_id = $request->input('company_id');
+            $drdr->date_request =  $carbon::now();
+            $drdr->effective_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('effective_date'));
+            $drdr->requester_id = Auth::user()->id;
+            $drdr->reviewer_id = $request->input('reviewer_id');
+            $drdr->status = StatusType::SUBMITTED;
+    
+            if($drdr->save()){
+                $reviewer = User::findOrFail($request->input('reviewer_id'));
+                $reviewer->notify(new DrdrRequestReview($drdr, Auth::user()));
+                
+                $attachments = $request->file('attachments');   
+                foreach($attachments as $attachment){
+                    $filename = $attachment->getClientOriginalName();
+                    $path = $attachment->store('drdr');
+                    $role = 'requester';
+    
+                    $uploadedFile = $this->uploadFiles(Auth::user()->id, $drdr->id, $path,$role,$filename);
+                } 
+                
+                DB::commit();
+
+                return ['redirect' => route('drdr')];
+            }
+
+
+        } catch (Exception $e) {
+
+            DB::rollBack();
             
-            $attachments = $request->file('attachments');   
-            foreach($attachments as $attachment){
-                $filename = $attachment->getClientOriginalName();
-                $path = $attachment->store('drdr');
-                $role = 'requester';
-
-                $uploadedFile = $this->uploadFiles(Auth::user()->id, $drdr->id, $path,$role,$filename);
-            } 
-        
-            return ['redirect' => route('drdr')];
         }
     }
 
@@ -337,61 +350,72 @@ class DrdrController extends Controller
 
     public function reviewed(Request $request)
     {
+
+        DB::beginTransaction();
+        try {
+
+            $drdr = Drdr::findOrFail($request->input('id'));
+            $carbon = new Carbon();
+    
+            if($request->input('status') == 1){
+    
+                $request->validate([
+                    'consider_documents' => 'required',
+                    'approver' => 'required',
+                    'attachments' => 'required',
+                    'status' => 'required',
+                    'id' => 'required',
+                ]);
+    
+                $drdr->status = StatusType::APPROVED_REVIEWER;
+                $drdr->reviewed_date = $carbon::now();
+                $drdr->consider_documents = $request->input('consider_documents');
+                $drdr->remarks = $request->input('remarks');
+                $drdr->approver_id = $request->input('approver');
+                
+                $requester = User::findOrFail($drdr->requester_id);
+                $approver = User::findOrFail($request->input('approver'));
+                $approver->notify(new DrdrRequestApproval($drdr, $requester ,Auth::user()));
         
-        $drdr = Drdr::findOrFail($request->input('id'));
-        $carbon = new Carbon();
+                if($drdr->save()){
+                    $attachments = $request->file('attachments');   
+                    foreach($attachments as $attachment){
+                        $filename = $attachment->getClientOriginalName();
+                        $path = $attachment->store('drdr');
+                        $role = 'reviewer';
+        
+                        $uploadedFile = $this->uploadFiles(Auth::user()->id, $drdr->id, $path, $role,$filename);
+                    } 
+                    
+                    DB::commit();
 
-
-        if($request->input('status') == 1){
-
-            $request->validate([
-                'consider_documents' => 'required',
-                'approver' => 'required',
-                'attachments' => 'required',
-                'status' => 'required',
-                'id' => 'required',
-            ]);
-
-            $drdr->status = StatusType::APPROVED_REVIEWER;
-            $drdr->reviewed_date = $carbon::now();
-            $drdr->consider_documents = $request->input('consider_documents');
-            $drdr->remarks = $request->input('remarks');
-            $drdr->approver_id = $request->input('approver');
-            
-            $requester = User::findOrFail($drdr->requester_id);
-            $approver = User::findOrFail($request->input('approver'));
-            $approver->notify(new DrdrRequestApproval($drdr, $requester ,Auth::user()));
+                    return ['redirect' => route('drdr')];
+                }
+            }else{
     
-            if($drdr->save()){
-                $attachments = $request->file('attachments');   
-                foreach($attachments as $attachment){
-                    $filename = $attachment->getClientOriginalName();
-                    $path = $attachment->store('drdr');
-                    $role = 'reviewer';
+                $request->validate([
+                    'status' => 'required',
+                    'id' => 'required',
+                ]);
     
-                    $uploadedFile = $this->uploadFiles(Auth::user()->id, $drdr->id, $path, $role,$filename);
-                } 
-            
-                return ['redirect' => route('drdr')];
+                $drdr->status = StatusType::DISAPPROVED_REVIEWER;
+                $drdr->disapproved_date =  $carbon::now();
+                $drdr->remarks = $request->input('remarks');
+    
+                $requester = User::findOrFail($drdr->requester_id);
+                // Notification of disapproved drdr to requester
+                $requester->notify(new DrdrRequestDisapproved($drdr,$requester ,Auth::user()));
+    
+                if($drdr->save()){
+
+                    DB::commit();
+
+                    return ['redirect' => route('drdr')];
+                }
             }
-        }else{
 
-            $request->validate([
-                'status' => 'required',
-                'id' => 'required',
-            ]);
-
-            $drdr->status = StatusType::DISAPPROVED_REVIEWER;
-            $drdr->disapproved_date =  $carbon::now();
-            $drdr->remarks = $request->input('remarks');
-
-            $requester = User::findOrFail($drdr->requester_id);
-            // Notification of disapproved drdr to requester
-            $requester->notify(new DrdrRequestDisapproved($drdr,$requester ,Auth::user()));
-
-            if($drdr->save()){
-                return ['redirect' => route('drdr')];
-            }
+        } catch (Exception $e) {
+            DB::rollBack();
         }
 
     }
@@ -405,64 +429,78 @@ class DrdrController extends Controller
 
     public function approved(Request $request)
     {
-        
-        $carbon = new Carbon();
-        $drdr = Drdr::findOrFail($request->input('id'));
 
-        if($request->input('status') == 1){
-            $request->validate([
-                'attachments' => 'required',
-                'status' => 'required',
-                'id' => 'required'
-            ]);
-    
-            $drdr->status = StatusType::APPROVED_APPROVER ;
-            $drdr->approved_date = $carbon::now();
-            $drdr->remarks = $request->input('remarks');
-            $drdr->effective_date =  Carbon::parse($request->input('effective_date'))->format('Y-m-d');
-        
-            $company_id = $drdr->company_id;
-            $mr = User::whereHas('roles', function($q) {
-                $q->where('role_id', RolesType::MR);
-            })->whereHas('companies', function($q) use ($company_id) {
-                $q->where('company_id',$company_id);
-            })->get();
-            
-            $requester = User::findOrFail($drdr->requester_id);
+        DB::beginTransaction();
+        try {
 
-            \Notification::send($mr, new DrdrApproved($drdr, $requester));
-    
-            if($drdr->save()){
-                $attachments = $request->file('attachments');   
-                foreach($attachments as $attachment){
-                    $filename = $attachment->getClientOriginalName();
-                    $path = $attachment->store('drdr');
-                    $role = 'approver';
-    
-                    $uploadedFile = $this->uploadFiles(Auth::user()->id, $drdr->id, $path, $role,$filename);
-                } 
+            $carbon = new Carbon();
+            $drdr = Drdr::findOrFail($request->input('id'));
+
+            if($request->input('status') == 1){
+                $request->validate([
+                    'attachments' => 'required',
+                    'status' => 'required',
+                    'id' => 'required'
+                ]);
+        
+                $drdr->status = StatusType::APPROVED_APPROVER ;
+                $drdr->approved_date = $carbon::now();
+                $drdr->remarks = $request->input('remarks');
+                $drdr->effective_date =  Carbon::parse($request->input('effective_date'))->format('Y-m-d');
             
-                return ['redirect' => route('drdr')];
+                $company_id = $drdr->company_id;
+                $mr = User::whereHas('roles', function($q) {
+                    $q->where('role_id', RolesType::MR);
+                })->whereHas('companies', function($q) use ($company_id) {
+                    $q->where('company_id',$company_id);
+                })->get();
+                
+                $requester = User::findOrFail($drdr->requester_id);
+
+                \Notification::send($mr, new DrdrApproved($drdr, $requester));
+        
+                if($drdr->save()){
+                    $attachments = $request->file('attachments');   
+                    foreach($attachments as $attachment){
+                        $filename = $attachment->getClientOriginalName();
+                        $path = $attachment->store('drdr');
+                        $role = 'approver';
+        
+                        $uploadedFile = $this->uploadFiles(Auth::user()->id, $drdr->id, $path, $role,$filename);
+                    } 
+                    
+                    DB::commit();
+
+                    return ['redirect' => route('drdr')];
+                }
+
+            }else{
+
+                $request->validate([
+                    'status' => 'required',
+                    'id' => 'required'
+                ]);
+
+                $drdr->status = StatusType::DISAPPROVED_APPROVER;
+                $drdr->disapproved_date =  $carbon::now();
+                $drdr->remarks = $request->input('remarks');
+
+                $requester = User::findOrFail($drdr->requester_id);
+                // Notification of disapproved drdr to requester
+                $requester->notify(new DrdrRequestDisapproved($drdr,$requester ,Auth::user()));
+
+                if($drdr->save()){
+
+                    DB::commit();
+
+                    return ['redirect' => route('drdr')];
+                }
             }
 
-        }else{
+        } catch (Exception $e) {
 
-            $request->validate([
-                'status' => 'required',
-                'id' => 'required'
-            ]);
+            DB::rollBack();
 
-            $drdr->status = StatusType::DISAPPROVED_APPROVER;
-            $drdr->disapproved_date =  $carbon::now();
-            $drdr->remarks = $request->input('remarks');
-
-            $requester = User::findOrFail($drdr->requester_id);
-            // Notification of disapproved drdr to requester
-            $requester->notify(new DrdrRequestDisapproved($drdr,$requester ,Auth::user()));
-
-            if($drdr->save()){
-                return ['redirect' => route('drdr')];
-            }
         }
 
     }

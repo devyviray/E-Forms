@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
 use App\Ccir;
 use App\UploadedFile;
 use App\User;
@@ -92,68 +93,68 @@ class CcirController extends Controller
             'quantity_of_sample' => 'required',
             'attachments' => 'required',
             'with_return' => 'required',
-             'returned_date' => $rule,
+            'returned_date' => $rule,
         ]);
-        
-        $ccirs  = new Ccir;
-        $carbon = new Carbon();
-        $ccirs->requester_id = Auth::user()->id;
-        $ccirs->company_id = $request->input('company');
-        $ccirs->complainant = $request->input('complainant');
-        $ccirs->commodity = $request->input('commodity');
-        $ccirs->product_control_number = $request->input('product_control_number');
-        $ccirs->date_request = $carbon::now();
-        $ccirs->delivery_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('delivery_date'));   
-        $ccirs->nature_of_complaint = $request->input('nature_of_complaint');
-        if($request->input('nature_of_complaint') == 6){
-            $ccirs->others =  $request->input('others');
-        }
-        if($request->input('with_return') == 1){
-            $ccirs->returned_date =  \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('returned_date'));
-        }
-        $ccirs->other_details = $request->input('other_details');
-        $ccirs->affected_quantity = $request->input('affected_quantity');
-        $ccirs->quantity_of_sample = $request->input('quantity_of_sample');
-        $ccirs->status = StatusType::SUBMITTED;
 
-        if($ccirs->save()){
-            
-            $company_id = $ccirs->company_id;
-            $mr = User::whereHas('roles', function($q) {
-                $q->where('role_id', RolesType::MR);
-            })->whereHas('companies', function($q) use ($company_id) {
-                $q->where('company_id',$company_id);
-            })->get();
-            
-            $requester = User::findOrFail($ccirs->requester_id);
 
-            \Notification::send($mr, new RequesterSubmitCcir($ccirs, $requester));
+        DB::beginTransaction();
+        try {
 
-            $attachments = $request->file('attachments');   
-            foreach($attachments as $attachment){
-                $filename = $attachment->getClientOriginalName();
-                $path = $attachment->store('ccir');
-                $role = 'requester';
+            $ccirs  = new Ccir;
+            $carbon = new Carbon();
+            $ccirs->requester_id = Auth::user()->id;
+            $ccirs->company_id = $request->input('company');
+            $ccirs->complainant = $request->input('complainant');
+            $ccirs->commodity = $request->input('commodity');
+            $ccirs->product_control_number = $request->input('product_control_number');
+            $ccirs->date_request = $carbon::now();
+            $ccirs->delivery_date = \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('delivery_date'));   
+            $ccirs->nature_of_complaint = $request->input('nature_of_complaint');
+            if($request->input('nature_of_complaint') == 6){
+                $ccirs->others =  $request->input('others');
+            }
+            if($request->input('with_return') == 1){
+                $ccirs->returned_date =  \DateTime::createFromFormat('D M d Y H:i:s e+', $request->input('returned_date'));
+            }
+            $ccirs->other_details = $request->input('other_details');
+            $ccirs->affected_quantity = $request->input('affected_quantity');
+            $ccirs->quantity_of_sample = $request->input('quantity_of_sample');
+            $ccirs->status = StatusType::SUBMITTED;
+    
+            if($ccirs->save()){
+                
+                $company_id = $ccirs->company_id;
+                $mr = User::whereHas('roles', function($q) {
+                    $q->where('role_id', RolesType::MR);
+                })->whereHas('companies', function($q) use ($company_id) {
+                    $q->where('company_id',$company_id);
+                })->get();
+                
+                $requester = User::findOrFail($ccirs->requester_id);
+    
+                \Notification::send($mr, new RequesterSubmitCcir($ccirs, $requester));
+    
+                $attachments = $request->file('attachments');   
+                foreach($attachments as $attachment){
+                    $filename = $attachment->getClientOriginalName();
+                    $path = $attachment->store('ccir');
+                    $role = 'requester';
+    
+                    $uploadedFile = $this->uploadFiles(Auth::user()->id, $ccirs->id, $path, $role,$filename);
+                }
 
-                $uploadedFile = $this->uploadFiles(Auth::user()->id, $ccirs->id, $path, $role,$filename);
-            } 
-            return ['redirect' => route('ccir')];
+                DB::commit();
+
+                return ['redirect' => route('ccir')];
+            }
+
+        } catch (Exception $e) {
+
+            DB::rollBack();
+
         }
 
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
 
     /**
     * Get the specified ncn by id.
