@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'QMD-adminp@lafilgroup.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'QMD-admin@mail.lafilgroup.com'),
         'name' => env('MAIL_FROM_NAME', 'QMD-EFORMS'),
     ],
 
