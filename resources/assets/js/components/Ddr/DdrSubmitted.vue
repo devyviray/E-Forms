@@ -55,9 +55,8 @@
                             <span style="color: green; padding-left: 30px" v-else> {{ '-' }} </span>
                         </td>
                         <td  style="display:inline-grid">
-                            <button class="btn btn-primary btn-round btn-fill mb-1" @click="viewDdr(ddrSubmitted.id)">View</button>
+                            <a class="btn btn-primary btn-round btn-fill mb-1" target="_blank"  :href="viewDrdrDetails+ddrSubmitted.id">View</a>
                             <button v-if="ddrSubmitted.status == 2" class="btn btn-warning btn-round btn-fill mb-1" @click="editDdr(ddrSubmitted.id)">Edit</button>
-                            <!-- <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${ddrSubmitted.id}`">Delete</button> -->
                         </td>
                     </tr>    
                 </tbody>
@@ -141,11 +140,6 @@ export default {
     },
     methods:{
         moment,
-        viewDdr(id)
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/ddr-view/${id}`;
-        },
         fetchDdrSubmitted()
         {
             this.loading = true;
@@ -175,9 +169,6 @@ export default {
                 this.isLoading = false;
                 this.errors = error.response.data.errors;
             })
-        },
-        viewDrdr(id){
-            alert(id);
         },
         editDdr(id){
             var base_url = window.location.origin;
@@ -209,7 +200,6 @@ export default {
         totalPages() {
             return Math.ceil(this.filteredDdrs.length / this.itemsPerPage)
         },
-
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
             var queues_array = this.filteredDdrs.slice(index, index + this.itemsPerPage);
@@ -223,6 +213,9 @@ export default {
             }
 
             return queues_array;
+        },
+        viewDrdrDetails(){
+            return window.location.origin+'/admin/ddr-details/';
         },
     }
 }

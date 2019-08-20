@@ -57,9 +57,7 @@
                             <span  v-else> INVALID </span>
                         </td>
                         <td style="display:inline-grid">
-                            <button  class="btn btn-primary btn-round btn-fill mb-1" @click="viewSubmittedCcir(ccirSubmitted.id)">View</button>
-                            <!-- <button  class="btn btn-warning" data-toggle="modal" :data-target="`#editModal-${ccirSubmitted.id}`">Edit</button> -->
-                            <!-- <button  class="btn btn-danger btn-round btn-fill mb-1" data-toggle="modal" :data-target="`#deleteModal-${ccirSubmitted.id}`">Delete</button> -->
+                            <a  class="btn btn-primary btn-round btn-fill mb-1" :href="viewSubmittedCcir+ccirSubmitted.id" target="_blank">View</a>
                         </td>
                     </tr>    
                 </tbody>
@@ -142,11 +140,6 @@ export default {
     },
     methods:{
         moment,
-        viewSubmittedCcir(id)
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/ccir-view/${id}`;
-        },
         fetchCcirSubmitted(){
             this.loading = true;
             axios.get('/ccirs-submitted')
@@ -218,6 +211,9 @@ export default {
             }
 
             return queues_array;
+        },
+        viewSubmittedCcir(){
+            return window.location.origin+`/ccir-view/`;
         },
     }
 }

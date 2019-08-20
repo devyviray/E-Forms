@@ -63,7 +63,7 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a @click="viewDdrDetails(ddr.id)" class="dropdown-item" href="javascript:void(0)">View</a>
+                                    <a target="_blank" class="dropdown-item" :href="viewDrdrDetails+ddr.id">View</a>
                                     <a v-if="ddr.status == 4" @click="getDdr(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#editDdrModal" href="javascript:void(0)">Edit Document</a>
                                     <a v-if="ddr.status == 4" @click="getDdrId(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDdrModal" href="javascript:void(0)">Mark as distributed</a>
                                     <a  v-if="roleId.includes(3) && ddr.status == 2 && ddr.approver_id == userId" class="dropdown-item" :href="approvalLnik+ddr.id">Approve</a>
@@ -233,12 +233,6 @@ export default {
                 this.errors = error.response.data.errors;
             });
         },
-        viewDdrDetails(id)
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/admin/ddr-details/${id}`;
-            
-        },
         generateByDate(){
             this.isLoading = true;
             var startDate  =  this.startDate ? moment(this.startDate).format() : '';
@@ -358,7 +352,10 @@ export default {
         },
         approvalLnik(){
             return window.location.origin+'/ddr-approve/';
-        }
+        },
+        viewDrdrDetails(){
+            return window.location.origin+'/admin/ddr-details/';
+        },
     }
 }
 </script>

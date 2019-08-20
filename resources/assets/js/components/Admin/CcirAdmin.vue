@@ -70,11 +70,8 @@
                                     Option
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a @click="viewCcirDetails(ccir.id)" class="dropdown-item" href="javascript:void(0)">View</a>
+                                    <a target="_blank" class="dropdown-item" :href="viewCcirDetails+ccir.id">View</a>
                                     <a v-if="ccir.status != 9 && ccir.status != 10" @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#validateCcirModal" href="javascript:void(0)">Validate</a>
-                                    <!-- <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#trashCcirModal" href="javascript:void(0)">Move to trash</a>
-                                    <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#archieveCcirModal" href="javascript:void(0)">Mark as archive</a>
-                                    <a @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#cancelCcirModal" href="javascript:void(0)">Cancel document</a> -->
                                 </div>
                             </div>
                         </td>
@@ -297,14 +294,7 @@ export default {
                 this.errors = error.response.data.errors;
             })
         },
-        viewCcirDetails(id)
-        {
-            var base_url = window.location.origin;
-            window.location.href = base_url+`/admin/ccir-details/${id}`;
-            
-        },
         generateByDate(){
-
             this.isLoading = true;
             var startDate  =  this.startDate ? moment(this.startDate).format() : '';
             var endDate = this.endDate ? moment(this.endDate).format() : '';
@@ -349,7 +339,6 @@ export default {
         totalPages() {
             return Math.ceil(this.filteredCcirs.length / this.itemsPerPage)
         },
-
         filteredQueues() {
             var index = this.currentPage * this.itemsPerPage;
             var queues_array = this.filteredCcirs.slice(index, index + this.itemsPerPage);
@@ -363,6 +352,9 @@ export default {
             }
 
             return queues_array;
+        },
+        viewCcirDetails(){
+            return window.location.origin+`/admin/ccir-details/`;
         },
     }
 }

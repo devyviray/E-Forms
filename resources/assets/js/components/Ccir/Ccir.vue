@@ -11,12 +11,6 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="submitted-tab" data-toggle="tab" @click="selected=1" href="#submitted" role="tab" aria-controls="submitted" aria-selected="true">Submitted Forms</a>
                         </li>
-                        <!-- <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2)">
-                            <a class="nav-link" id="pending-tab" data-toggle="tab" @click="selected=2" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pending Forms</a>
-                        </li>
-                        <li class="nav-item" v-if="roleId.includes(1) || roleId.includes(2)">
-                            <a class="nav-link" id="approve-tab" data-toggle="tab" @click="selected=3"  href="#approve" role="tab" aria-controls="approve" aria-selected="false">Approved Forms</a>
-                        </li> -->
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="submitted" role="tabpanel" aria-labelledby="submitted-tab">
@@ -38,28 +32,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Delete Modal
-        <div  v-for="(ccir, c) in filteredQueues" :key="c" class="modal fade" :id="`deleteModal-${ccir.id}`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete CCIR</h5>
-                    <input type="hidden" class="form-control" placeholder="Name" v-model="ccir.id">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this CCIR?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button  @click="deleteCcir(ccir.id)" type="button" class="btn btn-primary">Delete</button>
-                </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </template>
 
