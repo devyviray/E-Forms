@@ -258,7 +258,6 @@ export default {
             .then(response => {
                 this.ccirs = response.data;
                 this.loading = false;
-                console.log(this.ccirs.filter(item => item.requester == null));
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -332,10 +331,10 @@ export default {
     computed: {
         filteredCcirs(){
             let self = this;
-            // return self.ccirs.filter(ccir => {
-            //     return ccir.requester.name.toLowerCase().includes(this.keywords.toLowerCase()) ||
-            //            ccir.commodity.toLowerCase().includes(this.keywords.toLowerCase())
-            // });
+            return self.ccirs.filter(ccir => {
+                return ccir.requester.name.toLowerCase().includes(this.keywords.toLowerCase()) ||
+                       ccir.commodity.toLowerCase().includes(this.keywords.toLowerCase())
+            });
         },
         totalPages() {
             return Math.ceil(this.filteredCcirs.length / this.itemsPerPage)
