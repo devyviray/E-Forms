@@ -258,7 +258,7 @@ export default {
             .then(response => {
                 this.ccirs = response.data;
                 this.loading = false;
-                this.ccirs.filter(item => item.requester == null);
+                console.log(this.ccirs.filter(item => item.requester == null));
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
