@@ -32,6 +32,10 @@
                     <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].requester.name }} </td>
                 </tr>
                 <tr>
+                    <td><strong>Complainant:</strong></td>
+                    <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].complainant }} </td>
+                </tr>
+                <tr>
                     <td><strong>Date of Issuance:</strong></td>
                     <td colspan="6">{{ moment(ccirs[0].date_request).format('LL') }} </td>
                 </tr>
@@ -68,6 +72,10 @@
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 4">Infestation</td>
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 5">Dirty Packaging</td>
                     <td colspan="6" v-if="ccirs[0].nature_of_complaint == 6">{{ ccirs[0].others }} </td>
+                </tr>
+                <tr>
+                    <td><strong>Other Details:</strong></td>
+                    <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].other_details }} </td>
                 </tr>
                 <tr v-if="ccirs[0].verifier">
                     <td> <strong> Verified By: </strong></td>
