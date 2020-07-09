@@ -229,7 +229,7 @@ export default {
                 this.ddrs = response.data;
                 this.loading = false;
                 this.ddrs.filter(ddr =>{
-                    if(ddr.requester == NULL){
+                    if(ddr.requester == null){
                         console.log(ddr.id);
                     }
                 });
