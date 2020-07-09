@@ -3,7 +3,7 @@
         <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="card-body table-full-width table-responsive">
             <div class="card-header mb-3">
-                <h4 class="card-title">Document Review & Distribution Requestsssss</h4>   
+                <h4 class="card-title">Document Review & Distribution Request</h4>   
             </div>
             <div class="row mb-4">
                 <div class="col-md-4">
