@@ -228,7 +228,9 @@ export default {
             .then(response => {
                 this.ddrs = response.data;
                 this.loading = false;
-                console.log(this.ddrs.filter(item => item.requester == null));
+                this.ddrs.filter(item => 
+                 console.log('id '+ item.id + ' requester '+item.requester)
+                );
 
 
             })
