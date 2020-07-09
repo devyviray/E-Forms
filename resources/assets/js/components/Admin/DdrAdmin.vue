@@ -331,6 +331,7 @@ export default {
             return self.ddrs.filter(ddr => {
                 return 
                 // ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())  ||
+                
                        ddr.approver.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
