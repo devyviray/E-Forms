@@ -4,7 +4,7 @@
 
         <div class="card-body table-full-width table-responsive">
             <div class="card-header mb-3">
-                <h4 class="card-title">Document Distribution Request</h4>   
+                <h4 class="card-title">Document Distribution Requests</h4>   
             </div>
             <div class="row mb-4">
                 <div class="col-md-4">
