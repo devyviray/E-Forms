@@ -47,7 +47,7 @@
                     </tr>
                     <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
                         <td>{{ ddr.id }}</td>
-                        <td>{{ ddr.requester.name }}</td>
+                        <td>{{ ddr.requester ? ddr.requester.name : '' }}</td>
                        	<td v-if="ddr.reason_of_distribution == 1"> Relevant external doc. (controlled copy) </td>
 						<td v-if="ddr.reason_of_distribution == 2"> Customer request (uncontrolled copy) </td>
 						<td v-if="ddr.reason_of_distribution == 3"> Others: </td>
@@ -108,8 +108,8 @@
                                 <th>Copy No.</th>
                                 <th>Copy Holder</th>
                             </thead>
-                            <tbody>
-                                <tr v-if="ddrs.length" v-for="(ddrlist, d) in ddrlists" v-bind:key="d">
+                            <tbody v-if="ddrs.length > 0">
+                                <tr v-for="(ddrlist, d) in ddrlists" v-bind:key="d">
                                     <td>{{ d + 1 }}</td>
                                     <td>
                                         <input type="text" class="form-control" placeholder="Document title" v-model="ddrlist.document_title">
@@ -228,11 +228,6 @@ export default {
             .then(response => {
                 this.ddrs = response.data;
                 this.loading = false;
-                this.ddrs.filter(item => 
-                 console.log('id '+ item.id + ' requester '+item.requester)
-                );
-
-
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -334,7 +329,8 @@ export default {
         filteredDdrs(){
             let self = this;
             return self.ddrs.filter(ddr => {
-                return ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())  ||
+                return 
+                // ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())  ||
                        ddr.approver.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
