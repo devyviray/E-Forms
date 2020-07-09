@@ -228,7 +228,6 @@ export default {
             .then(response => {
                 this.ddrs = response.data;
                 this.loading = false;
-                console.log(this.ddrs.filter(item => item.approver == null));
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -330,7 +329,8 @@ export default {
         filteredDdrs(){
             let self = this;
             return self.ddrs.filter(ddr => {
-                return ddr.approver.name.toLowerCase().includes(this.keywords.toLowerCase());
+                return ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())  ||
+                ddr.approver.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {
