@@ -228,6 +228,7 @@ export default {
             .then(response => {
                 this.ddrs = response.data;
                 this.loading = false;
+                console.log(this.ddrs.filter(item => item.approver == null));
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
