@@ -228,11 +228,9 @@ export default {
             .then(response => {
                 this.ddrs = response.data;
                 this.loading = false;
-                this.ddrs.filter(ddr =>{
-                    if(ddr.requester == null){
-                        console.log(ddr.id);
-                    }
-                });
+                console.log(this.ddrs.filter(item => item.requester == null));
+
+
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
