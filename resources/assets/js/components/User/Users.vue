@@ -58,7 +58,7 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a  @click="editUser(user.id)" class="dropdown-item" href="javascript:void(0)">Edit</a>
-                                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#deleteModal-${user.id}`">Delete</a>
+                                                <!-- <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" :data-target="`#deleteModal-${user.id}`">Delete</a> -->
                                             </div>
                                         </div>
                                     </td>
