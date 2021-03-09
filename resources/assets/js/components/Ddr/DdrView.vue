@@ -40,7 +40,7 @@
 						<td v-if="ddrs[0].reason_of_distribution == 2">
 							 Customer request (uncontrolled copy)			
 						</td>
-						<td v-if="ddrs[0].reason_of_distribution == 3"> Others: </td>
+						<td v-if="ddrs[0].reason_of_distribution == 3"> Others: {{ ddrs[0].others }}</td>
 					</tr>
 					<tr>
 						<td> <strong> Date Neeeded: </strong> </td>
