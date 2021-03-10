@@ -61,7 +61,7 @@
 		</tr>
 		<tr>
 			@if($ddr[0]->reason_of_distribution == 3)
-				<td colspan="3"> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Others: {{ $ddrs[0]->others }}</td>
+				<td colspan="3"> <img src="{{asset('img/checked.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Others: {{ $ddr[0]->others }}</td>
 			@else
 				<td colspan="3"> <img src="{{asset('img/uncheck.png')}}" style="width: auto; height: 20px; margin-left: 8px;"> Others: </td>
 			@endif
