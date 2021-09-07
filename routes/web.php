@@ -108,7 +108,7 @@ Route::group(['middleware' => 'auth'], function (){
   Route::get('/ddrs-submitted', 'DdrController@submitted');
   // Viewing of DDR
   Route::get('/ddr-view/{ddr_id}', 'DdrController@showDetailsDdr');
-  // Get the specified drdr by id
+  // Get the specified ddr by id
   Route::get('/ddr-data/{id}', 'DdrController@data');
   // Generate ddrs submitted by date
   Route::post('/ddrs-submitted-generate', 'DdrController@generateSubmitted');
@@ -130,7 +130,7 @@ Route::group(['middleware' => 'auth'], function (){
   Route::get('/ccir-view/{ccir_id}', 'CcirController@showDetailsCcir');
   // Get the specified ccir by id
   Route::get('/ccir-data/{id}', 'CcirController@data');
-  // Generate ddrs submitted by date
+  // Generate ccirs submitted by date
   Route::post('/ccirs-submitted-generate', 'CcirController@generateSubmitted');
 
   // NCN ROUTES
@@ -174,6 +174,14 @@ Route::group(['middleware' => 'auth'], function (){
 
 });
 
+// Return page to view details of drdr
+Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
+// Return page to view details of drdr
+Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails');
+// Return page to view details of drdr
+Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails');
+// Return page to view details of ccir
+Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails');
 
 // Accessible route only by admin 
 Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], function(){ 
@@ -225,8 +233,6 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::get('/admin/drdrs', 'DrdrController@drdrAdminPage')->name('admin.drdrs');
   // Ajax call to return all submitted Drdr
   Route::get('/admin/drdrs-all', 'DrdrController@getAllDrdrs');
-  // Return page to view details of drdr
-  Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
   // Generate pdf file for drdrP
   Route::get('/admin/drdr-pdf/{id}', 'DrdrController@drdrPdf');
   // Return page to view details of drdr
@@ -242,8 +248,6 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::get('/admin/ddrs', 'DdrController@ddrAdminPage')->name('admin.ddrs');
   // Ajax call to return all submitted Ddr
   Route::get('/admin/ddrs-all', 'DdrController@getAllDdrs');
-  // Return page to view details of drdr
-  Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails');
   // Generate pdf file for ddr
   Route::get('/admin/ddr-pdf/{id}', 'DdrController@ddrPdf');
   // Mark DDR as distributed
@@ -258,8 +262,6 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::get('/admin/ncns', 'NcnController@ncnAdminPage')->name('admin.ncns');
   // Ajax call to return all submitted ncn
   Route::get('/admin/ncns-all', 'NcnController@getAllNcns');
-  // Return page to view details of drdr
-  Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails');
   // Generate pdf file for ncn
   Route::get('/admin/ncn-pdf/{id}', 'NcnController@ncnPdf');
 
@@ -270,8 +272,6 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::get('/admin/ccirs', 'CcirController@ccirAdminPage')->name('admin.ccirs');
   // Ajax call to return all submitted Ccir
   Route::get('/admin/ccirs-all', 'CcirController@getAllCcirs');
-  // Return page to view details of ccir
-  Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails');
   // Generate pdf file for ccir
   Route::get('/admin/ccir-pdf/{id}', 'CcirController@ccirPdf');
   // Validate ccir
