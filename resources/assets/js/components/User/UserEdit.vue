@@ -198,7 +198,8 @@ export default {
                 email: user.email,
                 company: comapanyids,
                 department: user.department ? user.department.id : department_delete,
-                role: roleids
+                role: roleids,
+                position: user.position
             })
             .then(response => {
                 this.isLoading = false;
