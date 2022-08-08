@@ -60,7 +60,6 @@ class UserController extends Controller
         $validator = $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email',
-            // 'email' => 'required',
             'password' => 'required',
             'position' => 'required',
             'company' => 'required',
@@ -91,6 +90,7 @@ class UserController extends Controller
             'id' => 'required',
             'name' => 'required',
             'email' => 'required|unique:users,email,' .$user->id,
+            'position' => 'required',
             'company' => 'required',
             'department' => 'required',
             'role' => 'required'
@@ -99,6 +99,7 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->department_id = $request->input('department');
+        $user->position = $request->input('position');
 
         if($user->save()){
             $user->roles()->sync( (array) $request->input('role'));
@@ -106,7 +107,6 @@ class UserController extends Controller
 
             return ['redirect' => route('users')];
         }
-
     }
 
     /**
