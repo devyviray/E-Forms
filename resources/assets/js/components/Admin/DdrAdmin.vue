@@ -30,7 +30,8 @@
                     <th>Requester</th>
                     <th>Reason</th>
                     <th>Date Requested</th>
-                    <th>Approver Status</th>
+                    <th>Approver</th>
+                    <th>Status</th>
                     <th>Option</th>
                 </thead>    
                 <tbody>
@@ -56,6 +57,11 @@
                             <span style="color: red" v-if="ddr.status == 2"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="ddr.status == 6"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
+                        </td>
+                        <td>
+                            <span style="color: red" v-if="ddr.status == 4"> NOT YET DISTRIBUTED </span>
+                            <span style="color: green" v-else-if="ddr.status == 14"> DISTRIBUTED </span>
+                            <span style="padding-left: 15px" v-else>{{ ' - '  }}</span>
                         </td>
                         <td>
                             <div class="dropdown">

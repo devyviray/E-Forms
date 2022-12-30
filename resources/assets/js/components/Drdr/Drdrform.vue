@@ -92,7 +92,7 @@
                                 <div class="form-group row">
                                     <label for="attachments" class="col-sm-3 col-form-label">Attach File</label>
                                     <div class="col-sm-9">
-                                        <input type="file" multiple="multiple" id="attachments" placeholder="Attach file" @change="uploadFileChange"><br>
+                                        <input type="file" multiple="multiple" ref="attachments" id="attachments" placeholder="Attach file" @change="uploadFileChange" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx"><br>
                                         <span class="error" v-if="errors.attachments">{{ errors.attachments[0] }}</span>
                                     </div>
                                 </div>
@@ -310,11 +310,24 @@ export default {
         uploadFileChange(e){
             this.attachments = [];  
             var files = e.target.files || e.dataTransfer.files;
-
             if(!files.length)
                 return;
-            
+            // File extension checking(Word,Excel and Powerpoint only)
             for (var i = files.length - 1; i >= 0; i--){
+                let file_path = files[i].name;
+                let allowed_extensions = /(\.xlsx|\.xls|\.doc|\.docx|\.ppt|\.pptx)$/i;
+                if(!allowed_extensions.exec(file_path)){
+                    this.attachments = [];
+                    this.$refs.attachments.value = null;
+
+                     this.$toast.error({
+                        title:'ERROR',
+                        message:'Please upload file having extensions .xlsx/.xls/.doc/.docx/.ppt/.pptx only.',
+                        position: 'top right'
+                    });
+
+                    return false;
+                }
                 this.attachments.push(files[i]);
                 this.fileSize = this.fileSize+files[i].size / 1024 / 1024;
             }

@@ -43,6 +43,10 @@
                     <td colspan="7"> <h4> <strong> Step: 1 </strong> </h4> </td>
                 </tr>
                 <tr>
+                    <td><strong>Company:</strong></td>
+                    <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].company.name +' - '+ccirs[0].company.address  }} </td>
+                </tr>
+                <tr>
                     <td><strong>Issuer:</strong></td>
                     <td colspan="6" v-if="ccirs.length"> {{ ccirs[0].requester.name }} </td>
                 </tr>
