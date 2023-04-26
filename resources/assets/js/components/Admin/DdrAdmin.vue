@@ -24,6 +24,17 @@
                     <button @click="generateByDate" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
                 </div>
             </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="date"> Filter By Status </label>
+                    <select v-model="status" class="form-control form-control-lg" @change="filterDdrs">
+                        <option value="" selected>Reset Filter</option>
+                        <option value="4">Not Yet Distributed</option>
+                        <option value="14">Distributed</option>
+                    </select>
+                </div>
+
+            </div>
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
@@ -219,7 +230,9 @@ export default {
             currentPage: 0,
             itemsPerPage: 10,
             loading: false,
-            isLoading: false
+            isLoading: false,
+            status: '',
+            default_ddrs: [],
         }
     },
     created(){
@@ -227,12 +240,25 @@ export default {
     },
     methods:{
         moment,
+         filterDdrs(){
+             switch(this.status) {
+                case "4":
+                case "14":
+                    this.ddrs = this.default_ddrs.filter(ddr => {
+                        return ddr.status == this.status;
+                    });
+                    break;
+                default:
+                    this.ddrs = this.default_ddrs;
+            }
+        },
         fetchDdrs()
         {
             this.loading = true;
             axios.get('/admin/ddrs-all')
             .then(response => {
                 this.ddrs = response.data;
+                this.default_ddrs = response.data;
                 this.loading = false;
             })
             .catch(error =>{
