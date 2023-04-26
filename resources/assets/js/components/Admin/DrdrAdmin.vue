@@ -5,10 +5,10 @@
             <div class="card-header mb-3">
                 <h4 class="card-title">Document Review & Distribution Request</h4>   
             </div>
-            <div class="row mb-4">
+            <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="name">Search</label>
-                    <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+                    <input type="text" class="form-control" placeholder="Search by Document Title, Company" v-model="keywords" id="name">
                 </div> 
                 <div class="col-md-3">
                     <label for="date">Search by date</label>    
@@ -22,6 +22,26 @@
                 <div class="col-md-2" style="margin-top: 29px">
                     <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
                 </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="date"> Filter By Status </label>
+                    <select v-model="status" class="form-control form-control-lg" @change="filterDrdrs">
+                        <option value="" selected>Reset Filter</option>
+                        <option value="4">Not Yet Verified</option>
+                        <option value="14">Verified</option>
+                    </select>
+                </div>
+                 <div class="col-md-3" v-if="drdrs.length > 0">
+                    <download-excel
+                        :data   = "drdrs"
+                        :fields = "json_fields"
+                        class   = "hidden-xs btn btn-new btn-wd btn-neutral btn-round"
+                        style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33)); margin-top: 29px"
+                        name    = "DRDR.xls">
+                        EXPORT TO EXCEL
+                    </download-excel>
+                 </div>
             </div>
             <table class="table table-hover table-striped">  
                 <thead>
@@ -143,6 +163,7 @@ import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import SpinnerLoading from '../SpinnerLoading';
 import CxltToastr from 'cxlt-vue2-toastr';
+import JsonExcel from 'vue-json-excel';
 Vue.use(CxltToastr);
 
 export default {
@@ -151,9 +172,10 @@ export default {
         'userId'
         ],
     components:{
-      Datepicker,
-      VueContentPlaceholders,
-      SpinnerLoading
+        Datepicker,
+        VueContentPlaceholders,
+        SpinnerLoading,
+        downloadExcel: JsonExcel
     },
     data(){
         return{
@@ -166,12 +188,81 @@ export default {
             currentPage: 0,
             itemsPerPage: 10,
             loading: false,
-            isLoading: false
-        }
-    },
-    watch: {
-        drdrs: function (val, oldVal) {
-       
+            isLoading: false,
+            status: '',
+            default_drdrs: [],
+            json_fields: {
+                'ID': {
+                    callback: (value) => {
+                        return value.id;
+                    }
+                },
+                'REQUEST TYPE': {
+                     callback: (value) => {
+                        return value.request_type == 1 ? 'Proposal (For proposed)' : (value.request_type == 2 ? 'Revision (For existing document)' : 'Cancellation');
+                    }
+                },
+                'DATE REQUEST': {
+                     callback: (value) => {
+                        return value.date_request;
+                    }
+                },
+                'EFFECTIVE DATE': {
+                     callback: (value) => {
+                        return value.effective_date;
+                    }
+                },
+                'DOCUMENT TITLE': {
+                     callback: (value) => {
+                        return value.document_title;
+                    }
+                },
+                'COMPANY': {
+                     callback: (value) => {
+                        return value.company.name;
+                    }
+                },
+                'REV.': {
+                    callback: (value) => {
+                        return value.rev_number ? value.rev_number : '';
+                    }
+                },
+                'REVIEWER': {
+                    callback: (value) => {
+                        return value.reviewer ? value.reviewer.name : '';
+                    }
+                },
+                'REVIEWER STATUS': {
+                    callback: (value) => {
+                        return value.status == 2 ? 'NOT YET APPROVED' :  (value.status == 5 ? 'DISAPPROVED' : 'APPROVED');
+                    }
+                },
+                'REVIEW DATE': {
+                    callback: (value) => {
+                        return value.reviewed_date;
+                    }
+                },
+                'APPROVER': {
+                    callback: (value) => {
+                        return value.approver ?  value.approver.name : '';
+                    }
+                },
+                'APPROVER STATUS': {
+                    callback: (value) => {
+                        return value.status == 3 ? 'NOT YET APPROVED' :  (value.status == 6 ? 'DISAPPROVED' : 'APPROVED');
+                    }
+                },
+                'APPROVED DATE': {
+                    callback: (value) => {
+                        return value.approved_date;
+                    }
+                },
+                'STATUS': {
+                    callback: (value) => {
+                        return value.status == 4 ? 'NOT YET VERIFIED' :  (value.status == 14 ? 'VERIFIED' : '');
+                    }
+                }
+            }
         }
     },
     created(){
@@ -179,12 +270,25 @@ export default {
     },
     methods:{
         moment,
+        filterDrdrs(){
+             switch(this.status) {
+                case "4":
+                case "14":
+                    this.drdrs = this.default_drdrs.filter(drdr => {
+                        return drdr.status == this.status;
+                    });
+                    break;
+                default:
+                    this.drdrs = this.default_drdrs;
+            }
+        },
         fetchDrdrs()
         {
             this.loading = true;
             axios.get('/admin/drdrs-all')
             .then(response => {
                 this.drdrs = response.data;
+                this.default_drdrs = response.data;
                 this.loading = false;
             })
             .catch(error => {
@@ -230,8 +334,7 @@ export default {
             let self = this;
             return self.drdrs.filter(drdr => {
                 return drdr.document_title.toLowerCase().includes(this.keywords.toLowerCase()) || 
-                       drdr.company.name.toLowerCase().includes(this.keywords.toLowerCase()) || 
-                       drdr.reviewer.name.toLowerCase().includes(this.keywords.toLowerCase())
+                       drdr.company.name.toLowerCase().includes(this.keywords.toLowerCase())
             });
         },
         totalPages() {

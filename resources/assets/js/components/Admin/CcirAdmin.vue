@@ -5,10 +5,10 @@
             <div class="card-header mb-3">
                 <h4 class="card-title">Customer Complaint Investigation Report</h4>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="name"> Search</label>
-                    <input type="text" class="form-control  mb-5" placeholder="Search" v-model="keywords" id="name">
+                    <input type="text" class="form-control" placeholder="Search by Customer Name, Commodity, Requestor" v-model="keywords" id="name">
                 </div>
                 <div class="col-md-3">
                     <label for="date"> Search by date </label>
@@ -23,10 +23,22 @@
                     <button @click="generateByDate" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
                 </div>
             </div>
+            <div class="row mb-3">
+                 <div class="col-md-3">
+                    <label for="date"> Filter By Validity </label>
+                    <select v-model="validity_status" class="form-control form-control-lg" @change="filterCcirs">
+                        <option value="" selected>Reset Filter</option>
+                        <option value="2">Pending</option>
+                        <option value="9">Valid</option>
+                        <option value="0">Invalid</option>
+                    </select>
+                </div>
+            </div>
             <table class="table table-hover table-striped">
                 <thead>
                     <th>ID</th>
-                    <th>Requester</th>
+                    <th>Customer</th>
+                    <th>Company</th>
                     <th>Commodity</th>
                     <th>Nature of Complaint</th>
                     <th>Date of Issuance</th>
@@ -48,7 +60,8 @@
 
                     <tr v-for="ccir in filteredQueues" v-bind:key="ccir.id">
                         <td>{{ ccir.id }}</td>
-                        <td>{{ ccir.requester.name }}</td>
+                        <td>{{ ccir.complainant }}</td>
+                        <td>{{ ccir.company.name +' - '+ccir.company.address }}</td>
                         <td>{{ ccir.commodity }}</td>
                         <td>
                             <span  v-if="ccir.nature_of_complaint == 1"> Wet/Lumpy </span>
@@ -244,7 +257,9 @@ export default {
             currentPage: 0,
             itemsPerPage: 10,
             loading: false,
-            isLoading: false
+            isLoading: false,
+            validity_status: '',
+            default_ccirs: []
         }
     },
     created(){
@@ -252,13 +267,30 @@ export default {
     },
     methods:{
         moment,
+        filterCcirs(){
+            switch(this.validity_status) {
+                case "0":
+                    this.ccirs = this.default_ccirs.filter(ccir => {
+                        return !['2','9'].includes(ccir.status);
+                    });
+                    break;
+                case "2":
+                case "9":
+                    this.ccirs = this.default_ccirs.filter(ccir => {
+                        return ccir.status == this.validity_status;
+                    });
+                    break;
+                default:
+                    this.ccirs = this.default_ccirs;
+            }
+        },
         fetchCcirs(){
             this.loading = true;
             axios.get('/admin/ccirs-all')
             .then(response => {
                 this.ccirs = response.data;
+                this.default_ccirs = response.data;
                 this.loading = false;
-                console.log(this.ccirs.filter(item => item.requester == null));
             })
             .catch(error =>{
                 this.errors = error.response.data.errors;
@@ -334,7 +366,8 @@ export default {
             let self = this;
             return self.ccirs.filter(ccir => {
                 return ccir.requester.name.toLowerCase().includes(this.keywords.toLowerCase()) ||
-                       ccir.commodity.toLowerCase().includes(this.keywords.toLowerCase())
+                       ccir.commodity.toLowerCase().includes(this.keywords.toLowerCase()) ||
+                       ccir.complainant.toLowerCase().includes(this.keywords.toLowerCase()) 
             });
         },
         totalPages() {

@@ -27,6 +27,7 @@
         "popper.js": "^1.14.4",
         "vue-content-placeholder": "^1.1.1",
         "vue-content-placeholders": "^0.2.1",
+        "vue-json-excel": "^0.3.0",
         "vue-multiselect": "^2.1.0",
         "vue-router": "^3.0.1",
         "vue-spinkit": "^1.4.1",
