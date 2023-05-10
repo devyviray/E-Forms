@@ -53,7 +53,7 @@
                         <td v-if="drdrsReviewedForm.approver">
                             {{ drdrsReviewedForm.approver.name }} <br>
                             <span style="color: red" v-if="drdrsReviewedForm.status == 3"> NOT YET APPROVED </span>
-                            <span style="color: red" v-else-if="drdrsReviewedForm.status == 5"> DISAPPROVED </span>
+                            <span style="color: red" v-else-if="drdrsReviewedForm.status == 6"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td v-else></td> 
