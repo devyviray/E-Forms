@@ -172,16 +172,15 @@ Route::group(['middleware' => 'auth'], function (){
   // Process for changing of password
   Route::post('/user/change-password', 'UserController@changePassword');
 
+  // Return page to view details of drdr
+  Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
+  // Return page to view details of drdr
+  Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails');
+  // Return page to view details of drdr
+  Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails');
+  // Return page to view details of ccir
+  Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails');
 });
-
-// Return page to view details of drdr
-Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
-// Return page to view details of drdr
-Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails');
-// Return page to view details of drdr
-Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails');
-// Return page to view details of ccir
-Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails');
 
 // Accessible route only by admin 
 Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], function(){ 

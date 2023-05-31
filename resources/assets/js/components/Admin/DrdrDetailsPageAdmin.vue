@@ -72,15 +72,15 @@
                         <td colspan="5" v-if="drdrs.length"> {{ drdrs[0].reason_request }} </td>
                     </tr>
                     <!-- third set -->
-                    <tr>
+                    <tr v-if="drdrs.length && drdrs[0].requester">
                         <td> <strong> Requested By: </strong> </td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].requester.name }}</td>
+                        <td> {{ drdrs[0].requester.name }}</td>
                         <td> <strong> Position: </strong> &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
                             {{ drdrs[0].requester.position }}
                         </td>
-                        <td v-if="drdrs.length">  </td>
+                        <td>  </td>
                         <td><strong>Date:</strong></td>
-                        <td v-if="drdrs.length"> {{ moment(drdrs[0].date_request).format('LL') }} </td>
+                        <td> {{ moment(drdrs[0].date_request).format('LL') }} </td>
                     </tr>
                 </tbody>
             </table>
@@ -91,34 +91,34 @@
 
             <table class="table" width="100%">
                 <tbody>
-                    <tr>
+                    <tr v-if="drdrs.length && drdrs[0].reviewer">
                         <td> <strong> Reviewed By: </strong> </td>
-                        <td  v-if="drdrs.length"> 
+                        <td> 
                             {{ drdrs[0].reviewer.name }} <br>
                             <span style="color: red" v-if="drdrs[0].status == 2"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="drdrs[0].status == 5"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span>
                         </td>
                         <td> <strong> Position:</strong> </td>
-                        <td  v-if="drdrs.length"> {{ drdrs[0].reviewer.position }}  </td>
+                        <td> {{ drdrs[0].reviewer.position }}  </td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs.length && drdrs[0].reviewed_date && drdrs[0].status != 2"> {{ moment(drdrs[0].reviewed_date).format('LL') }} </td>
-                        <td v-if="drdrs.length && drdrs[0].disapproved_date && drdrs[0].status == 5"> {{ moment(drdrs[0].disapproved_date).format('LL') }} </td>
+                        <td v-if="drdrs[0].reviewed_date && drdrs[0].status != 2"> {{ moment(drdrs[0].reviewed_date).format('LL') }} </td>
+                        <td v-if="drdrs[0].disapproved_date && drdrs[0].status == 5"> {{ moment(drdrs[0].disapproved_date).format('LL') }} </td>
                     </tr>
 
                     <tr v-if="drdrs.length && drdrs[0].approver">
                         <td> <strong> Approved By: </strong> </td>
-                        <td v-if="drdrs.length" >
+                        <td>
                             {{ drdrs[0].approver.name }} <br>
                             <span style="color: red" v-if="drdrs[0].status == 3"> NOT YET APPROVED </span>
                             <span style="color: red" v-else-if="drdrs[0].status == 6"> DISAPPROVED </span>
                             <span style="color: green" v-else> APPROVED </span> 
                         </td>
                         <td> <strong> Position: </strong></td>
-                        <td v-if="drdrs.length"> {{ drdrs[0].approver.position }}</td>
+                        <td> {{ drdrs[0].approver.position }}</td>
                         <td> <strong> Date: </strong> </td>
-                        <td v-if="drdrs.length && drdrs[0].approved_date && drdrs[0].status != 3"> {{ moment(drdrs[0].approved_date).format('LL') }} </td>
-                        <td v-if="drdrs.length && drdrs[0].disapproved_date && drdrs[0].status == 6"> {{ moment(drdrs[0].disapproved_date).format('LL') }} </td>
+                        <td v-if="drdrs[0].approved_date && drdrs[0].status != 3"> {{ moment(drdrs[0].approved_date).format('LL') }} </td>
+                        <td v-if="drdrs[0].disapproved_date && drdrs[0].status == 6"> {{ moment(drdrs[0].disapproved_date).format('LL') }} </td>
                     </tr>	
                 </tbody>
             </table>
