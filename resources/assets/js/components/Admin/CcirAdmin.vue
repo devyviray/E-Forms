@@ -21,6 +21,14 @@
                 </div>
                 <div class="col-md-2" style="margin-top: 29px">
                     <button @click="generateByDate" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
+                    <download-excel
+                                :data   = "filteredCcirs"
+                                :fields = "json_fields"
+                                class   = "hidden-xs btn btn-new btn-wd btn-neutral btn-round"
+                                style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33)); margin-top: 29px"
+                                name    = "filteredCCirs.xls">
+                                EXPORT TO EXCEL
+                                </download-excel>
                 </div>
             </div>
             <div class="row mb-3">
@@ -231,6 +239,7 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
+import JsonExcel from 'vue-json-excel';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import SpinnerLoading from '../SpinnerLoading';
 import CxltToastr from 'cxlt-vue2-toastr';
@@ -240,7 +249,8 @@ export default {
     components:{
       Datepicker,
       VueContentPlaceholders,
-      SpinnerLoading
+      SpinnerLoading,
+      downloadExcel: JsonExcel,
     },
     data(){
         return{
@@ -259,7 +269,44 @@ export default {
             loading: false,
             isLoading: false,
             validity_status: '',
-            default_ccirs: []
+            default_ccirs: [],
+            json_fields: {
+                'ID': {
+                    callback: (value) => {
+                        return value.id;
+                    }
+                },
+                'Customer': {
+                    callback: (value) => {
+                        return value.complainant;
+                    }
+                },
+                'Company': {
+                    callback: (value) => {
+                        return value.company.name +' - '+value.company.address;
+                    }
+                },
+                'Commodity': {
+                    callback: (value) => {
+                        return value.commodity;
+                    }
+                },
+                'Nature of Complaint': {
+                    callback: (value) => {
+                        return value.nature_of_complaint == 1 ? 'Wet/Lumpy' : value.nature_of_complaint == 2 ? 'Busted bag' : value.nature_of_complaint == 3 ? 'Under/Over weight' : value.nature_of_complaint == 4 ? 'Infestation' : value.nature_of_complaint == 5 ? 'Dirty packaging' : value.others;
+                    }
+                },
+                'Date of Issuance': {
+                    callback: (value) => {
+                        return moment(value.date_request).format('LL');
+                    }
+                },
+                'Validity': {
+                    callback: (value) => {
+                        return value.status == 2 ? 'PENDING' : value.status == 9 ? value.car_number : 'INVALID';
+                    }
+                },
+            }
         }
     },
     created(){

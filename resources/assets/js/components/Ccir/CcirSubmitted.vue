@@ -24,7 +24,18 @@
                 </div>
                 <div class="col-md-2" style="margin-top: 29px">
                     <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
+
+                                <download-excel
+                                :data   = "filteredCcirs"
+                                :fields = "json_fields"
+                                class   = "hidden-xs btn btn-new btn-wd btn-neutral btn-round"
+                                style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33)); margin-top: 29px"
+                                name    = "filteredCcirs.xls">
+                                EXPORT TO EXCEL
+                                </download-excel>
                 </div>
+                
+
             </div>
 
             <table class="table table-hover table-striped">
@@ -116,11 +127,13 @@ import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import SpinnerLoading from '../SpinnerLoading';
 import Datepicker from 'vuejs-datepicker';
+import JsonExcel from 'vue-json-excel';
 export default {
     components:{
         VueContentPlaceholders,
         SpinnerLoading,
-        Datepicker
+        Datepicker,
+        downloadExcel: JsonExcel,
     },
     data(){
         return{
@@ -132,7 +145,57 @@ export default {
             loading: false,
             isLoading: false,
             startDate: '',
-            endDate: ''
+            endDate: '',
+            json_fields: {
+                'ID': {
+                    callback: (value) => {
+                        return value.id;
+                    }
+                },
+                'Requester': {
+                    callback: (value) => {
+                        return value.requester.name;
+                    }
+                },
+                'Commodity': {
+                    callback: (value) => {
+                        return value.commodity;
+                    }
+                },
+                'Nature of Complaint': {
+                    callback: (value) => {
+                        if(value.nature_of_complaint == 1){
+                            return 'Wet/Lumpy';
+                        }else if(value.nature_of_complaint == 2){
+                            return 'Busted bag';
+                        }else if(value.nature_of_complaint == 3){
+                            return 'Under/Over weight';
+                        }else if(value.nature_of_complaint == 4){
+                            return 'Infestation';
+                        }else if(value.nature_of_complaint == 5){
+                            return 'Dirty packaging';
+                        }else{
+                            return value.others;
+                        }
+                    }
+                },
+                'Date of Issuance': {
+                    callback: (value) => {
+                        return moment(value.date_request).format('LL');
+                    }
+                },
+                'Validity': {
+                    callback: (value) => {
+                        if(value.status == 2){
+                            return 'PENDING';
+                        }else if(value.status == 9){
+                            return value.car_number;
+                        }else{
+                            return 'INVALID';
+                        }
+                    }
+                },
+            }
         }
     },
     created(){

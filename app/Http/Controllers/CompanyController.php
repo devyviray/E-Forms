@@ -17,7 +17,7 @@ class CompanyController extends Controller
 
         $companies = Company::orderBy('name', 'asc')
         ->get()
-        ->unique('name')
+        //->unique('name')
         ->values()
         ->all();
 
