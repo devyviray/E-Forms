@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Ccir extends Model
+class Ccir extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     /**
      * The table associated with the model.
      *

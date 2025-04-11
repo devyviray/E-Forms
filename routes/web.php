@@ -17,7 +17,26 @@
  Route::get('/', function () {
    return redirect('/login');
  });
-// Auth::routes();
+
+ //Auth::routes();
+
+ // Version Release
+ Route::get('/version-release-main', 'VersionReleaseController@index');
+ Route::get('/version-release-login', 'VersionReleaseController@indexLogin')->name('version-release-login');
+ Route::group(['prefix' => 'version-release'], function () {
+     Route::get('/all', 'VersionReleaseController@all');
+     //Version Feedback
+     Route::post('/submit-feedback', 'VersionReleaseController@submitFeedback');
+     Route::post('/delete-feedback', 'VersionReleaseController@deleteFeedback');
+     //Version Submission
+     Route::group(['middleware' => ['auth']], function () {
+         Route::post('/store', 'VersionReleaseController@store');
+         Route::post('/submit-item', 'VersionReleaseController@submitItem');
+         Route::delete('/delete-item/{id}', 'VersionReleaseController@deleteItem');
+         Route::delete('/delete/{id}', 'VersionReleaseController@delete');
+     });
+ });
+ 
 
 
 // Authentication Routes...

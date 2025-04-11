@@ -3,25 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class VersionRelease extends Model
+class VersionRelease extends Model implements Auditable
 {
-    // Fillable fields to prevent mass assignment
-    protected $fillable = ['version', 'release_date', 'user_id'];
+    use SoftDeletes,\OwenIt\Auditing\Auditable;
 
-    // Relationships
-    public function releasenotes()
-    {
+    protected $fillable = [
+        'version',
+        'release_date'
+    ];
+
+    public function releaseNotes() {
         return $this->hasMany(VersionReleaseNote::class);
     }
 
-    public function feedbacks()
-    {
+    public function feedbacks() {
         return $this->hasMany(VersionReleaseFeedback::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);  // Foreign key relation to users
     }
 }

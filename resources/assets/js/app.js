@@ -6,8 +6,12 @@
  */
 
 require('./bootstrap');
+import Vue from 'vue';
+import VModal from 'vue-js-modal';
+Vue.use(VModal);
 
 window.Vue = require('vue');
+
 
 
 /**
@@ -65,6 +69,10 @@ Vue.component('ccir', require('./components/Ccir/Ccir.vue'));
 Vue.component('ccir-form', require('./components/Ccir/CcirForm.vue'));
 Vue.component('ccir-view', require('./components/Ccir/CcirView.vue'));
 Vue.component('notified', require('./components/Ncn/Notified.vue'));
+
+// Version Release
+
+Vue.component('version-release', require('./components/VersionRelease/VersionRelease.vue'));
 
 
 Vue.prototype.$pendingsForReviewer = '12';

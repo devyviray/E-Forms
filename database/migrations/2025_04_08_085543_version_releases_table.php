@@ -13,17 +13,12 @@ class VersionReleaseTable extends Migration
      */
     public function up()
     {
-        Schema::create('version_release', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('version_releases', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('version');
-            $table->dateTime('release_date');
-
-            // Relationship with users table get user_id who released the version   
-            $table->unsignedInteger('user_id')->unsigned()->index();
+            $table->date('release_date');
             $table->timestamps();
-            
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
+            $table->softDeletes();
         });
     }
 
@@ -34,6 +29,6 @@ class VersionReleaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('version_release');
+        Schema::dropIfExists('version_releases');
     }
 }

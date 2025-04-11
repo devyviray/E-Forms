@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use OwenIt\Auditing\Auditable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements AuditableContract
 {
-    use Notifiable; 
+    use Notifiable, Auditable;
     use HasRoleAndPermission;
 
     /**

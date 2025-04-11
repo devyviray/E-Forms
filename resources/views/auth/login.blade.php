@@ -36,7 +36,7 @@
         
         <!-- Version Release Section -->
         <div class="version-release mt-2">
-            <a class="btn btn-link" href="" style="text-align: center; display: block; margin-top: 20px;">
+            <a class="forgot-password" href="/version-release-main" style="text-align: center; display: block; margin-top: 20px;">
                 Version Release
             </a>
         </div>

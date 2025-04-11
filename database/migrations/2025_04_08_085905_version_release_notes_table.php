@@ -14,17 +14,12 @@ class VersionReleaseNotesTable extends Migration
     public function up()
     {
         Schema::create('version_release_notes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('version_release_id');  // Use unsignedInteger for foreign key compatibility
-
-            $table->string('type');
+            $table->bigIncrements('id');
+            $table->bigInteger('version_release_id')->unsigned();
+            $table->string('type')->nullable();
             $table->string('description');
-
-            $table->unsignedInteger('user_id');  // Use unsignedInteger for foreign key compatibility
             $table->timestamps();
-    
-            $table->foreign('version_release_id')->references('id')->on('version_release')->onDelete('cascade');  // Foreign key to version_releases
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  // Foreign key to users
+            $table->softDeletes();
         });
     }
 

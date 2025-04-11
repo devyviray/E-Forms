@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Drdr extends Model
+class Drdr extends Model implements Auditable
 {
-    use SoftDeletes;
+    use SoftDeletes, Auditable;
     /**
      * The table associated with the model.
      *

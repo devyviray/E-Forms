@@ -14,14 +14,12 @@ class VersionReleaseFeedbackTable extends Migration
     public function up()
     {
         Schema::create('version_release_feedback', function (Blueprint $table) {
-            $table->increments('id');  // Laravel 5.5 uses increments() for primary key
-            $table->unsignedInteger('user_id');  // Use unsignedInteger for foreign key compatibility
-            $table->unsignedInteger('version_release_id');  // Use unsignedInteger for foreign key compatibility
-            $table->text('feedback');
+            $table->bigIncrements('id');  // Laravel 5.5 uses increments() for primary key
+            $table->bigInteger('version_release_id');
+            $table->bigInteger('user_id');
+            $table->longText('feedback');
             $table->timestamps();
-    
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  // Foreign key to users
-            $table->foreign('version_release_id')->references('id')->on('version_release')->onDelete('cascade');  // Foreign key to version_releases
+            $table->softDeletes();
         });
     }
 
