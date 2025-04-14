@@ -11,7 +11,7 @@ use OwenIt\Auditing\Auditable;
 
 class User extends Authenticatable implements AuditableContract
 {
-    use Notifiable, Auditable;
+    use Notifiable, \OwenIt\Auditing\Auditable;
     use HasRoleAndPermission;
 
     /**

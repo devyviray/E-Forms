@@ -8,7 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Drdr extends Model implements Auditable
 {
-    use SoftDeletes, Auditable;
+    use SoftDeletes, \OwenIt\Auditing\Auditabletable;
     /**
      * The table associated with the model.
      *

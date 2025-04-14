@@ -8,7 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Setting extends Model implements Auditable
 {
-    use Notifiable, Auditable;
+    use Notifiable, \OwenIt\Auditing\Auditable;
     /**
      * The table associated with the model.
      *

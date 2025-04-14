@@ -21,7 +21,7 @@
  //Auth::routes();
 
  // Version Release
- Route::get('/version-release-main', 'VersionReleaseController@index');
+ Route::get('/version-release-main', 'VersionReleaseController@index')->name('version-release-main');
  Route::get('/version-release-login', 'VersionReleaseController@indexLogin')->name('version-release-login');
  Route::group(['prefix' => 'version-release'], function () {
      Route::get('/all', 'VersionReleaseController@all');

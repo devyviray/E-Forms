@@ -1,16 +1,18 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <title>{{ config('app.name', 'E-FORMS') }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('/img/logo.ico')}}">
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="canonical" href="https://preview.keenthemes.com/metronic/demo2/features/icons/svg.html">
+    {{-- <link rel="canonical" href="https://preview.keenthemes.com/metronic/demo2/features/icons/svg.html"> --}}
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-<link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.css?v=7.2.9" rel="stylesheet" type="text/css">
+{{-- <link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.css?v=7.2.9" rel="stylesheet" type="text/css"> --}}
     <link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/custom/prismjs/prismjs.bundle.css?v=7.2.9" rel="stylesheet" type="text/css">
     <link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/style.bundle.css?v=7.2.9" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/media/logos/favicon.ico">
+    {{-- <link rel="shortcut icon" href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/media/logos/favicon.ico"> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
@@ -20,7 +22,8 @@
     </style>
 </head>
 
-<body id="kt_body" style="background-image: url(https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/media/bg/bg-10.jpg)" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled highlighter-context">
+<body id="kt_body" style="background-image: url('/img/background-version-release.png')" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled highlighter-context">
+
     <div id="app">
         <div class="d-flex flex-column flex-root">
             <div class="d-flex flex-row flex-column-fluid page">
@@ -63,21 +66,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div id="kt_scrolltop" class="scrolltop">
-        <span class="svg-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                <title>Stockholm-icons / Navigation / Up-2</title>
-                <desc>Created with Sketch.</desc>
-                <defs></defs>
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <polygon points="0 0 24 0 24 24 0 24"></polygon>
-                    <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1"></rect>
-                    <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero"></path>
-                </g>
-            </svg>
-        </span>
     </div>
 
     <script>
@@ -141,9 +129,9 @@
         };
     </script>
 
-    <script src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.js?v=7.2.9"></script>
+    {{-- <script src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.js?v=7.2.9"></script>
     <script src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.2.9"></script>
-    <script src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/js/scripts.bundle.js?v=7.2.9"></script>
+    <script src="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/js/scripts.bundle.js?v=7.2.9"></script> --}}
     <script src="{{ asset('js/all.js') }}"></script>
 
 

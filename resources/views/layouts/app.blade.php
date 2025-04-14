@@ -140,6 +140,11 @@
                                             <p>Department</p>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a class="nav-link" href="{{ route('version-release-main') }}">
+                                            <p>Version Release</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
