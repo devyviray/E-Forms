@@ -13,7 +13,7 @@
 //  Route::get('/', function () {
 //    return view('welcome');
 //  });
-
+ Route::get('/sso-login', 'SSOLoginController@login')->name('sso-login');
  Route::get('/', function () {
    return redirect('/login');
  });
