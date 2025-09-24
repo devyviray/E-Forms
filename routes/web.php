@@ -66,15 +66,15 @@ Route::group(['middleware' => ['auth', 'portal_logger']], function (){
       ->description('The User accessed the Home Page')
       ->purpose('PAGE')
       ->name('home');
-  Route::get('/ccir-page', 'HomeController@ccir_index')->name('ccir')
+  Route::get('/ccir-page', 'HomeController@ccir_index')
       ->description('The User accessed the CCIR Page'
       )->purpose('PAGE'
       )->name('ccir');
-  Route::get('/companies-page', 'HomeController@companies_index')->name('companies')
+  Route::get('/companies-page', 'HomeController@companies_index')
       ->description('The User accessed the Companies Page')
       ->purpose('PAGE')
       ->name('companies');
-  Route::get('/ddr-page', 'HomeController@ddr_index')->name('ddr')
+  Route::get('/ddr-page', 'HomeController@ddr_index')
       ->description('The User accessed the DDR Page')
       ->purpose('PAGE')
       ->name('ddr');
@@ -82,11 +82,11 @@ Route::group(['middleware' => ['auth', 'portal_logger']], function (){
       ->description('The User accessed the Departments Page')
       ->purpose('PAGE')
       ->name('departments');
-  Route::get('/drdr-page', 'HomeController@drdr_index')->name('drdr')
+  Route::get('/drdr-page', 'HomeController@drdr_index')
       ->description('The User accessed the DRDR Page')
       ->purpose('PAGE')
       ->name('drdr');
-  Route::get('/ncn-page', 'HomeController@ncn_index')->name('ncn')
+  Route::get('/ncn-page', 'HomeController@ncn_index')
       ->description('The User accessed the NCN Page')
       ->purpose('PAGE')
       ->name('ncn');
