@@ -222,13 +222,18 @@ Route::group(['middleware' => ['auth', 'portal_logger']], function (){
       ->purpose('PAGE')
       ->name('ccir-view');
   // Get the specified ccir by id
-  Route::get('/ccir-data/{id}', 'CcirController@data');
+  Route::get('/ccir-data/{id}', 'CcirController@data')
+      ->description('The User accessed the CCIR Data')
+      ->purpose('PAGE');
   // Generate ccirs submitted by date
   Route::post('/ccirs-submitted-generate', 'CcirController@generateSubmitted');
 
   // NCN ROUTES
   // Fetch Submitted NCN by user
-  Route::get('/ncns-submitted', 'NcnController@submitted');
+  Route::get('/ncns-submitted', 'NcnController@submitted')
+      ->description('The User accessed the Submitted NCN Page')
+      ->purpose('PAGE')
+      ->name('ncns-submitted');
   // Show Add form CCIR
   Route::get('/add-ncn', 'NcnController@create')
       ->description('The User accessed the Add NCN Page')
@@ -246,7 +251,9 @@ Route::group(['middleware' => ['auth', 'portal_logger']], function (){
   // Get the specified ncn by id
   Route::get('/ncn-data/{id}', 'NcnController@data');
   // Get Approvers base in the company and department
-  Route::get('/getNcnApprovers/{company}/{department}', 'NcnController@getNcnApprovers');
+  Route::get('/getNcnApprovers/{company}/{department}', 'NcnController@getNcnApprovers')
+      ->description('The User accessed the NCN Approver Data')
+      ->purpose('PAGE');
   // Generate ncns submitted by date
   Route::post('/ncns-submitted-generate', 'NcnController@generateSubmitted');
   // Generate ncns pending approval by date
