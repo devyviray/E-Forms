@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\HRUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
@@ -13,6 +14,8 @@ class User extends Authenticatable implements AuditableContract
 {
     use Notifiable, \OwenIt\Auditing\Auditable;
     use HasRoleAndPermission;
+    protected $appends = ['hr_user_id'];
+    protected $with = ['hrUser'];
 
     /**
      * The attributes that are mass assignable.
@@ -44,5 +47,13 @@ class User extends Authenticatable implements AuditableContract
 
         return $this->belongsTo('App\Department');
     } 
+    public function hrUser()
+    {
+        return $this->belongsTo(HRUser::class,'email','email');
+    }
+    public function getHrUserIdAttribute()
+    {
+        return $this->hrUser->id ?? null;
+    }
 
 }

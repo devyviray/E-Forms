@@ -29,7 +29,7 @@
      Route::post('/submit-feedback', 'VersionReleaseController@submitFeedback');
      Route::post('/delete-feedback', 'VersionReleaseController@deleteFeedback');
      //Version Submission
-     Route::group(['middleware' => ['auth']], function () {
+     Route::group(['middleware' => ['auth', 'portal_logger']], function () {
          Route::post('/store', 'VersionReleaseController@store');
          Route::post('/submit-item', 'VersionReleaseController@submitItem');
          Route::delete('/delete-item/{id}', 'VersionReleaseController@deleteItem');
@@ -59,30 +59,68 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
 // Authenticated accessible routes
-Route::group(['middleware' => 'auth'], function (){
+Route::group(['middleware' => ['auth', 'portal_logger']], function (){
   Route::get('/sampleRoute', 'DrdrController@emailScheduling');
 
-  Route::get('/home', 'HomeController@index')->name('home');
-  Route::get('/ccir-page', 'HomeController@ccir_index')->name('ccir');
-  Route::get('/companies-page', 'HomeController@companies_index')->name('companies');
-  Route::get('/ddr-page', 'HomeController@ddr_index')->name('ddr');
-  Route::get('/departments-page', 'HomeController@departments_index')->name('departments');
-  Route::get('/drdr-page', 'HomeController@drdr_index')->name('drdr');
-  Route::get('/ncn-page', 'HomeController@ncn_index')->name('ncn');
-  Route::get('/permissions_page', 'HomeController@permissions_index')->name('permissions');
-  Route::get('/roles-page', 'HomeController@roles_index')->name('roles');
-  Route::get('/user-page', 'HomeController@users_index')->name('users');
+  Route::get('/home', 'HomeController@index')
+      ->description('The User accessed the Home Page')
+      ->purpose('PAGE')
+      ->name('home');
+  Route::get('/ccir-page', 'HomeController@ccir_index')->name('ccir')
+      ->description('The User accessed the CCIR Page'
+      )->purpose('PAGE'
+      )->name('ccir');
+  Route::get('/companies-page', 'HomeController@companies_index')->name('companies')
+      ->description('The User accessed the Companies Page')
+      ->purpose('PAGE')
+      ->name('companies');
+  Route::get('/ddr-page', 'HomeController@ddr_index')->name('ddr')
+      ->description('The User accessed the DDR Page')
+      ->purpose('PAGE')
+      ->name('ddr');
+  Route::get('/departments-page', 'HomeController@departments_index')
+      ->description('The User accessed the Departments Page')
+      ->purpose('PAGE')
+      ->name('departments');
+  Route::get('/drdr-page', 'HomeController@drdr_index')->name('drdr')
+      ->description('The User accessed the DRDR Page')
+      ->purpose('PAGE')
+      ->name('drdr');
+  Route::get('/ncn-page', 'HomeController@ncn_index')->name('ncn')
+      ->description('The User accessed the NCN Page')
+      ->purpose('PAGE')
+      ->name('ncn');
+  Route::get('/permissions_page', 'HomeController@permissions_index')
+      ->description('The User accessed the Permissions Page')
+      ->purpose('PAGE') 
+      ->name('permissions');
+  Route::get('/roles-page', 'HomeController@roles_index')
+      ->description('The User accessed the Roles Page')
+      ->purpose('PAGE')
+      ->name('roles');
+  Route::get('/user-page', 'HomeController@users_index')
+      ->description('The User accessed the Users Page')
+      ->purpose('PAGE') 
+      ->name('users');
 
   // Download files upload
-  Route::get('/download-attachment/{fileId}', 'DrdrController@downloadAttachment');
+  Route::get('/download-attachment/{fileId}', 'DrdrController@downloadAttachment')
+      ->description('The User downloaded an attachment')
+      ->purpose('PAGE');
 
   // DRDR routes
   // Show add form of DRDR 
-  Route::get('/add-drdr', 'DrdrController@create');
+  Route::get('/add-drdr', 'DrdrController@create')
+      ->description('The User accessed the Add DRDR Page')
+      ->purpose('PAGE')
+      ->name('add-drdr');
   // Add new DRDR by requester
   Route::post('/drdr', 'DrdrController@store');
   //Show edit form of DRDR
-  Route::get('/edit-drdr/{id}', 'DrdrController@edit');
+  Route::get('/edit-drdr/{id}', 'DrdrController@edit')
+      ->description('The User accessed the Edit DRDR Page')
+      ->purpose('PAGE')
+      ->name('edit-drdr');
   // Update  specific DRDR By requester
   Route::post('/drdr/{drdr}', 'DrdrController@update');
   // Delete DRDR by requester
@@ -90,13 +128,23 @@ Route::group(['middleware' => 'auth'], function (){
   // Show specific DRDR by requester
   Route::get('/drdr/{id}', 'DrdrController@show');
   // Fetch Submitted DRDR by user
-  Route::get('/drdr-submitted', 'DrdrController@submitted');
+  Route::get('/drdr-submitted', 'DrdrController@submitted')
+      ->description('The User accessed the Submitted DRDR Page')
+      ->purpose('PAGE')
+      ->name('drdr-submitted');
   // Viewing of DRDR
-  Route::get('/drdr-view/{drdr_id}', 'DrdrController@showDetailsDrdr');
+  Route::get('/drdr-view/{drdr_id}', 'DrdrController@showDetailsDrdr')
+      ->description('The User accessed the View DRDR Page')
+      ->purpose('PAGE')
+      ->name('drdr-view');
   // Get the specified drdr by id
-  Route::get('/drdr-data/{id}', 'DrdrController@data');
+  Route::get('/drdr-data/{id}', 'DrdrController@data')
+      ->description('The User accessed the DRDR Data')
+      ->purpose('PAGE');
   //Get reviewer base in the company
-  Route::get('/getReviewer/{id}', 'DrdrController@getCompanyReviewers');
+  Route::get('/getReviewer/{id}', 'DrdrController@getCompanyReviewers')
+      ->description('The User accessed the DRDR Reviewer Data')
+      ->purpose('PAGE');
   // Generate drdrs submitted by date
   Route::post('/drdrs-submitted-generate', 'DrdrController@generateSubmitted');
   // Generate drdrs pending review by date
@@ -110,11 +158,17 @@ Route::group(['middleware' => 'auth'], function (){
 
   // DDR routes
   // Show Add form ddr
-  Route::get('/add-ddr', 'DdrController@create');
+  Route::get('/add-ddr', 'DdrController@create')
+      ->description('The User accessed the Add DDR Page')
+      ->purpose('PAGE')
+      ->name('add-ddr');
   // Storing of ddr
   Route::post('/ddr', 'DdrController@store');
   // Show specific DRDR by requester
-  Route::get('/ddr/{id}', 'DdrController@show');
+  Route::get('/ddr/{id}', 'DdrController@show')
+      ->description('The User accessed the DDR Details Page')
+      ->purpose('PAGE')
+      ->name('ddr-details');
   // Update specific DDR
   Route::patch('/ddr/{ddr}', 'DdrController@update');
   // Delete DDR by requester
@@ -122,13 +176,24 @@ Route::group(['middleware' => 'auth'], function (){
   // Delete DDRFORMSLISTS by requester
   Route::delete('/ddrformslists/{id}', 'DdrController@deleteDdrList');
   //Show edit form of DRDR
-  Route::get('/edit-ddr/{id}', 'DdrController@edit');
+  Route::get('/edit-ddr/{id}', 'DdrController@edit')
+      ->description('The User accessed the Edit DDR Page')
+      ->purpose('PAGE')
+      ->name('edit-ddr');
   // Fetch Submitted DDR by user
-  Route::get('/ddrs-submitted', 'DdrController@submitted');
+  Route::get('/ddrs-submitted', 'DdrController@submitted')
+      ->description('The User accessed the Submitted DDR Page')
+      ->purpose('PAGE')
+      ->name('ddrs-submitted');
   // Viewing of DDR
-  Route::get('/ddr-view/{ddr_id}', 'DdrController@showDetailsDdr');
+  Route::get('/ddr-view/{ddr_id}', 'DdrController@showDetailsDdr')
+      ->description('The User accessed the View DDR Page')
+      ->purpose('PAGE')
+      ->name('ddr-view');
   // Get the specified ddr by id
-  Route::get('/ddr-data/{id}', 'DdrController@data');
+  Route::get('/ddr-data/{id}', 'DdrController@data')
+      ->description('The User accessed the DDR Data')
+      ->purpose('PAGE');
   // Generate ddrs submitted by date
   Route::post('/ddrs-submitted-generate', 'DdrController@generateSubmitted');
   // Generate drs pending approval by date
@@ -138,15 +203,24 @@ Route::group(['middleware' => 'auth'], function (){
 
   // CCIR ROUTES
   // Fetch Submitted CCIR by user
-  Route::get('/ccirs-submitted', 'CcirController@submitted');
+  Route::get('/ccirs-submitted', 'CcirController@submitted')
+      ->description('The User accessed the Submitted CCIR Page')
+      ->purpose('PAGE')
+      ->name('ccirs-submitted');
   // Show Add form CCIR
-  Route::get('/add-ccir', 'CcirController@create');
+  Route::get('/add-ccir', 'CcirController@create')
+      ->description('The User accessed the Add CCIR Page')
+      ->purpose('PAGE')
+      ->name('add-ccir');
   // Storing of ccir
   Route::post('/ccir', 'CcirController@store');
   // Delete CCIR by requester
   Route::delete('/ccir/{id}', 'CcirController@destroy');
   // Viewing of CCIR
-  Route::get('/ccir-view/{ccir_id}', 'CcirController@showDetailsCcir');
+  Route::get('/ccir-view/{ccir_id}', 'CcirController@showDetailsCcir')
+      ->description('The User accessed the View CCIR Page')
+      ->purpose('PAGE')
+      ->name('ccir-view');
   // Get the specified ccir by id
   Route::get('/ccir-data/{id}', 'CcirController@data');
   // Generate ccirs submitted by date
@@ -156,13 +230,19 @@ Route::group(['middleware' => 'auth'], function (){
   // Fetch Submitted NCN by user
   Route::get('/ncns-submitted', 'NcnController@submitted');
   // Show Add form CCIR
-  Route::get('/add-ncn', 'NcnController@create');
+  Route::get('/add-ncn', 'NcnController@create')
+      ->description('The User accessed the Add NCN Page')
+      ->purpose('PAGE')
+      ->name('add-ncn');
   // Storing of ncn
   Route::post('/ncn', 'NcnController@store');
   // Delete NCN by requester
   Route::delete('/ncn/{id}', 'NcnController@destroy');
   // Viewing of NCN
-  Route::get('/ncn-view/{ncn_id}', 'NcnController@showDetailsNcn');
+  Route::get('/ncn-view/{ncn_id}', 'NcnController@showDetailsNcn')
+      ->description('The User accessed the View NCN Page')
+      ->purpose('PAGE')
+      ->name('ncn-view');
   // Get the specified ncn by id
   Route::get('/ncn-data/{id}', 'NcnController@data');
   // Get Approvers base in the company and department
@@ -192,13 +272,25 @@ Route::group(['middleware' => 'auth'], function (){
   Route::post('/user/change-password', 'UserController@changePassword');
 
   // Return page to view details of drdr
-  Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails');
+  Route::get('/admin/drdr-details/{id}', 'DrdrController@drdrDetails')
+      ->description('The User accessed the DRDR Details Page')
+      ->purpose('PAGE')
+      ->name('drdr-details');
   // Return page to view details of drdr
-  Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails');
+  Route::get('/admin/ddr-details/{id}', 'DdrController@ddrDetails')
+      ->description('The User accessed the DDR Details Page')
+      ->purpose('PAGE')
+      ->name('ddr-details');
   // Return page to view details of drdr
-  Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails');
+  Route::get('/admin/ncn-details/{id}', 'NcnController@ncnDetails')
+      ->description('The User accessed the NCN Details Page')
+      ->purpose('PAGE')
+      ->name('ncn-details');
   // Return page to view details of ccir
-  Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails');
+  Route::get('/admin/ccir-details/{id}', 'CcirController@ccirDetails')
+      ->description('The User accessed the CCIR Details Page')
+      ->purpose('PAGE')
+      ->name('ccir-details');
 });
 
 // Accessible route only by admin 

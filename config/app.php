@@ -177,6 +177,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\RouteMacroServiceProvider::class, // Users Tracking
         App\Providers\RouteServiceProvider::class,
 
     ],
