@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Models\HRUser;
+use App\HRUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;

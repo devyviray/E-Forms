@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,3 +11,4 @@ class HRUser extends Model
     protected $table = 'users';
 
 }
+
