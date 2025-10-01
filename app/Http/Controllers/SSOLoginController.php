@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\HRISUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,11 +25,14 @@ class SSOLoginController extends Controller
             abort(401, 'Invalid signature');
         }
 
+        $hrisUser = HRISUser::where('email', $request->email)->firstOrFail();
+        $user = User::where('email', $hrisUser->email)->first();
+        abort_unless($user, Response::HTTP_FORBIDDEN);
 
-        $user = User::where('email', $email)->first();
-        if(!Auth::check()){
+        if (!Auth::check()) {
             Auth::login($user);
         }
+
         return redirect('/');
 }
 }

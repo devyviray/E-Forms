@@ -49,7 +49,7 @@ class User extends Authenticatable implements AuditableContract
     } 
     public function hrUser()
     {
-        return $this->belongsTo(HRUser::class,'email','email');
+        return $this->belongsTo(HRISUser::class,'email','email');
     }
     public function getHrUserIdAttribute()
     {
