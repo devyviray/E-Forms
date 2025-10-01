@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Middleware;
-
 use Closure;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -25,12 +24,25 @@ class HRISPortalLoggerMiddleware
             'timeout' => env('PORTAL_USER_LOGGER_TIMEOUT'),
         ]);
 
+        $os = strtoupper(substr(PHP_OS, 0, 3));
+        if ($os === 'WIN') {
+            // Windows ping command
+            $pingResult = exec("ping -n 1 -w 3000 " . escapeshellarg(env('PORTAL_USER_LOGGER_HOST_URL')), $output, $status);
+        } else {
+            // Linux/Unix ping command
+            $pingResult = exec("ping -c 1 -W 3 " . escapeshellarg(env('PORTAL_USER_LOGGER_HOST_URL')), $output, $status);
+        }
+        if(!$status){
+            Log::error('Failed to log portal activity due to server down');
+            return $next($request);
+        }
+
         try {
             $response = $client->post(env('PORTAL_USER_LOGGER_URL'), [
                 'form_params' => [
                     'useragent' => $request->userAgent(),
                     'ipaddress' => $request->ip(),
-                    'user_id' => Auth::check() ? Auth::user()->hr_user_id : null,
+                    'user_id' => Auth::check() ? Auth::id() : null,
                     'portal_id' => env('PORTAL_USER_LOGGER_PORTAL_ID'),
                     'portal' => Route::currentRouteName(),
                     'url' => $request->fullUrl(),
