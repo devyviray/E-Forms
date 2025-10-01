@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 use Closure;
+use App\HRISUser;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Auth;
