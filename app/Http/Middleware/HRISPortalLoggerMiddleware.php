@@ -43,7 +43,7 @@ class HRISPortalLoggerMiddleware
                 'form_params' => [
                     'useragent' => $request->userAgent(),
                     'ipaddress' => $request->ip(),
-                    'user_id' => Auth::check() ? HRISUser::where('email', auth()->email)->first()->id : null,
+                    'user_id' => Auth::check() ? HRISUser::where('email', auth()->user()->email)->first()->id : null,
                     'portal_id' => env('PORTAL_USER_LOGGER_PORTAL_ID'),
                     'portal' => Route::currentRouteName(),
                     'url' => $request->fullUrl(),
