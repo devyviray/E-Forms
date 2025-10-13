@@ -29,7 +29,8 @@
      Route::post('/submit-feedback', 'VersionReleaseController@submitFeedback');
      Route::post('/delete-feedback', 'VersionReleaseController@deleteFeedback');
      //Version Submission
-     Route::group(['middleware' => ['auth', 'portal_logger']], function () {
+     Route::group(['middleware' => ['auth']], function () {
+    //  , 'portal_logger']], function () {
          Route::post('/store', 'VersionReleaseController@store');
          Route::post('/submit-item', 'VersionReleaseController@submitItem');
          Route::delete('/delete-item/{id}', 'VersionReleaseController@deleteItem');
@@ -59,7 +60,8 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
 // Authenticated accessible routes
-Route::group(['middleware' => ['auth', 'portal_logger']], function (){
+Route::group(['middleware' => ['auth']], function (){
+// , 'portal_logger']], function (){
   Route::get('/sampleRoute', 'DrdrController@emailScheduling');
 
   Route::get('/home', 'HomeController@index')
