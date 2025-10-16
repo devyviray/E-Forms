@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\HRISUser;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -44,5 +47,25 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        //Check if the email exists in HRISUser table
+        $hrisUser = HRISUser::where('email', $request->email)->first();
+
+        if (!$hrisUser) {
+            return back()
+                ->withErrors(['email' => 'Your email is not synced with HR PORTAL. Please contact your administrator.'])
+                ->withInput($request->only('email'));
+        }
+
+        if ($this->attemptLogin($request)) {
+            return $this->sendLoginResponse($request);
+        }
+
+        return $this->sendFailedLoginResponse($request);
     }
 }
