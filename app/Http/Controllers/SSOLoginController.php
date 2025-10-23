@@ -6,6 +6,7 @@ use App\User;
 use App\HRISUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class SSOLoginController extends Controller
 {
