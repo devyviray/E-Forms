@@ -10,8 +10,10 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 {{-- <link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/global/plugins.bundle.css?v=7.2.9" rel="stylesheet" type="text/css"> --}}
-    <link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/custom/prismjs/prismjs.bundle.css?v=7.2.9" rel="stylesheet" type="text/css">
-    <link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/style.bundle.css?v=7.2.9" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/prismjs.bundle.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/style.bundle.css') }}" rel="stylesheet" type="text/css">
+    {{-- <link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/plugins/custom/prismjs/prismjs.bundle.css?v=7.2.9" rel="stylesheet" type="text/css">
+    <link href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/css/style.bundle.css?v=7.2.9" rel="stylesheet" type="text/css"> --}}
     {{-- <link rel="shortcut icon" href="https://preview.keenthemes.com/metronic/theme/html/demo2/dist/assets/media/logos/favicon.ico"> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
