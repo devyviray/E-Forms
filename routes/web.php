@@ -371,6 +371,12 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::post('/admin/ddr-distributed', 'DdrController@distributed');
   // Update DDR by mr or admin
   Route::patch('/admin/ddr/{ddr}', 'DdrController@adminUpdate');
+
+  // Admin Dashboard Routes
+
+  Route::get('/admin/dashboard-data', 'DashboardController@fetchDashboardData');
+  Route::get('/admin/dashboard-data-per-year/{year}', 'DashboardController@fetchDashboardDataPerYear');
+  Route::get('/admin/dashboard-data-daily', 'DashboardController@fetchDashboardDataDaily');
   
   // NCN routes
   // Count all submitted ncn 
