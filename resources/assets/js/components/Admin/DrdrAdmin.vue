@@ -1,144 +1,120 @@
 <template>
-      <div>
-        <spinner-loading v-if="isLoading"></spinner-loading>
-        <div class="card-body table-full-width table-responsive">
-            <div class="card-header mb-3">
-                <h4 class="card-title">Document Review & Distribution Request</h4>   
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="name">Search</label>
-                    <input type="text" class="form-control" placeholder="Search by Document Title, Company" v-model="keywords" id="name">
-                </div> 
-                <div class="col-md-3">
-                    <label for="date">Search by date</label>    
-                    <datepicker v-model="startDate" placeholder="Select Start Date" id="date"></datepicker>
-                    <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
-                </div>
-                <div class="col-md-3" style="margin-top: 29px">
-                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
-                    <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
-                </div>
-                <div class="col-md-2" style="margin-top: 29px">
-                    <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <label for="date"> Filter By Status </label>
-                    <select v-model="status" class="form-control form-control-lg" @change="filterDrdrs">
-                        <option value="" selected>Reset Filter</option>
-                        <option value="4">Not Yet Verified</option>
-                        <option value="14">Verified</option>
-                    </select>
-                </div>
-                 <div class="col-md-3" v-if="drdrs.length > 0">
-                    <download-excel
-                        :data   = "drdrs"
-                        :fields = "json_fields"
-                        class   = "hidden-xs btn btn-new btn-wd btn-neutral btn-round"
-                        style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33)); margin-top: 29px"
-                        name    = "DRDR.xls">
-                        EXPORT TO EXCEL
-                    </download-excel>
-                 </div>
-            </div>
-            <table class="table table-hover table-striped">  
-                <thead>
-                    <th>ID</th>
-                    <th>Document title</th>
-                    <th>Company</th>
-                    <th>Rev.</th>
-                    <th>Reviewer</th>
-                    <th>Approver</th>
-                    <th>Status</th>
-                    <th>Option</th>
-                </thead>    
-                <tbody>
-                    <tr v-if="loading">
-                        <td colspan="8">
-                        <content-placeholders>
-                            <content-placeholders-heading :img="true" />
-                            <content-placeholders-text :lines="3" />
-                        </content-placeholders>
-                        </td>
-                    </tr>
-                    <tr v-for="drdr in filteredQueues" v-bind:key="drdr.id">
-                        <td>{{ drdr.id }}</td>
-                        <td>{{ drdr.document_title }}</td>
-                        <td>{{ drdr.company.name  }}</td>
-                        <td v-if="drdr.rev_number !== null">{{ drdr.rev_number }}</td>
-                        <td style="padding-left: 30px" v-else> - </td>
-                        <td>
-                            {{ drdr.reviewer.name }}<br>
-                            <span style="color: red" v-if="drdr.status == 2"> NOT YET APPROVED </span>
-                            <span style="color: red" v-else-if="drdr.status == 5"> DISAPPROVED </span>
-                            <span style="color: green" v-else> APPROVED </span>
-                        </td>
-                        <td v-if="drdr.approver">
-                            {{ drdr.approver.name }}<br>
-                            <span style="color: red" v-if="drdr.status == 3"> NOT YET APPROVED </span>
-                            <span style="color: red" v-else-if="drdr.status == 6"> DISAPPROVED </span>
-                            <span style="color: green" v-else> APPROVED </span>
-                        </td>
-                        <td style="padding-left: 30px" v-else>{{ ' - '  }}</td>
-                        <td>
-                            <span style="color: red" v-if="drdr.status == 4"> NOT YET VERIFIED </span>
-                            <span style="color: green" v-else-if="drdr.status == 14"> VERIFIED </span>
-                            <span style="padding-left: 15px" v-else>{{ ' - '  }}</span>
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button  class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Option
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a target="_blank" :href="viewDrdrDetails+drdr.id" class="dropdown-item">View</a>
-                                    <a target="_blank" v-if="drdr.status == 4" class="dropdown-item"  :href="verifyLink+drdr.id">Mark as verify</a>
-                                    <a target="_blank" v-if="roleId.includes(3) && drdr.status == 3 && drdr.approver_id == userId" class="dropdown-item" :href="approvalLnik+drdr.id">Approve</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>    
-                </tbody>
-            </table>
-        </div>
-        <div class="row mb-3">
-            <div class="col-6">
-                <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
-                    <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
-                <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
-            </div>
-            <div class="col-6 text-right">
-                <span>{{ filteredQueues.length }} DRDR form(s)</span>
-            </div>
-        </div>
-
-        <!-- Mark as distributed Modal -->
-        <div  class="modal fade" id="distributedDrdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyLabel">Verification</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
-                    <div class="form-group">
-                        <span> Are you sure to verify this document ?</span>
+    <div>
+        <div class="col-md-12 col-lg-12">
+            <div class="container-fluid bg-white rounded-3 shadow-sm p-4" style="border: 1px solid #e9ecef;">
+                <!-- <h5 class="text-xs font-weight-bold gradient-text text-uppercase text-shadow-hover text-decoration-none mb-4">
+                    Filters
+                </h5> -->
+                
+                <div class="row mb-3">
+                    <div class="col-8">
+                        <label for="name">Search</label>
+                        <input type="text" class="form-control form-control-sm rounded-2" placeholder="Search by Document Title, Company" v-model="keywords" id="name">
+                    </div> 
+                    <div class="col-4" style="margin-top: 26px">
+                        <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
+                    </div>
+                    <div class="col-4 mt-2">
+                        <label for="date1" class="mb-1">From Date</label>    
+                        <input type="date" class="form-control form-control-sm rounded-2" v-model="startDate" id="date1">
+                        <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
+                    </div>
+                    <div class="col-4 mt-2">
+                        <label for="date2" class="mb-1">To Date</label>
+                        <input type="date" class="form-control form-control-sm rounded-2" v-model="endDate" id="date2">
+                        <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
+                    </div>
+                    <div class="col-4 mt-1">
+                        <label for="status">Filter by Status</label>
+                        <select v-model="status" class="form-control rounded-2" style="min-height: 40px;" @change="filterDrdrs">
+                            <option value="" selected>Status Filter</option>
+                            <option value="4">Not Yet Verified</option>
+                            <option value="14">Verified</option>
+                        </select>
                     </div>
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
-                <button @click="distributeDrdr(selected_id)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
+                <div style="margin-bottom: 15px;">
+                    <download-excel :data="filteredQueues" :fields="json_fields" worksheet="DRDR Forms" name="drdrs_export.xls" class="btn btn-success btn-sm">
+                        <i class="fas fa-download"></i> Export
+                    </download-excel>
+                </div>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Document Title</th>
+                            <th scope="col">Company</th>
+                            <th scope="col">Rev.</th>
+                            <th scope="col">Reviewer</th>
+                            <th scope="col">Approver</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="loading">
+                            <td colspan="8">
+                            <content-placeholders>
+                                <content-placeholders-heading :img="true" />
+                                <content-placeholders-text :lines="3" />
+                            </content-placeholders>
+                            </td>
+                        </tr>
+                        <tr v-for="drdr in filteredQueues" v-bind:key="drdr.id">
+                            <td>{{ drdr.id }}</td>
+                            <td>{{ drdr.document_title }}</td>
+                            <td>{{ drdr.company.name }}</td>
+                            <td>{{ drdr.rev_number !== null ? drdr.rev_number : '-' }}</td>
+                            <td>
+                                {{ drdr.reviewer.name }}
+                                <br>
+                                <span :style="{ color: drdr.status === 2 ? 'red' : drdr.status === 5 ? 'red' : 'green' }">
+                                    {{ drdr.status === 2 ? 'NOT YET APPROVED' : drdr.status === 5 ? 'DISAPPROVED' : 'APPROVED' }}
+                                </span>
+                            </td>
+                            <td>
+                                <template v-if="drdr.approver">
+                                    {{ drdr.approver.name }}
+                                    <br>
+                                    <span :style="{ color: drdr.status === 3 ? 'red' : drdr.status === 6 ? 'red' : 'green' }">
+                                        {{ drdr.status === 3 ? 'NOT YET APPROVED' : drdr.status === 6 ? 'DISAPPROVED' : 'APPROVED' }}
+                                    </span>
+                                </template>
+                                <template v-else>-</template>
+                            </td>
+                            <td>
+                                <span v-if="drdr.status === 4" style="color: red">NOT YET VERIFIED</span>
+                                <span v-else-if="drdr.status === 14" style="color: green">VERIFIED</span>
+                                <span v-else>-</span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Option
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a target="_blank" :href="viewDrdrDetails + drdr.id" class="dropdown-item">View</a>
+                                        <a v-if="drdr.status === 4" target="_blank" :href="verifyLink + drdr.id" class="dropdown-item">Mark as verify</a>
+                                        <a v-if="roleId.includes(3) && drdr.status === 3 && drdr.approver_id === userId" target="_blank" :href="approvalLink + drdr.id" class="dropdown-item">Approve</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
+                            <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+                        <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <span>{{ filteredQueues.length }} DRDR form(s)</span>
+                    </div>
                 </div>
             </div>
-            </div>
         </div>
-
-    </div>   
+    </div>
 </template>
 <style>
     .vdp-datepicker  input{
