@@ -38,17 +38,17 @@
                         <i class="fas fa-download"></i> Export
                     </download-excel>
                 </div>
-                <table class="table table-bordered table-striped table-hover">
-                    <thead>
+                <table class="table align-items-center table-flush">
+                    <thead class = "thead-light">
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Document Title</th>
-                            <th scope="col">Company</th>
-                            <th scope="col">Rev.</th>
-                            <th scope="col">Reviewer</th>
-                            <th scope="col">Approver</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Option</th>
+                            <th scope="col" class="small">ID</th>
+                            <th scope="col" class="small">Document Title</th>
+                            <th scope="col" class="small">Company</th>
+                            <th scope="col" class="small">Rev.</th>
+                            <th scope="col" class="small">Reviewer</th>
+                            <th scope="col" class="small">Approver</th>
+                            <th scope="col" class="small">Status</th>
+                            <th scope="col" class="small">Option</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,18 +61,18 @@
                             </td>
                         </tr>
                         <tr v-for="drdr in filteredQueues" v-bind:key="drdr.id">
-                            <td>{{ drdr.id }}</td>
-                            <td>{{ drdr.document_title }}</td>
-                            <td>{{ drdr.company.name }}</td>
-                            <td>{{ drdr.rev_number !== null ? drdr.rev_number : '-' }}</td>
-                            <td>
+                            <td class="small">{{ drdr.id }}</td>
+                            <td class="small">{{ drdr.document_title }}</td>
+                            <td class="small">{{ drdr.company.name }}</td>
+                            <td class="small">{{ drdr.rev_number !== null ? drdr.rev_number : '-' }}</td>
+                            <td class="small">
                                 {{ drdr.reviewer.name }}
                                 <br>
                                 <span :style="{ color: drdr.status === 2 ? 'red' : drdr.status === 5 ? 'red' : 'green' }">
                                     {{ drdr.status === 2 ? 'NOT YET APPROVED' : drdr.status === 5 ? 'DISAPPROVED' : 'APPROVED' }}
                                 </span>
                             </td>
-                            <td>
+                            <td class="small">
                                 <template v-if="drdr.approver">
                                     {{ drdr.approver.name }}
                                     <br>
@@ -82,7 +82,7 @@
                                 </template>
                                 <template v-else>-</template>
                             </td>
-                            <td>
+                            <td class="small">
                                 <span v-if="drdr.status === 4" style="color: red">NOT YET VERIFIED</span>
                                 <span v-else-if="drdr.status === 14" style="color: green">VERIFIED</span>
                                 <span v-else>-</span>
