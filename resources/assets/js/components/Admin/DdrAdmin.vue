@@ -1,188 +1,196 @@
 <template>
-   <div>
-       <spinner-loading v-if="isLoading"></spinner-loading>
-
-        <div class="card-body table-full-width table-responsive">
-            <div class="card-header mb-3">
-                <h4 class="card-title">Document Distribution Request</h4>   
-            </div>
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <label for="name">Search</label>
-                    <input type="text" class="form-control" placeholder="Search" v-model="keywords" id="name">
+    <div>
+        <div class="col-md-12 col-lg-12">
+            <div class="container-fluid bg-white rounded-3 shadow-sm p-4" style="border: 1px solid #e9ecef;">
+                
+                <div class="row mb-3">
+                    <div class="col-8">
+                        <label for="name">Search</label>
+                        <input type="text" class="form-control form-control-sm rounded-2" placeholder="Search by Requester, Reason" v-model="keywords" id="name">
+                    </div> 
+                    <div class="col-4" style="margin-top: 26px">
+                        <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
+                    </div>
+                    <div class="col-4 mt-2">
+                        <label for="date1" class="mb-1">From Date</label>    
+                        <input type="date" class="form-control form-control-sm rounded-2" v-model="startDate" id="date1">
+                        <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
+                    </div>
+                    <div class="col-4 mt-2">
+                        <label for="date2" class="mb-1">To Date</label>
+                        <input type="date" class="form-control form-control-sm rounded-2" v-model="endDate" id="date2">
+                        <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
+                    </div>
+                    <div class="col-4 mt-1">
+                        <label for="status">Filter by Status</label>
+                        <select v-model="status" class="form-control rounded-2" style="min-height: 40px;" @change="filterDdrs">
+                            <option value="" selected>Status Filter</option>
+                            <option value="4">Not Yet Distributed</option>
+                            <option value="14">Distributed</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label for="date">Search by date</label>
-                    <datepicker v-model="startDate" placeholder="Select Start Date" id="date"></datepicker>
-                    <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
+                <div style="margin-bottom: 15px;">
+                    <download-excel :data="filteredQueues" :fields="json_fields" worksheet="DDR Forms" name="ddr_export.xls" class="btn btn-success btn-sm">
+                        <i class="fas fa-download"></i> Export
+                    </download-excel>
                 </div>
-                <div class="col-md-3" style="margin-top: 29px">
-                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
-                    <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
-                </div>
-                <div class="col-md-2" style="margin-top: 29px">
-                    <button @click="generateByDate" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <label for="date"> Filter By Status </label>
-                    <select v-model="status" class="form-control form-control-lg" @change="filterDdrs">
-                        <option value="" selected>Reset Filter</option>
-                        <option value="4">Not Yet Distributed</option>
-                        <option value="14">Distributed</option>
-                    </select>
-                </div>
-
-            </div>
-            <table class="table table-hover table-striped">
-                <thead>
-                    <th>ID</th>
-                    <th>Requester</th>
-                    <th>Reason</th>
-                    <th>Date Requested</th>
-                    <th>Approver</th>
-                    <th>Status</th>
-                    <th>Option</th>
-                </thead>    
-                <tbody>
-                    <tr v-if="loading">
-                        <td colspan="8">
+                <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="small">ID</th>
+                            <th scope="col" class="small">Requester</th>
+                            <th scope="col" class="small">Reason</th>
+                            <th scope="col" class="small">Date Requested</th>
+                            <th scope="col" class="small">Approver</th>
+                            <th scope="col" class="small">Status</th>
+                            <th scope="col" class="small">Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="loading">
+                            <td colspan="7">
                             <content-placeholders>
                                 <content-placeholders-heading :img="true" />
                                 <content-placeholders-text :lines="3" />
                             </content-placeholders>
-                        </td>
-                    </tr>
-                    <tr v-if="!ddrs.length && !loading">
-                        <td>No data available in the table</td>
-                    </tr>
-                    <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
-                        <td>{{ ddr.id }}</td>
-                        <td>{{ ddr.requester ? ddr.requester.name : '' }}</td>
-                       	<td v-if="ddr.reason_of_distribution == 1"> Relevant external doc. (controlled copy) </td>
-						<td v-if="ddr.reason_of_distribution == 2"> Customer request (uncontrolled copy) </td>
-						<td v-if="ddr.reason_of_distribution == 3"> Others: </td>
-                        <td>{{ moment(ddr.date_request).format('LL') }}</td>
-                        <td>{{ ddr.approver.name }}<br>
-                            <span style="color: red" v-if="ddr.status == 2"> NOT YET APPROVED </span>
-                            <span style="color: red" v-else-if="ddr.status == 6"> DISAPPROVED </span>
-                            <span style="color: green" v-else> APPROVED </span>
-                        </td>
-                        <td>
-                            <span style="color: red" v-if="ddr.status == 4"> NOT YET DISTRIBUTED </span>
-                            <span style="color: green" v-else-if="ddr.status == 14"> DISTRIBUTED </span>
-                            <span style="padding-left: 15px" v-else>{{ ' - '  }}</span>
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Option
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a target="_blank" class="dropdown-item" :href="viewDrdrDetails+ddr.id">View</a>
-                                    <a v-if="ddr.status == 4" @click="getDdr(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#editDdrModal" href="javascript:void(0)">Edit Document</a>
-                                    <a v-if="ddr.status == 4" @click="getDdrId(ddr.id)"  class="dropdown-item" data-toggle="modal" data-target="#distributedDdrModal" href="javascript:void(0)">Mark as distributed</a>
-                                    <a  v-if="roleId.includes(3) && ddr.status == 2 && ddr.approver_id == userId" class="dropdown-item" :href="approvalLnik+ddr.id">Approve</a>
+                            </td>
+                        </tr>
+                        <tr v-if="!filteredQueues.length && !loading">
+                            <td colspan="7" class="text-center">No data available in the table</td>
+                        </tr>
+                        <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
+                            <td class="small">{{ ddr.id }}</td>
+                            <td class="small">{{ ddr.requester ? ddr.requester.name : '-' }}</td>
+                            <td class="small">
+                                <span v-if="ddr.reason_of_distribution == 1">Relevant external doc. (controlled copy)</span>
+                                <span v-else-if="ddr.reason_of_distribution == 2">Customer request (uncontrolled copy)</span>
+                                <span v-else-if="ddr.reason_of_distribution == 3">Others</span>
+                                <span v-else>-</span>
+                            </td>
+                            <td class="small">{{ moment(ddr.date_request).format('LL') }}</td>
+                            <td class="small">
+                                {{ ddr.approver.name }}
+                                <br>
+                                <span :style="{ color: ddr.status === 2 ? 'red' : ddr.status === 6 ? 'red' : 'green' }">
+                                    {{ ddr.status === 2 ? 'NOT YET APPROVED' : ddr.status === 6 ? 'DISAPPROVED' : 'APPROVED' }}
+                                </span>
+                            </td>
+                            <td class="small">
+                                <span v-if="ddr.status === 4" style="color: red">NOT YET DISTRIBUTED</span>
+                                <span v-else-if="ddr.status === 14" style="color: green">DISTRIBUTED</span>
+                                <span v-else>-</span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Option
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a target="_blank" :href="viewDrdrDetails + ddr.id" class="dropdown-item">View</a>
+                                        <a v-if="ddr.status === 4" @click="getDdr(ddr.id)" class="dropdown-item" data-toggle="modal" data-target="#editDdrModal" href="javascript:void(0)">Edit Document</a>
+                                        <a v-if="ddr.status === 4" @click="getDdrId(ddr.id)" class="dropdown-item" data-toggle="modal" data-target="#distributedDdrModal" href="javascript:void(0)">Mark as distributed</a>
+                                        <a v-if="roleId.includes(3) && ddr.status === 2 && ddr.approver_id === userId" target="_blank" :href="approvalLink + ddr.id" class="dropdown-item">Approve</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>    
-                </tbody>
-            </table>
-        </div>
-        <div class="row mb-3" v-if="ddrs.length">
-            <div class="col-6">
-                <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
-                    <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
-                <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)">Previous</button>
+                        <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+                        <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)">Next</button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <span>{{ filteredQueues.length }} DDR form(s)</span>
+                    </div>
+                </div>
             </div>
-            <div class="col-6 text-right">
-                <span>{{ filteredQueues.length }} DDR form(s)</span>
-            </div>
         </div>
-
 
         <!-- Edit document Modal -->
-        <div  class="modal fade bd-example-modal-lg" id="editDdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="editDdrModal" tabindex="-1" role="dialog" aria-labelledby="editDdrLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyLabel">Edit document</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
-                    <div class="form-group">
-                         <table class="table table-hover table-striped">
-                            <thead>
-                                <th>ID</th>
-                                <th>Document Title</th>
-                                <th>Control Code</th>
-                                <th>Rev No.</th>
-                                <th>Copy No.</th>
-                                <th>Copy Holder</th>
-                            </thead>
-                            <tbody v-if="ddrs.length > 0">
-                                <tr v-for="(ddrlist, d) in ddrlists" v-bind:key="d">
-                                    <td>{{ d + 1 }}</td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Document title" v-model="ddrlist.document_title">
-                                         <span v-if="errors.ddrlists">{{ 'sample error' }}</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Control Code" v-model="ddrlist.control_code">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Rev No." v-model="ddrlist.rev_number">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Copy No." v-model="ddrlist.copy_number">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Copy Holder" v-model="ddrlist.copy_holder">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editDdrLabel">Edit Document</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
+                        <div class="form-group">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col" class="small">ID</th>
+                                        <th scope="col" class="small">Document Title</th>
+                                        <th scope="col" class="small">Control Code</th>
+                                        <th scope="col" class="small">Rev No.</th>
+                                        <th scope="col" class="small">Copy No.</th>
+                                        <th scope="col" class="small">Copy Holder</th>
+                                    </tr>
+                                </thead>
+                                <tbody v-if="ddrlists.length > 0">
+                                    <tr v-for="(ddrlist, d) in ddrlists" v-bind:key="d">
+                                        <td class="small">{{ d + 1 }}</td>
+                                        <td class="small">
+                                            <input type="text" class="form-control form-control-sm rounded-2" placeholder="Document title" v-model="ddrlist.document_title">
+                                            <span v-if="errors.ddrlists" class="error">{{ 'sample error' }}</span>
+                                        </td>
+                                        <td class="small">
+                                            <input type="text" class="form-control form-control-sm rounded-2" placeholder="Control Code" v-model="ddrlist.control_code">
+                                        </td>
+                                        <td class="small">
+                                            <input type="text" class="form-control form-control-sm rounded-2" placeholder="Rev No." v-model="ddrlist.rev_number">
+                                        </td>
+                                        <td class="small">
+                                            <input type="text" class="form-control form-control-sm rounded-2" placeholder="Copy No." v-model="ddrlist.copy_number">
+                                        </td>
+                                        <td class="small">
+                                            <input type="text" class="form-control form-control-sm rounded-2" placeholder="Copy Holder" v-model="ddrlist.copy_holder">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                        <button @click="updateDdr(selected_id, ddrlists)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
-                <button @click="updateDdr(selected_id,ddrlists)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
-                </div>
-            </div>
             </div>
         </div>
 
-         <!-- Mark as distributed Modal -->
-        <div  class="modal fade" id="distributedDdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+        <!-- Mark as distributed Modal -->
+        <div class="modal fade" id="distributedDdrModal" tabindex="-1" role="dialog" aria-labelledby="distributedDdrLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyLabel">Mark as distributed</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>   
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
-                    <div class="form-group">
-                        <span> Are you sure to mark this document as distributed?</span>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="distributedDdrLabel">Mark as Distributed</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
+                        <div class="form-group">
+                            <span>Are you sure you want to mark this document as distributed?</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                        <button @click="distributeDdr(selected_id)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
-                <button @click="distributeDdr(selected_id)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
-                </div>
-            </div>
             </div>
         </div>
-   </div>
+    </div>
 </template>
-
 <style>
     .vdp-datepicker  input{
         background-color: #FFFFFF;
