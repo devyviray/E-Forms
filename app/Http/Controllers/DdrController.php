@@ -399,16 +399,153 @@ class DdrController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAllDdrs()
+    public function getAllDdrs(Request $request)
     {
-        if(Auth::user()->hasRole('administrator')){
-            $ddrs = Ddr::with(['requester', 'approver', 'company', 'ddrLists'])->orderBy('id','desc')->get();
-        }else{
-            $ddrs = Ddr::with(['requester', 'approver', 'company', 'ddrLists'])
-            ->whereIn('company_id', Auth::user()->companies->pluck('id'))->orderBy('id','desc')->get();
+        return $this->buildDdrQuery($request)->paginate(10);
+    }
+
+    /**
+     * Export DDR records matching the current filters.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function exportDdrs(Request $request)
+    {
+        $ddrs = $this->buildDdrQuery($request)->get();
+        $callback = function () use ($ddrs) {
+            $handle = fopen('php://output', 'w');
+            // Headers
+            fputcsv($handle, [
+                'ID',
+                'Requester',
+                'Reason',
+                'Date Requested',
+                'Date Needed',
+                'Date Approved',
+                'Date Distributed',
+                'Approver',
+                'Status']);
+            // Data
+            foreach ($ddrs as $ddr) {
+                $getDdrRequester = $ddr->requester;
+                $formatRequestDate = Carbon::parse($ddr->date_request)->format('Y-m-d');
+                $formatNeededDate = Carbon::parse($ddr->date_needed)->format('Y-m-d');
+                $formatApprovedDate = $ddr->approved_date ? Carbon::parse($ddr->approved_date)->format('Y-m-d') : null;
+                $formatDistributedDate = $ddr->distributed_date ? Carbon::parse($ddr->distributed_date)->format('Y-m-d') : null;
+
+                fputcsv($handle, [
+                    $ddr->id,
+                    $getDdrRequester->name,
+                    $this->formatReason($ddr->reason_of_distribution),
+                    optional($formatRequestDate) ? $formatRequestDate : '-',
+                    optional($formatNeededDate) ? $formatNeededDate : '-',
+                    optional($formatApprovedDate) ? $formatApprovedDate : '-',
+                    optional($formatDistributedDate) ? $formatDistributedDate : '-',
+                    optional($ddr->approver)->name ?: '-',
+                    $this->formatStatus($ddr->status),
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200);
+    }
+
+    /**
+     * Build the DDR query with shared filters.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function buildDdrQuery(Request $request)
+    {
+        $validated = $request->validate([
+            'search' => 'nullable|string|max:255',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'nullable|string',
+        ]);
+
+        $search = $validated['search'] ?? null;
+        $startDate = $validated['start_date'] ?? null;
+        $endDate = $validated['end_date'] ?? null;
+        $status = $validated['status'] ?? null;
+
+        $query = Ddr::with(['requester', 'approver', 'company', 'ddrLists']);
+
+        if (!Auth::user()->hasRole('administrator')) {
+            $query->whereIn('company_id', Auth::user()->companies->pluck('id'));
         }
 
-        return $ddrs;
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                    ->orWhereHas('requester', function ($requesterQuery) use ($search) {
+                        $requesterQuery->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('approver', function ($approverQuery) use ($search) {
+                        $approverQuery->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if (!empty($startDate)) {
+            $query->whereDate('date_request', '>=', $startDate);
+        }
+
+        if (!empty($endDate)) {
+            $query->whereDate('date_request', '<=', $endDate);
+        }
+
+        if (!empty($status)) {
+            $query->where('status', $status);
+        }
+
+        return $query->orderBy('id', 'desc');
+    }
+
+    /**
+     * Format reason of distribution for export.
+     *
+     * @param  mixed  $reason
+     * @return string
+     */
+    protected function formatReason($reason)
+    {
+        if ($reason == 1) {
+            return 'Relevant external doc. (controlled copy)';
+        }
+
+        if ($reason == 2) {
+            return 'Customer request (uncontrolled copy)';
+        }
+
+        if ($reason == 3) {
+            return 'Others';
+        }
+
+        return '-';
+    }
+
+    /**
+     * Format DDR status for export.
+     *
+     * @param  mixed  $status
+     * @return string
+     */
+    protected function formatStatus($status)
+    {
+        if ($status == 4) {
+            return 'NOT YET DISTRIBUTED';
+        }
+
+        if ($status == 14) {
+            return 'DISTRIBUTED';
+        }
+
+        return '-';
     }
 
      /**

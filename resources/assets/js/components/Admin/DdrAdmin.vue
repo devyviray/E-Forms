@@ -6,7 +6,7 @@
                 <div class="row mb-3">
                     <div class="col-8">
                         <label for="name">Search</label>
-                        <input type="text" class="form-control form-control-sm rounded-2" placeholder="Search by Requester, Reason" v-model="keywords" id="name">
+                        <input type="text" class="form-control form-control-sm rounded-2" placeholder="Search by ID, Requester or Approver" v-model="keywords" id="name">
                     </div> 
                     <div class="col-4" style="margin-top: 26px">
                         <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
@@ -31,9 +31,9 @@
                     </div>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <download-excel :data="filteredQueues" :fields="json_fields" worksheet="DDR Forms" name="ddr_export.xls" class="btn btn-success btn-sm">
+                    <button type="button" class="btn btn-success btn-sm" @click="exportDdrs">
                         <i class="fas fa-download"></i> Export
-                    </download-excel>
+                    </button>
                 </div>
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
@@ -42,6 +42,9 @@
                             <th scope="col" class="small">Requester</th>
                             <th scope="col" class="small">Reason</th>
                             <th scope="col" class="small">Date Requested</th>
+                            <th scope="col" class="small">Date Needed</th>
+                            <th scope="col" class="small">Date Approved</th>
+                            <th scope="col" class="small">Date Distributed</th>
                             <th scope="col" class="small">Approver</th>
                             <th scope="col" class="small">Status</th>
                             <th scope="col" class="small">Option</th>
@@ -56,10 +59,10 @@
                             </content-placeholders>
                             </td>
                         </tr>
-                        <tr v-if="!filteredQueues.length && !loading">
+                        <tr v-if="!ddrs.length && !loading">
                             <td colspan="7" class="text-center">No data available in the table</td>
                         </tr>
-                        <tr v-for="ddr in filteredQueues" v-bind:key="ddr.id">
+                        <tr v-for="ddr in ddrs" v-bind:key="ddr.id">
                             <td class="small">{{ ddr.id }}</td>
                             <td class="small">{{ ddr.requester ? ddr.requester.name : '-' }}</td>
                             <td class="small">
@@ -69,6 +72,19 @@
                                 <span v-else>-</span>
                             </td>
                             <td class="small">{{ moment(ddr.date_request).format('LL') }}</td>
+                            <td class="small">{{ moment(ddr.date_needed).format('LL') }}</td>
+                            <td class="small">
+                                <span v-if="ddr.approved_date">
+                                    {{ moment(ddr.approved_date).format('LL') }}
+                                </span>
+                                <span v-else>-</span>
+                            </td>
+                            <td class="small">
+                                <span v-if="ddr.distributed_date">
+                                    {{ moment(ddr.distributed_date).format('LL') }}
+                                </span>
+                                <span v-else>-</span>
+                            </td>
                             <td class="small">
                                 {{ ddr.approver.name }}
                                 <br>
@@ -100,11 +116,11 @@
                 <div class="row mb-3">
                     <div class="col-6">
                         <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)">Previous</button>
-                        <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+                        <span class="text-dark">Page {{ currentPage }} of {{ totalPages }}</span>
                         <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)">Next</button>
                     </div>
                     <div class="col-6 text-right">
-                        <span>{{ filteredQueues.length }} DDR form(s)</span>
+                        <span>{{ pagination.total || 0 }} DDR form(s)</span>
                     </div>
                 </div>
             </div>
@@ -167,26 +183,26 @@
         </div>
 
         <!-- Mark as distributed Modal -->
-        <div class="modal fade" id="distributedDdrModal" tabindex="-1" role="dialog" aria-labelledby="distributedDdrLabel" aria-hidden="true">
+        <div  class="modal fade" id="distributedDdrModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="distributedDdrLabel">Mark as Distributed</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
-                        <div class="form-group">
-                            <span>Are you sure you want to mark this document as distributed?</span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
-                        <button @click="distributeDdr(selected_id)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="editCompanyLabel">Mark as distributed</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>   
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
+                    <div class="form-group">
+                        <span> Are you sure to mark this document as distributed?</span>
                     </div>
                 </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                <button @click="distributeDdr(selected_id)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -224,7 +240,7 @@ export default {
     components:{
       Datepicker,
       VueContentPlaceholders,
-      SpinnerLoading
+      SpinnerLoading,
     },
     data(){
         return{
@@ -235,12 +251,12 @@ export default {
             errors: '',
             selected_id: '',
             ddrlists: [],
-            currentPage: 0,
+            currentPage: 1,
             itemsPerPage: 10,
             loading: false,
             isLoading: false,
             status: '',
-            default_ddrs: [],
+            pagination: {},
         }
     },
     created(){
@@ -248,48 +264,69 @@ export default {
     },
     methods:{
         moment,
-         filterDdrs(){
-             switch(this.status) {
-                case "4":
-                case "14":
-                    this.ddrs = this.default_ddrs.filter(ddr => {
-                        return ddr.status == this.status;
-                    });
-                    break;
-                default:
-                    this.ddrs = this.default_ddrs;
-            }
+        filterDdrs(){
+            this.fetchDdrs(1);
         },
-        fetchDdrs()
+        fetchDdrs(page = 1)
         {
             this.loading = true;
-            axios.get('/admin/ddrs-all')
+            axios.get('/admin/ddrs-all', {
+                params: {
+                    page: page,
+                    search: this.keywords,
+                    start_date: this.startDate,
+                    end_date: this.endDate,
+                    status: this.status
+                }
+            })
             .then(response => {
-                this.ddrs = response.data;
-                this.default_ddrs = response.data;
+                this.ddrs = response.data.data;
+                this.pagination = {
+                    current_page: response.data.current_page,
+                    last_page: response.data.last_page,
+                    total: response.data.total,
+                    per_page: response.data.per_page,
+                    from: response.data.from,
+                    to: response.data.to
+                };
+                this.currentPage = response.data.current_page;
                 this.loading = false;
             })
             .catch(error =>{
-                this.errors = error.response.data.errors;
+                this.loading = false;
+                this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
             });
         },
         generateByDate(){
-            this.isLoading = true;
-            var startDate  =  this.startDate ? moment(this.startDate).format() : '';
-            var endDate = this.endDate ? moment(this.endDate).format() : '';
-
-            axios.post('/ddrs-generate',{
-                'startDate': startDate,
-                'endDate': endDate
+            this.fetchDdrs(1);
+        },
+        exportDdrs(){
+            this.loading = true;
+            axios.get('/admin/ddrs-export', {
+                params: {
+                    search: this.keywords,
+                    start_date: this.startDate,
+                    end_date: this.endDate,
+                    status: this.status
+                },
+                responseType: 'blob'
             })
             .then(response => {
-                this.isLoading = false;
-                this.ddrs = response.data;
+                const url = window.URL.createObjectURL(new Blob([response.data], { type: 'text/csv;charset=utf-8;' }));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'ddr_export.csv');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
             })
             .catch(error => {
-                this.isLoading = false;
-                this.errors = error.response.data.errors;
+                this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
             })
+            .then(() => {
+                this.loading = false;
+            });
         },
         getDdrId(id)
         {
@@ -350,45 +387,24 @@ export default {
             })
         },
         setPage(pageNumber) {
-            this.currentPage = pageNumber;
+            this.fetchDdrs(pageNumber);
         },
 
         resetStartRow() {
-            this.currentPage = 0;
+            this.currentPage = 1;
         },
 
         showPreviousLink() {
-            return this.currentPage == 0 ? false : true;
+            return this.currentPage > 1;
         },
 
         showNextLink() {
-            return this.currentPage == (this.totalPages - 1) ? false : true;
+            return this.currentPage < this.totalPages;
         }
     },
     computed: {
-        filteredDdrs(){
-            let self = this;
-            return self.ddrs.filter(ddr => {
-                return ddr.requester.name.toLowerCase().includes(this.keywords.toLowerCase())  ||
-                ddr.approver.name.toLowerCase().includes(this.keywords.toLowerCase())
-            });
-        },
         totalPages() {
-            return Math.ceil(this.filteredDdrs.length / this.itemsPerPage)
-        },
-        filteredQueues() {
-            var index = this.currentPage * this.itemsPerPage;
-            var queues_array = this.filteredDdrs.slice(index, index + this.itemsPerPage);
-
-            if(this.currentPage >= this.totalPages) {
-                this.currentPage = this.totalPages - 1
-            }
-
-            if(this.currentPage == -1) {
-                this.currentPage = 0;
-            }
-
-            return queues_array;
+            return this.pagination.last_page || 0;
         },
         approvalLnik(){
             return window.location.origin+'/ddr-approve/';
