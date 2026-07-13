@@ -1,223 +1,219 @@
 <template>
     <div>
         <spinner-loading v-if="isLoading"></spinner-loading>
-        <div class="card-body table-full-width table-responsive">
-            <div class="card-header mb-3">
-                <h4 class="card-title">Customer Complaint Investigation Report</h4>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="name"> Search</label>
-                    <input type="text" class="form-control" placeholder="Search by Customer Name, Commodity, Requestor" v-model="keywords" id="name">
+        <div class="col-md-12 col-lg-12">
+            <div class="container-fluid bg-white rounded-3 shadow-sm p-4" style="border: 1px solid #e9ecef;">
+                
+                <div class="row mb-3">
+                    <div class="col-8">
+                        <label for="name">Search</label>
+                        <input type="text" class="form-control form-control-sm rounded-2" placeholder="Search by Customer Name, Commodity, Requestor" v-model="keywords" id="name">
+                    </div> 
+                    <div class="col-4" style="margin-top: 26px">
+                        <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
+                    </div>
+                    <div class="col-4 mt-2">
+                        <label for="date1" class="mb-1">From Date</label>    
+                        <input type="date" class="form-control form-control-sm rounded-2" v-model="startDate" id="date1">
+                        <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
+                    </div>
+                    <div class="col-4 mt-2">
+                        <label for="date2" class="mb-1">To Date</label>
+                        <input type="date" class="form-control form-control-sm rounded-2" v-model="endDate" id="date2">
+                        <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
+                    </div>
+                    <div class="col-4 mt-1">
+                        <label for="validity">Filter by Validity</label>
+                        <select v-model="validity_status" class="form-control rounded-2" style="min-height: 40px;" @change="filterCcirs">
+                            <option value="" selected>Validity Filter</option>
+                            <option value="2">Pending</option>
+                            <option value="9">Valid</option>
+                            <option value="0">Invalid</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label for="date"> Search by date </label>
-                    <datepicker v-model="startDate" placeholder="Select Start Date" id="date"></datepicker>
-                    <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
+                <div style="margin-bottom: 15px;">
+                    <download-excel :data="filteredCcirs" :fields="json_fields" worksheet="CCIR Forms" name="ccir_export.xls" class="btn btn-success btn-sm">
+                        <i class="fas fa-download"></i> Export
+                    </download-excel>
                 </div>
-                <div class="col-md-3" style="margin-top: 29px">
-                    <datepicker v-model="endDate" placeholder="Select End Date"></datepicker>
-                    <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
-                </div>
-                <div class="col-md-2" style="margin-top: 29px">
-                    <button @click="generateByDate" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Generate</button>
-                    <download-excel
-                                :data   = "filteredCcirs"
-                                :fields = "json_fields"
-                                class   = "hidden-xs btn btn-new btn-wd btn-neutral btn-round"
-                                style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33)); margin-top: 29px"
-                                name    = "filteredCCirs.xls">
-                                EXPORT TO EXCEL
-                                </download-excel>
-                </div>
-            </div>
-            <div class="row mb-3">
-                 <div class="col-md-3">
-                    <label for="date"> Filter By Validity </label>
-                    <select v-model="validity_status" class="form-control form-control-lg" @change="filterCcirs">
-                        <option value="" selected>Reset Filter</option>
-                        <option value="2">Pending</option>
-                        <option value="9">Valid</option>
-                        <option value="0">Invalid</option>
-                    </select>
-                </div>
-            </div>
-            <table class="table table-hover table-striped">
-                <thead>
-                    <th>ID</th>
-                    <th>Customer</th>
-                    <th>Company</th>
-                    <th>Commodity</th>
-                    <th>Nature of Complaint</th>
-                    <th>Date of Issuance</th>
-                    <th>Validity</th>
-                    <th>Option</th>
-                </thead>    
-                <tbody>
-                    <tr v-if="loading">
-                        <td colspan="7">
+                <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="small">ID</th>
+                            <th scope="col" class="small">Customer</th>
+                            <th scope="col" class="small">Company</th>
+                            <th scope="col" class="small">Commodity</th>
+                            <th scope="col" class="small">Nature of Complaint</th>
+                            <th scope="col" class="small">Date of Issuance</th>
+                            <th scope="col" class="small">Validity</th>
+                            <th scope="col" class="small">Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="loading">
+                            <td colspan="8">
                             <content-placeholders>
                                 <content-placeholders-heading :img="true" />
                                 <content-placeholders-text :lines="3" />
                             </content-placeholders>
-                        </td>
-                    </tr>
-                    <tr v-if="!ccirs.length && !loading">
-                        <td>No data available in the table</td>
-                    </tr>
-
-                    <tr v-for="ccir in filteredQueues" v-bind:key="ccir.id">
-                        <td>{{ ccir.id }}</td>
-                        <td>{{ ccir.complainant }}</td>
-                        <td>{{ ccir.company.name +' - '+ccir.company.address }}</td>
-                        <td>{{ ccir.commodity }}</td>
-                        <td>
-                            <span  v-if="ccir.nature_of_complaint == 1"> Wet/Lumpy </span>
-                            <span  v-else-if="ccir.nature_of_complaint == 2"> Busted bag </span>
-                            <span  v-else-if="ccir.nature_of_complaint == 3"> Under/Over weight </span>
-                            <span  v-else-if="ccir.nature_of_complaint == 4"> Infestation </span>
-                            <span  v-else-if="ccir.nature_of_complaint == 5"> Dirty packaging </span>
-                            <span  v-else>{{ ccir.others }} </span>
-                        </td>
-                        <td> {{ moment(ccir.date_request).format('LL') }} </td>
-                        <td>
-                            <span  v-if="ccir.status == 2"> PENDING </span>
-                            <span  v-else-if="ccir.status == 9"> {{ ccir.car_number }}</span>
-                            <span  v-else> INVALID </span>
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Option
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a target="_blank" class="dropdown-item" :href="viewCcirDetails+ccir.id">View</a>
-                                    <a v-if="ccir.status != 9 && ccir.status != 10" @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#validateCcirModal" href="javascript:void(0)">Validate</a>
+                            </td>
+                        </tr>
+                        <tr v-if="!filteredQueues.length && !loading">
+                            <td colspan="8" class="text-center">No data available in the table</td>
+                        </tr>
+                        <tr v-for="ccir in filteredQueues" v-bind:key="ccir.id">
+                            <td class="small">{{ ccir.id }}</td>
+                            <td class="small">{{ ccir.complainant }}</td>
+                            <td class="small">{{ ccir.company.name + ' - ' + ccir.company.address }}</td>
+                            <td class="small">{{ ccir.commodity }}</td>
+                            <td class="small">
+                                <span v-if="ccir.nature_of_complaint == 1">Wet/Lumpy</span>
+                                <span v-else-if="ccir.nature_of_complaint == 2">Busted bag</span>
+                                <span v-else-if="ccir.nature_of_complaint == 3">Under/Over weight</span>
+                                <span v-else-if="ccir.nature_of_complaint == 4">Infestation</span>
+                                <span v-else-if="ccir.nature_of_complaint == 5">Dirty packaging</span>
+                                <span v-else>{{ ccir.others }}</span>
+                            </td>
+                            <td class="small">{{ moment(ccir.date_request).format('LL') }}</td>
+                            <td class="small">
+                                <span v-if="ccir.status == 2" style="color: orange">PENDING</span>
+                                <span v-else-if="ccir.status == 9" style="color: green">{{ ccir.car_number }}</span>
+                                <span v-else style="color: red">INVALID</span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Option
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a target="_blank" :href="viewCcirDetails + ccir.id" class="dropdown-item">View</a>
+                                        <a v-if="ccir.status != 9 && ccir.status != 10" @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#validateCcirModal" href="javascript:void(0)">Validate</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>    
-                </tbody>
-            </table>
-        </div>
-        <div class="row mb-3">
-            <div class="col-6">
-                <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
-                    <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
-                <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
-            </div>
-            <div class="col-6 text-right">
-                <span>{{ filteredQueues.length }} CCIR form(s)</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)">Previous</button>
+                        <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+                        <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)">Next</button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <span>{{ filteredQueues.length }} CCIR form(s)</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-         <!-- Validate Modal -->
-        <div  class="modal fade" id="validateCcirModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+        <!-- Validate Modal -->
+        <div class="modal fade" id="validateCcirModal" tabindex="-1" role="dialog" aria-labelledby="validateCcirLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyLabel">Validate CCIR</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="validateCcirLabel">Validate CCIR</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="selectedStatus">Status</label>
+                            <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
+                            <select v-model="selected_status" class="form-control rounded-2" style="min-height: 40px;" @change="selectedStatus" id="selectedStatus">
+                                <option value="" disabled selected>Select status</option>
+                                <option value="1">Valid</option>
+                                <option value="2">Invalid</option>
+                            </select>
+                            <span class="error" v-if="errors.status">{{ errors.status[0] }}</span>
+                        </div>
+                        <div class="form-group" v-if="show">
+                            <label for="car_number">Car No.</label>
+                            <input type="text" class="form-control form-control-sm rounded-2" placeholder="Car No." v-model="car_number" id="car_number">
+                            <span class="error" v-if="errors.car_number">{{ errors.car_number[0] }}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                        <button @click="validateCcir(selected_id, selected_status, car_number)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="selectedStatus">Status</label>
+            </div>
+        </div>
+
+        <!-- Move to Trash Modal -->
+        <div class="modal fade" id="trashCcirModal" tabindex="-1" role="dialog" aria-labelledby="trashCcirLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="trashCcirLabel">Move to Trash</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                         <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
-                        <select v-model="selected_status" class="form-control form-control-lg" @change="selectedStatus" id="selectedStatus">
-                            <option value="" disabled selected>Select status</option>
-                            <option value="1">Valid</option>
-                            <option value="2">Invalid</option>
-                        </select>
-                        <span class="error" v-if="errors.status">{{ errors.status[0] }}</span>
+                        <div class="form-group">
+                            <span>Are you sure you want to move this document to trash?</span>
+                        </div>
                     </div>
-                    <div class="form-group" v-if="show">
-                        <label for="car_number">Car No.</label>
-                        <input type="text" class="form-control" placeholder="Car No." v-model="car_number" id="car_number">
-                        <span class="error" v-if="errors.name">{{ errors.car_number[0] }}</span>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                        <button @click="submitStatus(selected_status, car_number)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
-                <button @click="validateCcir(selected_id, selected_status , car_number)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style=" background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
-                </div>
-            </div>
             </div>
         </div>
 
-        <!-- Move to trash Modal -->
-        <div  class="modal fade" id="trashCcirModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+        <!-- Move to Archive Modal -->
+        <div class="modal fade" id="archieveCcirModal" tabindex="-1" role="dialog" aria-labelledby="archiveCcirLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyLabel">Move to trash</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
-                    <div class="form-group" v-if="show">
-                        <span> Are you sure to move this document to trash?</span>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="archiveCcirLabel">Move to Archive</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
+                        <div class="form-group">
+                            <span>Are you sure you want to move this document to archive?</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                        <button @click="submitStatus(selected_status, car_number)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button @click="submitStatus(selected_status , car_number)" type="button" class="btn btn-primary">Save</button>
-                </div>
-            </div>
             </div>
         </div>
 
-        <!-- Move to trash Modal -->
-        <div  class="modal fade" id="archieveCcirModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
+        <!-- Cancel Document Modal -->
+        <div class="modal fade" id="cancelCcirModal" tabindex="-1" role="dialog" aria-labelledby="cancelCcirLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyLabel">Move to archive</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
-                    <div class="form-group" v-if="show">
-                        <span> Are you sure to move this document to archive?</span>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelCcirLabel">Cancel Document</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" class="form-control" placeholder="Id" v-model="selected_id">
+                        <div class="form-group">
+                            <span>Are you sure you want to cancel this document?</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-round btn-fill" data-dismiss="modal">Close</button>
+                        <button @click="submitStatus(selected_status, car_number)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Save</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button @click="submitStatus(selected_status , car_number)" type="button" class="btn btn-primary">Save</button>
-                </div>
-            </div>
             </div>
         </div>
-
-        <!-- Move to trash Modal -->
-        <div  class="modal fade" id="cancelCcirModal" tabindex="-1" role="dialog" aria-labelledby="editCompanyLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyLabel">Cancel Document</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Id" v-model="selected_id">
-                    <div class="form-group" v-if="show">
-                        <span> Are you sure to cancel this document?</span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button @click="submitStatus(selected_status , car_number)" type="button" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-            </div>
-        </div>
-        
     </div>
 </template>
 <style>

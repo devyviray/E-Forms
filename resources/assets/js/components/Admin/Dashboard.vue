@@ -3,7 +3,7 @@
         <div class="row g-4">
             <div class="col-md-6 col-lg-3">
                 <div class="card h-100 border-0 shadow-sm rounded-3 position-relative overflow-hidden">
-                    <div class="position-absolute top-0 start-0 end-0 bg-gradient-1" style="height: 4px;"></div>
+                    <div class="position-absolute top-0 start-0 end-0" style="height: 4px;"></div>
                     <div class="card-body d-flex flex-column p-4">
                         <div class="fs-1 mb-3 text-primary">
                             <i class="fas fa-file-alt"></i>
@@ -24,7 +24,7 @@
 
             <div class="col-md-6 col-lg-3">
                 <div class="card h-100 border-0 shadow-sm rounded-3 position-relative overflow-hidden">
-                    <div class="position-absolute top-0 start-0 end-0 bg-gradient-2" style="height: 4px;"></div>
+                    <div class="position-absolute top-0 start-0 end-0" style="height: 4px;"></div>
                     <div class="card-body d-flex flex-column p-4">
                         <div class="fs-1 mb-3 text-success">
                             <i class="fas fa-file-alt"></i>
@@ -45,7 +45,7 @@
 
             <div class="col-md-6 col-lg-3">
                 <div class="card h-100 border-0 shadow-sm rounded-3 position-relative overflow-hidden">
-                    <div class="position-absolute top-0 start-0 end-0 bg-gradient-3" style="height: 4px;"></div>
+                    <div class="position-absolute top-0 start-0 end-0" style="height: 4px;"></div>
                     <div class="card-body d-flex flex-column p-4">
                         <div class="fs-1 mb-3 text-info">
                             <i class="fas fa-file-alt"></i>
@@ -66,7 +66,7 @@
 
             <div class="col-md-6 col-lg-3">
                 <div class="card h-100 border-0 shadow-sm rounded-3 position-relative overflow-hidden">
-                    <div class="position-absolute top-0 start-0 end-0 bg-gradient-4" style="height: 4px;"></div>
+                    <div class="position-absolute top-0 start-0 end-0" style="height: 4px;"></div>
                     <div class="card-body d-flex flex-column p-4">
                         <div class="fs-1 mb-3 text-danger">
                             <i class="fas fa-file-alt"></i>
@@ -88,26 +88,20 @@
             <!-- Yearly Count Card -->
             <div class="col-md-8 mt-5">
                 <div class="card h-100 border-0 shadow-sm rounded-3 position-relative overflow-hidden">
-                    <div class="position-absolute top-0 start-0 end-0 bg-gradient-yearly" style="height: 4px;"></div>
+                    <div class="position-absolute top-0 start-0 end-0" style="height: 4px;"></div>
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h5 class="text-xs font-weight-bold gradient-text text-uppercase mb-0 text-shadow-hover text-decoration-none">Yearly Entries</h5>
                             <div class="d-flex align-items-center gap-2">
                                 <select 
-                                    v-model="selectedYear" 
+                                    v-model.number="selectedYear" 
                                     @change="updateYearlyChart" 
                                     class="form-control form-control-sm rounded-2" 
                                     style="width: 120px; height: 38px; border: 1px solid #e3e6f0; font-size: 14px; font-weight: 500;"
                                 >
-                                    <option value="2026">2026</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2019">2019</option>
-                                    <option value="2018">2018</option>
+                                    <option v-for="year in years" :key="year" :value="year">
+                                        {{ year }}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -121,7 +115,7 @@
             <!-- Daily Count Card -->
             <div class="col-md-4 mt-5">
                 <div class="card h-100 border-0 shadow-sm rounded-3 position-relative overflow-hidden">
-                <div class="position-absolute top-0 start-0 end-0 bg-gradient-daily" style="height: 4px;"></div>
+                <div class="position-absolute top-0 start-0 end-0" style="height: 4px;"></div>
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="text-xs font-weight-bold gradient-text text-uppercase mb-0 text-shadow-hover">Daily Entries</h5>
@@ -154,18 +148,16 @@ export default {
             yearlyChart: null,
             dailyData: {},
             yearlyData: {},
-            selectedYear: '2018' 
+            selectedYear: new Date().getFullYear(),
+            years: [],
          }
     },
     mounted() {
-        this.$nextTick(() => {
-            this.renderCharts();
-            this.fetchDashboardDataPerYear();
-            this.fetchDashboardDataDaily();
-        });
+        this.fetchYearDropdown();
+        this.fetchDashboardData();
+        this.fetchDashboardDataDaily();
     },
     created(){
-        this.fetchDashboardData();
     },
    
     methods: {  
@@ -179,7 +171,6 @@ export default {
                 })
                 .catch(error => {
                     this.errors = error.response.data.errors || 'Error fetching data';
-                    console.log(error);
                 });  
         },
         fetchDashboardDataDaily(){
@@ -190,7 +181,6 @@ export default {
                 })
                 .catch(error => {
                     this.errors = error.response.data.errors || 'Error fetching data';
-                    console.log(error);
                 });  
         },
         fetchDashboardDataPerYear(year = this.selectedYear){
@@ -201,8 +191,27 @@ export default {
                 })
                 .catch(error => {
                     this.errors = error.response.data.errors || 'Error fetching data';
-                    console.log(error);
                 });  
+        },
+        fetchYearDropdown() {
+            axios.get('/admin/dashboard-year-dropdown')
+                .then(response => {
+                    this.years = response.data.years;
+                    
+                    const currentYear = new Date().getFullYear();
+                    if (this.years.includes(currentYear)) {
+                        this.selectedYear = currentYear;
+                    } else {
+                        this.selectedYear = Math.max(...this.years);
+                    }
+                    
+                    this.$nextTick(() => {
+                        this.fetchDashboardDataPerYear(this.selectedYear);
+                    });
+                })
+                .catch(error => {
+                    this.errors = error.response.data.errors || 'Error fetching data';
+                });
         },
         updateYearlyChart() {
             this.fetchDashboardDataPerYear(this.selectedYear);
@@ -212,6 +221,8 @@ export default {
             this.renderYearlyChart(this.yearlyData);
         },
         renderDailyChart(dailyData = null) {
+            if (!this.$refs.dailyChartCanvas) return;
+            
             const ctx = this.$refs.dailyChartCanvas.getContext('2d');
 
             if (this.dailyChart) {
@@ -273,6 +284,8 @@ export default {
             });
         },
         renderYearlyChart(yearlyData = null) {
+            if (!this.$refs.yearlyChartCanvas) return;
+            
             const ctx = this.$refs.yearlyChartCanvas.getContext('2d');
 
             if (this.yearlyChart) {
@@ -350,61 +363,25 @@ export default {
             });
         }
     }, 
+    // links for the cards to redirect to the respective pages
     computed:{
-        viewDrdrs()
-        {
-            var base_url = window.location.origin;
-            var url = base_url+'/admin/drdrs';
-
-            return url;
+        viewDrdrs() {
+            return window.location.origin + '/admin/drdrs';
         },
-        viewDdrs()
-        {
-            var base_url = window.location.origin;
-            var url = base_url+'/admin/ddrs';
-            return url;
+        viewDdrs() {
+            return window.location.origin + '/admin/ddrs';
         },
-        viewNcns()
-        {
-            var base_url = window.location.origin;
-            var url = base_url+'/admin/ncns';
-            return url;
+        viewNcns() {
+            return window.location.origin + '/admin/ncns';
         },
-        viewCcirs()
-        {
-            var base_url = window.location.origin;
-            var url = base_url+'/admin/ccirs';
-            return url;
+        viewCcirs() {
+            return window.location.origin + '/admin/ccirs';
         }
     }
 }
 </script>
 
 <style scoped>
-.bg-gradient-1 {
-    background: linear-gradient(90deg, #0d6efd 0%, #0860ca 100%) !important;
-}
-
-.bg-gradient-2 {
-    background: linear-gradient(90deg, #198754 0%, #146c43 100%) !important;
-}
-
-.bg-gradient-3 {
-    background: linear-gradient(90deg, #0dcaf0 0%, #0a58ca 100%) !important;
-}
-
-.bg-gradient-4 {
-    background: linear-gradient(90deg, #dc3545 0%, #bb2d3b 100%) !important;
-}
-
-.bg-gradient-yearly {
-    background: linear-gradient(90deg, #1abc9c 0%, #27ae60 100%) !important;
-}
-
-.bg-gradient-daily {
-    background: linear-gradient(90deg, #1abc9c 0%, #2ecc71 100%) !important;
-}
-
 .gradient-text {
     background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(55, 145, 149, 1) 0%, rgba(87, 199, 133, 1) 100%, rgba(237, 221, 83, 1) 100%);
     -webkit-background-clip: text;

@@ -365,6 +365,8 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::get('/admin/ddrs', 'DdrController@ddrAdminPage')->name('admin.ddrs');
   // Ajax call to return all submitted Ddr
   Route::get('/admin/ddrs-all', 'DdrController@getAllDdrs');
+  // Export DDR records matching the current filters
+  Route::get('/admin/ddrs-export', 'DdrController@exportDdrs');
   // Generate pdf file for ddr
   Route::get('/admin/ddr-pdf/{id}', 'DdrController@ddrPdf');
   // Mark DDR as distributed
@@ -377,6 +379,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::get('/admin/dashboard-data', 'DashboardController@fetchDashboardData');
   Route::get('/admin/dashboard-data-per-year/{year}', 'DashboardController@fetchDashboardDataPerYear');
   Route::get('/admin/dashboard-data-daily', 'DashboardController@fetchDashboardDataDaily');
+  Route::get('/admin/dashboard-year-dropdown', 'DashboardController@yearDropdown');
   
   // NCN routes
   // Count all submitted ncn 

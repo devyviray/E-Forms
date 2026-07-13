@@ -71,4 +71,21 @@ class DashboardController extends Controller
             'counts' => $counts
         ]);
     }
+
+    public function yearDropdown(){
+        // if(!Auth::user()->hasRole('administrator')){
+        //     return response()->json(['error' => 'Unauthorized'], 403);
+        // }
+        $startYear = 2018; // last year data of EFORMS
+        $currentYear = now()->year;
+        
+        $years = [];
+        for ($year = $startYear; $year <= $currentYear; $year++) {
+            $years[] = $year;
+        }
+
+        return response()->json([
+            'years' => $years
+        ]);
+    }
 }
