@@ -9,7 +9,7 @@
                         <input type="text" class="form-control form-control-sm rounded-2" placeholder="Search by ID, Requester or Approver" v-model="keywords" id="name">
                     </div> 
                     <div class="col-4" style="margin-top: 26px">
-                        <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
+                        <button @click="fetchDdrs" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
                     </div>
                     <div class="col-4 mt-2">
                         <label for="date1" class="mb-1">From Date</label>    
@@ -51,17 +51,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="loading">
-                            <td colspan="7">
-                            <content-placeholders>
-                                <content-placeholders-heading :img="true" />
-                                <content-placeholders-text :lines="3" />
-                            </content-placeholders>
+                        <!-- Loading state: Show multiple placeholder rows -->
+                        <tr v-if="loading" v-for="n in 5" :key="'loading-' + n">
+                            <td colspan="10">
+                                <content-placeholders>
+                                    <content-placeholders-heading :img="true" />
+                                    <content-placeholders-text :lines="3" />
+                                </content-placeholders>
                             </td>
                         </tr>
+                        
+                        <!-- Empty state: No data -->
                         <tr v-if="!ddrs.length && !loading">
-                            <td colspan="7" class="text-center">No data available in the table</td>
+                            <td colspan="10" class="text-center">No data available in the table</td>
                         </tr>
+                        
+                        <!-- Data rows -->
                         <tr v-for="ddr in ddrs" v-bind:key="ddr.id">
                             <td class="small">{{ ddr.id }}</td>
                             <td class="small">{{ ddr.requester ? ddr.requester.name : '-' }}</td>
@@ -296,9 +301,6 @@ export default {
                 this.loading = false;
                 this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
             });
-        },
-        generateByDate(){
-            this.fetchDdrs(1);
         },
         exportDdrs(){
             this.loading = true;
