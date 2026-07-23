@@ -390,6 +390,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::get('/admin/ncns', 'NcnController@ncnAdminPage')->name('admin.ncns');
   // Ajax call to return all submitted ncn
   Route::get('/admin/ncns-all', 'NcnController@getAllNcns');
+  Route::get('/admin/ncns-export', 'NcnController@exportNcns');
   // Generate pdf file for ncn
   Route::get('/admin/ncn-pdf/{id}', 'NcnController@ncnPdf');
 
@@ -400,6 +401,7 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::get('/admin/ccirs', 'CcirController@ccirAdminPage')->name('admin.ccirs');
   // Ajax call to return all submitted Ccir
   Route::get('/admin/ccirs-all', 'CcirController@getAllCcirs');
+  Route::get('/admin/ccirs-export', 'CcirController@exportCcirs');
   // Generate pdf file for ccir
   Route::get('/admin/ccir-pdf/{id}', 'CcirController@ccirPdf');
   // Validate ccir

@@ -321,16 +321,126 @@ class NcnController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAllNcns()
+    public function getAllNcns(Request $request)
     {
-        if(Auth::user()->hasRole('administrator')){
-            $ncns = Ncn::with(['requester', 'approver', 'company'])->orderBy('id', 'desc')->get();
-        }else{
-            $ncns = Ncn::with(['requester', 'approver', 'company'])
-            ->whereIn('company_id', Auth::user()->companies->pluck('id'))->orderBy('id','desc')->get();
+        return $this->buildNcnQuery($request)->paginate(10);
+    }
+
+    protected function buildNcnQuery(Request $request)
+    {
+        $validated = $request->validate([
+            'search' => 'nullable|string|max:255',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'nullable|string',
+            'company' => 'nullable|integer',
+        ]);
+
+        $search = $validated['search'] ?? null;
+        $startDate = $validated['start_date'] ?? null;
+        $endDate = $validated['end_date'] ?? null;
+        $status = $validated['status'] ?? null;
+        $company = $validated['company'] ?? null;
+        $query = Ncn::with(['requester', 'approver', 'company'])->orderBy('id', 'desc');
+
+        if (!Auth::user()->hasRole('administrator')) {
+            $query->whereIn('company_id', Auth::user()->companies->pluck('id'));
         }
 
-        return $ncns;
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                    ->orWhere('notification_number', 'like', "%{$search}%")
+                    ->orWhereHas('requester', function ($requesterQuery) use ($search) {
+                        $requesterQuery->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('approver', function ($approverQuery) use ($search) {
+                        $approverQuery->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('company', function ($companyQuery) use ($search) {
+                        $companyQuery->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if (!empty($startDate)) {
+            $query->whereDate('issuance_date', '>=', $startDate);
+        }
+
+        if (!empty($endDate)) {
+            $query->whereDate('issuance_date', '<=', $endDate);
+        }
+
+        if (!empty($status)) {
+            $query->where('status', $status);
+        }
+
+        if (!empty($company)) {
+            $query->where('company_id', $company);
+        }
+
+        return $query->orderBy('id', 'desc');
+    }
+
+    public function exportNcns(Request $request)
+    {
+        $ncns = $this->buildNcnQuery($request)->get();
+        $callback = function () use ($ncns) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, [
+                'ID',
+                'Requester',
+                'Position',
+                'Notification',
+                'Date of Issuance',
+                'Approver',
+                'Status',
+            ]);
+
+            foreach ($ncns as $ncn) {
+                fputcsv($handle, [
+                    $ncn->id,
+                    $ncn->requester ? $ncn->requester->name : '-',
+                    $ncn->requester ? $ncn->requester->position : '-',
+                    $ncn->notification_number,
+                    $ncn->issuance_date ? Carbon::parse($ncn->issuance_date)->toDateString() : '-',
+                    $ncn->approver ? $ncn->approver->name : '-',
+                    $this->formatNcnStatus($ncn->status),
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="ncn_export.csv"',
+        ]);
+    }
+
+    protected function formatNcnStatus($status)
+    {
+        if ($status == 2) {
+            return 'NOT YET APPROVED';
+        }
+
+        if ($status == 4) {
+            return 'APPROVED';
+        }
+
+        if ($status == 6) {
+            return 'DISAPPROVED';
+        }
+
+        if ($status == 7) {
+            return 'VERIFIED';
+        }
+
+        if ($status == 8) {
+            return 'UNVERIFIED';
+        }
+
+        return '-';
     }
 
     /**

@@ -1,41 +1,48 @@
 <template>
     <div>
-        <spinner-loading v-if="isLoading"></spinner-loading>
         <div class="col-md-12 col-lg-12">
             <div class="container-fluid bg-white rounded-3 shadow-sm p-4" style="border: 1px solid #e9ecef;">
-                
                 <div class="row mb-3">
                     <div class="col-8">
                         <label for="name">Search</label>
                         <input type="text" class="form-control form-control-sm rounded-2" placeholder="Search by Customer Name, Commodity, Requestor" v-model="keywords" id="name">
-                    </div> 
-                    <div class="col-4" style="margin-top: 26px">
-                        <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
                     </div>
-                    <div class="col-4 mt-2">
-                        <label for="date1" class="mb-1">From Date</label>    
+                    <div class="col-4" style="margin-top: 26px">
+                        <button @click="fetchCcirs(1)" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
+                    </div>
+                    <div class="col-2 mt-2">
+                        <label for="date1" class="mb-1">From Date</label>
                         <input type="date" class="form-control form-control-sm rounded-2" v-model="startDate" id="date1">
                         <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
                     </div>
-                    <div class="col-4 mt-2">
+                    <div class="col-2 mt-2">
                         <label for="date2" class="mb-1">To Date</label>
                         <input type="date" class="form-control form-control-sm rounded-2" v-model="endDate" id="date2">
                         <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
                     </div>
-                    <div class="col-4 mt-1">
+                    <div class="col-3 mt-1">
                         <label for="validity">Filter by Validity</label>
                         <select v-model="validity_status" class="form-control rounded-2" style="min-height: 40px;" @change="filterCcirs">
-                            <option value="" selected>Validity Filter</option>
+                            <option value="">All Status</option>
                             <option value="2">Pending</option>
                             <option value="9">Valid</option>
                             <option value="0">Invalid</option>
                         </select>
                     </div>
+                    <div class="col-5 mt-1">
+                        <label for="company">Filter by Company</label>
+                        <select v-model="selectedCompany" class="form-control rounded-2" style="min-height: 40px;" @change="filterCcirs">
+                            <option value="">All Companies</option>
+                            <option v-for="company in companies" :key="company.id" :value="company.id">
+                                {{ company.name }} - {{ company.address }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <download-excel :data="filteredCcirs" :fields="json_fields" worksheet="CCIR Forms" name="ccir_export.xls" class="btn btn-success btn-sm">
+                    <button type="button" class="btn btn-success btn-sm" @click="exportCcirs">
                         <i class="fas fa-download"></i> Export
-                    </download-excel>
+                    </button>
                 </div>
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
@@ -51,18 +58,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="loading">
+                        <tr v-if="loading" v-for="n in 5" :key="'loading-' + n">
                             <td colspan="8">
-                            <content-placeholders>
-                                <content-placeholders-heading :img="true" />
-                                <content-placeholders-text :lines="3" />
-                            </content-placeholders>
+                                <content-placeholders>
+                                    <content-placeholders-heading :img="true" />
+                                    <content-placeholders-text :lines="3" />
+                                </content-placeholders>
                             </td>
                         </tr>
-                        <tr v-if="!filteredQueues.length && !loading">
+                        <tr v-if="!ccirs.length && !loading">
                             <td colspan="8" class="text-center">No data available in the table</td>
                         </tr>
-                        <tr v-for="ccir in filteredQueues" v-bind:key="ccir.id">
+                        <tr v-for="ccir in ccirs" v-bind:key="ccir.id">
                             <td class="small">{{ ccir.id }}</td>
                             <td class="small">{{ ccir.complainant }}</td>
                             <td class="small">{{ ccir.company.name + ' - ' + ccir.company.address }}</td>
@@ -79,7 +86,7 @@
                             <td class="small">
                                 <span v-if="ccir.status == 2" style="color: orange">PENDING</span>
                                 <span v-else-if="ccir.status == 9" style="color: green">{{ ccir.car_number }}</span>
-                                <span v-else style="color: red">INVALID</span>
+                                <span style="color: red" v-else>INVALID</span>
                             </td>
                             <td>
                                 <div class="dropdown">
@@ -87,7 +94,7 @@
                                         Option
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a target="_blank" :href="viewCcirDetails + ccir.id" class="dropdown-item">View</a>
+                                        <a target="_blank" class="dropdown-item" :href="viewCcirDetails+ccir.id">View</a>
                                         <a v-if="ccir.status != 9 && ccir.status != 10" @click="getCcirId(ccir.id)" class="dropdown-item" data-toggle="modal" data-target="#validateCcirModal" href="javascript:void(0)">Validate</a>
                                     </div>
                                 </div>
@@ -98,11 +105,11 @@
                 <div class="row mb-3">
                     <div class="col-6">
                         <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)">Previous</button>
-                        <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+                        <span class="text-dark">Page {{ currentPage }} of {{ totalPages }}</span>
                         <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)">Next</button>
                     </div>
                     <div class="col-6 text-right">
-                        <span>{{ filteredQueues.length }} CCIR form(s)</span>
+                        <span>{{ pagination.total || 0 }} CCIR form(s)</span>
                     </div>
                 </div>
             </div>
@@ -132,7 +139,7 @@
                         <div class="form-group" v-if="show">
                             <label for="car_number">Car No.</label>
                             <input type="text" class="form-control form-control-sm rounded-2" placeholder="Car No." v-model="car_number" id="car_number">
-                            <span class="error" v-if="errors.car_number">{{ errors.car_number[0] }}</span>
+                            <span class="error" v-if="errors.name">{{ errors.car_number[0] }}</span>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -235,7 +242,6 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
-import JsonExcel from 'vue-json-excel';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import SpinnerLoading from '../SpinnerLoading';
 import CxltToastr from 'cxlt-vue2-toastr';
@@ -246,97 +252,107 @@ export default {
       Datepicker,
       VueContentPlaceholders,
       SpinnerLoading,
-      downloadExcel: JsonExcel,
     },
     data(){
         return{
             ccirs: [],
+            companies: [],
+            selectedCompany: '',
             keywords: '',
-            errors: '',
+            errors: {},
             startDate: '',
             endDate: '',
             selected_id: '',
-            selected_option: '', 
+            selected_option: '',
             selected_status: '',
             car_number: '',
             show: false,
-            currentPage: 0,
+            currentPage: 1,
             itemsPerPage: 10,
             loading: false,
             isLoading: false,
             validity_status: '',
-            default_ccirs: [],
-            json_fields: {
-                'ID': {
-                    callback: (value) => {
-                        return value.id;
-                    }
-                },
-                'Customer': {
-                    callback: (value) => {
-                        return value.complainant;
-                    }
-                },
-                'Company': {
-                    callback: (value) => {
-                        return value.company.name +' - '+value.company.address;
-                    }
-                },
-                'Commodity': {
-                    callback: (value) => {
-                        return value.commodity;
-                    }
-                },
-                'Nature of Complaint': {
-                    callback: (value) => {
-                        return value.nature_of_complaint == 1 ? 'Wet/Lumpy' : value.nature_of_complaint == 2 ? 'Busted bag' : value.nature_of_complaint == 3 ? 'Under/Over weight' : value.nature_of_complaint == 4 ? 'Infestation' : value.nature_of_complaint == 5 ? 'Dirty packaging' : value.others;
-                    }
-                },
-                'Date of Issuance': {
-                    callback: (value) => {
-                        return moment(value.date_request).format('LL');
-                    }
-                },
-                'Validity': {
-                    callback: (value) => {
-                        return value.status == 2 ? 'PENDING' : value.status == 9 ? value.car_number : 'INVALID';
-                    }
-                },
-            }
+            pagination: {},
         }
     },
     created(){
+        this.fetchCompanies();
         this.fetchCcirs();
     },
     methods:{
         moment,
         filterCcirs(){
-            switch(this.validity_status) {
-                case "0":
-                    this.ccirs = this.default_ccirs.filter(ccir => {
-                        return !['2','9'].includes(ccir.status);
-                    });
-                    break;
-                case "2":
-                case "9":
-                    this.ccirs = this.default_ccirs.filter(ccir => {
-                        return ccir.status == this.validity_status;
-                    });
-                    break;
-                default:
-                    this.ccirs = this.default_ccirs;
-            }
+            this.fetchCcirs(1);
         },
-        fetchCcirs(){
+        fetchCcirs(page = 1){
             this.loading = true;
-            axios.get('/admin/ccirs-all')
+            axios.get('/admin/ccirs-all', {
+                params: {
+                    page: page,
+                    search: this.keywords,
+                    start_date: this.startDate,
+                    end_date: this.endDate,
+                    status: this.validity_status,
+                    company: this.selectedCompany
+                }
+            })
             .then(response => {
-                this.ccirs = response.data;
-                this.default_ccirs = response.data;
+                this.ccirs = response.data.data;
+                this.pagination = {
+                    current_page: response.data.current_page,
+                    last_page: response.data.last_page,
+                    total: response.data.total,
+                    per_page: response.data.per_page,
+                    from: response.data.from,
+                    to: response.data.to
+                };
+                this.currentPage = response.data.current_page;
                 this.loading = false;
             })
             .catch(error =>{
-                this.errors = error.response.data.errors;
+                this.loading = false;
+                this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
+            });
+        },
+        fetchCompanies(){
+            this.loading = true;
+            axios.get('/companies')
+            .then(response => {
+                this.companies = response.data;
+                this.loading = false;
+            })
+            .catch(error =>{
+                this.loading = false;
+                this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
+            });
+        },
+        exportCcirs(){
+            this.loading = true;
+            axios.get('/admin/ccirs-export', {
+                params: {
+                    search: this.keywords,
+                    start_date: this.startDate,
+                    end_date: this.endDate,
+                    status: this.validity_status,
+                    company: this.selectedCompany
+                },
+                responseType: 'blob'
+            })
+            .then(response => {
+                const url = window.URL.createObjectURL(new Blob([response.data], { type: 'text/csv;charset=utf-8;' }));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'ccir_export.csv');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
+            })
+            .then(() => {
+                this.loading = false;
             });
         },
         selectedStatus()
@@ -352,7 +368,7 @@ export default {
             axios.post('/admin/ccir-validate', {
                 'id': id,
                 'status': status,
-                'car_number': car_number  
+                'car_number': car_number
             })
             .then(response => {
                 $('#validateCcirModal').modal('hide');
@@ -370,68 +386,28 @@ export default {
                 this.errors = error.response.data.errors;
             })
         },
-        generateByDate(){
-            this.isLoading = true;
-            var startDate  =  this.startDate ? moment(this.startDate).format() : '';
-            var endDate = this.endDate ? moment(this.endDate).format() : '';
-
-            axios.post('/ccirs-generate',{
-                'startDate': startDate,
-                'endDate': endDate
-            })
-            .then(response => {
-                this.isLoading = false;
-                this.ccirs = response.data;
-            })
-            .catch(error => {
-                this.isLoading = false;
-                this.errors = error.response.data.errors;
-            })
-        },
         setPage(pageNumber) {
-            this.currentPage = pageNumber;
+            this.fetchCcirs(pageNumber);
         },
 
         resetStartRow() {
-            this.currentPage = 0;
+            this.currentPage = 1;
         },
 
         showPreviousLink() {
-            return this.currentPage == 0 ? false : true;
+            return this.currentPage > 1;
         },
 
         showNextLink() {
-            return this.currentPage == (this.totalPages - 1) ? false : true;
+            return this.currentPage < this.totalPages;
         }
     },
     computed: {
-        filteredCcirs(){
-            let self = this;
-            return self.ccirs.filter(ccir => {
-                return ccir.requester.name.toLowerCase().includes(this.keywords.toLowerCase()) ||
-                       ccir.commodity.toLowerCase().includes(this.keywords.toLowerCase()) ||
-                       ccir.complainant.toLowerCase().includes(this.keywords.toLowerCase()) 
-            });
-        },
         totalPages() {
-            return Math.ceil(this.filteredCcirs.length / this.itemsPerPage)
-        },
-        filteredQueues() {
-            var index = this.currentPage * this.itemsPerPage;
-            var queues_array = this.filteredCcirs.slice(index, index + this.itemsPerPage);
-
-            if(this.currentPage >= this.totalPages) {
-                this.currentPage = this.totalPages - 1
-            }
-
-            if(this.currentPage == -1) {
-                this.currentPage = 0;
-            }
-
-            return queues_array;
+            return this.pagination.last_page || 0;
         },
         viewCcirDetails(){
-            return window.location.origin+`/admin/ccir-details/`;
+            return window.location.origin+'/admin/ccir-details/';
         },
     }
 }

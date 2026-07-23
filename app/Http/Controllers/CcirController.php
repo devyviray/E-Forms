@@ -230,15 +230,137 @@ class CcirController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getAllCcirs()
+    public function getAllCcirs(Request $request)
     {
-        if(Auth::user()->hasRole('administrator')){
-            $ccirs = Ccir::with(['company', 'requester'])->orderBy('id', 'desc')->get();
-        }else{
-            $ccirs = Ccir::with(['company', 'requester'])->whereIn('company_id', Auth::user()->companies->pluck('id'))->orderBy('id', 'desc')->get(); 
+        return $this->buildCcirQuery($request)->paginate(10);
+    }
+
+    protected function buildCcirQuery(Request $request)
+    {
+        $validated = $request->validate([
+            'search' => 'nullable|string|max:255',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'nullable|string',
+            'company' => 'nullable|integer',
+        ]);
+
+        $search = $validated['search'] ?? null;
+        $startDate = $validated['start_date'] ?? null;
+        $endDate = $validated['end_date'] ?? null;
+        $status = $validated['status'] ?? null;
+        $company = $validated['company'] ?? null;
+        $query = Ccir::with(['company', 'requester'])->orderBy('id', 'desc');
+
+        if (!Auth::user()->hasRole('administrator')) {
+            $query->whereIn('company_id', Auth::user()->companies->pluck('id'));
         }
 
-        return $ccirs;
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                    ->orWhere('commodity', 'like', "%{$search}%")
+                    ->orWhere('complainant', 'like', "%{$search}%")
+                    ->orWhereHas('requester', function ($requesterQuery) use ($search) {
+                        $requesterQuery->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('company', function ($companyQuery) use ($search) {
+                        $companyQuery->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if (!empty($startDate)) {
+            $query->whereDate('date_request', '>=', $startDate);
+        }
+
+        if (!empty($endDate)) {
+            $query->whereDate('date_request', '<=', $endDate);
+        }
+
+        if (!empty($status)) {
+            $query->where('status', $status);
+        }
+
+        if (!empty($company)) {
+            $query->where('company_id', $company);
+        }
+
+        return $query->orderBy('id', 'desc');
+    }
+
+    public function exportCcirs(Request $request)
+    {
+        $ccirs = $this->buildCcirQuery($request)->get();
+        $callback = function () use ($ccirs) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, [
+                'ID',
+                'Customer',
+                'Company',
+                'Commodity',
+                'Nature of Complaint',
+                'Date of Issuance',
+                'Validity',
+            ]);
+
+            foreach ($ccirs as $ccir) {
+                fputcsv($handle, [
+                    $ccir->id,
+                    $ccir->complainant,
+                    $ccir->company ? $ccir->company->name . ' - ' . $ccir->company->address : '-',
+                    $ccir->commodity,
+                    $this->formatComplaint($ccir),
+                    $ccir->date_request ? Carbon::parse($ccir->date_request)->toDateString() : '-',
+                    $this->formatValidity($ccir),
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="ccir_export.csv"',
+        ]);
+    }
+
+    protected function formatComplaint($ccir)
+    {
+        if ($ccir->nature_of_complaint == 1) {
+            return 'Wet/Lumpy';
+        }
+
+        if ($ccir->nature_of_complaint == 2) {
+            return 'Busted bag';
+        }
+
+        if ($ccir->nature_of_complaint == 3) {
+            return 'Under/Over weight';
+        }
+
+        if ($ccir->nature_of_complaint == 4) {
+            return 'Infestation';
+        }
+
+        if ($ccir->nature_of_complaint == 5) {
+            return 'Dirty packaging';
+        }
+
+        return $ccir->others ?: '-';
+    }
+
+    protected function formatValidity($ccir)
+    {
+        if ($ccir->status == 2) {
+            return 'PENDING';
+        }
+
+        if ($ccir->status == 9) {
+            return $ccir->car_number ?: 'VALID';
+        }
+
+        return 'INVALID';
     }
      /**
      * Return ccir details page for admin
