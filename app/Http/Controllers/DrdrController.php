@@ -537,18 +537,110 @@ class DrdrController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAllDrdrs()
+    public function getAllDrdrs(Request $request)
     {
-        if(Auth::user()->hasRole('administrator')){
-            $drdrs = Drdr::with(['reviewer', 'approver', 'company'])->orderBy('id', 'desc')->get();
-        }else{
-            $drdrs = Drdr::with(['reviewer', 'approver', 'company'])
-            ->whereIn('company_id', Auth::user()->companies->pluck('id'))->orderBy('id', 'desc')->get();
-        }
-
-        return $drdrs;
+        return $this->buildDrdrQuery($request)->paginate(10);
     }
 
+    protected function buildDrdrQuery(Request $request)
+    {
+        $validated = $request->validate([
+            'search' => 'nullable|string|max:255',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'nullable|string',
+            'company' => 'nullable|integer',
+        ]);
+
+        $search = $validated['search'] ?? null;
+        $startDate = $validated['start_date'] ?? null;
+        $endDate = $validated['end_date'] ?? null;
+        $status = $validated['status'] ?? null;
+        $company = $validated['company'] ?? null;
+        $query = Drdr::with(['reviewer', 'approver', 'company'])->orderBy('id', 'desc');
+
+        if (!Auth::user()->hasRole('administrator')) {
+            $query->whereIn('company_id', Auth::user()->companies->pluck('id'));
+        }
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                    ->orWhere('document_title', 'like', "%{$search}%")
+                    ->orWhereHas('requester', function ($requesterQuery) use ($search) {
+                        $requesterQuery->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('approver', function ($approverQuery) use ($search) {
+                        $approverQuery->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if (!empty($startDate)) {
+            $query->whereDate('date_request', '>=', $startDate);
+        }
+
+        if (!empty($endDate)) {
+            $query->whereDate('date_request', '<=', $endDate);
+        }
+
+        if (!empty($status)) {
+            $query->where('status', $status);
+        }
+
+        if (!empty($company)) {
+            $query->where('company_id', $company);
+        }
+
+        return $query->orderBy('id', 'desc');
+    }
+    public function exportDrdrs(Request $request)
+    {
+        $drdrs = $this->buildDrdrQuery($request)->get();
+        $callback = function () use ($drdrs) {
+            $handle = fopen('php://output', 'w');
+            // Headers
+            fputcsv($handle, [
+                'ID',
+                'Document Title',
+                'Company',
+                'Rev',
+                'Reviewer',
+                'Approver',
+                'Status']);
+            // Data
+            foreach ($drdrs as $drdr) {
+                $getDrdrReviewer = $drdr->reviewer;
+                $getDrdrApprover = $drdr->approver;
+
+                fputcsv($handle, [
+                    $drdr->id,
+                    $drdr->document_title,
+                    ($drdr->company ? $drdr->company->name . ' - ' . $drdr->company->address : '-'),
+                    $drdr->rev_number !== null ? $drdr->rev_number : '-',
+                    ($getDrdrReviewer ? $getDrdrReviewer->name ?: '-' : '-'),
+                    ($getDrdrApprover ? $getDrdrApprover->name ?: '-' : '-'),
+                    $this->formatStatus($drdr->status),
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200);
+    }
+    protected function formatStatus($status)
+    {
+        if ($status == 4) {
+            return 'NOT YET VERIFIED';
+        }
+
+        if ($status == 14) {
+            return 'VERIFIED';
+        }
+
+        return '-';
+    }
     /**
      * Return drdr details page for admin
      *

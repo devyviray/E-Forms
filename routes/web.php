@@ -356,7 +356,9 @@ Route::group(['middleware' => ['auth', 'role:administrator|mr|notified']], funct
   Route::get('/admin/drdr-verify/{id}', 'DrdrController@drdrDistributedPage');
   // Mark DRDR as distributed
   Route::post('/admin/drdr-distributed', 'DrdrController@distributed');
-
+  //Todo:: Fetch Companies to put in dropdown drdrs admin
+  Route::get('/companies', 'CompanyController@getAllCompany');
+  Route::get('/admin/drdrs-export', 'DrdrController@exportDrdrs');
 
   // DDR routes
   // Count all submitted ddr 

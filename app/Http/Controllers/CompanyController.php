@@ -24,6 +24,14 @@ class CompanyController extends Controller
         return $companies;
     }
 
+    public function getAllCompany(){
+        $companies = Company::select('id','name','address')
+            ->orderBy('name', 'asc')
+            ->get();
+            
+        return $companies;
+    }
+
      /**
     * Display a listing of company.
     *

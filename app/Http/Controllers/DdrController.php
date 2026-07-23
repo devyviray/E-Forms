@@ -404,12 +404,6 @@ class DdrController extends Controller
         return $this->buildDdrQuery($request)->paginate(10);
     }
 
-    /**
-     * Export DDR records matching the current filters.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
-     */
     public function exportDdrs(Request $request)
     {
         $ddrs = $this->buildDdrQuery($request)->get();
@@ -429,20 +423,20 @@ class DdrController extends Controller
             // Data
             foreach ($ddrs as $ddr) {
                 $getDdrRequester = $ddr->requester;
-                $formatRequestDate = Carbon::parse($ddr->date_request)->format('Y-m-d');
-                $formatNeededDate = Carbon::parse($ddr->date_needed)->format('Y-m-d');
+                $formatRequestDate = $ddr->date_request ? Carbon::parse($ddr->date_request)->format('Y-m-d') : null;
+                $formatNeededDate = $ddr->date_needed ? Carbon::parse($ddr->date_needed)->format('Y-m-d') : null;
                 $formatApprovedDate = $ddr->approved_date ? Carbon::parse($ddr->approved_date)->format('Y-m-d') : null;
                 $formatDistributedDate = $ddr->distributed_date ? Carbon::parse($ddr->distributed_date)->format('Y-m-d') : null;
 
                 fputcsv($handle, [
                     $ddr->id,
-                    $getDdrRequester->name,
+                    ($getDdrRequester ? $getDdrRequester->name : '-'),
                     $this->formatReason($ddr->reason_of_distribution),
-                    optional($formatRequestDate) ? $formatRequestDate : '-',
-                    optional($formatNeededDate) ? $formatNeededDate : '-',
-                    optional($formatApprovedDate) ? $formatApprovedDate : '-',
-                    optional($formatDistributedDate) ? $formatDistributedDate : '-',
-                    optional($ddr->approver)->name ?: '-',
+                    $formatRequestDate ?: '-',
+                    $formatNeededDate ?: '-',
+                    $formatApprovedDate ?: '-',
+                    $formatDistributedDate ?: '-',
+                    ($ddr->approver ? $ddr->approver->name : '-'),
                     $this->formatStatus($ddr->status),
                 ]);
             }
@@ -453,12 +447,6 @@ class DdrController extends Controller
         return response()->stream($callback, 200);
     }
 
-    /**
-     * Build the DDR query with shared filters.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     protected function buildDdrQuery(Request $request)
     {
         $validated = $request->validate([
@@ -506,12 +494,6 @@ class DdrController extends Controller
         return $query->orderBy('id', 'desc');
     }
 
-    /**
-     * Format reason of distribution for export.
-     *
-     * @param  mixed  $reason
-     * @return string
-     */
     protected function formatReason($reason)
     {
         if ($reason == 1) {
@@ -529,12 +511,6 @@ class DdrController extends Controller
         return '-';
     }
 
-    /**
-     * Format DDR status for export.
-     *
-     * @param  mixed  $status
-     * @return string
-     */
     protected function formatStatus($status)
     {
         if ($status == 4) {

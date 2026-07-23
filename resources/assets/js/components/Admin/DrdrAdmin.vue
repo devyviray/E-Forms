@@ -9,22 +9,22 @@
                 <div class="row mb-3">
                     <div class="col-8">
                         <label for="name">Search</label>
-                        <input type="text" class="form-control form-control-sm rounded-2" placeholder="Search by Document Title, Company" v-model="keywords" id="name">
+                        <input type="text" class="form-control form-control-sm rounded-2" placeholder="Search by ID, Document Title" v-model="keywords" id="name">
                     </div> 
                     <div class="col-4" style="margin-top: 26px">
-                        <button @click="generateByDate" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
+                        <button @click="fetchDrdrs" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
                     </div>
-                    <div class="col-4 mt-2">
+                    <div class="col-3 mt-2">
                         <label for="date1" class="mb-1">From Date</label>    
                         <input type="date" class="form-control form-control-sm rounded-2" v-model="startDate" id="date1">
                         <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
                     </div>
-                    <div class="col-4 mt-2">
+                    <div class="col-3 mt-2">
                         <label for="date2" class="mb-1">To Date</label>
                         <input type="date" class="form-control form-control-sm rounded-2" v-model="endDate" id="date2">
                         <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
                     </div>
-                    <div class="col-4 mt-1">
+                    <div class="col-3 mt-1">
                         <label for="status">Filter by Status</label>
                         <select v-model="status" class="form-control rounded-2" style="min-height: 40px;" @change="filterDrdrs">
                             <option value="" selected>Status Filter</option>
@@ -32,11 +32,20 @@
                             <option value="14">Verified</option>
                         </select>
                     </div>
+                    <div class="col-3 mt-1">
+                        <label for="company">Filter by Company</label>
+                        <select v-model="selectedCompany" class="form-control rounded-2" style="min-height: 40px;" @change="filterDrdrs">
+                            <option value="">All Companies</option>
+                            <option v-for="company in companies" :key="company.id" :value="company.id">
+                                {{ company.name }} - {{ company.address }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <download-excel :data="filteredQueues" :fields="json_fields" worksheet="DRDR Forms" name="drdrs_export.xls" class="btn btn-success btn-sm">
+                    <button type="button" class="btn btn-success btn-sm" @click="exportDrdrs">
                         <i class="fas fa-download"></i> Export
-                    </download-excel>
+                    </button>
                 </div>
                 <table class="table align-items-center table-flush">
                     <thead class = "thead-light">
@@ -52,18 +61,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="loading">
+                        <!-- Loading state: Show multiple placeholder rows -->
+                        <tr v-if="loading" v-for="n in 5" :key="'loading-' + n">
                             <td colspan="8">
-                            <content-placeholders>
-                                <content-placeholders-heading :img="true" />
-                                <content-placeholders-text :lines="3" />
-                            </content-placeholders>
+                                <content-placeholders>
+                                    <content-placeholders-heading :img="true" />
+                                    <content-placeholders-text :lines="3" />
+                                </content-placeholders>
                             </td>
                         </tr>
-                        <tr v-for="drdr in filteredQueues" v-bind:key="drdr.id">
+
+                        <!-- Empty state: No data -->
+                        <tr v-if="!drdrs.length && !loading">
+                            <td colspan="8" class="text-center">No data available in the table</td>
+                        </tr>
+
+                        <!-- Data rows -->
+                        <tr v-for="drdr in drdrs" v-bind:key="drdr.id">
                             <td class="small">{{ drdr.id }}</td>
                             <td class="small">{{ drdr.document_title }}</td>
-                            <td class="small">{{ drdr.company.name }}</td>
+                            <td class="small">{{ drdr.company.name }} - {{ drdr.company.address }}</td>
                             <td class="small">{{ drdr.rev_number !== null ? drdr.rev_number : '-' }}</td>
                             <td class="small">
                                 {{ drdr.reviewer.name }}
@@ -104,12 +121,12 @@
                 </table>
                 <div class="row mb-3">
                     <div class="col-6">
-                        <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)"> Previous </button>
-                            <span class="text-dark">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
-                        <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)"> Next </button>
+                        <button :disabled="!showPreviousLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage - 1)">Previous</button>
+                        <span class="text-dark">Page {{ currentPage }} of {{ totalPages }}</span>
+                        <button :disabled="!showNextLink()" class="btn btn-default btn-sm btn-fill" v-on:click="setPage(currentPage + 1)">Next</button>
                     </div>
                     <div class="col-6 text-right">
-                        <span>{{ filteredQueues.length }} DRDR form(s)</span>
+                        <span>{{ pagination.total || 0 }} DRDR form(s)</span>
                     </div>
                 </div>
             </div>
@@ -139,7 +156,6 @@ import moment from 'moment';
 import VueContentPlaceholders from 'vue-content-placeholders';
 import SpinnerLoading from '../SpinnerLoading';
 import CxltToastr from 'cxlt-vue2-toastr';
-import JsonExcel from 'vue-json-excel';
 Vue.use(CxltToastr);
 
 export default {
@@ -151,189 +167,130 @@ export default {
         Datepicker,
         VueContentPlaceholders,
         SpinnerLoading,
-        downloadExcel: JsonExcel
     },
     data(){
         return{
             drdrs: [],
+            companies: [],
+            selectedCompany: '',
             startDate: '',
             endDate: '',
             selected_id: '',
             keywords: '',
             errors: '',
-            currentPage: 0,
+            currentPage: 1,
             itemsPerPage: 10,
             loading: false,
             isLoading: false,
             status: '',
-            default_drdrs: [],
-            json_fields: {
-                'ID': {
-                    callback: (value) => {
-                        return value.id;
-                    }
-                },
-                'REQUEST TYPE': {
-                     callback: (value) => {
-                        return value.request_type == 1 ? 'Proposal (For proposed)' : (value.request_type == 2 ? 'Revision (For existing document)' : 'Cancellation');
-                    }
-                },
-                'DATE REQUEST': {
-                     callback: (value) => {
-                        return value.date_request;
-                    }
-                },
-                'EFFECTIVE DATE': {
-                     callback: (value) => {
-                        return value.effective_date;
-                    }
-                },
-                'DOCUMENT TITLE': {
-                     callback: (value) => {
-                        return value.document_title;
-                    }
-                },
-                'COMPANY': {
-                     callback: (value) => {
-                        return value.company.name;
-                    }
-                },
-                'REV.': {
-                    callback: (value) => {
-                        return value.rev_number ? value.rev_number : '';
-                    }
-                },
-                'REVIEWER': {
-                    callback: (value) => {
-                        return value.reviewer ? value.reviewer.name : '';
-                    }
-                },
-                'REVIEWER STATUS': {
-                    callback: (value) => {
-                        return value.status == 2 ? 'NOT YET APPROVED' :  (value.status == 5 ? 'DISAPPROVED' : 'APPROVED');
-                    }
-                },
-                'REVIEW DATE': {
-                    callback: (value) => {
-                        return value.reviewed_date;
-                    }
-                },
-                'APPROVER': {
-                    callback: (value) => {
-                        return value.approver ?  value.approver.name : '';
-                    }
-                },
-                'APPROVER STATUS': {
-                    callback: (value) => {
-                        return value.status == 3 ? 'NOT YET APPROVED' :  (value.status == 6 ? 'DISAPPROVED' : 'APPROVED');
-                    }
-                },
-                'APPROVED DATE': {
-                    callback: (value) => {
-                        return value.approved_date;
-                    }
-                },
-                'STATUS': {
-                    callback: (value) => {
-                        return value.status == 4 ? 'NOT YET VERIFIED' :  (value.status == 14 ? 'VERIFIED' : '');
-                    }
-                }
-            }
+            pagination: {},
         }
     },
     created(){
+        this.fetchCompanies();
         this.fetchDrdrs();
     },
     methods:{
         moment,
         filterDrdrs(){
-             switch(this.status) {
-                case "4":
-                case "14":
-                    this.drdrs = this.default_drdrs.filter(drdr => {
-                        return drdr.status == this.status;
-                    });
-                    break;
-                default:
-                    this.drdrs = this.default_drdrs;
-            }
+            this.fetchDrdrs(1);
         },
-        fetchDrdrs()
+        fetchDrdrs(page = 1)
         {
             this.loading = true;
-            axios.get('/admin/drdrs-all')
+            axios.get('/admin/drdrs-all', {
+                params: {
+                    page: page,
+                    search: this.keywords,
+                    start_date: this.startDate,
+                    end_date: this.endDate,
+                    status: this.status,
+                    company: this.selectedCompany
+                }
+            })
             .then(response => {
-                this.drdrs = response.data;
-                this.default_drdrs = response.data;
+                this.drdrs = response.data.data;
+                this.pagination = {
+                    current_page: response.data.current_page,
+                    last_page: response.data.last_page,
+                    total: response.data.total,
+                    per_page: response.data.per_page,
+                    from: response.data.from,
+                    to: response.data.to
+                };
+                this.currentPage = response.data.current_page;
                 this.loading = false;
             })
-            .catch(error => {
-                this.errors = error.response.data.errors;
+            .catch(error =>{
+                this.loading = false;
+                this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
             });
         },
-        generateByDate(){
-           this.isLoading = true;
-           var startDate  =  this.startDate ? moment(this.startDate).format() : '';
-           var endDate = this.endDate ? moment(this.endDate).format() : '';
-           
-            axios.post('/drdrs-generate', {
-                'startDate': startDate,
-                'endDate': endDate
+        fetchCompanies(){
+            this.loading = true;
+            axios.get('/companies')
+            .then(response => {
+                this.companies = response.data;
+                this.loading = false;
             })
-            .then(response => { 
-                this.isLoading = false;
-                this.drdrs = response.data;
+            .catch(error =>{
+                this.loading = false;
+                this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
+            });
+        },
+        exportDrdrs(){
+            this.loading = true;
+            axios.get('/admin/drdrs-export', {
+                params: {
+                    search: this.keywords,
+                    start_date: this.startDate,
+                    end_date: this.endDate,
+                    status: this.status,
+                    company: this.selectedCompany
+                },
+                responseType: 'blob'
+            })
+            .then(response => {
+                const url = window.URL.createObjectURL(new Blob([response.data], { type: 'text/csv;charset=utf-8;' }));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'drdr_export.csv');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
             })
             .catch(error => {
-                this.isLoading = false;
-                this.errors = error.response.data.errors;
+                this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
             })
+            .then(() => {
+                this.loading = false;
+            });
         },
         setPage(pageNumber) {
-            this.currentPage = pageNumber;
+            this.fetchDrdrs(pageNumber);
         },
+
         resetStartRow() {
-            this.currentPage = 0;
+            this.currentPage = 1;
         },
 
         showPreviousLink() {
-            return this.currentPage == 0 ? false : true;
+            return this.currentPage > 1;
         },
 
         showNextLink() {
-            return this.currentPage == (this.totalPages - 1) ? false : true;
+            return this.currentPage < this.totalPages;
         }
     },
-    computed:
-    {
-        filteredDrdrs(){
-            let self = this;
-            return self.drdrs.filter(drdr => {
-                return drdr.document_title.toLowerCase().includes(this.keywords.toLowerCase()) || 
-                       drdr.company.name.toLowerCase().includes(this.keywords.toLowerCase())
-            });
-        },
+    computed: {
         totalPages() {
-            return Math.ceil(this.filteredDrdrs.length / this.itemsPerPage)
-        },
-        filteredQueues() {
-            var index = this.currentPage * this.itemsPerPage;
-            var queues_array = this.filteredDrdrs.slice(index, index + this.itemsPerPage);
-
-            if(this.currentPage >= this.totalPages) {
-                this.currentPage = this.totalPages - 1
-            }
-
-            if(this.currentPage == -1) {
-                this.currentPage = 0;
-            }
-
-            return queues_array;
+            return this.pagination.last_page || 0;
         },
         verifyLink(){
             return window.location.origin+'/admin/drdr-verify/';
         },
-        approvalLnik(){
+        approvalLink(){
             return window.location.origin+'/drdr-approve/';
         },
         viewDrdrDetails()
@@ -343,4 +300,3 @@ export default {
     }
 }
 </script>
-
