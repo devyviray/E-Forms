@@ -14,12 +14,12 @@
                     <div class="col-4" style="margin-top: 26px">
                         <button @click="fetchDrdrs" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
                     </div>
-                    <div class="col-3 mt-2">
+                    <div class="col-2 mt-2">
                         <label for="date1" class="mb-1">From Date</label>    
                         <input type="date" class="form-control form-control-sm rounded-2" v-model="startDate" id="date1">
                         <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
                     </div>
-                    <div class="col-3 mt-2">
+                    <div class="col-2 mt-2">
                         <label for="date2" class="mb-1">To Date</label>
                         <input type="date" class="form-control form-control-sm rounded-2" v-model="endDate" id="date2">
                         <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
@@ -32,7 +32,7 @@
                             <option value="14">Verified</option>
                         </select>
                     </div>
-                    <div class="col-3 mt-1">
+                    <div class="col-5 mt-1">
                         <label for="company">Filter by Company</label>
                         <select v-model="selectedCompany" class="form-control rounded-2" style="min-height: 40px;" @change="filterDrdrs">
                             <option value="">All Companies</option>

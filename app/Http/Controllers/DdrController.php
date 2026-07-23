@@ -454,12 +454,14 @@ class DdrController extends Controller
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'status' => 'nullable|string',
+            'company' => 'nullable',
         ]);
 
         $search = $validated['search'] ?? null;
         $startDate = $validated['start_date'] ?? null;
         $endDate = $validated['end_date'] ?? null;
         $status = $validated['status'] ?? null;
+        $company = $validated['company'] ?? null;
 
         $query = Ddr::with(['requester', 'approver', 'company', 'ddrLists']);
 
@@ -489,6 +491,9 @@ class DdrController extends Controller
 
         if (!empty($status)) {
             $query->where('status', $status);
+        }
+        if (!empty($company)) {
+            $query->where('company_id', $company);
         }
 
         return $query->orderBy('id', 'desc');

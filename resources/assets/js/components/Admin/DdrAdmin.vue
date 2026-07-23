@@ -11,22 +11,31 @@
                     <div class="col-4" style="margin-top: 26px">
                         <button @click="fetchDdrs" type="button" class="hidden-xs btn btn-new btn-wd btn-neutral btn-round" style="background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));">Search</button>
                     </div>
-                    <div class="col-4 mt-2">
+                    <div class="col-2 mt-2">
                         <label for="date1" class="mb-1">From Date</label>    
                         <input type="date" class="form-control form-control-sm rounded-2" v-model="startDate" id="date1">
                         <span class="error" v-if="errors.startDate">{{ errors.startDate[0] }}</span>
                     </div>
-                    <div class="col-4 mt-2">
+                    <div class="col-2 mt-2">
                         <label for="date2" class="mb-1">To Date</label>
                         <input type="date" class="form-control form-control-sm rounded-2" v-model="endDate" id="date2">
                         <span class="error" v-if="errors.endDate">{{ errors.endDate[0] }}</span>
                     </div>
-                    <div class="col-4 mt-1">
+                    <div class="col-3 mt-1">
                         <label for="status">Filter by Status</label>
                         <select v-model="status" class="form-control rounded-2" style="min-height: 40px;" @change="filterDdrs">
                             <option value="" selected>Status Filter</option>
                             <option value="4">Not Yet Distributed</option>
                             <option value="14">Distributed</option>
+                        </select>
+                    </div>
+                    <div class="col-5 mt-1">
+                        <label for="company">Filter by Company</label>
+                        <select v-model="selectedCompany" class="form-control rounded-2" style="min-height: 40px;" @change="filterDdrs">
+                            <option value="">All Companies</option>
+                            <option v-for="company in companies" :key="company.id" :value="company.id">
+                                {{ company.name }} - {{ company.address }}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -40,6 +49,7 @@
                         <tr>
                             <th scope="col" class="small">ID</th>
                             <th scope="col" class="small">Requester</th>
+                            <th scope="col" class="small">Company</th>
                             <th scope="col" class="small">Reason</th>
                             <th scope="col" class="small">Date Requested</th>
                             <th scope="col" class="small">Date Needed</th>
@@ -70,6 +80,7 @@
                         <tr v-for="ddr in ddrs" v-bind:key="ddr.id">
                             <td class="small">{{ ddr.id }}</td>
                             <td class="small">{{ ddr.requester ? ddr.requester.name : '-' }}</td>
+                            <td class="small">{{ ddr.company ? ddr.company.name : '-' }} - {{ ddr.company ? ddr.company.address : '-' }}</td>
                             <td class="small">
                                 <span v-if="ddr.reason_of_distribution == 1">Relevant external doc. (controlled copy)</span>
                                 <span v-else-if="ddr.reason_of_distribution == 2">Customer request (uncontrolled copy)</span>
@@ -262,10 +273,13 @@ export default {
             isLoading: false,
             status: '',
             pagination: {},
+            companies: [],
+            selectedCompany: '',
         }
     },
     created(){
         this.fetchDdrs();
+        this.fetchCompanies();
     },
     methods:{
         moment,
@@ -281,7 +295,8 @@ export default {
                     search: this.keywords,
                     start_date: this.startDate,
                     end_date: this.endDate,
-                    status: this.status
+                    status: this.status,
+                    company: this.selectedCompany
                 }
             })
             .then(response => {
@@ -295,6 +310,18 @@ export default {
                     to: response.data.to
                 };
                 this.currentPage = response.data.current_page;
+                this.loading = false;
+            })
+            .catch(error =>{
+                this.loading = false;
+                this.errors = error.response && error.response.data.errors ? error.response.data.errors : {};
+            });
+        },
+        fetchCompanies(){
+            this.loading = true;
+            axios.get('/companies')
+            .then(response => {
+                this.companies = response.data;
                 this.loading = false;
             })
             .catch(error =>{
