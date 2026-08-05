@@ -86,7 +86,7 @@
                             <td class="small">
                                 <span v-if="ccir.status == 2" style="color: orange">PENDING</span>
                                 <span v-else-if="ccir.status == 9" style="color: green">{{ ccir.car_number }}</span>
-                                <span style="color: red" v-else>INVALID</span>
+                                <span v-else style="color: red" >INVALID</span>
                             </td>
                             <td>
                                 <div class="dropdown">
